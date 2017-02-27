@@ -1,0 +1,2 @@
+module FurnitaureWagesHelper
+end

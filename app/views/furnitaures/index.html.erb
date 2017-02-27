@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Furnitaures</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Furnitaure detail</th>
+      <th>Furnitaure wage</th>
+      <th>Comment</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @furnitaures.each do |furnitaure| %>
+      <tr>
+        <td><%= furnitaure.name %></td>
+        <td><%= furnitaure.furnitaure_detail %></td>
+        <td><%= furnitaure.furnitaure_wage %></td>
+        <td><%= furnitaure.comment %></td>
+        <td><%= link_to 'Show', furnitaure %></td>
+        <td><%= link_to 'Edit', edit_furnitaure_path(furnitaure) %></td>
+        <td><%= link_to 'Destroy', furnitaure, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Furnitaure', new_furnitaure_path %>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  furnitaure_detail: one
+  furnitaure_wage: one
+  comment: MyText
+
+two:
+  name: MyString
+  furnitaure_detail: two
+  furnitaure_wage: two
+  comment: MyText

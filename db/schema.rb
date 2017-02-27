@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227105056) do
+ActiveRecord::Schema.define(version: 20170227105156) do
 
-  create_table "furnitaure_wages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "furniture_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.float    "size_parche", limit: 24
+    t.float    "size_kanaf",  limit: 24
+    t.float    "size_abr",    limit: 24
+    t.boolean  "available"
+    t.json     "images"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "furniture_wages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.float    "khayat",     limit: 24
     t.float    "rokob",      limit: 24
     t.float    "naghash",    limit: 24
@@ -23,14 +33,15 @@ ActiveRecord::Schema.define(version: 20170227105056) do
     t.datetime "updated_at",               null: false
   end
 
-  create_table "furniture_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.float    "size_parche", limit: 24
-    t.float    "size_kanaf",  limit: 24
-    t.float    "size_abr",    limit: 24
-    t.boolean  "available"
-    t.json     "images"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+  create_table "furnitures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.integer  "furniture_detail_id"
+    t.integer  "furniture_wage_id"
+    t.text     "comment",             limit: 65535
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.index ["furniture_detail_id"], name: "index_furnitures_on_furniture_detail_id", using: :btree
+    t.index ["furniture_wage_id"], name: "index_furnitures_on_furniture_wage_id", using: :btree
   end
 
   create_table "profiles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -74,6 +85,8 @@ ActiveRecord::Schema.define(version: 20170227105056) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
   end
 
+  add_foreign_key "furnitures", "furniture_details"
+  add_foreign_key "furnitures", "furniture_wages"
   add_foreign_key "profiles", "users"
   add_foreign_key "users", "profiles"
 end
