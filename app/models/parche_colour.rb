@@ -1,0 +1,2 @@
+class ParcheColour < ApplicationRecord
+end

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Parche Colours</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Details</th>
+      <th>Cost</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @parche_colours.each do |parche_colour| %>
+      <tr>
+        <td><%= parche_colour.details %></td>
+        <td><%= parche_colour.cost %></td>
+        <td><%= link_to 'Show', parche_colour %></td>
+        <td><%= link_to 'Edit', edit_parche_colour_path(parche_colour) %></td>
+        <td><%= link_to 'Destroy', parche_colour, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Parche Colour', new_parche_colour_path %>

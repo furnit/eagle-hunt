@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Kande Colours</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Details</th>
+      <th>Cost</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @kande_colours.each do |kande_colour| %>
+      <tr>
+        <td><%= kande_colour.details %></td>
+        <td><%= kande_colour.cost %></td>
+        <td><%= link_to 'Show', kande_colour %></td>
+        <td><%= link_to 'Edit', edit_kande_colour_path(kande_colour) %></td>
+        <td><%= link_to 'Destroy', kande_colour, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Kande Colour', new_kande_colour_path %>

@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :orders
+  resources :order_statuses
+  resources :parche_designs
+  resources :parche_colours
+  resources :kande_colours
   resources :cost_factors
   resources :avail_workshops
   resources :workshops

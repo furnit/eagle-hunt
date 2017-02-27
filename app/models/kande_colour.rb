@@ -1,0 +1,2 @@
+class KandeColour < ApplicationRecord
+end

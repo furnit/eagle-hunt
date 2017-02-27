@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>State:</strong>
+  <%= @order_status.state %>
+</p>
+
+<p>
+  <strong>Shipped at:</strong>
+  <%= @order_status.shipped_at %>
+</p>
+
+<p>
+  <strong>Delivered at:</strong>
+  <%= @order_status.delivered_at %>
+</p>
+
+<%= link_to 'Edit', edit_order_status_path(@order_status) %> |
+<%= link_to 'Back', order_statuses_path %>

@@ -1,0 +1,2 @@
+class ParcheDesign < ApplicationRecord
+end

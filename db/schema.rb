@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227110559) do
+ActiveRecord::Schema.define(version: 20170227111321) do
 
   create_table "avail_workshops", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "furniture_id"
@@ -71,6 +71,51 @@ ActiveRecord::Schema.define(version: 20170227110559) do
     t.datetime "updated_at",                        null: false
     t.index ["furniture_detail_id"], name: "index_furnitures_on_furniture_detail_id", using: :btree
     t.index ["furniture_wage_id"], name: "index_furnitures_on_furniture_wage_id", using: :btree
+  end
+
+  create_table "kande_colours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.json     "details"
+    t.float    "cost",       limit: 24
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  create_table "order_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.json     "state"
+    t.datetime "shipped_at"
+    t.datetime "delivered_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "furniture_id"
+    t.integer  "parche_colour_id"
+    t.integer  "parche_design_id"
+    t.integer  "kande_colour_id"
+    t.integer  "count"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["furniture_id"], name: "index_orders_on_furniture_id", using: :btree
+    t.index ["kande_colour_id"], name: "index_orders_on_kande_colour_id", using: :btree
+    t.index ["parche_colour_id"], name: "index_orders_on_parche_colour_id", using: :btree
+    t.index ["parche_design_id"], name: "index_orders_on_parche_design_id", using: :btree
+    t.index ["user_id"], name: "index_orders_on_user_id", using: :btree
+  end
+
+  create_table "parche_colours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.json     "details"
+    t.float    "cost",       limit: 24
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  create_table "parche_designs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.json     "details"
+    t.float    "cost",       limit: 24
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "profiles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -137,6 +182,11 @@ ActiveRecord::Schema.define(version: 20170227110559) do
   add_foreign_key "avail_workshops", "workshops"
   add_foreign_key "furnitures", "furniture_details"
   add_foreign_key "furnitures", "furniture_wages"
+  add_foreign_key "orders", "furnitures"
+  add_foreign_key "orders", "kande_colours"
+  add_foreign_key "orders", "parche_colours"
+  add_foreign_key "orders", "parche_designs"
+  add_foreign_key "orders", "users"
   add_foreign_key "profiles", "users"
   add_foreign_key "users", "profiles"
 end

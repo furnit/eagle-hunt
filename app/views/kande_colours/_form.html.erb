@@ -1,0 +1,27 @@
+<%= form_for(kande_colour) do |f| %>
+  <% if kande_colour.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(kande_colour.errors.count, "error") %> prohibited this kande_colour from being saved:</h2>
+
+      <ul>
+      <% kande_colour.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :details %>
+    <%= f.text_field :details %>
+  </div>
+
+  <div class="field">
+    <%= f.label :cost %>
+    <%= f.text_field :cost %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

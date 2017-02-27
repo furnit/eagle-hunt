@@ -1,0 +1,2 @@
+module KandeColoursHelper
+end

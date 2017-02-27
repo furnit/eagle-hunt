@@ -1,0 +1,27 @@
+<%= form_for(parche_design) do |f| %>
+  <% if parche_design.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(parche_design.errors.count, "error") %> prohibited this parche_design from being saved:</h2>
+
+      <ul>
+      <% parche_design.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :details %>
+    <%= f.text_field :details %>
+  </div>
+
+  <div class="field">
+    <%= f.label :cost %>
+    <%= f.text_field :cost %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
