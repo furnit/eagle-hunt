@@ -1,0 +1,2 @@
+class FurnitureWage < ApplicationRecord
+end

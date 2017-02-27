@@ -1,2 +1,0 @@
-class FurnitaureWage < ApplicationRecord
-end

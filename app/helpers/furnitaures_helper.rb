@@ -1,2 +1,0 @@
-module FurnitauresHelper
-end

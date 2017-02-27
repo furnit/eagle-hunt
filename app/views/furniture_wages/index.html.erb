@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Furniture Wages</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Khayat</th>
+      <th>Rokob</th>
+      <th>Naghash</th>
+      <th>Naja</th>
+      <th>Extra</th>
+      <th>Comment</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @furniture_wages.each do |furniture_wage| %>
+      <tr>
+        <td><%= furniture_wage.khayat %></td>
+        <td><%= furniture_wage.rokob %></td>
+        <td><%= furniture_wage.naghash %></td>
+        <td><%= furniture_wage.naja %></td>
+        <td><%= furniture_wage.extra %></td>
+        <td><%= furniture_wage.comment %></td>
+        <td><%= link_to 'Show', furniture_wage %></td>
+        <td><%= link_to 'Edit', edit_furniture_wage_path(furniture_wage) %></td>
+        <td><%= link_to 'Destroy', furniture_wage, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Furniture Wage', new_furniture_wage_path %>

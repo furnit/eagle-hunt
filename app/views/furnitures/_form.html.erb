@@ -1,0 +1,37 @@
+<%= form_for(furniture) do |f| %>
+  <% if furniture.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(furniture.errors.count, "error") %> prohibited this furniture from being saved:</h2>
+
+      <ul>
+      <% furniture.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :furnitaure_detail_id %>
+    <%= f.text_field :furnitaure_detail_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :furnitaure_wage_id %>
+    <%= f.text_field :furnitaure_wage_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :comment %>
+    <%= f.text_area :comment %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
