@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :furnitaure_wages
   resources :furniture_details
   resources :profiles
   devise_for :users

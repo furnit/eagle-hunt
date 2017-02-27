@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227104900) do
+ActiveRecord::Schema.define(version: 20170227105056) do
+
+  create_table "furnitaure_wages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.float    "khayat",     limit: 24
+    t.float    "rokob",      limit: 24
+    t.float    "naghash",    limit: 24
+    t.float    "naja",       limit: 24
+    t.float    "extra",      limit: 24
+    t.text     "comment",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
 
   create_table "furniture_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.float    "size_parche", limit: 24
