@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227105826) do
+ActiveRecord::Schema.define(version: 20170227105912) do
 
   create_table "furniture_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.float    "size_parche", limit: 24
@@ -90,6 +90,18 @@ ActiveRecord::Schema.define(version: 20170227105826) do
     t.text     "comment",    limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+  end
+
+  create_table "workshops", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "manager"
+    t.text     "address",          limit: 65535
+    t.string   "contact"
+    t.text     "comment",          limit: 65535
+    t.integer  "workshop_type_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["workshop_type_id"], name: "index_workshops_on_workshop_type_id", using: :btree
   end
 
   add_foreign_key "furnitures", "furniture_details"
