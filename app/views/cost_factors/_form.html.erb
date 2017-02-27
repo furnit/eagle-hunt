@@ -1,0 +1,87 @@
+<%= form_for(cost_factor) do |f| %>
+  <% if cost_factor.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(cost_factor.errors.count, "error") %> prohibited this cost_factor from being saved:</h2>
+
+      <ul>
+      <% cost_factor.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :size_parche %>
+    <%= f.text_field :size_parche %>
+  </div>
+
+  <div class="field">
+    <%= f.label :size_kanaf %>
+    <%= f.text_field :size_kanaf %>
+  </div>
+
+  <div class="field">
+    <%= f.label :size_abr %>
+    <%= f.text_field :size_abr %>
+  </div>
+
+  <div class="field">
+    <%= f.label :wage_khayat %>
+    <%= f.text_field :wage_khayat %>
+  </div>
+
+  <div class="field">
+    <%= f.label :wage_rokob %>
+    <%= f.text_field :wage_rokob %>
+  </div>
+
+  <div class="field">
+    <%= f.label :wage_naghash %>
+    <%= f.text_field :wage_naghash %>
+  </div>
+
+  <div class="field">
+    <%= f.label :wage_najar %>
+    <%= f.text_field :wage_najar %>
+  </div>
+
+  <div class="field">
+    <%= f.label :parche_colour %>
+    <%= f.text_field :parche_colour %>
+  </div>
+
+  <div class="field">
+    <%= f.label :parche_design %>
+    <%= f.text_field :parche_design %>
+  </div>
+
+  <div class="field">
+    <%= f.label :kande_colours %>
+    <%= f.text_field :kande_colours %>
+  </div>
+
+  <div class="field">
+    <%= f.label :kande_design %>
+    <%= f.text_field :kande_design %>
+  </div>
+
+  <div class="field">
+    <%= f.label :transfer_cost %>
+    <%= f.text_field :transfer_cost %>
+  </div>
+
+  <div class="field">
+    <%= f.label :extras %>
+    <%= f.text_field :extras %>
+  </div>
+
+  <div class="field">
+    <%= f.label :profit_percentage %>
+    <%= f.text_field :profit_percentage %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

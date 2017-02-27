@@ -1,0 +1,2 @@
+module CostFactorsHelper
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227110124) do
+ActiveRecord::Schema.define(version: 20170227110559) do
 
   create_table "avail_workshops", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "furniture_id"
@@ -20,6 +20,25 @@ ActiveRecord::Schema.define(version: 20170227110124) do
     t.datetime "updated_at",               null: false
     t.index ["furniture_id"], name: "index_avail_workshops_on_furniture_id", using: :btree
     t.index ["workshop_id"], name: "index_avail_workshops_on_workshop_id", using: :btree
+  end
+
+  create_table "cost_factors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.float    "size_parche",       limit: 24
+    t.float    "size_kanaf",        limit: 24
+    t.float    "size_abr",          limit: 24
+    t.float    "wage_khayat",       limit: 24
+    t.float    "wage_rokob",        limit: 24
+    t.float    "wage_naghash",      limit: 24
+    t.float    "wage_najar",        limit: 24
+    t.float    "parche_colour",     limit: 24
+    t.float    "parche_design",     limit: 24
+    t.float    "kande_colours",     limit: 24
+    t.float    "kande_design",      limit: 24
+    t.float    "transfer_cost",     limit: 24
+    t.float    "extras",            limit: 24
+    t.float    "profit_percentage", limit: 24
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   create_table "furniture_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

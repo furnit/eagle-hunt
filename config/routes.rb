@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :cost_factors
   resources :avail_workshops
   resources :workshops
   resources :workshop_types
