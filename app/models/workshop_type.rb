@@ -1,0 +1,2 @@
+class WorkshopType < ApplicationRecord
+end

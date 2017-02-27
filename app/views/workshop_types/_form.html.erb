@@ -1,0 +1,27 @@
+<%= form_for(workshop_type) do |f| %>
+  <% if workshop_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(workshop_type.errors.count, "error") %> prohibited this workshop_type from being saved:</h2>
+
+      <ul>
+      <% workshop_type.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :type %>
+    <%= f.text_field :type %>
+  </div>
+
+  <div class="field">
+    <%= f.label :comment %>
+    <%= f.text_area :comment %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

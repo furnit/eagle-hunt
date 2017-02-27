@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :workshop_types
   resources :furnitaures
   resources :furnitaure_wages
   resources :furniture_details

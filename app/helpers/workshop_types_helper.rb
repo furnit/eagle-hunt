@@ -1,0 +1,2 @@
+module WorkshopTypesHelper
+end

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @workshop_type.type %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @workshop_type.comment %>
+</p>
+
+<%= link_to 'Edit', edit_workshop_type_path(@workshop_type) %> |
+<%= link_to 'Back', workshop_types_path %>
