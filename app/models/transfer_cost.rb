@@ -1,0 +1,2 @@
+class TransferCost < ApplicationRecord
+end

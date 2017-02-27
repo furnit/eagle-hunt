@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :transfer_costs
+  resources :payments
+  resources :accountings
   resources :orders
   resources :order_statuses
   resources :parche_designs

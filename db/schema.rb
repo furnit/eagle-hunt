@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227111321) do
+ActiveRecord::Schema.define(version: 20170227111841) do
+
+  create_table "accountings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "order_id"
+    t.float    "total_payment", limit: 24
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["order_id"], name: "index_accountings_on_order_id", using: :btree
+  end
 
   create_table "avail_workshops", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "furniture_id"
@@ -69,8 +77,10 @@ ActiveRecord::Schema.define(version: 20170227111321) do
     t.text     "comment",             limit: 65535
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+    t.integer  "transfer_cost_id"
     t.index ["furniture_detail_id"], name: "index_furnitures_on_furniture_detail_id", using: :btree
     t.index ["furniture_wage_id"], name: "index_furnitures_on_furniture_wage_id", using: :btree
+    t.index ["transfer_cost_id"], name: "index_furnitures_on_transfer_cost_id", using: :btree
   end
 
   create_table "kande_colours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -118,6 +128,14 @@ ActiveRecord::Schema.define(version: 20170227111321) do
     t.datetime "updated_at",            null: false
   end
 
+  create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "accounting_id"
+    t.float    "payment",       limit: 24
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["accounting_id"], name: "index_payments_on_accounting_id", using: :btree
+  end
+
   create_table "profiles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.string   "first_name"
@@ -128,6 +146,14 @@ ActiveRecord::Schema.define(version: 20170227111321) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.index ["user_id"], name: "index_profiles_on_user_id", using: :btree
+  end
+
+  create_table "transfer_costs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "title",      limit: 65535
+    t.float    "cost",       limit: 24
+    t.text     "comment",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -178,15 +204,18 @@ ActiveRecord::Schema.define(version: 20170227111321) do
     t.index ["workshop_type_id"], name: "index_workshops_on_workshop_type_id", using: :btree
   end
 
+  add_foreign_key "accountings", "orders"
   add_foreign_key "avail_workshops", "furnitures"
   add_foreign_key "avail_workshops", "workshops"
   add_foreign_key "furnitures", "furniture_details"
   add_foreign_key "furnitures", "furniture_wages"
+  add_foreign_key "furnitures", "transfer_costs"
   add_foreign_key "orders", "furnitures"
   add_foreign_key "orders", "kande_colours"
   add_foreign_key "orders", "parche_colours"
   add_foreign_key "orders", "parche_designs"
   add_foreign_key "orders", "users"
+  add_foreign_key "payments", "accountings"
   add_foreign_key "profiles", "users"
   add_foreign_key "users", "profiles"
 end
