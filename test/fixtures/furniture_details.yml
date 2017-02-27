@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  size_parche: 1.5
+  size_kanaf: 1.5
+  size_abr: 1.5
+  available: false
+  images: 
+
+two:
+  size_parche: 1.5
+  size_kanaf: 1.5
+  size_abr: 1.5
+  available: false
+  images: 
