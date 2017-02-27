@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :avail_workshops
   resources :workshops
   resources :workshop_types
   resources :furnitaures

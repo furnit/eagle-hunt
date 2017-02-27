@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227105912) do
+ActiveRecord::Schema.define(version: 20170227110124) do
+
+  create_table "avail_workshops", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "furniture_id"
+    t.integer  "workshop_id"
+    t.float    "proposed_cost", limit: 24
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["furniture_id"], name: "index_avail_workshops_on_furniture_id", using: :btree
+    t.index ["workshop_id"], name: "index_avail_workshops_on_workshop_id", using: :btree
+  end
 
   create_table "furniture_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.float    "size_parche", limit: 24
@@ -104,6 +114,8 @@ ActiveRecord::Schema.define(version: 20170227105912) do
     t.index ["workshop_type_id"], name: "index_workshops_on_workshop_type_id", using: :btree
   end
 
+  add_foreign_key "avail_workshops", "furnitures"
+  add_foreign_key "avail_workshops", "workshops"
   add_foreign_key "furnitures", "furniture_details"
   add_foreign_key "furnitures", "furniture_wages"
   add_foreign_key "profiles", "users"

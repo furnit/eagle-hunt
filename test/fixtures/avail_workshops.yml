@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  furniture: one
+  workshop: one
+  proposed_cost: 1.5
+
+two:
+  furniture: two
+  workshop: two
+  proposed_cost: 1.5
