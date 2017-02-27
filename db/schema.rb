@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227111841) do
+ActiveRecord::Schema.define(version: 20170227111510) do
 
   create_table "accountings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "order_id"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20170227111841) do
     t.float    "wage_rokob",        limit: 24
     t.float    "wage_naghash",      limit: 24
     t.float    "wage_najar",        limit: 24
+    t.float    "wage_extra",        limit: 24
     t.float    "parche_colour",     limit: 24
     t.float    "parche_design",     limit: 24
     t.float    "kande_colours",     limit: 24
@@ -49,38 +50,22 @@ ActiveRecord::Schema.define(version: 20170227111841) do
     t.datetime "updated_at",                   null: false
   end
 
-  create_table "furniture_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.float    "size_parche", limit: 24
-    t.float    "size_kanaf",  limit: 24
-    t.float    "size_abr",    limit: 24
-    t.boolean  "available"
-    t.json     "images"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
-
-  create_table "furniture_wages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.float    "khayat",     limit: 24
-    t.float    "rokob",      limit: 24
-    t.float    "naghash",    limit: 24
-    t.float    "naja",       limit: 24
-    t.float    "extra",      limit: 24
-    t.text     "comment",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
   create_table "furnitures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
-    t.integer  "furniture_detail_id"
-    t.integer  "furniture_wage_id"
-    t.text     "comment",             limit: 65535
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.integer  "transfer_cost_id"
-    t.index ["furniture_detail_id"], name: "index_furnitures_on_furniture_detail_id", using: :btree
-    t.index ["furniture_wage_id"], name: "index_furnitures_on_furniture_wage_id", using: :btree
-    t.index ["transfer_cost_id"], name: "index_furnitures_on_transfer_cost_id", using: :btree
+    t.float    "size_parche",     limit: 24
+    t.float    "size_kanaf",      limit: 24
+    t.float    "size_abr",        limit: 24
+    t.float    "wage_khayat",     limit: 24
+    t.float    "wage_rokob",      limit: 24
+    t.float    "wage_naghash",    limit: 24
+    t.float    "wage_najar",      limit: 24
+    t.float    "wage_extra",      limit: 24
+    t.integer  "transfer_counts"
+    t.json     "images"
+    t.boolean  "available"
+    t.text     "comment",         limit: 65535
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   create_table "kande_colours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -148,14 +133,6 @@ ActiveRecord::Schema.define(version: 20170227111841) do
     t.index ["user_id"], name: "index_profiles_on_user_id", using: :btree
   end
 
-  create_table "transfer_costs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.text     "title",      limit: 65535
-    t.float    "cost",       limit: 24
-    t.text     "comment",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
     t.string   "username",               default: "", null: false
@@ -207,9 +184,6 @@ ActiveRecord::Schema.define(version: 20170227111841) do
   add_foreign_key "accountings", "orders"
   add_foreign_key "avail_workshops", "furnitures"
   add_foreign_key "avail_workshops", "workshops"
-  add_foreign_key "furnitures", "furniture_details"
-  add_foreign_key "furnitures", "furniture_wages"
-  add_foreign_key "furnitures", "transfer_costs"
   add_foreign_key "orders", "furnitures"
   add_foreign_key "orders", "kande_colours"
   add_foreign_key "orders", "parche_colours"

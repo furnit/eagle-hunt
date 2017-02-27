@@ -1,2 +1,0 @@
-class FurnitureDetail < ApplicationRecord
-end

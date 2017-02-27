@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   resources :furnitures
-  resources :furniture_wages
   resources :transfer_costs
   resources :payments
   resources :accountings
@@ -13,7 +12,6 @@ Rails.application.routes.draw do
   resources :avail_workshops
   resources :workshops
   resources :workshop_types
-  resources :furniture_details
   resources :profiles
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
