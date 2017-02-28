@@ -40,6 +40,10 @@ gem 'devise'
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
 # Use AccountingJS for currency formating
 gem 'accountingjs-rails'
+# Use AutoSize-Rails for auto-resize textarea
+gem 'autosize-rails'
+# Use WYSIWYG-Rails for text editoring
+gem 'wysiwyg-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
