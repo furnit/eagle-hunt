@@ -1,4 +1,4 @@
-<%= form_for(furniture) do |f| %>
+<%= form_for furniture do |f| %>
   <% if furniture.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(furniture.errors.count, "error") %> prohibited this furniture from being saved:</h2>
@@ -10,67 +10,10 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-
-  <div class="form-group col-md-8">
-    <div class="col-md-6">
-    	<%= f.label :name, "Name:", class: "col-md-4 control-label" %>
-      <%= f.text_field :name, class: "form-control", placeholder: "Name" %>
-    </div>
-    <div class="col-md-6">
-    	<%= f.label :comment, "Comment", class: "col-md-4 control-label" %>
-      <%= f.text_area :comment, class: "form-control", placeholder: "Comment" %>
-    </div>
-  </div>
-<div class='row'>
-	<fieldset class='form-group col-md-6'>
-		<legend>Furniture Details</legend>
-	  <div class="field">
-	    <%= f.label :size_parche %>
-	    <%= f.text_field :size_parche %>
-	  </div>
-	  <div class="field">
-	    <%= f.label :size_kanaf %>
-	    <%= f.text_field :size_kanaf %>
-	  </div>
-	  <div class="field">
-	    <%= f.label :size_abr %>
-	    <%= f.text_field :size_abr %>
-	  </div>
-	  <div class="field">
-	    <%= f.label :available %>
-	    <%= f.check_box :available %>
-	  </div>
-	  <%= f.file_field :images, multiple: true %>
-	</fieldset>
-	<fieldset class='form-group col-md-6'>
-		<legend>Furniture Wages</legend>
-	  <div class="field">
-	    <%= f.label :wage_wage_khayat %>
-	    <%= f.text_field :wage_khayat %>
-	  </div>
-	  <div class="field">
-	    <%= f.label :wage_rokob %>
-	    <%= f.text_field :wage_rokob %>
-	  </div>
-	  <div class="field">
-	    <%= f.label :wage_naghash %>
-	    <%= f.text_field :wage_naghash %>
-	  </div>
-	  <div class="field">
-	    <%= f.label :wage_najar %>
-	    <%= f.text_field :wage_najar %>
-	  </div>
-	  <div class="field">
-	    <%= f.label :wage_extra %>
-	    <%= f.text_field :wage_extra %>
-	  </div>
-	</fieldset>
-</div>
+	<%= hidden_field_tag :step, @step %>
+	<div class='row'>
+		<%= render "step_#{@step}", :f => f %>
+	</div>
   <div class="actions">
     <%= f.submit %>
   </div>

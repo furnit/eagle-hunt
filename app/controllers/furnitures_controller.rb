@@ -1,4 +1,6 @@
 class FurnituresController < ApplicationController
+  before_action :define_step, only: [:new]
+  before_action :ensure_step, only: [:create, :update, :edit]
   before_action :set_furniture, only: [:show, :edit, :update, :destroy]
 
   # GET /furnitures
@@ -22,32 +24,25 @@ class FurnituresController < ApplicationController
   end
 
   # POST /furnitures
-  # POST /furnitures.json
   def create
     @furniture = Furniture.new(furniture_params)
-
-    respond_to do |format|
-      if @furniture.save
-        format.html { redirect_to @furniture, notice: 'Furniture was successfully created.' }
-        format.json { render :show, status: :created, location: @furniture }
-      else
-        format.html { render :new }
-        format.json { render json: @furniture.errors, status: :unprocessable_entity }
-      end
+    if @furniture.save
+      redirect_to edit_furniture_path @furniture, :step => 2
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /furnitures/1
-  # PATCH/PUT /furnitures/1.json
   def update
-    respond_to do |format|
-      if @furniture.update(furniture_params)
-        format.html { redirect_to @furniture, notice: 'Furniture was successfully updated.' }
-        format.json { render :show, status: :ok, location: @furniture }
+    if @furniture.update(furniture_params)
+      if @step < 3
+        redirect_to edit_furniture_path @furniture, :step => @step + 1
       else
-        format.html { render :edit }
-        format.json { render json: @furniture.errors, status: :unprocessable_entity }
+        redirect_to @furniture, notice: 'Furniture was successfully updated/created.'
       end
+    else
+      render :edit
     end
   end
 
@@ -62,6 +57,20 @@ class FurnituresController < ApplicationController
   end
 
   private
+    
+    def define_step
+      @step = 1
+    end
+    
+    def ensure_step
+      if params[:step] == nil
+        params[:step] = 1
+      elsif params[:step].to_i > 3
+        redirect_to '/422.html'
+      end
+      @step = params[:step].to_i
+    end
+    
     # Use callbacks to share common setup or constraints between actions.
     def set_furniture
       @furniture = Furniture.find(params[:id])
@@ -69,6 +78,6 @@ class FurnituresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def furniture_params
-      params.require(:furniture).permit(:name, :size_parche, :size_kanaf, :size_abr, :available, :wage_wage_khayat, :wage_rokob, :wage_naghash, :wage_najar, :wage_extra, :comment, {images: []})
+      params.require(:furniture).permit(:name, :size_parche, :size_kanaf, :size_abr, :available, :wage_khayat, :wage_rokob, :wage_naghash, :wage_najar, :wage_extra, :comment, {images: []})
     end
 end
