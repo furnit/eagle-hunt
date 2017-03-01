@@ -1,3 +1,4 @@
+//= require froala_editor.min.js
 //= require plugins/align.min.js
 //= require plugins/code_beautifier.min.js
 //= require plugins/code_view.min.js

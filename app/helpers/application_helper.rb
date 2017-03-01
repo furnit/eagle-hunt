@@ -14,7 +14,7 @@ module ApplicationHelper
   end
   
   def list_or_prompt(k, p, &block)
-    return raw "<div class='empty-collection'>%s</div>" %p if k.empty?  
+    concat sanitize "<div class='empty-collection'>%s</div>" %p if k.empty?  
     k.each { |l| yield l }
   end
 end

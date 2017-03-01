@@ -4,9 +4,9 @@
 		<meta charset="UTF-8" />
     <title>Viramobl</title>
     <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    
+    <%= stylesheet_link_tag    'application', params[:controller], media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', params[:controller], 'data-turbolinks-track': 'reload' %>
     <!-- <link rel="stylesheet" href="//cdn.rawgit.com/morteza/bootstrap-rtl/v3.3.4/dist/css/bootstrap-rtl.min.css"> -->
   </head>
 

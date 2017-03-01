@@ -17,6 +17,7 @@ class FurnituresController < ApplicationController
   # GET /furnitures/new
   def new
     @furniture = Furniture.new
+    @furniture.furniture_type_id = params[:cat].to_i if params[:cat]
   end
 
   # GET /furnitures/1/edit
