@@ -17,4 +17,13 @@ module ApplicationHelper
     concat sanitize "<div class='empty-collection'>%s</div>" %p if k.empty?  
     k.each { |l| yield l }
   end
+  
+  def create_cover(image, **args)
+    height = args[:height] || '350px'
+    width = args[:width] || '100%'
+    css_class = args[:class] || ''
+    css_id = args[:id] || ''
+    raw '<div class="img img-responsive img-thumbnail %s" id="%s" style="width:%s;height:%s;background-image:url(%s);background-size:cover;background-repeat:no-repeat;background-position:50%% 50%%"></div>' %[css_class.to_s, css_id.to_s, width.to_s, height.to_s, image.to_s]
+  end
+  
 end

@@ -1,19 +1,7 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @furniture.name %>
-</p>
-
-<p>
-  <strong>Furnitaure detail:</strong>
-  <%= @furniture.inspect %>
-</p>
-
-<p>
-  <strong>Comment:</strong>
-  <%= @furniture.comment %>
-</p>
-
-<%= link_to 'Edit', edit_furniture_path(@furniture) %> |
-<%= link_to 'Back', furnitures_path %>
+<div class='col-md-12'>
+	<%= create_cover furniture_image(@furniture.images), height: '350px' %>
+	<div class='col-lg-4 col-md-4 col-sm-12 col-xs-12' style='height: 100px; background-color: #cc8800'>
+	</div>
+	<div class='col-lg-8 col-md-8 col-sm-12 col-xs-12' style='height: 100px; background-color: #000'>
+	</div>
+</div>
