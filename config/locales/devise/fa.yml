@@ -1,0 +1,5 @@
+fa:
+  activerecord:
+    attributes:
+      user:
+        username: 'نام کاربری'

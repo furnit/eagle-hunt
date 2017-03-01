@@ -1,29 +1,3 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Furniture Types</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Comment</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @furniture_types.each do |furniture_type| %>
-      <tr>
-        <td><%= furniture_type.name %></td>
-        <td><%= furniture_type.comment %></td>
-        <td><%= link_to 'Show', furniture_type %></td>
-        <td><%= link_to 'Edit', edit_furniture_type_path(furniture_type) %></td>
-        <td><%= link_to 'Destroy', furniture_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Furniture Type', new_furniture_type_path %>
+<% if user_signed_in? and current_user.auth_level == AUTH_LEVEL[:ADMIN] %>
+HI ADMIN
+<% end %>

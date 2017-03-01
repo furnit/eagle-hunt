@@ -36,6 +36,7 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Devise for session auth.
 gem 'devise'
+gem 'devise-i18n'
 # Use CarrierWave for file uploading
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
 # Use AccountingJS for currency formating

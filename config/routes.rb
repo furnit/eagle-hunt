@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :page_items
-  resources :furniture_types
+  resources :furniture_types, :path => "category"
   resources :furnitures
   resources :transfer_costs
   resources :payments

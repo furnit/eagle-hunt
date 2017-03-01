@@ -36,7 +36,7 @@
 		              <li><a href="#">مشخصات من</a></li>
 		              <!-- li><a href="#">تنظیمات</a></li -->
 		              <li role="separator" class="divider"></li>
-		              <li><%= link_to destroy_user_session_path, :method => :delete do %>خروج <span class="fa fa-sign-out"></span><% end %></li>
+		              <li><%= link_to destroy_user_session_path, :method => :delete do %><span class="fa fa-sign-out"></span> خروج<% end %></li>
 		            </ul>
 		          </li>
           	<% else %>
@@ -50,7 +50,8 @@
 	  <div class="clearfix" style='margin: 40px'></div>
   	<div class='container'>
   		<div class='col-md-12'>
-	    <%= yield %>
+  			<p id="notice"><%= notice %></p>
+  			<%= yield %>
 	    </div>
 	    <!-- <div class='col-md-3' style='border: 1px solid #000'> -->
 	    	<!-- MENU -->
