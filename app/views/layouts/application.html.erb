@@ -25,13 +25,13 @@
 	      </div>
 	      <div id="navbar" class="navbar-collapse collapse ">
 	        <ul class="nav navbar-nav navbar-right">
-	          <li class="active"><%= link_to 'خانه', root_path, :class => 'navbar-brand' %></li>
+	          <li class="<%= current_page?(root_url)? 'active' : '' %>"><%= link_to 'خانه', root_path, :class => 'navbar-brand' %></li>
 	        </ul>
 	        <ul class="nav navbar-nav ir" style='font-weight: bold'>
 	          <% if user_signed_in? %>
 		          <li class='pull-right'><%= link_to root_path do %><span class="fa fa-shopping-cart"></span> سبد خرید<% end %></li>
 		          <li class="dropdown pull-right">
-		            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-user"></span>  منوی کابری <span class="caret"></span></a>
+		            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-user"></span> <%= current_user.full_name %> <span class="caret"></span></a>
 		            <ul class="dropdown-menu ir">
 		              <li><a href="#">مشخصات من</a></li>
 		              <!-- li><a href="#">تنظیمات</a></li -->

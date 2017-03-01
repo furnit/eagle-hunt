@@ -4,12 +4,13 @@ class FurnitureTypesController < ApplicationController
   # GET /furniture_types
   # GET /furniture_types.json
   def index
-    @furniture_types = FurnitureType.all
+    redirect_to root_path
   end
 
   # GET /furniture_types/1
   # GET /furniture_types/1.json
   def show
+    @furniture = @furniture_type.furniture
   end
 
   # GET /furniture_types/new

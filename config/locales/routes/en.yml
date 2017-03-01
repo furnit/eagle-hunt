@@ -1,0 +1,4 @@
+en:
+  routes:
+    home: 'Home'
+    furniture_types: 'Category'

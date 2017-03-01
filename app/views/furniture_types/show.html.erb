@@ -1,14 +1,16 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Type:</strong>
-  <%= @furniture_type.name %>
-</p>
-
-<p>
-  <strong>Comment:</strong>
-  <%= @furniture_type.comment %>
-</p>
-
-<%= link_to 'Edit', edit_furniture_type_path(@furniture_type) %> |
-<%= link_to 'Back', furniture_types_path %>
+<ol class='breadcrumb'>
+	<li><%= link_to 'مبل ویرا', '#' %></li>
+	<li><%= link_to t('routes.%s' %controller.controller_name), request.path %></li>
+	<li class="active"><%= link_to @furniture_type.name, '#' %></li>
+</ol>
+<fieldset class='col-md-<%= auth_is?(:CLIENT) ? 12 : 8 %>'>
+	<legend><span class='fa fa-chevron-left'></span> دسته بندی: <b><%= @furniture_type.name %></b></legend>
+	<%= list_or_prompt @furniture, 'محصولی در این دسته‌بندی یافت نشد.' do |l| %>
+		<%= l.inspect %>
+	<% end %>
+</fieldset>
+<% auth_for :ADMIN do %>
+	<fieldset class='col-md-4'>
+		<legend><span class='fa fa-chevron-left'></span> پنل مدیریتی</legend>
+	</fieldset>
+<% end %>

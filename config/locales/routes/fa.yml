@@ -1,0 +1,4 @@
+fa:
+  routes:
+    home: 'خانه'
+    furniture_types: 'دسته بندی'

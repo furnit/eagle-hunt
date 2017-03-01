@@ -12,4 +12,9 @@ class User < ApplicationRecord
   def email_changed?
     false
   end
+  
+  def full_name
+    return 'بدون نام' if self.profile == nil
+    '%s %s' %[self.profile.first_name, self.profile.last_name]
+  end
 end

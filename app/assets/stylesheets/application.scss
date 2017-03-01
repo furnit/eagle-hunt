@@ -21,3 +21,12 @@
 @import 'plugins/table.min.css';
 @import 'hovereffect';
 @import 'home';
+
+.empty-collection {
+  border: 1px solid #eee;
+  text-align: center;
+  width: 100%;
+  padding: 13px;
+  min-height: 50px;
+  font-size: 15px
+}
