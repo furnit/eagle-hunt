@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @furniture_type.name %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @furniture_type.comment %>
+</p>
+
+<%= link_to 'Edit', edit_furniture_type_path(@furniture_type) %> |
+<%= link_to 'Back', furniture_types_path %>

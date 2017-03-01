@@ -1,0 +1,33 @@
+<%= form_for(furniture_type) do |f| %>
+  <% if furniture_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(furniture_type.errors.count, "error") %> prohibited this furniture_type from being saved:</h2>
+
+      <ul>
+      <% furniture_type.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :comment %>
+    <%= f.text_area :comment %>
+  </div>
+  
+  <div class='field'>
+		<label class="btn btn-default btn-file">
+    	Add Images <%= f.file_field :images, multiple: true, hidden: true, class: 'hidden' %>
+    </label>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

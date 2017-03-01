@@ -44,6 +44,8 @@ gem 'accountingjs-rails'
 gem 'autosize-rails'
 # Use WYSIWYG-Rails for text editoring
 gem 'wysiwyg-rails'
+# Use Font-Awesome for icons
+gem "font-awesome-rails"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

@@ -44,19 +44,24 @@
 	        <ul class="nav navbar-nav navbar-right">
 	          <li><a href="../navbar/">Default</a></li>
 	          <li><a href="../navbar-static-top/">Static top</a></li>
-	          <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+	          <% if user_signed_in? %>
+	          	<li><%= link_to 'خروج', destroy_user_session_path, :method => :delete, :class => 'fa fa-signin' %></li>
+          	<% else %>
+							<li><%= link_to 'ورود', new_user_session_path, :class => 'fa fa-signin' %></li>
+							<li><%= link_to 'ثبت‌ نام', new_user_registration_path, :class => 'fa fa-signin' %></li>
+          	<% end %>
 	      	</ul>
 	      </div><!--/.nav-collapse -->
 	  	</div>
 	  </nav>
 	  <div class="clearfix" style='margin: 40px'></div>
   	<div class='container'>
-  		<div class='col-md-9'>
+  		<div class='col-md-12'>
 	    <%= yield %>
 	    </div>
-	    <div class='col-md-3' style='border: 1px solid #000'>
-	    	MENU
-    	</div>
+	    <!-- <div class='col-md-3' style='border: 1px solid #000'> -->
+	    	<!-- MENU -->
+    	<!-- </div> -->
     </div>
   </body>
 </html>

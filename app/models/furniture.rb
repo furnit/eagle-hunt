@@ -1,4 +1,6 @@
 class Furniture < ApplicationRecord  
+  belongs_to :furniture_type
+  validates_presence_of :furniture_type, :name, :images
   mount_uploaders :images, FurnitureUploader
   
   def cost?

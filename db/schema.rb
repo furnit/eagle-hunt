@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227111510) do
+ActiveRecord::Schema.define(version: 20170301064237) do
 
   create_table "accountings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "order_id"
@@ -50,22 +50,32 @@ ActiveRecord::Schema.define(version: 20170227111510) do
     t.datetime "updated_at",                   null: false
   end
 
+  create_table "furniture_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.text     "comment",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.json     "images"
+  end
+
   create_table "furnitures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
-    t.float    "size_parche",     limit: 24
-    t.float    "size_kanaf",      limit: 24
-    t.float    "size_abr",        limit: 24
-    t.float    "wage_khayat",     limit: 24
-    t.float    "wage_rokob",      limit: 24
-    t.float    "wage_naghash",    limit: 24
-    t.float    "wage_najar",      limit: 24
-    t.float    "wage_extra",      limit: 24
+    t.float    "size_parche",       limit: 24
+    t.float    "size_kanaf",        limit: 24
+    t.float    "size_abr",          limit: 24
+    t.float    "wage_khayat",       limit: 24
+    t.float    "wage_rokob",        limit: 24
+    t.float    "wage_naghash",      limit: 24
+    t.float    "wage_najar",        limit: 24
+    t.float    "wage_extra",        limit: 24
     t.integer  "transfer_counts"
     t.json     "images"
     t.boolean  "available"
-    t.text     "comment",         limit: 65535
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.text     "comment",           limit: 65535
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "furniture_type_id"
+    t.index ["furniture_type_id"], name: "index_furnitures_on_furniture_type_id", using: :btree
   end
 
   create_table "kande_colours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -184,6 +194,7 @@ ActiveRecord::Schema.define(version: 20170227111510) do
   add_foreign_key "accountings", "orders"
   add_foreign_key "avail_workshops", "furnitures"
   add_foreign_key "avail_workshops", "workshops"
+  add_foreign_key "furnitures", "furniture_types"
   add_foreign_key "orders", "furnitures"
   add_foreign_key "orders", "kande_colours"
   add_foreign_key "orders", "parche_colours"
