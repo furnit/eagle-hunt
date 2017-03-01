@@ -14,41 +14,34 @@
 	  <!-- Fixed navbar -->
 	  <nav class="navbar navbar-default navbar-fixed-top">
 	    <div class="container">
-	      <div class="navbar-header">
+	      <div class="navbar-header navbar-right">
 	        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 	          <span class="sr-only">Toggle navigation</span>
 	          <span class="icon-bar"></span>
 	          <span class="icon-bar"></span>
 	          <span class="icon-bar"></span>
 	        </button>
-	        <a class="navbar-brand" href="#">مبل ویرا</a>
+	        <%= link_to 'مبل ویرا', root_path, :class => 'navbar-brand' %>
 	      </div>
-	      <div id="navbar" class="navbar-collapse collapse">
-	        <ul class="nav navbar-nav">
-	          <li class="active"><a href="#">Home</a></li>
-	          <li><a href="#about">About</a></li>
-	          <li><a href="#contact">Contact</a></li>
-	          <li class="dropdown">
-	            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-	            <ul class="dropdown-menu">
-	              <li><a href="#">Action</a></li>
-	              <li><a href="#">Another action</a></li>
-	              <li><a href="#">Something else here</a></li>
-	              <li role="separator" class="divider"></li>
-	              <li class="dropdown-header">Nav header</li>
-	              <li><a href="#">Separated link</a></li>
-	              <li><a href="#">One more separated link</a></li>
-	            </ul>
-	          </li>
-	        </ul>
+	      <div id="navbar" class="navbar-collapse collapse ">
 	        <ul class="nav navbar-nav navbar-right">
-	          <li><a href="../navbar/">Default</a></li>
-	          <li><a href="../navbar-static-top/">Static top</a></li>
+	          <li class="active"><%= link_to 'خانه', root_path, :class => 'navbar-brand' %></li>
+	        </ul>
+	        <ul class="nav navbar-nav ir" style='font-weight: bold'>
 	          <% if user_signed_in? %>
-	          	<li><%= link_to 'خروج', destroy_user_session_path, :method => :delete, :class => 'fa fa-signin' %></li>
+		          <li class='pull-right'><%= link_to root_path do %><span class="fa fa-shopping-cart"></span> سبد خرید<% end %></li>
+		          <li class="dropdown pull-right">
+		            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-user"></span>  منوی کابری <span class="caret"></span></a>
+		            <ul class="dropdown-menu ir">
+		              <li><a href="#">مشخصات من</a></li>
+		              <!-- li><a href="#">تنظیمات</a></li -->
+		              <li role="separator" class="divider"></li>
+		              <li><%= link_to destroy_user_session_path, :method => :delete do %>خروج <span class="fa fa-sign-out"></span><% end %></li>
+		            </ul>
+		          </li>
           	<% else %>
-							<li><%= link_to 'ورود', new_user_session_path, :class => 'fa fa-signin' %></li>
-							<li><%= link_to 'ثبت‌ نام', new_user_registration_path, :class => 'fa fa-signin' %></li>
+							<li><%= link_to new_user_session_path do %><span class="fa fa-sign-in"></span> ورود<% end %></li>
+							<li><%= link_to new_user_registration_path do %><span class="fa fa-user-plus"></span> ثبت نام<% end %></li>
           	<% end %>
 	      	</ul>
 	      </div><!--/.nav-collapse -->

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301064237) do
+ActiveRecord::Schema.define(version: 20170301090519) do
 
   create_table "accountings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "order_id"
@@ -107,6 +107,14 @@ ActiveRecord::Schema.define(version: 20170301064237) do
     t.index ["parche_colour_id"], name: "index_orders_on_parche_colour_id", using: :btree
     t.index ["parche_design_id"], name: "index_orders_on_parche_design_id", using: :btree
     t.index ["user_id"], name: "index_orders_on_user_id", using: :btree
+  end
+
+  create_table "page_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "controller"
+    t.string   "action"
+    t.json     "details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "parche_colours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

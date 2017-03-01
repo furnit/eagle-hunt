@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Page Items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Controller</th>
+      <th>Action</th>
+      <th>Details</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @page_items.each do |page_item| %>
+      <tr>
+        <td><%= page_item.controller %></td>
+        <td><%= page_item.action %></td>
+        <td><%= page_item.details %></td>
+        <td><%= link_to 'Show', page_item %></td>
+        <td><%= link_to 'Edit', edit_page_item_path(page_item) %></td>
+        <td><%= link_to 'Destroy', page_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Page Item', new_page_item_path %>

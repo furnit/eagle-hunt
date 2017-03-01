@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :page_items
   resources :furniture_types
   resources :furnitures
   resources :transfer_costs
