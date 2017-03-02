@@ -4,6 +4,12 @@
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
+@import url('http://www.fontonline.ir/css/BZar.css');
+
+body {
+  font-family: BZar,'BZar', "Helvetica Neue", Helvetica, Arial, sans-serif;;
+  font-size: 17px;
+}
 
 .ir { direction: rtl; text-align: right }
 

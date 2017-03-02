@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301091533) do
+ActiveRecord::Schema.define(version: 20170302132052) do
 
   create_table "accountings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "order_id"
@@ -71,10 +71,11 @@ ActiveRecord::Schema.define(version: 20170301091533) do
     t.integer  "transfer_counts"
     t.json     "images"
     t.boolean  "available"
-    t.text     "comment",           limit: 65535
+    t.string   "comment",           limit: 140
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.integer  "furniture_type_id"
+    t.text     "description",       limit: 65535
     t.index ["furniture_type_id"], name: "index_furnitures_on_furniture_type_id", using: :btree
   end
 
