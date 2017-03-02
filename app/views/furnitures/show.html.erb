@@ -1,7 +1,49 @@
-<div class='col-md-12'>
-	<%= create_cover furniture_image(@furniture.images), height: '350px' %>
+<div id='furniture-cover'>
+	<%= create_cover furniture_image(@furniture.images), height: '500px', style: 'margin-top:-20px; z-order: -1000; position: absolute; top: 70px' %>
+	<div class="container text-center">
+		<div id='cover-container'>
+			<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1' data='left'><span class='fa fa-chevron-left'></span></div>
+			<div id='cover-collection' class='col-lg-10 col-md-10 col-sm-10 col-xs-10'>
+			<% 1.times do %>
+			<% @furniture.images.each do |i| %>
+					<div class="cover-item img-responsive img-thumbnail" style="background-image: url(<%= furniture_image(i) %>)"></div>
+				<% end %>
+			<% end %>
+			</div>
+			<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1' data='right'><span class='fa fa-chevron-right'></span></div>
+		</div>
+	</div>
+</div>
+<style type="text/css" media="screen">
+
+</style>
+
+<script>
+	$(document).ready(function(){
+		$('#furniture-cover .cover-scroller[data="right"]').addClass('disabled');
+		if($('#cover-collection')[0].scrollWidth <= $('#cover-collection').width()) $('.cover-scroller').remove();
+			
+		$('#furniture-cover .cover-scroller[data]').click(function() {
+			event.preventDefault();
+			if($(this).attr('data') == 'right') {
+				$('#cover-collection').animate({scrollLeft: '+=205'}, 'fast');
+				if($('#cover-collection')[0].scrollWidth - $('#cover-collection').scrollLeft() == $('#cover-collection').width())
+					$(this).addClass('disabled');
+				$('#furniture-cover .cover-scroller[data="left"]').removeClass('disabled');
+			} else if($(this).attr('data') == 'left') {
+				$('#cover-collection').animate({scrollLeft: '-=205'}, 'fast');
+				if($('#cover-collection').scrollLeft() == 0)
+					$(this).addClass('disabled');
+				$('#furniture-cover .cover-scroller[data="right"]').removeClass('disabled');
+			}
+		});
+	});
+</script>
+<!-- <div class='clearfix'></div>
+<div class='container'>
+	<div class='col-md-12' style='border:1px solid #000; height: 50px;'></div>
 	<div class='col-lg-4 col-md-4 col-sm-12 col-xs-12' style='height: 100px; background-color: #cc8800'>
 	</div>
 	<div class='col-lg-8 col-md-8 col-sm-12 col-xs-12' style='height: 100px; background-color: #000'>
 	</div>
-</div>
+</div> -->

@@ -23,7 +23,8 @@ module ApplicationHelper
     width = args[:width] || '100%'
     css_class = args[:class] || ''
     css_id = args[:id] || ''
-    raw '<div class="img img-responsive img-thumbnail %s" id="%s" style="width:%s;height:%s;background-image:url(%s);background-size:cover;background-repeat:no-repeat;background-position:50%% 50%%"></div>' %[css_class.to_s, css_id.to_s, width.to_s, height.to_s, image.to_s]
+    css_style = args[:style] || ''
+    raw '<div class="img img-responsive img-thumbnail %s" id="%s" style="%s;width:%s;height:%s;background-image:url(%s);background-size:cover;background-repeat:no-repeat;background-position: center center"></div>' %[css_class.to_s, css_id.to_s, css_style.to_s, width.to_s, height.to_s, image.to_s]
   end
   
 end

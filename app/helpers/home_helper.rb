@@ -1,9 +1,11 @@
 module HomeHelper
-  def furniture_image(image)
-    if image[0] == nil
+  def furniture_image(images)
+    image = images
+    image = images.first if image.respond_to? :each
+    if image == nil
       'No_image_available.svg'
     else
-      image[0].url
+      image.url
     end
   end
 end

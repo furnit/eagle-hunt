@@ -5,14 +5,13 @@
     <title>Viramobl</title>
     <%= csrf_meta_tags %>
     
-    <%= stylesheet_link_tag    'application', params[:controller], media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', params[:controller], 'data-turbolinks-track': 'reload' %>
-    <!-- <link rel="stylesheet" href="//cdn.rawgit.com/morteza/bootstrap-rtl/v3.3.4/dist/css/bootstrap-rtl.min.css"> -->
+    <%= stylesheet_link_tag    'application', params[:controller], media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body style="padding-top: 70px;">
 	  <!-- Fixed navbar -->
-	  <nav class="navbar navbar-default navbar-fixed-top">
+	  <nav class="navbar navbar-default navbar-fixed-top" style='margin: 0'>
 	    <div class="container">
 	      <div class="navbar-header navbar-right">
 	        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -47,15 +46,10 @@
 	      </div><!--/.nav-collapse -->
 	  	</div>
 	  </nav>
-	  <div class="clearfix" style='margin: 40px'></div>
-  	<div class='container'>
-  		<div class='col-md-12'>
-  			<p id="notice"><%= notice %></p>
-  			<%= yield %>
-	    </div>
-	    <!-- <div class='col-md-3' style='border: 1px solid #000'> -->
-	    	<!-- MENU -->
-    	<!-- </div> -->
+	  <div class="clearfix"></div>
+  	<div class='container-fluid' style='margin:0; padding:0'>
+			<%= raw '<p id="notice">%s</p>' %notice if notice %>
+			<%= yield %>
     </div>
   </body>
 </html>

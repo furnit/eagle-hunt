@@ -2,20 +2,44 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@import "froala_editor.min.css";
-@import "froala_style.min.css";
-@import "font-awesome-sprockets";
-@import "font-awesome";
-@import 'plugins/char_counter.min.css';
-@import 'plugins/code_view.min.css';
-@import 'plugins/colors.min.css';
-@import 'plugins/emoticons.min.css';
-@import 'plugins/file.min.css';
-@import 'plugins/fullscreen.min.css';
-@import 'plugins/help.min.css';
-@import 'plugins/image_manager.min.css';
-@import 'plugins/image.min.css';
-@import 'plugins/line_breaker.min.css';
-@import 'plugins/quick_insert.min.css';
-@import 'plugins/special_characters.min.css';
-@import 'plugins/table.min.css';
+#furniture-cover #cover-container {
+    height: 150px;
+    width: 100%;
+    margin-top: 400px;
+}
+#furniture-cover #cover-container #cover-collection {
+    overflow: hidden;
+    white-space: nowrap;
+    height: 100%;
+    padding: 10px;
+    margin: 0;
+}
+#furniture-cover .cover-item,
+#furniture-cover .cover-scroller {
+    position: relative;
+    display: inline-block;
+    margin: 8px 8px;
+    vertical-align: center;
+}
+#furniture-cover .cover-item {
+    box-shadow: 2px 2px 4px #bbb;
+    width: 150px;
+    height: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#furniture-cover .cover-scroller {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  vertical-align: center;
+  font-size: 100px;
+  margin-top: 13px;
+  cursor: pointer;
+}
+#furniture-cover .cover-scroller.disabled {
+  color: transparent;
+  cursor: default;
+}
