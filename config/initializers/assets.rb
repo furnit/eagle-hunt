@@ -9,7 +9,7 @@ Rails.application.config.assets.version = '1.0'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Custom couple files to pre-compile
-%w(texteditor).each do |item|
+%w(texteditor bootbox-delete-confirm).each do |item|
   Rails.application.config.assets.precompile += [ "#{item}.css", "#{item}.js" ]
 end
 # Controller related files to pre-compile
