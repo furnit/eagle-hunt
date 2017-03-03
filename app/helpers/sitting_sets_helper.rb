@@ -1,0 +1,2 @@
+module SittingSetsHelper
+end

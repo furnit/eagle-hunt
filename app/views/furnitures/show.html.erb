@@ -1,20 +1,4 @@
-<div id='furniture-cover'>
-	<%= create_cover furniture_image(@furniture.images), height: '500px', style: 'margin-top:-20px; z-order: -1000; position: absolute; top: 70px' %>
-	<div class="container text-center">
-		<div id='cover-container'>
-			<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1' data='left'><span class='fa fa-chevron-left'></span></div>
-			<div id='cover-collection' class='col-lg-10 col-md-10 col-sm-10 col-xs-10'>
-			<% 1.times do %>
-			<% index = 0; @furniture.images.each do |i| %>
-					<div class="cover-item img-responsive img-thumbnail" style="background-image: url(<%= furniture_image(i) %>)"></div>
-				<% end %>
-			<% end %>
-			</div>
-			<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1' data='right'><span class='fa fa-chevron-right'></span></div>
-		</div>
-	</div>
-	<div class='clearfix'></div>
-</div>
+<%= render 'furniture_cover', :furniture => @furniture %>
 
 <script type="application/javascript">
 	$(document).ready(function(){
@@ -46,11 +30,30 @@
 		padding: 30px;
 	}
 	.furniture-detail-block th { direction: rtl; text-align: right; width: 20% }
+	.furniture-detail-block#furniture-detail-block2 th { width: 30%; }
 </style>
 
 <div class='clearfix'></div>
 <div class='container'>
-	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 furniture-detail-block' id='furniture-intro-detail'>
+<% auth_for :ADMIN do %>
+	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 furniture-detail-block ir' id='furniture-detail-block1'>
+		<legend>پنل مدیریتی</legend>
+		<div class="col-md-4" role="toolbar">
+			  <%= link_to '#', :class => "btn btn-danger delete-link", 'data-src' => furniture_path(@furniture), :method => :xdelete do %>
+			  	<span class='fa fa-times'></span> حذف
+		  	<% end %>
+		</div>
+		<div class="col-md-4" role="toolbar">
+			  <%= link_to edit_furniture_path(@furniture), :class => "btn btn-default" do %>
+			  	<span class='fa fa-pencil'></span> ویرایش
+		  	<% end %>
+		</div>
+		<div class="col-md-4" role="toolbar" style='padding-top: 10px;'>
+			<%= check_awesome 'قابل تولید است؟', '', @furniture.available? %>
+		</div>
+	</div>
+<% end %>
+	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 furniture-detail-block' id='furniture-detail-block1'>
 		<div class='col-lg-3 col-md-3 col-sm-3 hidden-xs pull-right'>
 			<%= image_tag 'logo', :class => 'img img-responsive' %>
 		</div>
@@ -71,9 +74,9 @@
 					<tr>
 						<th>قیمت پایه</th>
 						<td><%= @furniture.cost? %> تومان</td>
-						<th class='text-<%= (@furniture.available) ? 'success' : 'danger' %>'>وضعیت</th>
-						<td class='text-<%= (@furniture.available) ? 'success' : 'danger' %>'>
-							<%= raw (@furniture.available) \
+						<th class='text-<%= @furniture.available ? 'success' : 'danger' %>'>وضعیت</th>
+						<td class='text-<%= @furniture.available ? 'success' : 'danger' %>'>
+							<%= raw @furniture.available \
 								? '<span class="fa fa-check"></span> موجود' \
 								: '<span class="fa fa-times"></span> ناموجود'
 							%>
@@ -99,19 +102,15 @@
 		</div>
 		<div class='clearfix'></div>
 	</div>
-	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 furniture-detail-block' xstyle='height: 100px; background-color: #cc8800'>
+	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 furniture-detail-block' id='furniture-detail-block2'>
 		<div class='row'>
 			<fieldset class='col-lg-8 col-md-8 col-sm-12 col-xs-12 pull-right'>
 				<legend>مدل <%= @furniture.furniture_type.name %>: <b><%= @furniture.name %></b></legend>
-				<p><%= @furniture.description %></p>
+				<p class='text-justify'><%= @furniture.description %></p>
 			</fieldset>	
 			<fieldset class='col-lg-4 col-md-4 col-sm-12 col-xs-12 pull-left'>
-				<table class='table'>
-					<thead>
-						<tr>
-							<th colspan='2' class='ir'>میزان مواد مورد نیاز برای ساخت این مبل</th>
-						</tr>
-					</thead>
+				<legend>جزئیات این مدل</legend>
+				<table class='table' style='margin-top: -20px;'>
 					<tbody>
 						<tr>
 							<th>ابر</th>
@@ -120,6 +119,40 @@
 						<tr>
 							<th>پارچه</th>
 							<td><%= @furniture.size_parche %> متر</td>
+						</tr>
+						<tr class='text-<%= @furniture.check_lamse? ? 'success' : 'danger' %>'>
+							<th>لمسه</th>
+							<td>
+								<%= raw @furniture.check_lamse? \
+									? '<span class="fa fa-check"></span> دارد' \
+									: '<span class="fa fa-times"></span> ندارد'
+								%>
+							</td>
+						</tr>
+						<tr class='<%= @furniture.count_kosan? ? '' : 'text-danger' %>'>
+							<th>تعداد کوسن</th>
+							<td>
+								<%= raw @furniture.count_kosan? \
+									? "#{@furniture.count_kosan} عدد"\
+									: '<span class="fa fa-times"></span> ندارد'
+								%>
+							</td>
+						</tr>
+						<tr class='<%= @furniture.count_poshti? ? '' : 'text-danger' %>'>
+							<th>تعداد پشتی</th>
+							<td>
+								<%= raw @furniture.count_poshti? \
+									? "#{@furniture.count_poshti} عدد"\
+									: '<span class="fa fa-times"></span> ندارد'
+								%>
+							</td>
+						</tr>
+						<tr>
+							<th>تعداد ست‌ها</th>
+							<td>
+								<%= @furniture.sitting_set.map(&:count).to_sentence(words_connector: '، ', last_word_connector: ' و ') %>
+								نفره
+							</td>
 						</tr>
 					</tbody>
 				</table>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170302132052) do
+ActiveRecord::Schema.define(version: 20170302232231) do
 
   create_table "accountings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "order_id"
@@ -50,6 +50,15 @@ ActiveRecord::Schema.define(version: 20170302132052) do
     t.datetime "updated_at",                   null: false
   end
 
+  create_table "furniture_sets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "furniture_id"
+    t.integer  "sitting_set_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["furniture_id"], name: "index_furniture_sets_on_furniture_id", using: :btree
+    t.index ["sitting_set_id"], name: "index_furniture_sets_on_sitting_set_id", using: :btree
+  end
+
   create_table "furniture_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.text     "comment",    limit: 65535
@@ -72,10 +81,13 @@ ActiveRecord::Schema.define(version: 20170302132052) do
     t.json     "images"
     t.boolean  "available"
     t.string   "comment",           limit: 140
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.integer  "furniture_type_id"
     t.text     "description",       limit: 65535
+    t.boolean  "check_lamse",                     default: false
+    t.integer  "count_kosan",                     default: 0
+    t.integer  "count_poshti",                    default: 0
     t.index ["furniture_type_id"], name: "index_furnitures_on_furniture_type_id", using: :btree
   end
 
@@ -152,6 +164,14 @@ ActiveRecord::Schema.define(version: 20170302132052) do
     t.index ["user_id"], name: "index_profiles_on_user_id", using: :btree
   end
 
+  create_table "sitting_sets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "count"
+    t.json     "details"
+    t.text     "comment",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
     t.string   "username",               default: "", null: false
@@ -202,6 +222,8 @@ ActiveRecord::Schema.define(version: 20170302132052) do
   add_foreign_key "accountings", "orders"
   add_foreign_key "avail_workshops", "furnitures"
   add_foreign_key "avail_workshops", "workshops"
+  add_foreign_key "furniture_sets", "furnitures"
+  add_foreign_key "furniture_sets", "sitting_sets"
   add_foreign_key "furnitures", "furniture_types"
   add_foreign_key "orders", "furnitures"
   add_foreign_key "orders", "kande_colours"

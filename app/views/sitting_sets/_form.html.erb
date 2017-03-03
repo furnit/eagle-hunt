@@ -1,0 +1,32 @@
+<%= form_for(sitting_set) do |f| %>
+  <% if sitting_set.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(sitting_set.errors.count, "error") %> prohibited this sitting_set from being saved:</h2>
+
+      <ul>
+      <% sitting_set.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :count %>
+    <%= f.number_field :count %>
+  </div>
+
+  <div class="field">
+    <%= f.label :details %>
+    <%= f.text_field :details %>
+  </div>
+
+  <div class="field">
+    <%= f.label :comment %>
+    <%= f.text_area :comment %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

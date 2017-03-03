@@ -47,6 +47,8 @@ gem 'autosize-rails'
 gem 'wysiwyg-rails'
 # Use Font-Awesome for icons
 gem "font-awesome-rails"
+# For HTML dialog box
+gem 'bootbox-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

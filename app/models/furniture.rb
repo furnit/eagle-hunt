@@ -1,5 +1,8 @@
-class Furniture < ApplicationRecord  
+class Furniture < ApplicationRecord
+  has_many :furniture_set
   belongs_to :furniture_type
+  has_many :sitting_set, through: :furniture_set
+
   validates_presence_of :furniture_type, :name, :images
   mount_uploaders :images, FurnitureUploader
   

@@ -1,0 +1,19 @@
+<% if @furniture.images.length > 0 %>
+	<div id='furniture-cover'>
+		<%= create_cover furniture_image(@furniture.images), height: '500px', style: 'margin-top:-20px; z-order: -1000; position: absolute; top: 70px' %>
+		<div class="container text-center">
+			<div id='cover-container'>
+				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1' data='left'><span class='fa fa-chevron-left'></span></div>
+				<div id='cover-collection' class='col-lg-10 col-md-10 col-sm-10 col-xs-10'>
+				<% 1.times do %>
+				<% index = 0; @furniture.images.each do |i| %>
+						<div class="cover-item img-responsive img-thumbnail" style="background-image: url(<%= furniture_image(i) %>)"></div>
+					<% end %>
+				<% end %>
+				</div>
+				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1' data='right'><span class='fa fa-chevron-right'></span></div>
+			</div>
+		</div>
+		<div class='clearfix'></div>
+	</div>
+<% end %>

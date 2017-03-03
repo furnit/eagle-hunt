@@ -14,3 +14,11 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
+//= require bootbox
+
+	$(document).ready(function(){
+		$('.delete-link[data-method="delete"]').unbind('click').click(function(e){
+			e.preventDefault();
+			console.log('FUCK');
+		});
+	});

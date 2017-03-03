@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Count:</strong>
+  <%= @sitting_set.count %>
+</p>
+
+<p>
+  <strong>Details:</strong>
+  <%= @sitting_set.details %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @sitting_set.comment %>
+</p>
+
+<%= link_to 'Edit', edit_sitting_set_path(@sitting_set) %> |
+<%= link_to 'Back', sitting_sets_path %>

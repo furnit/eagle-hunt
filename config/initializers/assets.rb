@@ -13,6 +13,6 @@ Rails.application.config.assets.version = '1.0'
   Rails.application.config.assets.precompile += [ "#{item}.css", "#{item}.js" ]
 end
 # Controller related files to pre-compile
-%w(home furnitures furniture_types).each do |controller|
+%w(home furnitures furniture_types sitting_sets).each do |controller|
   Rails.application.config.assets.precompile += [ "#{controller}.coffee", "#{controller}.js", "#{controller}.css" ]
 end
