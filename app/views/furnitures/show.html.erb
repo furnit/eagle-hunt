@@ -7,8 +7,7 @@
 		margin-bottom: 10px;
 		padding: 30px;
 	}
-	.furniture-detail-block th { direction: rtl; text-align: right; width: 20% }
-	.furniture-detail-block#furniture-detail-block2 th { width: 30%; }
+	.furniture-detail-block th { direction: rtl; text-align: right; }
 </style>
 
 <div class='clearfix'></div>
@@ -16,19 +15,20 @@
 <% auth_for :ADMIN do %>
 	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 furniture-detail-block ir' id='furniture-detail-block1'>
 		<legend>پنل مدیریتی</legend>
-		<div class="col-md-4" role="toolbar">
-			  <%= link_to furniture_path(@furniture), :class => "btn btn-danger", :method => :delete, data: { :confirm => {:title => 'آیا از حذف این محصول اطمینان دارید؟', :message => 'توجه فرمایید که با انجام این عملیات بازیابی اطلاعات این محصول غیرممکن خواهد بود!'} } do %>
-			  	<span class='fa fa-times'></span> حذف
-		  	<% end %>
+		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right" role="toolbar" style='padding-top: 10px;'>
+			<%= check_awesome 'قابل تولید است؟', '', @furniture.available? %>
 		</div>
-		<div class="col-md-4" role="toolbar">
+		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right" role="toolbar">
 			  <%= link_to edit_furniture_path(@furniture), :class => "btn btn-default" do %>
 			  	<span class='fa fa-pencil'></span> ویرایش
 		  	<% end %>
 		</div>
-		<div class="col-md-4" role="toolbar" style='padding-top: 10px;'>
-			<%= check_awesome 'قابل تولید است؟', '', @furniture.available? %>
+		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-left" role="toolbar">
+			  <%= link_to furniture_path(@furniture), :class => "btn btn-danger", :method => :delete, data: { :confirm => {:title => 'آیا از حذف این محصول اطمینان دارید؟', :message => 'توجه فرمایید که با انجام این عملیات بازیابی اطلاعات این محصول غیرممکن خواهد بود!'} } do %>
+			  	<span class='fa fa-times'></span> حذف
+		  	<% end %>
 		</div>
+		<div class='clearfix'></div>
 	</div>
 <% end %>
 	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 furniture-detail-block' id='furniture-detail-block1'>

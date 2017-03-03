@@ -1,15 +1,26 @@
 /* basic css */
-.check-awesome input[type=checkbox]   { display:none; }
-.check-awesome:not(.ir) label, .check-awesome:not(.ir) p { padding-left:50px; }
-.check-awesome         { position:relative; }
+.check-awesome
+{ position:relative; }
+.check-awesome input[type=checkbox]
+{ display:none; }
 /* checkbox css */
-.check-awesome label                  { cursor:pointer; }
-.check-awesome label span             { display:block; position:absolute; 
-  -webkit-transition-duration:0.3s; -moz-transition-duration:0.3s; transition-duration:0.3s;
-}
-.check-awesome:not(.ir) label span {left:0;}
-.check-awesome.ir label span { right: 0 }
-.check-awesome.ir label, p   { padding-right:50px; }
+.check-awesome label
+{ cursor:pointer; }
+.check-awesome label span
+{ display:block; position:absolute; -webkit-transition-duration:0.3s; -moz-transition-duration:0.3s; transition-duration:0.3s; }
+
+.check-awesome.ir label span
+{ right: 0 }
+.check-awesome:not(.ir) label span 
+{left:0;}
+
+.check-awesome.ir p,
+.check-awesome.ir label
+{ padding-right:50px; }
+
+.check-awesome:not(.ir) p,
+.check-awesome:not(.ir) label
+{ padding-left:50px; }
 
 .check-awesome label .circle          {
   background:#FFF;
