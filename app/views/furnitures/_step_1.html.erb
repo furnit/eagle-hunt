@@ -1,20 +1,38 @@
 <%= javascript_include_tag 'application', 'texteditor', 'data-turbolinks-track': 'reload' %>
 <%= stylesheet_link_tag    'application', 'texteditor', media: 'all', 'data-turbolinks-track': 'reload' %>
 
-<div class="row" style='margin: 20px'>
-  <div class="col-md-4">
-  	<%= f.label :name, "Name:", class: "col-md-4 control-label" %>
-  	<%= f.text_field :name, class: "form-control", placeholder: "Name" %>
+<div class="col-md-10 col-md-offset-1" style='xmargin: 20px'>
+	<legend>ایجاد مدل جدید</legend>
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right">
+  	<%= f.label :name, "نام مدل", class: "control-label" %>
+  	<%= f.text_field :name, class: "form-control", placeholder: "نام مدل" %>
 	</div>
-	<div class="col-md-4">
-		<%= f.collection_select :furniture_type_id, FurnitureType.all, :id, :name, { :prompt => 'لطفا نوع مبل را انتخاب کنید.' } %>
+	<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 pull-right">
+  	<%= f.label :furniture_type_id, "دسته‌بندی مدل", class: "control-label" %>
+		<%= f.collection_select :furniture_type_id, FurnitureType.all, :id, :name, { :prompt => 'لطفا نوع مبل را انتخاب کنید.' }, :class=>'form-control' %>
 	</div>
-	<div class="col-md-4" style='xpadding: 0'>
-		<label class="btn btn-default btn-file">
-    	Add Images <%= f.file_field :images, multiple: true, hidden: true, class: 'hidden' %>
-    </label>
+	<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pull-right" style='padding-top: 27px;'>
+  	<%= f.label :images, class: "btn btn-default", :style => 'font-weight: bold' do %>
+    	<span class='fa fa-plus' style='padding-top:4px'></span>
+    	<span style=''>عکس‌های مدل</span>
+			<%= f.file_field :images, multiple: true, hidden: true, class: 'hidden' %>
+  	<% end %>
   </div>
-</div>
-<div class="row" style='margin: 20px'>
-  <%= f.text_area :comment, class: "form-control", placeholder: "Comment" %>
+  <div class="clearfix"></div>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style='padding: 20px;'>
+  	<%= f.label :name, "توضیحات مدل", class: "control-label" %>
+  	<%= f.text_area :comment, class: "form-control", placeholder: "Comment" %>
+	</div>
+  <ul class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pager" style='padding: 20px; padding-top: 0;'>
+    <li class="previous">
+    	<%= link_to furniture.furniture_type ? furniture_type_path(furniture.furniture_type) : root_path, :class => 'text-warning' do %>
+    	 انصراف از ایجاد <span class='fa fa-reply'></span>
+    	<% end %>
+    </li>
+    <li class="next" style='font-size: 18px'>
+    	<%= f.button :type => 'submit', :class =>'btn btn-primary pull-right' do %>
+    		<span class='fa fa-arrow-right'></span> مرحله‌ی بعد
+  		<% end %>
+    </li>
+  </ul>
 </div>

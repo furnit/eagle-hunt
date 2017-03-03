@@ -12,9 +12,6 @@
   <% end %>
 	<%= hidden_field_tag :step, @step %>
 	<div class='row'>
-		<%= render "step_#{@step}", :f => f %>
+		<%= render "step_#{@step}", :f => f, :furniture => furniture %>
 	</div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>
