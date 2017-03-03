@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170302232231) do
+ActiveRecord::Schema.define(version: 20170303094249) do
 
   create_table "accountings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "order_id"
@@ -88,6 +88,8 @@ ActiveRecord::Schema.define(version: 20170302232231) do
     t.boolean  "check_lamse",                     default: false
     t.integer  "count_kosan",                     default: 0
     t.integer  "count_poshti",                    default: 0
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_furnitures_on_deleted_at", using: :btree
     t.index ["furniture_type_id"], name: "index_furnitures_on_furniture_type_id", using: :btree
   end
 

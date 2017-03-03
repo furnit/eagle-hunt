@@ -49,6 +49,8 @@ gem 'wysiwyg-rails'
 gem "font-awesome-rails"
 # For HTML dialog box
 gem 'bootbox-rails'
+# For soft-delete
+gem "paranoia", "~> 2.2"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
