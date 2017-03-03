@@ -1,27 +1,5 @@
 <%= render 'furniture_cover', :furniture => @furniture %>
 
-<script type="application/javascript">
-	$(document).ready(function(){
-		$('#furniture-cover .cover-scroller[data="right"]').addClass('disabled');
-		if($('#cover-collection')[0].scrollWidth <= $('#cover-collection').width()) $('.cover-scroller').addClass('disabled');
-			
-		$('#furniture-cover .cover-scroller[data]').click(function() {
-			event.preventDefault();
-			if($(this).attr('data') == 'right') {
-				$('#cover-collection').animate({scrollLeft: '+=200'}, 'fast');
-				if($('#cover-collection')[0].scrollWidth - $('#cover-collection').scrollLeft() - $('#cover-collection').width() <= 221)
-					$(this).addClass('disabled');
-				$('#furniture-cover .cover-scroller[data="left"]').removeClass('disabled');
-			} else if($(this).attr('data') == 'left') {
-				$('#cover-collection').animate({scrollLeft: '-=200'}, 'fast');
-				if($('#cover-collection').scrollLeft() < 200)
-					$(this).addClass('disabled');
-				$('#furniture-cover .cover-scroller[data="right"]').removeClass('disabled');
-			}
-		});
-	});
-</script>
-
 <style type="text/css" media="screen">
 	.furniture-detail-block {
 		background-color: #fafafa;
