@@ -5,11 +5,13 @@
     <title>Viramobl</title>
     <%= csrf_meta_tags %>
     
-    <%= javascript_include_tag 'application', params[:controller], 'xdata-turbolinks-track': 'reload' %>
-    <%= stylesheet_link_tag    'application', params[:controller], media: 'all', 'xdata-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body style="padding-top: 70px;">
+    <%= javascript_include_tag controller_name %>
+    <%= stylesheet_link_tag    controller_name, media: 'all' %>
 	  <!-- Fixed navbar -->
 	  <nav class="navbar navbar-default navbar-fixed-top" style='margin: 0'>
 	    <div class="container">

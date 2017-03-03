@@ -22,7 +22,7 @@
 //= require plugins/url.min.js
 
 $(document).ready(function() {
-	$('textarea#furniture_comment').froalaEditor({		
+	$('textarea#furniture_description').froalaEditor({		
       toolbarButtons:
       	['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|',
 				 'fontSize', 'fontFamily', 'color', 'paragraphFormat', 'paragraphStyle', '|', 

@@ -27,6 +27,7 @@ gem 'bootstrap-sass', '3.3.7'
 gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
+gem 'jquery-turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -51,6 +52,8 @@ gem "font-awesome-rails"
 gem 'bootbox-rails'
 # For soft-delete
 gem "paranoia", "~> 2.2"
+# For making thumbnail with carrierwave
+gem 'rmagick'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

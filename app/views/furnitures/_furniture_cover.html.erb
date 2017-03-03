@@ -1,18 +1,18 @@
 <% if @furniture.images.length > 0 %>
 
-  <%= javascript_include_tag 'application', 'photoswipe/photoswipe.min.js', 'photoswipe/photoswipe-ui-default.min.js', 'xdata-turbolinks-track': 'reload' %>
-  <%= stylesheet_link_tag    'application', 'photoswipe/photoswipe.css', 'photoswipe/default-skin/default-skin.css', media: 'all', 'xdata-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'photoswipe/photoswipe.min.js', 'photoswipe/photoswipe-ui-default.min.js' %>
+  <%= stylesheet_link_tag    'application', 'photoswipe/photoswipe.css', 'photoswipe/default-skin/default-skin.css', media: 'all' %>
 
 	<div id='furniture-cover'>
-		<%= create_cover furniture_image(@furniture.images), height: '500px', style: 'margin-top:-20px; z-order: -1000; position: absolute; top: 70px' %>
+		<%= create_cover image_url(@furniture.images), height: '500px', style: 'margin-top:-20px; z-order: -1000; position: absolute; top: 70px' %>
 		<div class="container text-center">
 			<div id='cover-container'>
 				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1' data='left'><span class='fa fa-chevron-left'></span></div>
 				<div id='cover-collection' class='col-lg-10 col-md-10 col-sm-10 col-xs-10'>
 				<% 1.times do %>
 				<% index = 0; @furniture.images.each do |i| %>
-						<%= link_to furniture_image(i), 'data-type' => 'photo-gallary' do %>
-							<%= image_tag furniture_image(i), :class => 'cover-item img-responsive img-thumbnail' %>
+						<%= link_to image_url(i), 'data-type' => 'photo-gallary', 'data-thumb' => thumbnail_url(i) do %>
+							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail' %>
 						<% end %>
 					<% end %>
 				<% end %>
@@ -50,7 +50,7 @@
 			$('#furniture-cover #cover-collection [data-type="photo-gallary"]').click(function(e){
 					e.preventDefault();
 					e.stopPropagation();
-					items = $("#furniture-cover #cover-collection [data-type='photo-gallary']").map(function() { return { src: this.href, w: 1920, h: 1080 }; }).get();
+					items = $("#furniture-cover #cover-collection [data-type='photo-gallary']").map(function() { return { src: this.href, msrc: $(this).attr('data-thumb'), w: 1280, h: 720 }; }).get();
 					options = {
 							index: $('#furniture-cover #cover-collection [data-type="photo-gallary"]').index(this),
 							fullscreenEl: true,
