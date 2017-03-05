@@ -10,6 +10,14 @@ body {
   font-family: BZar,'BZar', "Helvetica Neue", Helvetica, Arial, sans-serif;;
   font-size: 17px;
 }
+
+.block {
+    background-color: #fafafa;
+    border: 1px solid #e7e7e7; 
+    margin-bottom: 10px;
+    padding: 30px;
+}
+
 .fa { vertical-align: middle; padding-top:3px }
 
 .ir { direction: rtl; text-align: right }
@@ -21,4 +29,21 @@ body {
   padding: 13px;
   min-height: 50px;
   font-size: 15px
+}
+
+.field_with_errors {
+  @extend .has-error;
+}
+
+div.shared-links {
+  float: left
+}
+
+div.field {
+  margin: 10px;
+}
+
+textarea {
+  max-width: 100%; 
+  max-height: 100%;
 }

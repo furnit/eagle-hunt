@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
 	def index
-    	@categories = FurnitureType.all
+  	@categories = FurnitureType.all
 	end
 end

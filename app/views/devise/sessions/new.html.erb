@@ -1,26 +1,33 @@
-<h2><%= t('.sign_in') %></h2>
+<%= render 'devise/registrations/header' %>
+
+<legend><h2><%= t('.sign_in') %></h2></legend>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username, autofocus: true  %>
+    <%= f.label :username, :class => 'control-label' %><br />
+    <%= f.text_field :username, autofocus: true, :class => 'form-control'  %>
   </div>
 
   <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+    <%= f.label :password, :class => 'control-label' %><br />
+    <%= f.password_field :password, autocomplete: "off", :class => 'form-control' %>
   </div>
 
   <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+    <div class="field" style='margin: 20px; margin-bottom: 0'>
+    	<%= check_awesome 'مرا به خاطر بسپار!', 'با کلیک بر این گزینه دفعه دیگر که به سایت مراجعه خواهید کرد به صورت خودکار به حساب کاربری خود وارد خواهید شد.', true, 'user_remember_me', 'user[remember_me]' %>
     </div>
   <% end %>
-
-  <div class="actions">
-    <%= f.submit t('.sign_in') %>
+	<hr />
+	<div class='field row'>
+	  <div class="pull-right actions">
+	    <%= f.submit t('.sign_in'), :class => 'btn btn-default' %>
+	  </div>
+	  <div class="pull-left actions">
+	  	<%= render "devise/shared/links" %>
+	  </div>
+  	<div class='clearfix'></div>
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<%= render 'devise/registrations/footer' %>

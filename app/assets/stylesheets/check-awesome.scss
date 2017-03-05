@@ -1,6 +1,6 @@
 /* basic css */
 .check-awesome
-{ position:relative; }
+{ position:relative; margin: 0; }
 .check-awesome input[type=checkbox]
 { display:none; }
 /* checkbox css */
@@ -13,6 +13,9 @@
 { right: 0 }
 .check-awesome:not(.ir) label span 
 {left:0;}
+
+.check-awesome.ir p
+{ color: #777; }
 
 .check-awesome.ir p,
 .check-awesome.ir label

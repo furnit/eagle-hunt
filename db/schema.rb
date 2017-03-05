@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303094249) do
+ActiveRecord::Schema.define(version: 20170305143349) do
 
   create_table "accountings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "order_id"
@@ -159,10 +159,11 @@ ActiveRecord::Schema.define(version: 20170303094249) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "contact"
-    t.text     "address",    limit: 65535
+    t.text     "address",     limit: 65535
     t.json     "avatar"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.string   "postal_code"
     t.index ["user_id"], name: "index_profiles_on_user_id", using: :btree
   end
 
@@ -196,7 +197,9 @@ ActiveRecord::Schema.define(version: 20170303094249) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.integer  "profile_id"
+    t.datetime "deleted_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+    t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
     t.index ["profile_id"], name: "index_users_on_profile_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree

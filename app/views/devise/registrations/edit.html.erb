@@ -1,11 +1,12 @@
-<h2><%= t('.title', resource: resource_class.model_name.human) %></h2>
+<%= render 'header' %>
+<legend><h2><%= t('.title', resource: resource_class.model_name.human) %></h2></legend>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username %>
+    <%= f.label :username, :class => 'control-label' %><br />
+    <%= f.text_field :username, :class => 'form-control' %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -15,25 +16,32 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :password %> <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+    <%= f.label :password, :class => 'control-label' %> <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i><br />
+    <%= f.password_field :password, autocomplete: "off", :class => 'form-control' %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation %>
+    <%= f.label :password_confirmation, :class => 'control-label' %><br />
+    <%= f.password_field :password_confirmation, :class => 'form-control' %>
   </div>
-
+	<hr />
   <div class="field">
-    <%= f.label :current_password %> <i>(<%= t('.we_need_your_current_password_to_confirm_your_changes') %>)</i><br />
-    <%= f.password_field :current_password %>
+    <%= f.label :current_password, :class => 'control-label' %> <i>(<%= t('.we_need_your_current_password_to_confirm_your_changes') %>)</i><br />
+    <%= f.password_field :current_password, :class => 'form-control' %>
   </div>
-
-  <div><%= f.submit t('.update') %></div>
+	<hr />
+	<div class='field row'>
+	  <div class="pull-right actions">
+	    <%= f.submit t('.update'), :class => 'btn btn-success' %>
+	  </div>
+	  <div class="pull-left actions">
+	  	<%= link_to t('devise.shared.links.back'), :back %>
+	  </div>
+  	<div class='clearfix'></div>
+		<hr />
+		<div class='field'>
+			<%= link_to 'حساب کاربری مرا غیرفعال کن!', registration_path(resource_name), data: { confirm: {title: 'آیا از غیرفعال کردن حساب کاربری خود اطمینان دارید؟', message: 'توجه فرمایید که درصورت تمایل در آینده می‌توانید با ورود مجدد به حساب کاربری خود، آن را دوباره فعال نمایید.'} }, method: :delete, :class => 'btn btn-danger' %>
+		</div>
+  </div>
 <% end %>
-
-<h3><%= t('.cancel_my_account') %></h3>
-
-<p><%= t('.unhappy') %> <%= link_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %>.</p>
-
-<%= link_to t('devise.shared.links.back'), :back %>
+<%= render 'footer' %>

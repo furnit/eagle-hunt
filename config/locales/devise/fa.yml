@@ -3,3 +3,17 @@ fa:
     attributes:
       user:
         username: 'نام کاربری'
+    errors:
+      models:
+        user:
+          attributes:
+            password_confirmation:
+              confirmation: 'یکسان نیستند.'
+            password:
+              too_short: 'وارد شده کوتاه می‌باشد.'
+            current_password:
+              invalid: 'اشتباه وارد شده است.'
+              blank: 'نباید خالی باشد.'
+            password:
+              invalid: 'اشتباه وارد شده است.'
+              blank: 'نباید خالی باشد.'
