@@ -1,7 +1,7 @@
 <% if @furniture.images.length > 0 %>
 
-  <%= javascript_include_tag 'application', 'photoswipe/photoswipe.min.js', 'photoswipe/photoswipe-ui-default.min.js' %>
-  <%= stylesheet_link_tag    'application', 'photoswipe/photoswipe.css', 'photoswipe/default-skin/default-skin.css', media: 'all' %>
+  <%= javascript_include_tag 'photoswipe/photoswipe.min.js', 'photoswipe/photoswipe-ui-default.min.js' %>
+  <%= stylesheet_link_tag    'photoswipe/photoswipe.css', 'photoswipe/default-skin/default-skin.css', media: 'all' %>
 
 	<div id='furniture-cover'>
 		<%= create_cover image_url(@furniture.images), height: '500px', style: 'margin-top:-20px; z-order: -1000; position: absolute; top: 70px' %>
