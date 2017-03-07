@@ -15,6 +15,7 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/new
   def new
+    redirect_to edit_profile_path(current_user.profile) if current_user.profile
     @profile = Profile.new
   end
 
@@ -26,6 +27,7 @@ class ProfilesController < ApplicationController
   # POST /profiles.json
   def create
     @profile = Profile.new(profile_params)
+    @profile.user_id = current_user.id
 
     respond_to do |format|
       if @profile.save
@@ -65,7 +67,7 @@ class ProfilesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_profile
-      @profile = Profile.find(current_user.id)
+      @profile = current_user.profile
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,0 +1,28 @@
+fa:
+  activerecord:
+    models:
+      profile: 'پروفایل'
+    attributes:
+      profile:
+        first_name: 'نام'
+        last_name: 'نام خانوادگی'
+        contact: 'شماره موبایل'
+        address: 'آدرس'
+    errors:
+      models:
+        profile:
+          attributes:
+            first_name:
+              blank: 'باید وارد شود.'
+            last_name:
+              blank: 'باید وارد شود.'
+            contact:
+              blank: 'باید وارد شود.'
+              invalid: 'درست وارد نشده است، 
+<i>
+توجه فرمایید که شماره موبایل وارد شده باید به صورت
+<u>۰۹۱۲۱۲۳۴۵۶۷</u>
+وارد شود.
+<i>'
+            address:
+              blank: 'باید وارد شود.'

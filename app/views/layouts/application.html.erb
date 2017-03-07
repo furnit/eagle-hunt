@@ -35,7 +35,7 @@
 		            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-user"></span> <%= current_user.full_name %> <span class="caret"></span></a>
 		            <ul class="dropdown-menu ir">
 		              <li><a href="#">مشخصات من</a></li>
-		              <li><%= link_to 'حساب کاربری', edit_user_registration_path %></li>
+		              <li><%= link_to 'حساب کاربری', profiles_path %></li>
 		              <li role="separator" class="divider"></li>
 		              <li><%= link_to destroy_user_session_path, :method => :delete do %><span class="fa fa-sign-out"></span> خروج<% end %></li>
 		            </ul>
