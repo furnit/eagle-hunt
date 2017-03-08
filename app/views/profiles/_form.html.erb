@@ -1,54 +1,52 @@
-<div class='container'>
-	<div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6 ">
-		<% if not current_user.profile %>
-		<div class="alert alert-info" role="alert">
-			<strong>نکته:</strong>
-			برای ادامه‌ی فعالیت در این سایت ارائه‌ی اطلاعات صحیح زیر
-			<strong>ضروری</strong>
-			می‌باشد.
-		</div>
+<div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6 ">
+	<% if not current_user.profile %>
+	<div class="alert alert-info" role="alert">
+		<strong>نکته:</strong>
+		برای ادامه‌ی فعالیت در این سایت ارائه‌ی اطلاعات صحیح زیر
+		<strong>ضروری</strong>
+		می‌باشد.
+	</div>
+	<% end %>
+	<div class='alert alert-warning'>
+		<span class='fa fa-hand-o-left'></span>
+		توجه فرمایید که هرگونه عوابق ناشی «از عدم ارائه‌ی اطلاعات صحیح» به عهده مشتری ‌می‌باشد.
+	</div>
+	<div class='block'>
+		<legend><h2>ایجاد پروفایل کاربری</h2></legend>
+		<%= form_for(profile) do |f| %>
+			<%= profile.error_messages! %>
+		
+		  <div class="field">
+		    <%= f.label 'نام', :class => 'control-label' %>
+		    <%= f.text_field :first_name, :class => 'form-control' %>
+		  </div>
+		
+		  <div class="field">
+		    <%= f.label 'نام خانوادگی', :class => 'control-label' %>
+		    <%= f.text_field :last_name, :class => 'form-control' %>
+		  </div>
+		
+		  <div class="field">
+		    <%= f.label 'شماره موبایل', :class => 'control-label' %>
+	    	<%= f.telephone_field :contact, :class => 'form-control', placeholder: '09xx-xxx-xxxx', value: number_to_phone(profile.contact)  %>
+		  </div>
+		
+		  <div class="field">
+		    <%= f.label 'آدرس', :class => 'control-label' %>
+		    <%= f.text_area :address, :class => 'form-control' %>
+		    <%= f.label 'کدپستی (اختیاری)', :class => 'control-label' %>
+		    <%= f.text_field :postal_code, :class => 'form-control' %>
+		  </div>
+		  
+		  <hr />
+		
+		  <div class="actions">
+		    <%= f.submit '%s پروفایل کابری' %[current_user.profile ? 'بروز رسانی' : 'ایجاد'], :class => 'btn btn-primary' %>
+		    <% if current_user.profile %>
+		    	<%= link_to 'بازگشت', profile_path(current_user.profile), :class => 'pull-left'%>
+		    <% end %>
+		    <div class='clearfix'></div>
+		  </div>
 		<% end %>
-		<div class='alert alert-warning'>
-			<span class='fa fa-hand-o-left'></span>
-			توجه فرمایید که هرگونه عوابق ناشی «از عدم ارائه‌ی اطلاعات صحیح» به عهده مشتری ‌می‌باشد.
-		</div>
-		<div class='block'>
-			<legend><h2>ایجاد پروفایل کاربری</h2></legend>
-			<%= form_for(profile) do |f| %>
-				<%= profile.error_messages! %>
-			
-			  <div class="field">
-			    <%= f.label 'نام', :class => 'control-label' %>
-			    <%= f.text_field :first_name, :class => 'form-control' %>
-			  </div>
-			
-			  <div class="field">
-			    <%= f.label 'نام خانوادگی', :class => 'control-label' %>
-			    <%= f.text_field :last_name, :class => 'form-control' %>
-			  </div>
-			
-			  <div class="field">
-			    <%= f.label 'شماره موبایل', :class => 'control-label' %>
-		    	<%= f.telephone_field :contact, :class => 'form-control', placeholder: '09xx-xxx-xxxx', value: number_to_phone(profile.contact)  %>
-			  </div>
-			
-			  <div class="field">
-			    <%= f.label 'آدرس', :class => 'control-label' %>
-			    <%= f.text_area :address, :class => 'form-control' %>
-			    <%= f.label 'کدپستی (اختیاری)', :class => 'control-label' %>
-			    <%= f.text_field :postal_code, :class => 'form-control' %>
-			  </div>
-			  
-			  <hr />
-			
-			  <div class="actions">
-			    <%= f.submit '%s پروفایل کابری' %[current_user.profile ? 'بروز رسانی' : 'ایجاد'], :class => 'btn btn-primary' %>
-			    <% if current_user.profile %>
-			    	<%= link_to 'بازگشت', profile_path(current_user.profile), :class => 'pull-left'%>
-			    <% end %>
-			    <div class='clearfix'></div>
-			  </div>
-			<% end %>
-		</div>
 	</div>
 </div>

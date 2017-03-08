@@ -42,4 +42,23 @@ module ApplicationHelper
       <p class='text-justify'>#{comment}</p>
     </div>" %[name ? "name='#{name}'" : '', checked ? 'checked=checked' : '']
   end
+  
+  def path_to_here!(*pathes)
+    if pathes.length ==  0
+      pathes = [link_to(t('routes.%s' %controller.controller_name), request.path)]
+      if controller.action_name.downcase != 'index'
+        pathes << t('routes.%s' %controller.action_name)
+      else
+        pathes = [t('routes.%s' %controller.controller_name)]
+      end
+    end 
+    
+    str = "<ol class='breadcrumb col-md-12' style='font-weight: bold; background-color: white; border: 1px solid #eee; border-radius: 0; marginx: auto 20px 30px 20px;'>
+            <li><span class='fa fa-angle-double-left' style='margin-left: 10px'></span>#{link_to 'مبل ویرا', root_path}</li>"
+    pathes.each.with_index do |l, index|
+      str += "<li" + (index != pathes.length - 1 ? "" : " class='active'") + "> #{l}</li>"
+    end
+    str += "</ol>"
+    return raw str
+  end
 end

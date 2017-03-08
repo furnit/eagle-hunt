@@ -1,9 +1,5 @@
 <div class='container'>
-	<ol class='breadcrumb col-md-12' style='font-weight: bold; background-color: white; border: 1px solid #eee; border-radius: 0; marginx: auto 20px 30px 20px;'>
-		<li><span class='fa fa-angle-double-left' style='margin-left: 10px'></span> <%= link_to 'مبل ویرا', root_path %></li>
-		<li><%= link_to t('routes.%s' %controller.controller_name), request.path %></li>
-		<li class="active"><%= @furniture_type.name %></li>
-	</ol>
+	<%= path_to_here! link_to(t('routes.%s' %controller.controller_name), request.path), @furniture_type.name %>
 	<div class='col-lg-3 col-md-3 col-sm-12 col-xs-12 furniture-right-pannel pull-right'>
 		<fieldset class='col-md-12'>
 			<legend><span class='fa fa-chevron-left'></span> پنل تنظیمات</legend>

@@ -1,4 +1,5 @@
 <div class='container'>
+	<%= path_to_here! %>
 	<% auth_for :ADMIN do %>
 	<h1>Profiles</h1>
 	
@@ -33,10 +34,9 @@
 	</table>
 	<% end %>
 	<% auth_for :CLIENT do %>
-	<div class='row'>
-		<div class='col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10 block'>
+		<div class='col-xs-12 col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10 block'>
 			<div class='row'>
-				<div class='col-xs-12 col-sm-12 col-md-9 col-lg-8'>
+				<div class='col-xs-12 col-sm-8 col-md-4 col-lg-8'>
 					<legend>مشخصات کاربری من: <span class="pull-left small"><%= link_to '[ویرایش]', edit_user_registration_path %></span></legend>
 					<dl class="dl-horizontal ir">
 					  <dt>نام کاربری:</dt>
@@ -56,11 +56,10 @@
 					  <dd><%= current_user.profile.postal_code %></dd>
 					</dl>
 				</div>
-				<div class='hidden-xs hidden-sm col-md-4 col-lg-4 pull-right text-center' style='margin-top: 10%;'>
+				<div class='hidden-xs col-sm-4 sm col-md-4 col-lg-4 pull-right text-center' style='margin-top: 5%;'>
 					<%= image_tag 'logo'%>
 				</div>
 			</div>
 		</div>
-	</div>
 	<% end %>
 </div>

@@ -2,3 +2,7 @@ fa:
   routes:
     home: 'خانه'
     furniture_types: 'دسته بندی'
+    profiles: 'پروفایل'
+    registrations: 'حساب کاربری'
+    edit: 'ویرایش'
+    update: 'ویرایش'
