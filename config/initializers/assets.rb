@@ -18,6 +18,6 @@ Rails.application.config.assets.precompile += [ 'photoswipe/*', 'custom/*' ]
 end
 
 # Controller related files to pre-compile
-%w(home furnitures furniture_types sitting_sets registrations sessions profiles).each do |controller|
+%w(home furnitures furniture_types sitting_sets registrations sessions profiles shopping_carts).each do |controller|
   Rails.application.config.assets.precompile += [ "#{controller}.coffee", "#{controller}.js", "#{controller}.css", "#{controller}.scss" ]
 end

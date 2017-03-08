@@ -25,6 +25,7 @@ class ShoppingCartsController < ApplicationController
   # POST /shopping_carts.json
   def create
     @shopping_cart = ShoppingCart.new(shopping_cart_params)
+    @shopping_cart.user_id = current_user.id
 
     respond_to do |format|
       if @shopping_cart.save
@@ -69,6 +70,6 @@ class ShoppingCartsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def shopping_cart_params
-      params.require(:shopping_cart).permit(:user_id, :furniture_id)
+      params.require(:shopping_cart).permit(:furniture_id)
     end
 end

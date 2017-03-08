@@ -1,0 +1,14 @@
+fa:
+  activerecord:
+    models:
+      shopping_cart: 'پروفایل'
+    attributes:
+      shopping_cart:
+        furniture: 'مبل'
+        use: 'مشتری'
+    errors:
+      models:
+        shopping_cart:
+          attributes:
+            furniture:
+              required: 'باید وجود داشته باشد.'
