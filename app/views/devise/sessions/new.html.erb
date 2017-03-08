@@ -5,7 +5,7 @@
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
     <%= f.label :username, :class => 'control-label' %><br />
-    <%= f.text_field :username, autofocus: true, :class => 'form-control'  %>
+    <%= f.text_field :username, autofocus: true, :class => 'form-control en'  %>
   </div>
 
   <div class="field">
@@ -15,7 +15,7 @@
 
   <% if devise_mapping.rememberable? %>
     <div class="field" style='margin: 20px; margin-bottom: 0'>
-    	<%= check_awesome 'مرا به خاطر بسپار!', 'با کلیک بر این گزینه دفعه دیگر که به سایت مراجعه خواهید کرد به صورت خودکار به حساب کاربری خود وارد خواهید شد.', true, 'user_remember_me', 'user[remember_me]' %>
+    	<%= check_awesome 'مرا به خاطر بسپار!', 'با کلیک بر این گزینه دفعه دیگر که به سایت مراجعه خواهید کرد به صورت خودکار به حساب کاربری خود وارد خواهید شد.', checked: true, id: 'user_remember_me', name: 'user[remember_me]' %>
     </div>
   <% end %>
 	<hr />

@@ -25,10 +25,20 @@ class ShoppingCartsController < ApplicationController
   # POST /shopping_carts.json
   def create
     @shopping_cart = ShoppingCart.new(shopping_cart_params)
-    @shopping_cart.user_id = current_user.id
+    if user_signed_in?
+      @shopping_cart.user_id = current_user.id
+    end
 
     respond_to do |format|
-      if @shopping_cart.save
+      if @shopping_cart.valid? or not user_signed_in?
+        # save the model in session or db
+        if user_signed_in?
+          @shopping_cart.save
+        else
+          (session[:shopping_cart] ||= []) << shopping_cart_params[:furniture_id]
+          @shopping_cart.id = 0;
+          @shopping_cart.readonly!
+        end
         format.html { redirect_to @shopping_cart, notice: 'Shopping cart was successfully created.' }
         format.json { render :show, status: :created, location: @shopping_cart }
       else
@@ -55,7 +65,13 @@ class ShoppingCartsController < ApplicationController
   # DELETE /shopping_carts/1
   # DELETE /shopping_carts/1.json
   def destroy
-    @shopping_cart.destroy
+    if user_signed_in?
+      @shopping_cart.destroy
+    else
+      if session[:shopping_cart]
+        session[:shopping_cart].delete(shopping_cart_params[:furniture_id])
+      end
+    end
     respond_to do |format|
       format.html { redirect_to shopping_carts_url, notice: 'Shopping cart was successfully destroyed.' }
       format.json { head :no_content }
@@ -65,7 +81,9 @@ class ShoppingCartsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_shopping_cart
-      @shopping_cart = ShoppingCart.find(params[:id])
+      if user_signed_in?
+        @shopping_cart = ShoppingCart.find(params[:id])
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

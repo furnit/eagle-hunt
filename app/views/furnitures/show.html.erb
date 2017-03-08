@@ -64,7 +64,7 @@
 		<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12' style='padding: 0; padding-top: 20px'>
       <%= check_awesome 'اضافه‌ کردن به سبد خرید',
 												'توجه فرمایید که می‌توانید در مرحله‌ تکمیل خرید، کلیه‌ی سفارشات خود را با تغییرات دلخواه از ما بخواهید.',
-												id: 'add_to_cart' %>
+												id: 'add_to_cart', checked: @shopping != nil %>
 		</div>
 		<div class='col-lg-9 col-md-9 col-sm-6 col-xs-12 text-success pull-left' id='sell-conditions' style="font-weight: bold">
 			<hr />
@@ -133,26 +133,39 @@
 		</div>
 	</div>
 </div>
+<!-- <%= raw [session[:shopping_cart], @shopping].inspect %> -->
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 		$('input#add_to_cart').change(function(){
-			if(this.checked) {
-				$.ajax({
-				  type: "POST",
-				  url: '<%= shopping_carts_path %>.json',
-				  data: { shopping_cart: { furniture_id: <%= @furniture.id %> } },
-				  success: function() { /* DO NOTHING */ },
-				  error: function() {
-				  	bootbox.alert({title: 'خطا در ارسال داده!', message: 'لطفا صفحه را Refresh کنید و در صورت ادامه‌ی بروز این مشکل تیم توسعه سابت را از\
-				  	<%= link_to 'این طریق', contact_us_path(:section => 'development', :cause => 'invalid request', :url => request.url, :details => [__FILE__.gsub(Rails.root.to_s, ""), __LINE__]) %>\
-				  	در جریان بگذارید\
-				  	<strong>و بن تخفیف بگیرید!</strong>\
-				  	'})
-				  }
-				});
-			} else {
-				
+			method = "post"
+			url = '<%= shopping_carts_path %>.json';
+			
+			if(!this.checked) {
+				method = "delete"
+				url = '<%= shopping_carts_path	%>/' + $(this).data('id') + '.json'
 			}
+			
+			$.ajax({
+			  type: "POST",
+			  url: url,
+			  data: { shopping_cart: { furniture_id: <%= @furniture.id %> }, _method: method },
+			  success: function(data) {
+			  	if(data != undefined)
+				  	$('input#add_to_cart').data('id', data.id)
+		  		else
+		  			$('input#add_to_cart').removeData('id');
+		  	},
+			  error: function() {
+			  	bootbox.alert({title: 'خطا در ارسال داده!', message: 'لطفا صفحه را Refresh کنید و در صورت ادامه‌ی بروز این مشکل تیم توسعه سابت را از\
+			  	<%= link_to 'این طریق', contact_us_path(:section => 'development', :cause => 'invalid request', :url => request.url, :details => [__FILE__.gsub(Rails.root.to_s, ""), __LINE__]) %>\
+			  	در جریان بگذارید\
+			  	<strong>و بن تخفیف بگیرید!</strong>\
+			  	'})
+			  	$('input#add_to_cart').prop('checked', false);
+			  }
+			})<% if @shopping %>
+				.data('id', <%= @shopping %>)
+			<% end %>;
 		});
 	});
 </script>

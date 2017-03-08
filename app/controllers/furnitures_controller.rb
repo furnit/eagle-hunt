@@ -12,6 +12,11 @@ class FurnituresController < ApplicationController
   # GET /furnitures/1
   # GET /furnitures/1.json
   def show
+    if user_signed_in?
+      @shopping = ShoppingCart.select('id').where('user_id = ? AND furniture_id = ?', current_user.id, @furniture.id).first
+    else
+      @shopping = ((session[:shopping_cart] and session[:shopping_cart].include? @furniture.id.to_s) ? 0 : nil)
+    end
   end
 
   # GET /furnitures/new
