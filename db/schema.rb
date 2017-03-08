@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170305143349) do
+ActiveRecord::Schema.define(version: 20170308095216) do
 
   create_table "accountings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "order_id"
@@ -167,6 +167,15 @@ ActiveRecord::Schema.define(version: 20170305143349) do
     t.index ["user_id"], name: "index_profiles_on_user_id", using: :btree
   end
 
+  create_table "shopping_carts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "furniture_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["furniture_id"], name: "index_shopping_carts_on_furniture_id", using: :btree
+    t.index ["user_id"], name: "index_shopping_carts_on_user_id", using: :btree
+  end
+
   create_table "sitting_sets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "count"
     t.json     "details"
@@ -237,5 +246,7 @@ ActiveRecord::Schema.define(version: 20170305143349) do
   add_foreign_key "orders", "users"
   add_foreign_key "payments", "accountings"
   add_foreign_key "profiles", "users"
+  add_foreign_key "shopping_carts", "furnitures"
+  add_foreign_key "shopping_carts", "users"
   add_foreign_key "users", "profiles"
 end

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :shopping_carts
   resources :sitting_sets
   resources :page_items
   resources :furniture_types, :path => "category"
