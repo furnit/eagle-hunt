@@ -1,6 +1,11 @@
+ajax_server = {
+  defaults:    { format: :json }, 
+  constraints: { format: :json }
+}
+
 Rails.application.routes.draw do
   # only to create/delete shopping carts and only excepts JSON format
-  resources :shopping_carts, :only => [:create, :destroy], :defaults => {:format => :json}, :constraints => {:format => :json}
+  resources :shopping_carts, ajax_server, only: [:create, :destroy], 
   resources :sitting_sets
   resources :page_items
   resources :furniture_types, :path => "category"
