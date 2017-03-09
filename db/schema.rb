@@ -10,7 +10,55 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309194523) do
+ActiveRecord::Schema.define(version: 20170309202528) do
+
+  create_table "colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.text     "comment",    limit: 65535
+    t.float    "cost",       limit: 24
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  create_table "furniture_costs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "furniture_id"
+    t.float    "rokob_sage",           limit: 24
+    t.float    "rokob_garni",          limit: 24
+    t.float    "rokob_abr",            limit: 24
+    t.float    "dast_mozd",            limit: 24
+    t.float    "khayat_parche",        limit: 24
+    t.float    "khayat_kosan_parche",  limit: 24
+    t.float    "khayat_kosan_abr",     limit: 24
+    t.float    "khayat_poshti_parche", limit: 24
+    t.float    "khayat_poshti_abr",    limit: 24
+    t.float    "khayat_ziri_parche",   limit: 24
+    t.float    "khayat_ziri_abr",      limit: 24
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index ["furniture_id"], name: "index_furniture_costs_on_furniture_id", using: :btree
+  end
+
+  create_table "furniture_frame_color_costs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "furniture_id"
+    t.integer  "color_id"
+    t.float    "amount",       limit: 24
+    t.float    "wage",         limit: 24
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["color_id"], name: "index_furniture_frame_color_costs_on_color_id", using: :btree
+    t.index ["furniture_id"], name: "index_furniture_frame_color_costs_on_furniture_id", using: :btree
+  end
+
+  create_table "furniture_frame_skeleton_costs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "furniture_id"
+    t.integer  "wood_id"
+    t.float    "amount",       limit: 24
+    t.float    "wage",         limit: 24
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["furniture_id"], name: "index_furniture_frame_skeleton_costs_on_furniture_id", using: :btree
+    t.index ["wood_id"], name: "index_furniture_frame_skeleton_costs_on_wood_id", using: :btree
+  end
 
   create_table "furniture_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -93,6 +141,19 @@ ActiveRecord::Schema.define(version: 20170309194523) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
   end
 
+  create_table "woods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.text     "comment",    limit: 65535
+    t.float    "cost",       limit: 24
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_foreign_key "furniture_costs", "furnitures"
+  add_foreign_key "furniture_frame_color_costs", "colors"
+  add_foreign_key "furniture_frame_color_costs", "furnitures"
+  add_foreign_key "furniture_frame_skeleton_costs", "furnitures"
+  add_foreign_key "furniture_frame_skeleton_costs", "woods"
   add_foreign_key "furnitures", "furniture_types"
   add_foreign_key "profiles", "users"
   add_foreign_key "shopping_carts", "furnitures"
