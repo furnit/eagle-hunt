@@ -36,5 +36,5 @@ function update_the_shopping_cart_banner(count) {
 		
   setTimeout(function() {
       $('.shopping-cart-tag').parents('.magnifiable').removeClass('magnifiable-enabled');
-  }, 1000);
+  }, 500);
 }

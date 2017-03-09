@@ -1,2 +1,0 @@
-class CostFactor < ApplicationRecord
-end

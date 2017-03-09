@@ -10,7 +10,7 @@
 	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 block ir' id='furniture-detail-block1'>
 		<legend>پنل مدیریتی</legend>
 		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right" role="toolbar" style='padding-top: 10px;'>
-			<%= check_awesome 'قابل تولید است؟', '', @furniture.available? %>
+			<%= check_awesome 'قابل تولید است؟', '', checked: @furniture.available? %>
 		</div>
 		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right" role="toolbar">
 			  <%= link_to edit_furniture_path(@furniture), :class => "btn btn-default" do %>
@@ -87,11 +87,11 @@
 					<tbody>
 						<tr>
 							<th>ابر</th>
-							<td><%= @furniture.size_abr %> متر</td>
+							<td><%= 10 %> متر</td>
 						</tr>
 						<tr>
 							<th>پارچه</th>
-							<td><%= @furniture.size_parche %> متر</td>
+							<td><%= 10 %> متر</td>
 						</tr>
 						<tr class='text-<%= @furniture.check_lamse? ? 'success' : 'danger' %>'>
 							<th>لمسه</th>
@@ -118,13 +118,6 @@
 									? "#{@furniture.count_poshti} عدد"\
 									: '<span class="fa fa-times"></span> ندارد'
 								%>
-							</td>
-						</tr>
-						<tr>
-							<th>تعداد ست‌ها</th>
-							<td>
-								<%= @furniture.sitting_set.map(&:count).to_sentence(words_connector: '، ', last_word_connector: ' و ') %>
-								نفره
 							</td>
 						</tr>
 					</tbody>

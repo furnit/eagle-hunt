@@ -1,2 +1,0 @@
-class ParcheColour < ApplicationRecord
-end

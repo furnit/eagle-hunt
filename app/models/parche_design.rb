@@ -1,2 +1,0 @@
-class ParcheDesign < ApplicationRecord
-end

@@ -29,15 +29,15 @@
 	          <li class="<%= current_page?(root_url)? 'active' : '' %>"><%= link_to 'خانه', root_path, :class => 'navbar-brand' %></li>
 	        </ul>
 	        <ul class="nav navbar-nav ir" style='font-weight: bold'>
-	          	<% scc = shopping_cart_count? %>
-		          <li class='pull-right magnifiable <%= (scc > 0 ? 'has-shopping-cart' : '') %>'>
-		          	<%= link_to root_path do %>
-									<span class="fa fa-shopping-cart"></span>
-									<span class='shopping-cart-tag'>
-										سبد خرید<%= scc > 0 ? " (#{scc})" : "" %>
-									</span>
-								<% end %>
-							</li>
+          	<% scc = shopping_cart_count? %>
+	          <li class='pull-right magnifiable <%= (scc > 0 ? 'has-shopping-cart' : '') %>'>
+	          	<%= link_to orders_path do %>
+								<span class="fa fa-shopping-cart"></span>
+								<span class='shopping-cart-tag'>
+									سبد خرید<%= scc > 0 ? " (#{scc})" : "" %>
+								</span>
+							<% end %>
+						</li>
 	          <% if user_signed_in? %>
 		          <li class="dropdown pull-right">
 		            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-user"></span> <%= current_user.full_name %> <span class="caret"></span></a>

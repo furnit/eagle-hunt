@@ -1,2 +1,0 @@
-class PageItem < ApplicationRecord
-end
