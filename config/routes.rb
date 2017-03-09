@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :shopping_carts
+  # only to create/delete shopping carts and only excepts JSON format
+  resources :shopping_carts, :only => [:create, :destroy], :defaults => {:format => :json}, :constraints => {:format => :json}
   resources :sitting_sets
   resources :page_items
   resources :furniture_types, :path => "category"

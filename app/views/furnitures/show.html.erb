@@ -62,7 +62,7 @@
 			</table>
 		</fieldset>
 		<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12' style='padding: 0; padding-top: 20px'>
-      <%= check_awesome 'اضافه‌ کردن به سبد خرید',
+      <%= check_awesome (@shopping != nil ? 'به سبد خرید اضافه شد.' : 'به سبد خرید اضافه کن!'),
 												'توجه فرمایید که می‌توانید در مرحله‌ تکمیل خرید، کلیه‌ی سفارشات خود را با تغییرات دلخواه از ما بخواهید.',
 												id: 'add_to_cart', checked: @shopping != nil %>
 		</div>
@@ -133,16 +133,17 @@
 		</div>
 	</div>
 </div>
-<!-- <%= raw [session[:shopping_cart], @shopping].inspect %> -->
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 		$('input#add_to_cart').change(function(){
 			method = "post"
 			url = '<%= shopping_carts_path %>.json';
-			
 			if(!this.checked) {
 				method = "delete"
 				url = '<%= shopping_carts_path	%>/' + $(this).data('id') + '.json'
+				$('[for="add_to_cart"] .title').text('به سبد خرید اضافه کن!');
+			} else {
+				$('[for="add_to_cart"] .title').text('به سبد خرید اضافه شد.');
 			}
 			
 			$.ajax({
@@ -150,10 +151,11 @@
 			  url: url,
 			  data: { shopping_cart: { furniture_id: <%= @furniture.id %> }, _method: method },
 			  success: function(data) {
-			  	if(data != undefined)
+			  	if(data.id != undefined)
 				  	$('input#add_to_cart').data('id', data.id)
 		  		else
 		  			$('input#add_to_cart').removeData('id');
+	  			update_the_shopping_cart_banner(data._count)
 		  	},
 			  error: function() {
 			  	bootbox.alert({title: 'خطا در ارسال داده!', message: 'لطفا صفحه را Refresh کنید و در صورت ادامه‌ی بروز این مشکل تیم توسعه سابت را از\
@@ -161,11 +163,9 @@
 			  	در جریان بگذارید\
 			  	<strong>و بن تخفیف بگیرید!</strong>\
 			  	'})
-			  	$('input#add_to_cart').prop('checked', false);
+			  	$('input#add_to_cart').prop('checked', !$('input#add_to_cart').prop('checked'));
 			  }
-			})<% if @shopping %>
-				.data('id', <%= @shopping %>)
-			<% end %>;
-		});
+			})
+		})<%= raw ".data('id', '#{@shopping}')" if @shopping %>;
 	});
 </script>

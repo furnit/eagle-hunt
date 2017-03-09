@@ -37,7 +37,7 @@ module ApplicationHelper
         <span></span>
         <span class='check'></span>
         <span class='box'></span>
-        #{title}
+        <msg class='title'>#{title}</msg>
       </label>  
       <p class='text-justify'>#{comment}</p>
     </div>" %[name ? "name='#{name}'" : '', checked ? 'checked=checked' : '']
@@ -60,5 +60,10 @@ module ApplicationHelper
     end
     str += "</ol>"
     return raw str
+  end
+  
+  def shopping_cart_count?
+    return ShoppingCart.where("user_id = ?", current_user.id).count if user_signed_in?
+    return session[:shopping_cart].length;
   end
 end

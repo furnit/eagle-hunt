@@ -57,3 +57,42 @@ dl.ir dt {
 dl.ir dd {
   margin-left: 10%;
 }
+
+.magnifiable
+{
+    display:inline-block;
+    border:0;
+    background-color: tranparent;
+    position: relative;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1); 
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1); 
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1);
+    transition: all 200ms ease-in;
+    transform: scale(1);   
+
+}
+.magnifiable-enabled
+{
+    z-index: 2;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1.15);
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1.15);   
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1.15);
+    transition: all 200ms ease-in;
+    transform: scale(1.15);
+    font-weight: bold
+}
+
+.has-shopping-cart > a
+{
+  color: green!important;
+  -webkit-transition: color 500ms ease-out 200ms;
+  -moz-transition: color 500ms ease-out 200ms;
+  -o-transition: color 500ms ease-out 200ms;
+  transition: color 500ms ease-out 200ms;
+}

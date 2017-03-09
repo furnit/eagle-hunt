@@ -14,6 +14,7 @@ class FurnituresController < ApplicationController
   def show
     if user_signed_in?
       @shopping = ShoppingCart.select('id').where('user_id = ? AND furniture_id = ?', current_user.id, @furniture.id).first
+      @shopping = @shopping.id unless not @shopping
     else
       @shopping = ((session[:shopping_cart] and session[:shopping_cart].include? @furniture.id.to_s) ? 0 : nil)
     end

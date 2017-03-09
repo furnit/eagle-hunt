@@ -17,3 +17,24 @@
 //= require bootbox
 //= require bootbox-delete-confirm
 //! require turbolinks
+
+function update_the_shopping_cart_banner(count) {
+	if(count > 0)
+		$('.shopping-cart-tag')
+			.html('سبد خرید (' + count.toString() + ")")
+			.parents('li')
+				.addClass('has-shopping-cart');
+	else
+		$('.shopping-cart-tag')
+			.html('سبد خرید')
+			.parents('li')
+				.removeClass('has-shopping-cart');
+	
+	$('.shopping-cart-tag')
+		.parents('.magnifiable')
+			.addClass('magnifiable-enabled');
+		
+  setTimeout(function() {
+      $('.shopping-cart-tag').parents('.magnifiable').removeClass('magnifiable-enabled');
+  }, 1000);
+}
