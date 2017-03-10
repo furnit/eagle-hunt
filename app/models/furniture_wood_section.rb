@@ -1,0 +1,2 @@
+class FurnitureWoodSection < ApplicationRecord
+end

@@ -2,10 +2,8 @@
 
 one:
   name: MyString
-  cost: 1.5
   comment: MyString
 
 two:
   name: MyString
-  cost: 1.5
   comment: MyString

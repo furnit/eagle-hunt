@@ -1,0 +1,2 @@
+class FurnitureSupport < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class ConstConst < ApplicationRecord
+end
