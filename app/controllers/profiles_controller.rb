@@ -11,6 +11,8 @@ class ProfilesController < ApplicationController
   # GET /profiles/1
   # GET /profiles/1.json
   def show
+    redirect_to root_path if not user_signed_in?
+    redirect_to profiles_path if current_user.auth_level != AUTH_LEVEL[:ADMIN]
   end
 
   # GET /profiles/new
