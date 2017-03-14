@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310110508) do
+ActiveRecord::Schema.define(version: 20170314192727) do
 
   create_table "const_consts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.float    "guni",       limit: 24
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 20170310110508) do
     t.float    "extra",      limit: 24
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+  end
+
+  create_table "fabric_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "fabric_id"
+    t.string   "name"
+    t.text     "comment",    limit: 65535
+    t.json     "images"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["fabric_id"], name: "index_fabric_colors_on_fabric_id", using: :btree
   end
 
   create_table "fabrics", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -129,6 +139,16 @@ ActiveRecord::Schema.define(version: 20170310110508) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
   end
 
+  create_table "wood_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "wood_id"
+    t.string   "name"
+    t.text     "comment",    limit: 65535
+    t.json     "images"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["wood_id"], name: "index_wood_colors_on_wood_id", using: :btree
+  end
+
   create_table "woods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.float    "cost",       limit: 24
@@ -137,9 +157,11 @@ ActiveRecord::Schema.define(version: 20170310110508) do
     t.datetime "updated_at",            null: false
   end
 
+  add_foreign_key "fabric_colors", "fabrics"
   add_foreign_key "furnitures", "furniture_types"
   add_foreign_key "profiles", "users"
   add_foreign_key "shopping_carts", "furnitures"
   add_foreign_key "shopping_carts", "users"
   add_foreign_key "users", "profiles"
+  add_foreign_key "wood_colors", "woods"
 end

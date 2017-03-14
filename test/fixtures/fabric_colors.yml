@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fabric: one
+  name: MyString
+  comment: MyText
+  images: 
+
+two:
+  fabric: two
+  name: MyString
+  comment: MyText
+  images: 
