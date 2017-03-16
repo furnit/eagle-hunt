@@ -8,7 +8,7 @@ module ApplicationHelper
   end
   
   def auth_for(*k, &block)
-    if auth_is? *k
+    if auth_is?(*k)
       yield
     end
   end
@@ -43,15 +43,22 @@ module ApplicationHelper
     </div>" %[name ? "name='#{name}'" : '', checked ? 'checked=checked' : '']
   end
   
-  def path_to_here!(*pathes)
-    if pathes.length ==  0
-      pathes = [link_to(t('routes.%s' %controller.controller_name), request.path)]
-      if controller.action_name.downcase != 'index'
-        pathes << t('routes.%s' %controller.action_name)
-      else
-        pathes = [t('routes.%s' %controller.controller_name)]
-      end
-    end 
+  def i18n_set?(key)
+    I18n.t key, :raise => true rescue false
+  end
+  
+  def path_to_here!(*_pathes)
+    pathes = [link_to(t('routes.%s.label' %controller.controller_name), request.path)]
+
+    if i18n_set? ('routes.%s.%s' %[controller.controller_name, controller.action_name])
+      pathes << t('routes.%s.%s' %[controller.controller_name, controller.action_name])
+    elsif i18n_set? ('routes.%s' %[controller.action_name])
+      pathes << t('routes.%s' %[controller.action_name])
+    elsif _pathes.length ==  0
+      pathes = [t('routes.%s.label' %controller.controller_name)]
+    end
+      
+    pathes += _pathes if _pathes.length
     
     str = "<ol class='breadcrumb col-md-12' style='font-weight: bold; background-color: white; border: 1px solid #eee; border-radius: 0; marginx: auto 20px 30px 20px;'>
             <li><span class='fa fa-angle-double-left' style='margin-left: 10px'></span>#{link_to 'مبل ویرا', root_path}</li>"

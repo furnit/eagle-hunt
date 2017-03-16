@@ -29,7 +29,7 @@ class FurnitureTypesController < ApplicationController
 
     respond_to do |format|
       if @furniture_type.save
-        format.html { redirect_to @furniture_type, notice: 'Furniture type was successfully created.' }
+        format.html { redirect_to @furniture_type, notice: 'دسته‌بندی جدید «</b>%s<b>» با موفقیت ایجاد شد.' %@furniture_type.name }
         format.json { render :show, status: :created, location: @furniture_type }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class FurnitureTypesController < ApplicationController
   def update
     respond_to do |format|
       if @furniture_type.update(furniture_type_params)
-        format.html { redirect_to @furniture_type, notice: 'Furniture type was successfully updated.' }
+        format.html { redirect_to @furniture_type, notice: 'دسته‌بندی «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture_type.name }
         format.json { render :show, status: :ok, location: @furniture_type }
       else
         format.html { render :edit }
@@ -57,7 +57,7 @@ class FurnitureTypesController < ApplicationController
   def destroy
     @furniture_type.destroy
     respond_to do |format|
-      format.html { redirect_to furniture_types_url, notice: 'Furniture type was successfully destroyed.' }
+      format.html { redirect_to furniture_types_url, notice: 'دسته‌بندی «</b>%s<b>» با موفقیت حذف شد.' %@furniture_type.name }
       format.json { head :no_content }
     end
   end

@@ -56,8 +56,13 @@
 	  	</div>
 	  </nav>
 	  <div class="clearfix"></div>
+	  <div class="container" id='page-alerts'>
+	  	<div class='col-md-8 col-md-offset-2'>
+				<%= raw '<p class="alert alert-info text-center"><span class="pull-right" style="cursor: pointer"><span class="fa fa-times"></span></span>%s</p>' %flash[:notice] if flash[:notice] %>
+				<%= raw '<p class="alert alert-warning text-center"><span class="pull-right" style="cursor: pointer"><span class="fa fa-times"></span></span>%s</p>' %flash[:alert] if flash[:alert] %>
+			</div>
+  	</div>
   	<div class='container-fluid' style='margin:0; padding:0'>
-			<%= raw '<p id="notice">%s</p>' %notice if notice %>
 			<%= yield %>
     </div>
   </body>

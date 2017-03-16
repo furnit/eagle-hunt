@@ -1,15 +1,19 @@
 <div class='container'>
-	<%= path_to_here! link_to(t('routes.%s' %controller.controller_name), request.path), @furniture_type.name %>
+	<%= path_to_here! @furniture_type.name %>
 	<div class='col-lg-3 col-md-3 col-sm-12 col-xs-12 furniture-right-pannel pull-right'>
 		<fieldset class='col-md-12'>
 			<legend><span class='fa fa-chevron-left'></span> پنل تنظیمات</legend>
 	<% auth_for :ADMIN do %>
 			<div>
-				<strong>مدیریت منابع</strong>
+				<strong>مدیریت</strong>
 				<br />
 				<div style='margin: 10px'>
+					<%= link_to edit_furniture_type_path(@furniture_type), :class => 'btn btn-default inline-html-call' do %>
+						<span class='fa fa-pencil'></span> ویرایش این دسته
+					<% end %>
+					<hr />
 					<%= link_to new_furniture_path(:cat => @furniture_type.id), :class => 'btn btn-success' do %>
-						<span class='fa fa-plus'></span> ایجاد
+						<span class='fa fa-plus'></span> اضافه کردن محصول
 					<% end %>
 					<div class="btn-group">
 					  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-weight: xbold; color: #222">

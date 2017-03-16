@@ -1,8 +1,21 @@
 fa:
   routes:
-    home: 'خانه'
-    furniture_types: 'دسته بندی'
-    profiles: 'پروفایل'
-    registrations: 'حساب کاربری'
     edit: 'ویرایش'
     update: 'ویرایش'
+
+    home:
+      label: 'خانه'
+
+    furniture_types:
+      label: 'دسته بندی'
+
+    profiles:
+      label: 'پروفایل'
+
+    registrations:
+      label: 'حساب کاربری'
+      new: 'ایجاد'
+
+    sessions:
+      label: 'حساب کاربری'
+      new: 'ورود'
