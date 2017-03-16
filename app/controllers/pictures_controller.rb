@@ -44,11 +44,11 @@ class PicturesController < ApplicationController
     respond_to do |format|
       if @picture.save
         format.html {
-          render :json => {files: [@picture.to_jq_upload]},
+          render :json => {files: @picture.to_jq_upload},
           :content_type => 'text/html',
           :layout => false
         }
-        format.json { render json: {files: [@picture.to_jq_upload]}, status: :created, location: @picture }
+        format.json { render json: {files: @picture.to_jq_upload}, status: :created, location: @picture }
       else
         format.html { render action: "new" }
         format.json { render json: @picture.errors, status: :unprocessable_entity }
@@ -61,7 +61,7 @@ class PicturesController < ApplicationController
   def update
     respond_to do |format|
       if @picture.update(picture_params)
-        format.html { redirect_to @picture, notice: 'Upload was successfully updated.' }
+        format.html { redirect_to @picture }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -75,7 +75,7 @@ class PicturesController < ApplicationController
   def destroy
     @picture.destroy
     respond_to do |format|
-      format.html { redirect_to pictures_url, notice: 'Picture was successfully destroyed.' }
+      format.html { redirect_to pictures_url }
       format.json { head :no_content }
     end
   end

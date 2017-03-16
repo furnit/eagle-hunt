@@ -3,12 +3,17 @@ class Picture < ApplicationRecord
   mount_uploaders :images, ImageUploader
   
   def to_jq_upload
-    {
-      "name" => read_attribute(:images),
-      "url" => images[0].url,
-      "thumbnail_url" => images[0].thumb.url,
-      "delete_url" => pictures_path(:id => id),
-      "delete_type" => "DELETE" 
-    }
+    out = [];
+    images.each.with_index do |image, index|
+      out << {
+        :id => id,
+        :index => index,
+        :name => read_attribute(:images)[index],
+        :url => image.url,
+        :thumbnail_url => image.thumb.url,
+        :delete_url => picture_path(self)
+      }
+    end
+    return out
   end
 end
