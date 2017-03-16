@@ -13,11 +13,32 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += [ 'photoswipe/*', 'custom/*' ]
 
 # Custom couple files to pre-compile
-%w(texteditor bootbox-delete-confirm).each do |item|
+%w(
+  texteditor
+  bootbox-delete-confirm
+  jquery.iframe-transport
+  jquery.fileupload
+  jquery.fileupload-ui
+  tmpl.min
+  jquery-ui.widget.min
+  jquery.fileupload-process
+  load-image.all.min
+).each do |item|
   Rails.application.config.assets.precompile += [ "#{item}.css", "#{item}.js" ]
 end
 
 # Controller related files to pre-compile
-%w(home furnitures furniture_types sitting_sets registrations sessions profiles shopping_carts orders).each do |controller|
+%w(
+  home
+  furnitures
+  furniture_types
+  sitting_sets
+  registrations
+  sessions
+  profiles
+  shopping_carts
+  orders
+  pictures
+).each do |controller|
   Rails.application.config.assets.precompile += [ "#{controller}.coffee", "#{controller}.js", "#{controller}.css", "#{controller}.scss" ]
 end

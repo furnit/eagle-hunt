@@ -4,17 +4,32 @@ class PicturesController < ApplicationController
   # GET /pictures
   # GET /pictures.json
   def index
+    
     @pictures = Picture.all
+
+    respond_to do |format|
+      format.html { render :layout => true }# index.html.erb
+      format.json { render json: @pictures.map{|picture| pictures.to_jq_upload } }
+    end
   end
 
   # GET /pictures/1
   # GET /pictures/1.json
   def show
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @picture }
+    end
   end
 
   # GET /pictures/new
   def new
     @picture = Picture.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @picture }
+    end
   end
 
   # GET /pictures/1/edit
@@ -25,13 +40,17 @@ class PicturesController < ApplicationController
   # POST /pictures.json
   def create
     @picture = Picture.new(picture_params)
-
+    
     respond_to do |format|
       if @picture.save
-        format.html { redirect_to @picture, notice: 'Picture was successfully created.' }
-        format.json { render :show, status: :created, location: @picture }
+        format.html {
+          render :json => {files: [@picture.to_jq_upload]},
+          :content_type => 'text/html',
+          :layout => false
+        }
+        format.json { render json: {files: [@picture.to_jq_upload]}, status: :created, location: @picture }
       else
-        format.html { render :new }
+        format.html { render action: "new" }
         format.json { render json: @picture.errors, status: :unprocessable_entity }
       end
     end
@@ -42,10 +61,10 @@ class PicturesController < ApplicationController
   def update
     respond_to do |format|
       if @picture.update(picture_params)
-        format.html { redirect_to @picture, notice: 'Picture was successfully updated.' }
-        format.json { render :show, status: :ok, location: @picture }
+        format.html { redirect_to @picture, notice: 'Upload was successfully updated.' }
+        format.json { head :no_content }
       else
-        format.html { render :edit }
+        format.html { render action: "edit" }
         format.json { render json: @picture.errors, status: :unprocessable_entity }
       end
     end
@@ -69,6 +88,6 @@ class PicturesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def picture_params
-      params.require(:picture).permit(:images)
+      params.require(:picture).permit({images: []})
     end
 end

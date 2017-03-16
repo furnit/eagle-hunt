@@ -17,12 +17,19 @@
 //= require bootbox
 //= require bootbox-delete-confirm
 //! require turbolinks
-//= require jquery-fileupload
 
 $(document).ready(function(){
+	// append CSRF token to headers of all ajax posts
+	$.ajaxSetup({
+	  headers: {
+	    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+	  }
+	});
+	// making alerts go away by clicking on the X button
 	$('#page-alerts .fa-times').click(function(){
 		$(this).parents('.alert').fadeOut(300, function() { $(this).remove(); });
 	});
+	// load inline html from links
 	$('.inline-html-call').click(function(e) {
 		e.preventDefault();
 		if($('body').data('inline-html-call-counter') === undefined)
