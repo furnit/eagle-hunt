@@ -17,6 +17,7 @@
 //= require bootbox
 //= require bootbox-delete-confirm
 //! require turbolinks
+//= require jquery-fileupload
 
 $(document).ready(function(){
 	$('#page-alerts .fa-times').click(function(){

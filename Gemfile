@@ -35,6 +35,8 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+gem "jquery-fileupload-rails"
+
 # Use Devise for session auth.
 gem 'devise'
 gem 'devise-i18n'

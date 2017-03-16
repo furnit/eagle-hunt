@@ -6,7 +6,7 @@ class Furniture < ApplicationRecord
   has_many :sitting_set, through: :furniture_set
 
   validates_presence_of :furniture_type, :name, :images
-  mount_uploaders :images, FurnitureUploader
+  mount_uploaders :images, ImageUploader
   
   def cost?
     return 1e+6

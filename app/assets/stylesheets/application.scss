@@ -1,4 +1,10 @@
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+/**
+*= require jquery.fileupload
+*= require jquery.fileupload-ui
+*= require jquery.fileupload-noscript
+*= require jquery.fileupload-ui-noscript
+ */
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome-sprockets";
