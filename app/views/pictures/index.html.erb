@@ -1,19 +1,13 @@
-<div class='container en'>
-	<!-- Bootstrap styles -->
-	<!-- Generic page styles -->
-	<link rel="stylesheet" href="https://blueimp.github.io/jQuery-File-Upload/css/style.css">
-	<!-- blueimp Gallery styles -->
-	<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
-	<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-	<link rel="stylesheet" href="https://blueimp.github.io/jQuery-File-Upload/css/jquery.fileupload.css">
-	<link rel="stylesheet" href="https://blueimp.github.io/jQuery-File-Upload/css/jquery.fileupload-ui.css">
-	<!-- CSS adjustments for browsers with JavaScript disabled -->
+<div class='container'>
+	<% %w(blueimp-gallery.min jquery.fileupload jquery.fileupload-ui).each do |css| %>
+		<%= stylesheet_link_tag 'image_upload/%s.css' %css, media: 'all' %>
+	<% end %>
 	<noscript>
-		<link rel="stylesheet" href="https://blueimp.github.io/jQuery-File-Upload/css/jquery.fileupload-noscript.css">
+		<% %w(jquery.fileupload-noscript jquery.fileupload-ui-noscript).each do |css| %>
+			<%= stylesheet_link_tag 'image_upload/%s.css' %css, media: 'all' %>
+		<% end %>
 	</noscript>
-	<noscript>
-		<link rel="stylesheet" href="https://blueimp.github.io/jQuery-File-Upload/css/jquery.fileupload-ui-noscript.css">
-	</noscript>
+	
 	<div class="container">
 		<!-- The file upload form used as target for the file upload widget -->
 		<%= form_tag "/pictures", :id => "fileupload", :method => :post, :enctype => "multipart/form-data" do %>
@@ -106,8 +100,8 @@
 		<tr class="template-download fade">
 		<td>
 		<span class="preview">
-		{% if (file.thumbnailUrl) { %}
-		<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+		{% if (file.thumbnail_url) { %}
+		<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnail_url%}" height="50"></a>
 		{% } %}
 		</span>
 		</td>
@@ -127,8 +121,8 @@
 		<span class="size">{%=o.formatFileSize(file.size)%}</span>
 		</td>
 		<td>
-		{% if (file.deleteUrl) { %}
-		<button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+		{% if (file.delete_url) { %}
+		<button class="btn btn-danger delete" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
 		<i class="glyphicon glyphicon-trash"></i>
 		<span>Delete</span>
 		</button>
@@ -143,41 +137,15 @@
 		</tr>
 		{% } %}
 	</script>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-	<script src="https://blueimp.github.io/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
-	<!-- The Templates plugin is included to render the upload/download listings -->
-	<script src="//blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
-	<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-	<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
-	<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-	<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
-	<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	<!-- blueimp Gallery script -->
-	<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
-	<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-	<script src="https://blueimp.github.io/jQuery-File-Upload/js/jquery.iframe-transport.js"></script>
-	<!-- The basic File Upload plugin -->
-	<script src="https://blueimp.github.io/jQuery-File-Upload/js/jquery.fileupload.js"></script>
-	<!-- The File Upload processing plugin -->
-	<script src="https://blueimp.github.io/jQuery-File-Upload/js/jquery.fileupload-process.js"></script>
-	<!-- The File Upload image preview & resize plugin -->
-	<script src="https://blueimp.github.io/jQuery-File-Upload/js/jquery.fileupload-image.js"></script>
-	<!-- The File Upload audio preview plugin -->
-	<script src="https://blueimp.github.io/jQuery-File-Upload/js/jquery.fileupload-audio.js"></script>
-	<!-- The File Upload video preview plugin -->
-	<script src="https://blueimp.github.io/jQuery-File-Upload/js/jquery.fileupload-video.js"></script>
-	<!-- The File Upload validation plugin -->
-	<script src="https://blueimp.github.io/jQuery-File-Upload/js/jquery.fileupload-validate.js"></script>
-	<!-- The File Upload user interface plugin -->
-	<script src="https://blueimp.github.io/jQuery-File-Upload/js/jquery.fileupload-ui.js"></script>
-	<!-- The main application script -->
-	<!-- <script src="https://blueimp.github.io/jQuery-File-Upload/js/main.js"></script> -->
+	
+<% %w(jquery.ui.widget tmpl.min load-image.all.min jquery.iframe-transport jquery.fileupload jquery.fileupload-process jquery.fileupload-image jquery.fileupload-validate jquery.fileupload-ui).each do |js| %>
+	<%= javascript_include_tag 'image_upload/%s.js' %js %>
+<% end %>
 	<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 	<!--[if (gte IE 8)&(lt IE 10)]>
-	<script src="https://blueimp.github.io/jQuery-File-Upload/js/cors/jquery.xdr-transport.js"></script>
+		<%= javascript_include_tag 'file_upload/jquery.xdr-transport.js' %>
 	<![endif]-->
+	
 	<script type="text/javascript" charset="utf-8">
 		$(function() {
 			'use strict';
@@ -234,7 +202,6 @@
 					});
 				});
 			}
-
 		});
 	</script>
 </div>

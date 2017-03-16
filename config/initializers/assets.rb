@@ -16,16 +16,24 @@ Rails.application.config.assets.precompile += [ 'photoswipe/*', 'custom/*' ]
 %w(
   texteditor
   bootbox-delete-confirm
-  jquery.iframe-transport
-  jquery.fileupload
-  jquery.fileupload-ui
-  tmpl.min
-  jquery-ui.widget.min
-  jquery.fileupload-process
-  load-image.all.min
+  jquery.fileupload jquery.fileupload-image jquery.fileupload-process jquery.fileupload-ui jquery.fileupload-validate jquery.iframe-transport jquery.ui.widget
 ).each do |item|
   Rails.application.config.assets.precompile += [ "#{item}.css", "#{item}.js" ]
 end
+
+# ----------------- jQuery File Upload ---------------------
+
+# file uploading JS resources
+%w(jquery.fileupload jquery.fileupload-image jquery.fileupload-process jquery.fileupload-ui jquery.fileupload-validate jquery.iframe-transport jquery.ui.widget tmpl.min load-image.all.min jquery.xdr-transport).each do |js|
+  Rails.application.config.assets.precompile += [ 'image_upload/%s.js' %js ]
+end
+
+# file uploading CSS resources
+%w(blueimp-gallery.min jquery.fileupload jquery.fileupload-ui jquery.fileupload-noscript jquery.fileupload-ui-noscript).each do |js|
+  Rails.application.config.assets.precompile += [ 'image_upload/%s.css' %js ]
+end
+
+# ----------------- jQuery File Upload ---------------------
 
 # Controller related files to pre-compile
 %w(
