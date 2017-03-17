@@ -1,11 +1,11 @@
-class PicturesController < ApplicationController
+class UploadedFilesController < ApplicationController
   before_action :set_picture, only: [:show, :edit, :update, :destroy]
 
   # GET /pictures
   # GET /pictures.json
   def index
     
-    @pictures = Picture.all
+    @pictures = UploadedFile.all
 
     respond_to do |format|
       format.html { render :layout => true }# index.html.erb
@@ -24,7 +24,7 @@ class PicturesController < ApplicationController
 
   # GET /pictures/new
   def new
-    @picture = Picture.new
+    @picture = UploadedFile.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -39,7 +39,7 @@ class PicturesController < ApplicationController
   # POST /pictures
   # POST /pictures.json
   def create
-    @picture = Picture.new(picture_params)
+    @picture = UploadedFile.new(picture_params)
     
     respond_to do |format|
       if @picture.save
@@ -83,11 +83,11 @@ class PicturesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_picture
-      @picture = Picture.find(params[:id])
+      @picture = UploadedFile.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def picture_params
-      params.require(:picture).permit({images: []})
+      params.require(:uploaded_files).permit({images: []})
     end
 end

@@ -1,4 +1,4 @@
-class Picture < ApplicationRecord
+class UploadedFile < ApplicationRecord
   include Rails.application.routes.url_helpers
   mount_uploaders :images, ImageUploader
   
@@ -11,7 +11,7 @@ class Picture < ApplicationRecord
         :name => read_attribute(:images)[index],
         :url => image.url,
         :thumbnail_url => image.thumb.url,
-        :delete_url => picture_path(self)
+        :delete_url => uploaded_file_path(self)
       }
     end
     return out

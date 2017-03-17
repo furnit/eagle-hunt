@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170316140824) do
+ActiveRecord::Schema.define(version: 20170317062115) do
 
   create_table "const_consts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.float    "guni",       limit: 24
@@ -113,6 +113,12 @@ ActiveRecord::Schema.define(version: 20170316140824) do
     t.index ["furniture_id"], name: "index_shopping_carts_on_furniture_id", using: :btree
     t.index ["user_id", "furniture_id"], name: "index_shopping_carts_on_user_id_and_furniture_id", unique: true, using: :btree
     t.index ["user_id"], name: "index_shopping_carts_on_user_id", using: :btree
+  end
+
+  create_table "uploaded_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.json     "images"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

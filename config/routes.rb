@@ -5,7 +5,7 @@ ajax_server = {
 }
 
 Rails.application.routes.draw do
-  resources :pictures
+  resources :uploaded_files
   # only to create/delete shopping carts and only excepts JSON format
   resources :shopping_carts, ajax_server
   resources :sitting_sets

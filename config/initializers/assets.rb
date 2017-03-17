@@ -47,6 +47,7 @@ end
   shopping_carts
   orders
   pictures
+  uploaded_files
 ).each do |controller|
   Rails.application.config.assets.precompile += [ "#{controller}.coffee", "#{controller}.js", "#{controller}.css", "#{controller}.scss" ]
 end
