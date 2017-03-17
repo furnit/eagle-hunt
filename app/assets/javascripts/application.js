@@ -25,6 +25,7 @@ $(document).ready(function(){
 	    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
 	  }
 	});
+	
 	// making alerts go away by clicking on the X button
 	$('#page-alerts .fa-times').click(function(){
 		$(this).parents('.alert').fadeOut(300, function() { $(this).remove(); });
@@ -36,12 +37,13 @@ $(document).ready(function(){
 			$('body').data('inline-html-call-counter', 0);
 		$('body').data('inline-html-call-counter', $('body').data('inline-html-call-counter') + 1);
 		blockid = $('body').data('inline-html-call-counter');
-		$('body').append('<div id="inline-html-call-block'+$('body').data('inline-html-call-counter')+'" class="hidden"></div>');
-		$("#inline-html-call-block"+blockid).load($(this).attr('href')+".ajax", function(){
+		$('body').append('<div id="inline-html-call-block'+$('body').data('inline-html-call-counter')+'" class="hidden inline-html-call-modal"></div>');
+		$("#inline-html-call-block"+blockid).load($(this).attr('href')+".ajax", function(){			       
 			var dialog = bootbox.dialog({
 		    message: $(this).html(),
-		    backdrop: false,
-		    onEscape: true
+		    backdrop: true,
+		    onEscape: function() { $('.inline-html-call-modal').remove(); },
+	      size: 'large'
 			});
 		});
 	});

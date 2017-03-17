@@ -6,6 +6,18 @@
 @import "check-awesome";
 @import "font-bzar";
 
+@mixin cross-browser-opacity($op) {
+  /* IE 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$op*100})";
+  /* IE 5-7 */
+  filter: alpha(opacity=$op * 100);
+  /* Netscape */
+  -moz-opacity: $op;
+  /* Safari 1.x */
+  -khtml-opacity: $op;
+  /* Good browsers */
+  opacity: $op;
+}
 
 body {
   font-family: BZar,'BZar', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -95,4 +107,31 @@ dl.ir dd {
   -moz-transition: color 500ms ease-out 200ms;
   -o-transition: color 500ms ease-out 200ms;
   transition: color 500ms ease-out 200ms;
+}
+
+.img-wrap {
+    & {
+      position: relative;
+      display: inline-block;
+      font-size: 0;
+    }
+    .fa-times {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      z-index: 100;
+      padding: 5px 2px 2px;
+      color: red;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      font-size: 22px;
+      line-height: 10px;
+      border-radius: 50%;
+      @include cross-browser-opacity(0.8);
+    }
+    
+    .fa-times:hover {
+      @include cross-browser-opacity(1);
+    }
 }

@@ -15,7 +15,7 @@ module ApplicationHelper
   
   def list_or_prompt(k, p, &block)
     concat sanitize "<div class='empty-collection'>%s</div>" %p if k.empty?  
-    k.each { |l| yield l }
+    k.each.with_index { |l, index| yield l, index }
   end
   
   def create_cover(image, **args)
