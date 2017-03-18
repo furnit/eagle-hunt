@@ -14,8 +14,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label 'نام دسته‌بندی', :class => 'control-label' %>
-    <%= f.text_field :name, :class => 'form-control' %>
+    <%= f.label 'نام دسته‌بندی', :class => 'control-label'%>
+    <%= f.text_field :name, :class => 'form-control', :autofocus => :autofocus %>
   </div>
 
   <div class="field">
@@ -43,7 +43,7 @@
 <% end %>
 
 <div class='field' style="padding-bottom: 20px;">
-	<legend>بروزرسانی عکس‌ها</legend>
+	<legend>بروزرسانی عکس‌ها <small style='color:#a7a7a7; font-size: 70%'>توجه شود که اضافه‌ کردن عکس‌ها زمانی تایید می‌شوند که این فرم به روز رسانی گردد.</small></legend>
 	<%= render 'uploaded_files/form', :target_form => {:tag => "form##{form_id}", :input => 'furniture_type[imid]'} %>
 </div>
 
@@ -51,10 +51,12 @@
 	(function(){
 		$('form#<%= form_id %> a[data-method="delete"][data-remote="true"]')
 			.bind("ajax:success", function(evt, data, status, xhr){
-				$(this).parents('.img-wrap').fadeOut(500, function() { $(this).remove(); });
-				if(data.order !== undefined) for(var i = 0, j = data.order.length; i < j; i++) $('a[for="'+data.order[i].target+'"]').attr('href', data.order[i].url);
-				if($('.img-wrap').length === 0)
-					$("form#<%= form_id %> a#img-collection").html("<div class='empty-collection'>برای این دسته‌بندی عکسی ثبت نشده است.</div>")
+				$(this).parents('.img-wrap').fadeOut(500, function() { 
+					$(this).remove(); 
+					if($('form#<%= form_id %> #img-collection .img-wrap').length === 0)
+						$("form#<%= form_id %> #img-collection").html("<div class='empty-collection'>برای این دسته‌بندی عکسی ثبت نشده است.</div>")
+				});
+				if(data.order !== undefined) for(var i = 0, j = data.order.length; i < j; i++) $('a[for="'+data.order[i].target+'"]').attr('href', data.order[i].url);	
 			}).bind("ajax:error", function(evt, data, status, xhr){
 				bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام حذف عکس مورد انتخاب صورت گرفت!'})
 			});

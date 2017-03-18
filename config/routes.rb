@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   resources :furniture_types, :path => "category" do
     member do 
       delete :delete_image
+      delete :archive
+      patch :recover
     end
   end
   resources :furnitures

@@ -50,8 +50,9 @@ gem 'wysiwyg-rails'
 gem "font-awesome-rails"
 # For HTML dialog box
 gem 'bootbox-rails'
-# For soft-delete
-gem "paranoia", "~> 2.2"
+# Act as paranoid for models soft deletions
+# gem "paranoia", github: "rubysherpas/paranoia", branch: "rails5"
+gem 'acts_as_paranoid', github: 'ActsAsParanoid/acts_as_paranoid'
 # For making thumbnail with carrierwave
 gem 'rmagick'
 

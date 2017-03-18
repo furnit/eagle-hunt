@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317062115) do
+ActiveRecord::Schema.define(version: 20170318174606) do
 
   create_table "const_consts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.float    "guni",       limit: 24
@@ -63,6 +63,8 @@ ActiveRecord::Schema.define(version: 20170317062115) do
     t.json     "images"
     t.boolean  "is_inside_type",                default: false
     t.boolean  "is_outside_type",               default: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_furniture_types_on_deleted_at", using: :btree
   end
 
   create_table "furniture_wood_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -84,12 +86,6 @@ ActiveRecord::Schema.define(version: 20170317062115) do
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_furnitures_on_deleted_at", using: :btree
     t.index ["furniture_type_id"], name: "index_furnitures_on_furniture_type_id", using: :btree
-  end
-
-  create_table "pictures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.json     "images"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "profiles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

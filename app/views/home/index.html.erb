@@ -1,5 +1,9 @@
 <div class='container'>
-	<legend>انواع دسته بندی‌ها:</legend>
+	<legend>انواع دسته بندی‌ها:
+	<% auth_for :ADMIN do %>
+		<a class='pull-left inline-html-call' style='font-size: 70%' href='<%= new_furniture_type_path %>'><span class='fa fa-plus'></span> دسته‌بندی جدید</a>
+	<% end %>
+	</legend>
 	<% @categories.each do |f| %>
 	<div class="furniture-item col-lg-4 col-md-4 col-sm-6 col-xs-12">
 		<div class='furniture-content'>

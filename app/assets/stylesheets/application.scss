@@ -31,7 +31,7 @@ body {
     padding: 30px;
 }
 
-.fa { vertical-align: middle; padding-top:3px }
+.fa { vertical-align: middle; }
 
 .ir { direction: rtl; text-align: right }
 .en { direction: ltr; text-align: left; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
@@ -134,4 +134,10 @@ dl.ir dd {
     .fa-times:hover {
       @include cross-browser-opacity(1);
     }
+}
+
+.alert {
+  &.alert-default {
+    border: 1px solid #aaa
+  }
 }

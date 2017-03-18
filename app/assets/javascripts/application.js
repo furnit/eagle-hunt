@@ -25,7 +25,6 @@ $(document).ready(function(){
 	    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
 	  }
 	});
-	
 	// making alerts go away by clicking on the X button
 	$('#page-alerts .fa-times').click(function(){
 		$(this).parents('.alert').fadeOut(300, function() { $(this).remove(); });
@@ -44,7 +43,10 @@ $(document).ready(function(){
 		    backdrop: true,
 		    onEscape: function() { $('.inline-html-call-modal').remove(); },
 	      size: 'large'
+			}).on('shown.bs.modal',function(){
+			  $(this).find('[autofocus]').focus();
 			});
+			$(this).remove();
 		});
 	});
 });

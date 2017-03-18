@@ -1,6 +1,6 @@
 @font-face {
 font-family: 'BZar';
-src: '../fonts/BZar.eot' format('eot'),
-'../fonts/BZar.ttf' format('truetype'),
-'../fonts/BZar.woff' format('woff');
+src: url('//assets/fonts/BZar.eot') format('eot'),
+'//assets/fonts/BZar.ttf' format('truetype'),
+'//assets/fonts/BZar.woff' format('woff');
 }

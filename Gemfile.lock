@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/ActsAsParanoid/acts_as_paranoid.git
+  revision: 9f1a2c92df98e4dc584aad8ba2b20db231290539
+  specs:
+    acts_as_paranoid (0.5.0)
+      activerecord (>= 4.0, < 5.1)
+      activesupport (>= 4.0, < 5.1)
+
+GIT
   remote: https://github.com/carrierwaveuploader/carrierwave.git
   revision: 6a1445e0daef29a5d4f799a016359b62d82dbc24
   specs:
@@ -115,8 +123,6 @@ GEM
     nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
     orm_adapter (0.5.0)
-    paranoia (2.2.1)
-      activerecord (>= 4.0, < 5.1)
     puma (3.7.1)
     rack (2.0.1)
     rack-test (0.6.3)
@@ -199,6 +205,7 @@ PLATFORMS
 
 DEPENDENCIES
   accountingjs-rails
+  acts_as_paranoid!
   autosize-rails
   bootbox-rails
   bootstrap-sass (= 3.3.7)
@@ -213,7 +220,6 @@ DEPENDENCIES
   jquery-turbolinks
   listen (~> 3.0.5)
   mysql2 (>= 0.3.18, < 0.5)
-  paranoia (~> 2.2)
   puma (~> 3.0)
   rails (~> 5.0.1)
   rmagick
