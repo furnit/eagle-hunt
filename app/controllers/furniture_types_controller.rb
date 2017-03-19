@@ -1,4 +1,4 @@
-class FurnitureTypesController < ApplicationController
+class FurnitureTypesController < UploaderController
   before_action :set_furniture_type, only: [:show, :edit, :update, :destroy, :delete_image, :archive]
 
   # GET /furniture_types
@@ -31,7 +31,7 @@ class FurnitureTypesController < ApplicationController
       if @furniture_type.save
         # update the uploaded image and re-save the model
         # the model need to be created at first then the update happen
-        update_uploaded_images && @furniture_type.save
+        update_uploaded_images @furniture_type, :furniture_type , auto_save: true
         format.html { redirect_to @furniture_type, notice: 'دسته‌بندی جدید «<b>%s</b>» با موفقیت ایجاد شد.' %@furniture_type.name }
         format.json { render :show, status: :created, location: @furniture_type }
       else
@@ -45,7 +45,7 @@ class FurnitureTypesController < ApplicationController
   # PATCH/PUT /furniture_types/1.json
   def update
     # update the uploaded images
-    update_uploaded_images
+    update_uploaded_images @furniture_type, :furniture_type
     respond_to do |format|
       if @furniture_type.update(furniture_type_params)
         format.html { redirect_to @furniture_type, notice: 'دسته‌بندی «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture_type.name }
@@ -140,20 +140,7 @@ class FurnitureTypesController < ApplicationController
       # if image list is nill? make it an empty array
       @furniture_type.images ||= []
     end
-
-    def update_uploaded_images
-      # return if no image uploaded 
-      return unless params[:furniture_type][:imid]
-      # find the uploaded imaged with passed image ids
-      uploaded_files = UploadedFile.find(params[:furniture_type][:imid]);
-      # list uploaded images and append the to current image list 
-      uploaded_files.each { |m| @furniture_type.images += m.images }
-      # re-create versions of all images  
-      @furniture_type.images.each { |i| i.recreate_versions! }
-      # destroy the temp uploaded images
-      uploaded_files.each { |u| u.destroy }
-    end
-
+    
     # Never trust parameters from the scary internet, only allow the white list through.
     def furniture_type_params
       params.require(:furniture_type).permit(:name, :comment)
