@@ -5,12 +5,16 @@ class UploaderController < ApplicationController
     return unless params[param_name] and params[param_name][:imid]
     # find the uploaded imaged with passed image ids
     uploaded_files = UploadedFile.find(params[param_name][:imid]);
-    # list uploaded images and append the to current image list 
-    uploaded_files.each { |m| instance.images += m.images }
+    # list uploaded images and append the to current image list
+    # this has to be this way; o.w the operation will cost so much time-wise
+    instance.images += uploaded_files.map { |m| m.images }.flatten
     # re-create versions of all images  
     instance.images.each { |i| i.recreate_versions! }
     # destroy the temp uploaded images
-    uploaded_files.each { |u| u.destroy }
+    # this has to be `destroy_all` to get data cleansed from uploaded file's storage
+    # if the native `where().destroy_all` get used, that will select every record first and the destroy them 1-by-1
+    # this way atleast we don't have the SELECT overhead
+    uploaded_files.each(&:destroy)
     # save it with condition
     instance.save if auto_save
   end

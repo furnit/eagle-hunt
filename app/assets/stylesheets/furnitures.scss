@@ -2,48 +2,62 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#furniture-cover #cover-container {
-    height: 150px;
-    width: 100%;
-    margin-top: 400px;
-}
-#furniture-cover #cover-container #cover-collection {
-    overflow: hidden;
-    white-space: nowrap;
-    height: 100%;
-    padding: 10px 0 10px 0;
-    margin: 0;
-}
-#furniture-cover .cover-item,
-#furniture-cover .cover-scroller {
+$furniture-cover-margin-top: 400px;
+
+#furniture-cover {
+  #cover-container {
+    & {
+      height: 150px;
+      width: 100%;
+      margin-top: $furniture-cover-margin-top;
+    }
+    #cover-options {
+      height: 20px;
+      width: 20px;
+      background-color: red;
+      position: absolute;
+      margin-top: 40px;
+    }
+    #cover-collection {
+      overflow: hidden;
+      white-space: nowrap;
+      height: 100%;
+      padding: 10px 0 10px 0;
+      margin: 0;
+    }
+  }
+  .cover-item,
+  .cover-scroller {
     position: relative;
     display: inline-block;
     margin: 8px 8px;
     vertical-align: center;
-}
-#furniture-cover .cover-item {
+  }
+  .cover-item {
     box-shadow: 2px 2px 4px #bbb;
     width: 150px;
     height: 100%;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-}
-#furniture-cover .cover-scroller {
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-  vertical-align: center;
-  font-size: 50px;
-  padding-top: 55px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  color: #0088cc;
-}
-#furniture-cover .cover-scroller[data=right]
-{ display: hidden }
-#furniture-cover .cover-scroller.disabled {
-  color: transparent;
-  cursor: default;
+  }
+  .cover-scroller {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 50px;
+    padding-top: 55px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #0088cc;
+  }
+  .cover-scroller{
+    &[data=right] { display: hidden }
+    &.disabled {
+      color: transparent;
+      cursor: default;
+    }
+  }
 }

@@ -97,6 +97,6 @@ class FurnituresController < UploaderController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def furniture_params
-      params.require(:furniture).permit(:name, :comment, :furniture_type_id)
+      params.require(:furniture).permit(:id, :name, :comment, :furniture_type_id)
     end
 end
