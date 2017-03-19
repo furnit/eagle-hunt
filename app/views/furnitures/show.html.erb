@@ -93,33 +93,6 @@
 							<th>پارچه</th>
 							<td><%= 10 %> متر</td>
 						</tr>
-						<tr class='text-<%= @furniture.check_lamse? ? 'success' : 'danger' %>'>
-							<th>لمسه</th>
-							<td>
-								<%= raw @furniture.check_lamse? \
-									? '<span class="fa fa-check"></span> دارد' \
-									: '<span class="fa fa-times"></span> ندارد'
-								%>
-							</td>
-						</tr>
-						<tr class='<%= @furniture.count_kosan? ? '' : 'text-danger' %>'>
-							<th>تعداد کوسن</th>
-							<td>
-								<%= raw @furniture.count_kosan? \
-									? "#{@furniture.count_kosan} عدد"\
-									: '<span class="fa fa-times"></span> ندارد'
-								%>
-							</td>
-						</tr>
-						<tr class='<%= @furniture.count_poshti? ? '' : 'text-danger' %>'>
-							<th>تعداد پشتی</th>
-							<td>
-								<%= raw @furniture.count_poshti? \
-									? "#{@furniture.count_poshti} عدد"\
-									: '<span class="fa fa-times"></span> ندارد'
-								%>
-							</td>
-						</tr>
 					</tbody>
 				</table>
 			</fieldset>

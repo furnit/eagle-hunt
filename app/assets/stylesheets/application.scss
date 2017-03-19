@@ -29,11 +29,11 @@
   transition: $op1 $op2 $op3 $op4;
 }
 
-@mixin cross-browser-transform($op1, $op2, $op3, $op4) {
-  -webkit-transform: $op1 $op2 $op3 $op4;
-  -moz-transform: $op1 $op2 $op3 $op4;
-  -o-transform: $op1 $op2 $op3 $op4;
-  transform: $op1 $op2 $op3 $op4;
+@mixin cross-browser-transform($op1) {
+  -webkit-transform: $op1;
+  -moz-transform: $op1;
+  -o-transform: $op1;
+  transform: $op1;
 }
 
 body {
@@ -102,7 +102,7 @@ dl.ir dd {
     background-color: tranparent;
     position: relative;
     @include cross-browser-transition(all, 200ms, ease-in, 0);
-    @include cross-browser-transform(scale(1), 0, ease, 0);
+    @include cross-browser-transform(scale(1));
     transform: scale(1);   
 
 }
@@ -110,7 +110,7 @@ dl.ir dd {
 {
     z-index: 2;
     @include cross-browser-transition(all, 200ms, ease-in, 0);
-    @include cross-browser-transform(scale(1.15), 0, ease, 0);
+    @include cross-browser-transform(scale(1.15));
     font-weight: bold
 }
 
