@@ -37,7 +37,7 @@
   transform: $op1;
 }
 
-.fa { vertical-align: middle; }
+.fa { vertical-align: middle; padding: 0 5px 0 5px; }
 
 .ir-font { 
   font-family: BZar,'BZar', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -53,8 +53,19 @@
 .en { direction: ltr; text-align: left; @extent .en-font }
 
 body {
-  
+  // assign the .ir-font to whole body
   & { @extend .ir-font; }
+  
+  #page-alerts {
+    .alert {
+      position: absolute;
+      top: 30px;
+      left: 10px;
+      right: 10px;
+      z-index: 1000;
+      @include cross-browser-opacity(0.95);
+    }
+  }
   
   .block {
       background-color: #fafafa;

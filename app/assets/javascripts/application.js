@@ -31,6 +31,8 @@ $(document).ready(function(){
 	    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
 	  }
 	});
+	// remove the alerts after some time
+	setTimeout(function(){ $('#page-alerts .alert').fadeOut(1000, function() { $(this).remove(); }); }, 2000);
 	// setting config for 1min delay length
 	NProgress.configure({
 	  speed: 500,

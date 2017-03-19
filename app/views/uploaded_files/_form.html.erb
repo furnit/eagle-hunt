@@ -47,10 +47,24 @@
 	</div>
 	<!-- The table listing the files available for upload/download -->
 	<table role="presentation" class="table table-striped en-font">
+		<thead>
+			<tr>
+				<th class='col-md-1'></th>
+				<th class='col-md-8'></th>
+				<th class='col-md-1'></th>
+				<th class='col-md-2'></th>
+			</tr>
+		</thead>
 		<tbody class="files"></tbody>
 	</table>
 	<% end %>
 </div>
+
+<style type="text/css" media="screen">
+	#fileupload table[role="presentation"] { table-layout: fixed; }
+	#fileupload table[role="presentation"] > thead th { border: 0; }
+	#fileupload table[role="presentation"] > tbody td { overflow: hidden; white-space:nowrap; text-overflow: ellipsis; } 
+</style>
 
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">

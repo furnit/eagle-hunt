@@ -1,5 +1,5 @@
 <% form_id = 0 %>
-<%= remote_form furniture  do |f| %>
+<%= redirect_form furniture  do |f| %>
 	<% form_id = f.options[:html][:id] %>
   <% if furniture.errors.any? %>
     <div id="error_explanation">
@@ -12,18 +12,59 @@
       </ul>
     </div>
   <% end %>
-	<%= hidden_field_tag :step, @step %>
 	<div class='row'>
-		<%= render "step_#{@step}", :f => f, :furniture => furniture%>
+		<div class="col-xs-12">
+			<div class='block'>
+			  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right">
+			  	<%= f.text_field :name, class: "form-control", placeholder: "نام مدل", :label => 'نام مدل', :autofocus => true, :required => true %>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 pull-right">
+					<%= f.collection_select :furniture_type_id, FurnitureType.all, :id, :name, { :prompt => 'لطفا نوع مبل را انتخاب کنید.' }, :required => true, :class=>'form-control' %>
+				</div>
+			  <div class="clearfix"></div>
+			</div>
+			<legend>عکس‌های مربوطه</legend>
+		  <div class='field row' id='img-collection'>
+		  <% list_or_prompt furniture.images, 'برای این محصول عکسی ثبت نشده است.'  do |i, index| %>
+				<span class="img-wrap">
+				    <%= link_to delete_image_furniture_path(furniture, :format => :json, :i => index), :method => :delete, :remote => true, :for => i.thumb.url do %>
+				    	<span class="fa fa-times" title='این عکس‌ را حذف کن'></span>
+			    	<% end %>
+				    <%= link_to i.url, :target => :__blank do %>
+		  				<%= image_tag i.thumb.url, :class => 'img img-responsive img-thumbnail', :style => 'height: 100px!important;'  %>
+						<% end %>
+				</span>
+		  <% end %>
+		  </div>
+		</div>
+		
+	  <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
+	    <%= f.submit submit_text, :class => 'btn btn-primary' %>
+	  </div>
 	</div>
 <% end %>
 
-<% if @step == 1 %>
-	<div class="col-md-offset-1 col-md-10" style='padding: 3px; padding-bottom: 20px'>
-		<div class='field' style="margin:0; padding-bottom: 20px;margin-top: 20px;">
-			<legend>بروزرسانی عکس‌ها <small style='color:#a7a7a7; font-size: 70%'>توجه شود که اضافه‌ کردن عکس‌ها زمانی تایید می‌شوند که این فرم به روز رسانی گردد.</small></legend>
-			<%= render 'uploaded_files/form', :target_form => {:tag => "form##{form_id}", :input => 'furniture[imid]'} %>
-		</div>
+<div class="col-xs-12" style='padding: 3px; padding-bottom: 20px'>
+	<div class='field' style="margin:0; padding-bottom: 20px;margin-top: 20px;">
+		<legend>بروزرسانی عکس‌ها <small style='color:#a7a7a7; font-size: 70%'>توجه شود که اضافه‌ کردن عکس‌ها زمانی تایید می‌شوند که این فرم به روز رسانی گردد.</small></legend>
+		<%= render 'uploaded_files/form', :target_form => {:tag => "form##{form_id}", :input => 'furniture[imid]'} %>
 	</div>
-	<div class='clearfix'></div>
-<% end %>
+</div>
+<div class='clearfix'></div>
+
+<script type="text/javascript" charset="utf-8">
+	(function(){
+		$('form#<%= form_id %> a[data-method="delete"][data-remote="true"]')
+			.click(function() { $(this).parents('.img-wrap').addClass('fade') })
+			.bind("ajax:complete", function() { $(this).parents('.img-wrap').removeClass('fade') })
+			.bind("ajax:error", function(evt, data, status, xhr){ bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام حذف عکس مورد انتخاب صورت گرفت!'}) })
+			.bind("ajax:success", function(evt, data, status, xhr) {
+				$(this).parents('.img-wrap').fadeOut(500, function() { 
+					$(this).remove(); 
+					if($('form#<%= form_id %> #img-collection .img-wrap').length === 0)
+						$("form#<%= form_id %> #img-collection").html("<div class='empty-collection'>برای این محصول عکسی ثبت نشده است.</div>")
+				});
+				if(data.order !== undefined) for(var i = 0, j = data.order.length; i < j; i++) $('a[for="'+data.order[i].target+'"]').attr('href', data.order[i].url);	
+			});
+	})(jQuery);
+</script>

@@ -1,7 +1,5 @@
 class FurnituresController < UploaderController
-  before_action :define_step, only: [:new]
-  before_action :ensure_step, only: [:create, :update, :edit]
-  before_action :set_furniture, only: [:show, :edit, :update, :destroy]
+  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :delete_image]
 
   # GET /furnitures
   # GET /furnitures.json
@@ -31,15 +29,17 @@ class FurnituresController < UploaderController
   end
 
   # POST /furnitures
+  # POST /furnitures.json
   def create
     @furniture = Furniture.new(furniture_params)
-    if @furniture.save
-      # update the uploaded image and re-save the model
-      # the model need to be created at first then the update happen
-      update_uploaded_images @furniture, :furniture , auto_save: true
-      redirect_to edit_furniture_path @furniture, :step => 2
-    else
-      respond_to do |format|
+    respond_to do |format|
+      if @furniture.save
+        # update the uploaded image and re-save the model
+        # the model need to be created at first then the update happen
+        update_uploaded_images @furniture, :furniture , auto_save: true
+        format.html { redirect_to @furniture, notice: 'دسته‌بندی جدید «<b>%s</b>» با موفقیت ایجاد شد.' %@furniture.name }
+        format.json { render json: @furniture, status: :created, location: @furniture }
+      else
         format.html { render :new }
         format.json { render json: @furniture.errors, status: :unprocessable_entity }
       end
@@ -47,17 +47,18 @@ class FurnituresController < UploaderController
   end
 
   # PATCH/PUT /furnitures/1
+  # PATCH/PUT /furnitures/1.json
   def update
     # update the uploaded images
     update_uploaded_images @furniture, :furniture
-    if @furniture.update(furniture_params)
-      if @step < 3
-        redirect_to edit_furniture_path @furniture, :step => @step + 1
+    respond_to do |format|
+      if @furniture.update(furniture_params)
+        format.html { redirect_to @furniture, notice: 'محصول «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture.name }
+        format.json { render json: @furniture, status: :ok, location: @furniture }
       else
-        redirect_to @furniture, notice: 'Furniture was successfully updated/created.'
+        format.html { render :edit }
+        format.json { render json: @furniture.errors, status: :unprocessable_entity }
       end
-    else
-      render :edit
     end
   end
 
@@ -66,25 +67,28 @@ class FurnituresController < UploaderController
   def destroy
     @furniture.destroy
     respond_to do |format|
-      format.html { redirect_to furnitures_url, notice: 'Furniture was successfully destroyed.' }
+      format.html { redirect_to furniture_type_url(:id => @furniture.furniture_type_id), notice: 'محصول «<b>%s</b>» با موفقیت حذف شد.' %@furniture.name }
       format.json { head :no_content }
+    end
+  end
+  
+  # DELETE /furniture_types/1/delete_image?i=1 {i => index of the target image}
+  def delete_image
+    delete_instance_image @furniture
+    
+    # respond to format
+    respond_to do |format|
+      if @furniture.save
+        format.html { redirect_to instance, notice: 'عکس محصول «<b>%s</b>» با موفقیت حذف گردید.' %@furniture.name }
+        format.json { render json: { order: @furniture.images.each.with_index.map {|i, index| {target: i.thumb.url, url: send("delete_image_#{@furniture.class.name.underscore}_path", @furniture, :format => :json, :i => index)} }}, status: :created, location: @furniture}
+      else
+        format.html { render :new }
+        format.json { render json: @furniture.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   private
-    
-    def define_step
-      @step = 1
-    end
-    
-    def ensure_step
-      if params[:step] == nil
-        params[:step] = 1
-      elsif params[:step].to_i > 3
-        redirect_to '/422.html'
-      end
-      @step = params[:step].to_i
-    end
     
     # Use callbacks to share common setup or constraints between actions.
     def set_furniture

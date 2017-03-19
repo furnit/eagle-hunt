@@ -26,7 +26,11 @@ Rails.application.routes.draw do
       patch :recover
     end
   end
-  resources :furnitures
+  resources :furnitures do
+    member do 
+      delete :delete_image
+    end
+  end
   resources :profiles
   devise_for :users
 end

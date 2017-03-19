@@ -4,7 +4,7 @@
   <%= stylesheet_link_tag    'photoswipe/photoswipe.css', 'photoswipe/default-skin/default-skin.css', media: 'all' %>
 
 	<div id='furniture-cover'>
-		<%= create_cover image_url(@furniture.images), height: '500px', style: 'margin-top:-20px; z-order: -1000; position: absolute; top: 70px' %>
+		<%= create_cover image_url(@furniture.images), height: '500px', style: 'margin-top:-20px; z-index: -1000; position: absolute; top: 70px' %>
 		<div class="container text-center">
 			<div id='cover-container'>
 				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1' data='left'><span class='fa fa-chevron-left'></span></div>

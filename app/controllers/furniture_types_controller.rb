@@ -109,23 +109,13 @@ class FurnitureTypesController < UploaderController
   
   # DELETE /furniture_types/1/delete_image?i=1 {i => index of the target image}
   def delete_image
-    # list current images
-    remain_images = @furniture_type.images
-    # delete the target image from the list
-    deleted_image = remain_images.delete_at(params.permit(:i)[:i].to_i)
-    # remove the actual file from the FS
-    deleted_image.remove!
-    # the hack for carrier wave bug [issue#2141]
-    if remain_images.empty?
-      @furniture_type.write_attribute(:images, nil)
-    else      
-      @furniture_type.images = remain_images  
-    end
+    delete_instance_image @furniture_type
+    
     # respond to format
     respond_to do |format|
       if @furniture_type.save
-        format.html { redirect_to @furniture_type, notice: 'عکس دسته‌بندی با موفقیت حذف گردید.' %@furniture_type.name }
-        format.json { render json: { order: @furniture_type.images.each.with_index.map {|i, index| {target: i.thumb.url, url: delete_image_furniture_type_path(@furniture_type, :format => :json, :i => index)} }}, status: :created, location: @furniture_type }
+        format.html { redirect_to instance, notice: 'عکس دسته‌بندی «<b>%s</b>» با موفقیت حذف گردید.' %@furniture_type.name }
+        format.json { render json: { order: @furniture_type.images.each.with_index.map {|i, index| {target: i.thumb.url, url: send("delete_image_#{@furniture_type.class.name.underscore}_path", @furniture_type, :format => :json, :i => index)} }}, status: :created, location: @furniture_type}
       else
         format.html { render :new }
         format.json { render json: @furniture_type.errors, status: :unprocessable_entity }
