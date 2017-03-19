@@ -1,4 +1,4 @@
-class FurnituresController < ApplicationController
+class FurnituresController < UploaderController
   before_action :define_step, only: [:new]
   before_action :ensure_step, only: [:create, :update, :edit]
   before_action :set_furniture, only: [:show, :edit, :update, :destroy]
@@ -34,6 +34,9 @@ class FurnituresController < ApplicationController
   def create
     @furniture = Furniture.new(furniture_params)
     if @furniture.save
+      # update the uploaded image and re-save the model
+      # the model need to be created at first then the update happen
+      update_uploaded_images @furniture, :furniture , auto_save: true
       redirect_to edit_furniture_path @furniture, :step => 2
     else
       render :new
@@ -42,6 +45,8 @@ class FurnituresController < ApplicationController
 
   # PATCH/PUT /furnitures/1
   def update
+    # update the uploaded images
+    update_uploaded_images @furniture, :furniture
     if @furniture.update(furniture_params)
       if @step < 3
         redirect_to edit_furniture_path @furniture, :step => @step + 1

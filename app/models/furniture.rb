@@ -2,7 +2,7 @@ class Furniture < ParanoiaRecord
     
   belongs_to :furniture_type
 
-  validates_presence_of :furniture_type, :name, :images
+  validates_presence_of :furniture_type, :name
   
   mount_uploaders :images, ImageUploader
   # don't delete the images on soft delete

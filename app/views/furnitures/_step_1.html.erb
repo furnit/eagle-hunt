@@ -11,15 +11,11 @@
 	  <div class="clearfix"></div>
 	</div>
 	
-	<div class='field' style="padding-bottom: 20px;margin-top: 20px;">
-		<legend>بروزرسانی عکس‌ها <small style='color:#a7a7a7; font-size: 70%'>توجه شود که اضافه‌ کردن عکس‌ها زمانی تایید می‌شوند که این فرم به روز رسانی گردد.</small></legend>
-		<%= render 'uploaded_files/form', :target_form => {:tag => "form##{form_id}", :input => 'furniture[imid]'} %>
+	<div class="col-md-10 col-md-offset-1" style='position: fixed; bottom: 10px; left: 0px; padding: 5px; z-index: 1000; margin-top: 20px'>
+		<div class="actions field pull-right">
+		 	<%= f.button :type => 'submit', :class =>'btn btn-primary pull-left' do %>
+		  		<span class='fa fa-arrow-right'></span> مرحله‌ی بعد
+			<% end %>
+		</div>
 	</div>
-  <ul class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pager" style='padding: 20px; padding-top: 0;'>
-    <li class="next" style='font-size: 18px'>
-    	<%= f.button :type => 'submit', :class =>'btn btn-primary pull-left' do %>
-    		<span class='fa fa-arrow-right'></span> مرحله‌ی بعد
-  		<% end %>
-    </li>
-  </ul>
 </div>
