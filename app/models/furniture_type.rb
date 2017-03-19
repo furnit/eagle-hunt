@@ -2,6 +2,8 @@ class FurnitureType < ParanoiaRecord
   
   has_many :furniture
   
+  validates_presence_of :name
+  
   mount_uploaders :images, ImageUploader
   # don't delete the images on soft delete
   # see: (github.com/carrierwaveuploader/carrierwave/issues/624#issuecomment-15243440)

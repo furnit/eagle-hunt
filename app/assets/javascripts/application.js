@@ -34,6 +34,26 @@ $(document).ready(function(){
 	  minimum: 0.05,
 	  trickleRate: 0.03
 	});
+	$(document).ajaxSuccess(function(){
+		// make remote form validatable
+		$('form[data-remote]').not('.ajaxified').on('ajax:error', function(e, data, status, xhr) {
+		  form = $(this);
+		  errors = data.responseJSON;
+		  model_name = form.attr('name') || '';
+		
+		  $.each(errors, function(field, messages) {
+		    input = form.find('input, select, textarea').filter(function() {
+		      name = $(this).attr('name');
+		      if(name)
+		        return name.match(new RegExp(model_name + '\\[' + field + '\\(?'));
+		    });
+		    input.closest('.form-group').addClass('has-error');
+		    input.parent().find('.help-block').remove();
+		    input.parent().append('<span class="help-block">' + $.map(messages, function(m) { return m.charAt(0).toUpperCase() + m.slice(1); }).join('<br />') + '</span>');
+		  });
+		  
+		}).addClass('ajaxified');
+	});
 	// making alerts go away by clicking on the X button
 	$('#page-alerts .fa-times').click(function(){
 		$(this).parents('.alert').fadeOut(300, function() { $(this).remove(); });

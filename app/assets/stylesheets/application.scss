@@ -8,6 +8,7 @@
 @import "nprogress";
 @import "nprogress-bootstrap";
 // @import "nprogress-turbolinks5";
+@import "rails_bootstrap_forms";
 
 @mixin cross-browser-opacity($op) {
   /* IE 8 */

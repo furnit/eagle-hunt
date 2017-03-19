@@ -1,0 +1,16 @@
+fa:
+  activerecord:
+    models:
+      furniture_type: 'دسته‌بندی'
+    attributes:
+      furniture_type:
+        name: 'نام'
+        comment: 'توضیحات'
+    errors:
+      models:
+        furniture_type:
+          attributes:
+            name:
+              blank: 'نمی‌تواند خالی باشد.'
+            comment:
+              blank: 'نمی‌تواند خالی باشد.'

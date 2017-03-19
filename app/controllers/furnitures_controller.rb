@@ -39,7 +39,10 @@ class FurnituresController < UploaderController
       update_uploaded_images @furniture, :furniture , auto_save: true
       redirect_to edit_furniture_path @furniture, :step => 2
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new }
+        format.json { render json: @furniture.errors, status: :unprocessable_entity }
+      end
     end
   end
 

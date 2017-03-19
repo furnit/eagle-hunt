@@ -74,4 +74,15 @@ module ApplicationHelper
     return session[:shopping_cart].length if session[:shopping_cart]
     return 0
   end
+  
+  def redirect_form(instance)
+    bootstrap_form_for instance, :html => { :name => instance.class.name.split('::').last.downcase } do |f|
+      yield f
+    end
+  end
+  def remote_form(instance)
+    bootstrap_form_for instance, :remote => true, :html => { :'data-type' => 'json',  :name => instance.class.name.split('::').last.downcase } do |f|
+      yield f
+    end
+  end
 end

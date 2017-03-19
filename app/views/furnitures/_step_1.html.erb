@@ -1,21 +1,18 @@
-<div class="col-md-10 col-md-offset-1" style='xmargin: 20px'>
+<div class="col-md-10 col-md-offset-1">
 	<div class='block'>
 	  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right">
-	  	<%= f.label :name, "نام مدل", class: "control-label" %>
-	  	<%= f.text_field :name, class: "form-control", placeholder: "نام مدل" %>
+	  	<%= f.text_field :name, class: "form-control", placeholder: "نام مدل", :requiredx => true, :label => 'نام مدل' %>
 		</div>
 		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 pull-right">
-	  	<%= f.label :furniture_type_id, "دسته‌بندی مدل", class: "control-label" %>
-			<%= f.collection_select :furniture_type_id, FurnitureType.all, :id, :name, { :prompt => 'لطفا نوع مبل را انتخاب کنید.' }, :class=>'form-control' %>
+			<%= f.collection_select :furniture_type_id, FurnitureType.all, :id, :name, { :prompt => 'لطفا نوع مبل را انتخاب کنید.' }, :required => true, :class=>'form-control' %>
 		</div>
 	  <div class="clearfix"></div>
 	</div>
-	
-	<div class="col-md-10 col-md-offset-1" style='position: fixed; bottom: 10px; left: 0px; padding: 5px; z-index: 1000; margin-top: 20px'>
-		<div class="actions field pull-right">
-		 	<%= f.button :type => 'submit', :class =>'btn btn-primary pull-left' do %>
-		  		<span class='fa fa-arrow-right'></span> مرحله‌ی بعد
-			<% end %>
-		</div>
+</div>
+<div class="col-md-10 col-md-offset-1" style='position: absolute; bottom: 10px; left: 0px; padding: 5px; z-index: 1000;'>
+	<div class="actions field pull-right">
+	 	<%= f.button :type => 'submit', :class =>'btn btn-primary pull-left' do %>
+	  		<span class='fa fa-arrow-right'></span> مرحله‌ی بعد
+		<% end %>
 	</div>
 </div>

@@ -1,5 +1,6 @@
 <% form_id = 0 %>
-<%= form_for furniture do |f| %>
+<%= javascript_include_tag 'form-remote-validation' %>
+<%= remote_form furniture  do |f| %>
 	<% form_id = f.options[:html][:id] %>
   <% if furniture.errors.any? %>
     <div id="error_explanation">
@@ -19,7 +20,7 @@
 <% end %>
 
 <% if @step == 1 %>
-	<div class="col-md-offset-1 col-md-10" style='padding: 3px'>
+	<div class="col-md-offset-1 col-md-10" style='padding: 3px; padding-bottom: 20px'>
 		<div class='field' style="margin:0; padding-bottom: 20px;margin-top: 20px;">
 			<legend>بروزرسانی عکس‌ها <small style='color:#a7a7a7; font-size: 70%'>توجه شود که اضافه‌ کردن عکس‌ها زمانی تایید می‌شوند که این فرم به روز رسانی گردد.</small></legend>
 			<%= render 'uploaded_files/form', :target_form => {:tag => "form##{form_id}", :input => 'furniture[imid]'} %>
