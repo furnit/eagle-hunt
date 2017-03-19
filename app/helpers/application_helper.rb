@@ -76,12 +76,12 @@ module ApplicationHelper
   end
   
   def redirect_form(instance)
-    bootstrap_form_for instance, :html => { :name => instance.class.name.split('::').last.downcase } do |f|
+    bootstrap_form_for instance, :html => { :name => instance.class.name.split('::').last.underscore } do |f|
       yield f
     end
   end
   def remote_form(instance)
-    bootstrap_form_for instance, :remote => true, :html => { :'data-type' => 'json',  :name => instance.class.name.split('::').last.downcase } do |f|
+    bootstrap_form_for instance, :remote => true, :html => { :'data-type' => 'json',  :name => instance.class.name.split('::').last.underscore } do |f|
       yield f
     end
   end

@@ -18,10 +18,13 @@
 //= require bootbox-delete-confirm
 //! require turbolinks
 //= require nprogress
+//= require jquery.autosize
 //= require nprogress-ajax
 //! require nprogress-turbolinks
 
 $(document).ready(function(){
+	// auto resize any textarea
+	$('textarea').autosize();
 	// append CSRF token to headers of all ajax posts
 	$.ajaxSetup({
 	  headers: {
@@ -53,6 +56,8 @@ $(document).ready(function(){
 		  });
 		  
 		}).addClass('ajaxified');
+		// auto resize any text area
+		$('textarea').not('.autoresized').autosize().addClass('autoresized');
 	});
 	// making alerts go away by clicking on the X button
 	$('#page-alerts .fa-times').click(function(){
@@ -65,7 +70,7 @@ $(document).ready(function(){
 			$('body').data('inline-html-call-counter', 0);
 		$('body').data('inline-html-call-counter', $('body').data('inline-html-call-counter') + 1);
 		blockid = $('body').data('inline-html-call-counter');
-		$('body').append('<div id="inline-html-call-block'+$('body').data('inline-html-call-counter')+'" class="hidden inline-html-call-modal"></div>');
+		$('body').append('<div id="inline-html-call-block'+blockid+'" class="hidden inline-html-call-modal"></div>');
 		$("#inline-html-call-block"+blockid).load($(this).attr('href'), function(){			       
 			var dialog = bootbox.dialog({
 		    message: $(this).html(),

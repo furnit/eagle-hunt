@@ -1,5 +1,4 @@
 <% form_id = 0 %>
-<%= javascript_include_tag 'form-remote-validation' %>
 <%= remote_form furniture  do |f| %>
 	<% form_id = f.options[:html][:id] %>
   <% if furniture.errors.any? %>
