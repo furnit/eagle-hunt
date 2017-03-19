@@ -46,7 +46,7 @@ $(document).ready(function(){
 		$('body').data('inline-html-call-counter', $('body').data('inline-html-call-counter') + 1);
 		blockid = $('body').data('inline-html-call-counter');
 		$('body').append('<div id="inline-html-call-block'+$('body').data('inline-html-call-counter')+'" class="hidden inline-html-call-modal"></div>');
-		$("#inline-html-call-block"+blockid).load($(this).attr('href')+".ajax", function(){			       
+		$("#inline-html-call-block"+blockid).load($(this).attr('href'), function(){			       
 			var dialog = bootbox.dialog({
 		    message: $(this).html(),
 		    backdrop: true,

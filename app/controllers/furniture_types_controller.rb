@@ -1,6 +1,5 @@
 class FurnitureTypesController < ApplicationController
   before_action :set_furniture_type, only: [:show, :edit, :update, :destroy, :delete_image, :archive]
-  before_action :update_uploaded_images, only: :update
 
   # GET /furniture_types
   # GET /furniture_types.json
@@ -30,6 +29,8 @@ class FurnitureTypesController < ApplicationController
 
     respond_to do |format|
       if @furniture_type.save
+        # update the uploaded image and re-save the model
+        # the model need to be created at first then the update happen
         update_uploaded_images && @furniture_type.save
         format.html { redirect_to @furniture_type, notice: 'دسته‌بندی جدید «<b>%s</b>» با موفقیت ایجاد شد.' %@furniture_type.name }
         format.json { render :show, status: :created, location: @furniture_type }
@@ -43,6 +44,8 @@ class FurnitureTypesController < ApplicationController
   # PATCH/PUT /furniture_types/1
   # PATCH/PUT /furniture_types/1.json
   def update
+    # update the uploaded images
+    update_uploaded_images
     respond_to do |format|
       if @furniture_type.update(furniture_type_params)
         format.html { redirect_to @furniture_type, notice: 'دسته‌بندی «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture_type.name }
@@ -104,16 +107,21 @@ class FurnitureTypesController < ApplicationController
     end
   end
   
-  # DELETE /furniture_types/1/delete_image?i=1
+  # DELETE /furniture_types/1/delete_image?i=1 {i => index of the target image}
   def delete_image
+    # list current images
     remain_images = @furniture_type.images
+    # delete the target image from the list
     deleted_image = remain_images.delete_at(params.permit(:i)[:i].to_i)
+    # remove the actual file from the FS
     deleted_image.remove!
+    # the hack for carrier wave bug [issue#2141]
     if remain_images.empty?
       @furniture_type.write_attribute(:images, nil)
     else      
       @furniture_type.images = remain_images  
     end
+    # respond to format
     respond_to do |format|
       if @furniture_type.save
         format.html { redirect_to @furniture_type, notice: 'عکس دسته‌بندی با موفقیت حذف گردید.' %@furniture_type.name }
@@ -129,16 +137,20 @@ class FurnitureTypesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_furniture_type
       @furniture_type = FurnitureType.find(params[:id])
+      # if image list is nill? make it an empty array
+      @furniture_type.images ||= []
     end
 
     def update_uploaded_images
+      # return if no image uploaded 
       return unless params[:furniture_type][:imid]
+      # find the uploaded imaged with passed image ids
       uploaded_files = UploadedFile.find(params[:furniture_type][:imid]);
-      images = uploaded_files.map { |m| m.images }
-      images.each do |i|
-        @furniture_type.images += i;
-      end
+      # list uploaded images and append the to current image list 
+      uploaded_files.each { |m| @furniture_type.images += m.images }
+      # re-create versions of all images  
       @furniture_type.images.each { |i| i.recreate_versions! }
+      # destroy the temp uploaded images
       uploaded_files.each { |u| u.destroy }
     end
 
