@@ -17,6 +17,9 @@
 //= require bootbox
 //= require bootbox-delete-confirm
 //! require turbolinks
+//= require nprogress
+//= require nprogress-ajax
+//! require nprogress-turbolinks
 
 $(document).ready(function(){
 	// append CSRF token to headers of all ajax posts
@@ -24,6 +27,12 @@ $(document).ready(function(){
 	  headers: {
 	    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
 	  }
+	});
+	// setting config for 1min delay length
+	NProgress.configure({
+	  speed: 500,
+	  minimum: 0.05,
+	  trickleRate: 0.03
 	});
 	// making alerts go away by clicking on the X button
 	$('#page-alerts .fa-times').click(function(){
@@ -47,6 +56,15 @@ $(document).ready(function(){
 			  $(this).find('[autofocus]').focus();
 			});
 			$(this).remove();
+			// if any remote link clicked, make the progress bar bound to the model
+			$('.bootbox.modal .modal-body a[data-remote]').click(function(e) {
+				NProgress.configure({
+					parent: '.bootbox.modal .modal-body',
+					template: '<div class="bar" role="bar"><div class="peg"></div></div><div class="spinner-left" role="spinner"><div class="spinner-icon"></div></div>'
+				});
+				// on ajax complete reset the progress bar boundaries
+				$(this).bind('ajax:complete', function(){ NProgress.configure({parent: 'body'}); });
+			});
 		});
 	});
 });

@@ -55,6 +55,8 @@ gem 'bootbox-rails'
 gem 'acts_as_paranoid', github: 'ActsAsParanoid/acts_as_paranoid'
 # For making thumbnail with carrierwave
 gem 'rmagick'
+# For progress bar indicator
+gem 'nprogress-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

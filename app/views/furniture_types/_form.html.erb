@@ -50,15 +50,16 @@
 <script type="text/javascript" charset="utf-8">
 	(function(){
 		$('form#<%= form_id %> a[data-method="delete"][data-remote="true"]')
-			.bind("ajax:success", function(evt, data, status, xhr){
+			.click(function() { $(this).parents('.img-wrap').addClass('fade') })
+			.bind("ajax:complete", function() { $(this).parents('.img-wrap').removeClass('fade') })
+			.bind("ajax:error", function(evt, data, status, xhr){ bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام حذف عکس مورد انتخاب صورت گرفت!'}) })
+			.bind("ajax:success", function(evt, data, status, xhr) {
 				$(this).parents('.img-wrap').fadeOut(500, function() { 
 					$(this).remove(); 
 					if($('form#<%= form_id %> #img-collection .img-wrap').length === 0)
 						$("form#<%= form_id %> #img-collection").html("<div class='empty-collection'>برای این دسته‌بندی عکسی ثبت نشده است.</div>")
 				});
 				if(data.order !== undefined) for(var i = 0, j = data.order.length; i < j; i++) $('a[for="'+data.order[i].target+'"]').attr('href', data.order[i].url);	
-			}).bind("ajax:error", function(evt, data, status, xhr){
-				bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام حذف عکس مورد انتخاب صورت گرفت!'})
 			});
 	})(jQuery);
 </script>
