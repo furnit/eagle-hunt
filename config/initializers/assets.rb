@@ -18,8 +18,9 @@ Rails.application.config.assets.precompile += [ 'photoswipe/*', 'custom/*' ]
   bootbox-delete-confirm
   jquery.fileupload jquery.fileupload-image jquery.fileupload-process jquery.fileupload-ui jquery.fileupload-validate jquery.iframe-transport jquery.ui.widget
   nprogress nprogress-bootstrap nprogress-turbolinks5
+  jquery.guillotine
 ).each do |item|
-  Rails.application.config.assets.precompile += [ "#{item}.css", "#{item}.js" ]
+  Rails.application.config.assets.precompile += [ "#{item}.css", "#{item}.js", "#{item}.min.css", "#{item}.min.js" ]
 end
 
 # ----------------- jQuery File Upload ---------------------
