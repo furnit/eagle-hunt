@@ -13,5 +13,8 @@ module Viramobl
     # -- all .rb files in that directory are automatically loaded.
     config.i18n.default_locale = :fa
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    
+    # add lib to auto-loading path
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
   end
 end
