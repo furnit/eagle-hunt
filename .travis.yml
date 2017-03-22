@@ -13,18 +13,22 @@ env:
 matrix:
   fast_finish: true
 
-before_install:
-  - gem update --system 2.6.11
-  - gem update bundler
-
-script:
-  - bundle exec rake db:create
-  - bundle exec rake db:migrate
+services:
+  - mysql
 
 addons:
   apt:
     packages:
       - imagemagick libmagickwand-dev
 
+before_install:
+  - bash .travis.install-mysql-5.7
+  - gem update --system 2.6.11
+  - gem update bundler
+
 before_script:
   - cp .travis.database.yml config/database.yml
+
+script:
+  - RAILS_ENV=test bundle exec rake db:create
+  - RAILS_ENV=test bundle exec rake db:migrate
