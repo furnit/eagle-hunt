@@ -1,12 +1,23 @@
 #!/usr/bin/env bash
 
-sudo apt-get remove --purge "^mysql.*"
-sudo apt-get autoremove
-sudo apt-get autoclean
-sudo rm -rf /var/lib/mysql
-sudo rm -rf /var/log/mysql
-echo mysql-apt-config mysql-apt-config/enable-repo select mysql-5.7 | sudo debconf-set-selections
-wget https://repo.mysql.com//mysql-apt-config_0.8.3-1_all.deb
+sudo service mysql stop || echo "mysql not stopped"
+sudo stop mysql-5.6 || echo "mysql-5.6 not stopped"
+echo mysql-apt-config mysql-apt-config/select-server select mysql-5.7 | sudo debconf-set-selections
+wget http://dev.mysql.com/get/mysql-apt-config_0.8.3-1_all.deb
 sudo dpkg --install mysql-apt-config_0.8.3-1_all.deb
 sudo apt-get update -q
-sudo apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" mysql-server mysql-client libmysqlclient*
+sudo apt-get install -q -y -o Dpkg::Options::=--force-confnew mysql-server mysql-client libmysqlclient*
+sudo mysql_upgrade
+
+# Then reset password for root mysql user to empty so you can connect easily:
+set -x
+set -e
+sudo service mysql stop || echo "mysql not stopped"
+sudo stop mysql-5.6 || echo "mysql-5.6 not stopped"
+sudo  mysqld_safe --skip-grant-tables &
+sleep 4
+sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+[ -f /var/lib/mysql/mysqld_safe.pid ] && sudo kill -9 `sudo cat /var/lib/mysql/mysqld_safe.pid`
+[ -f /var/run/mysqld/mysqld.pid ] && sudo kill -9 `sudo cat /var/run/mysqld/mysqld.pid` 
+sudo service mysql restart
+sleep 4
