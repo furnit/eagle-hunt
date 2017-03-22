@@ -79,4 +79,5 @@ end
 
 group :test do
   # nothing here
+  gem 'sqlite3'
 end
