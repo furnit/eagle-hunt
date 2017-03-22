@@ -24,7 +24,7 @@ addons:
 before_install:
   - bash .travis.install-mysql-5.7
   - gem update --system 2.6.11
-  - gem update bundler
+  - gem install bundler -v 1.14.6
 
 before_script:
   - cp .travis.database.yml config/database.yml
