@@ -1,26 +1,40 @@
 <% if @furniture.images.length > 0 %>
 
-  <%= javascript_include_tag 'photoswipe/photoswipe.min.js', 'photoswipe/photoswipe-ui-default.min.js' %>
   <%= stylesheet_link_tag    'photoswipe/photoswipe.css', 'photoswipe/default-skin/default-skin.css', media: 'all' %>
+  <%= javascript_include_tag 'photoswipe/photoswipe.min.js', 'photoswipe/photoswipe-ui-default.min.js', 'draggable_background.js' %>
+  
 
+	<%= create_cover image_url(@furniture.images), height: '500px', style: 'margin-top:-20px; z-index: -1000; background-position: 0px 100px; xposition: absolute; top: 70px', id: 'cover-img' %>
 	<div id='furniture-cover'>
-		<%= create_cover image_url(@furniture.images), height: '500px', style: 'margin-top:-20px; z-index: -1000; position: absolute; top: 70px' %>
-		<!-- <img src='<%= image_url(@furniture.images)%>' style=' display: block; width: 100%; height: 500px; object-fit: cover; position: absolute; z-index: -1000; top: 50px' /> -->		<div id='cover-options'>
+	  
+    <!-- <div id="cover-img" style="background:url('http://pipsum.com/640x480.jpg'); height: 400px; background-repeat:no-repeat; background-position: center center'>default</div> -->
+
+		<!-- <div style=' display: block; width: 100%; height: 500px; position: absolute; z-index: -1000; top: 50px' id='cover-img-container'>
+		  <img src='<%= image_url(@furniture.images)%>' style='width: 100%; height: 100%; object-fit: cover;' id='cover-img'/>
+		</div> -->		<div id='cover-options'>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right" role="toolbar">
-				  <%= link_to edit_furniture_path(@furniture), :remote => true, :class => "btn btn-default inline-html-call" do %>
+				  <%= button_tag :class => "btn btn-default inline-html-call" do %>
 				  	<span class='fa fa-photo'></span> تنظیم پروفایل
 			  	<% end %>
 			</div>
+			
+		    <ul id='cover-options-controls' class='hidden list-inline'>
+		      <li><a href='#' id='rotate_left'  title='Rotate left'><i class='fa fa-rotate-left'></i></a></li>
+		      <li><a href='#' id='zoom_out'     title='Zoom out'><i class='fa fa-search-minus'></i></a></li>
+		      <li><a href='#' id='fit'          title='Fit image'><i class='fa fa-arrows-alt'></i></a></li>
+		      <li><a href='#' id='zoom_in'      title='Zoom in'><i class='fa fa-search-plus'></i></a></li>
+		      <li><a href='#' id='rotate_right' title='Rotate right'><i class='fa fa-rotate-right'></i></a></li>
+		    </ul>
 		</div>
 		
 		<div class="container text-center">
-			<div id='cover-container'>
+		  <div id='cover-container'>
 				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1' data='left'><span class='fa fa-chevron-left'></span></div>
 				<div id='cover-collection' class='col-lg-10 col-md-10 col-sm-10 col-xs-10'>
 				<% 1.times do %>
 				<% index = 0; @furniture.images.each do |i| %>
 						<%= link_to image_url(i), 'data-type' => 'photo-gallary', 'data-thumb' => thumbnail_url(i) do %>
-							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail' %>
+							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 150px;' %>
 						<% end %>
 					<% end %>
 				<% end %>
@@ -29,11 +43,12 @@
 			</div>
 		</div>
 		<div class='clearfix'></div>
+    <div class="clear-absolute"></div>
 	</div>
 	<script type="application/javascript">
 		$(document).ready(function(){
-			$('#furniture-cover .cover-scroller[data="right"]').addClass('disabled');
-			if($('#cover-collection')[0].scrollWidth <= $('#cover-collection').width()) $('.cover-scroller').addClass('disabled');
+			// $('#furniture-cover .cover-scroller[data="right"]').addClass('disabled');
+			// if($('#cover-collection')[0].scrollWidth <= $('#cover-collection').width()) $('.cover-scroller').addClass('disabled');
 				
 			$('#furniture-cover .cover-scroller[data]').click(function() {
 				event.preventDefault();
@@ -117,5 +132,4 @@
         </div>
     </div>
 </div>
-	
 <% end %>

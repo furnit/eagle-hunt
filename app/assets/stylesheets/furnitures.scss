@@ -1,27 +1,70 @@
 @import "jquery.guillotine";
 
 $furniture-cover-margin-top: 400px;
+$furniture-cover-controls-bg-color: #1b1b1b;
+$furniture-cover-controls-border-color: #b1b1b1;
+
 
 #furniture-cover {
   #cover-options {
-    height: 30px;
-    width: 30px;
-    left: 10px;
-    right: 10px;
-    position: absolute;
-    // margin-top: 10px;
+    & {
+      height: 30px;
+      left: 10px;
+      top: 65px;
+      right: 0px;
+      position: absolute;
+    }
+    #cover-options-controls {
+      & {
+        right: 10px;
+        top: 60px;
+        position: absolute;
+        text-align: center;
+        background-color: $furniture-cover-controls-bg-color;
+        border: 1px solid $furniture-cover-controls-border-color;
+        padding: 0px 10px 0px 10px;
+      }
+      &:after {
+          content:'';
+          position: absolute;
+          top: -15px;
+          right: 12%;
+          width: 0;
+          height: 0;
+          border-bottom: solid 15px $furniture-cover-controls-border-color;
+          border-left: solid 15px transparent;
+          border-right: solid 15px transparent;
+      }
+      a {
+        display: inline-block;
+        margin: 0 5px 0 5px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 20px;
+        font-weight: 300;
+        color: #888
+      }
+      
+      a:hover {
+        color: #fff;
+        text-decoration: none
+      }
+
+    }
   }
   #cover-container {
     & {
-      height: 150px;
-      width: 100%;
-      margin-top: $furniture-cover-margin-top;
+      position: relative;
+      display: inline;
+      z-index: 1000;
+      top: -110px;
+      //margin-top: -4000px;
     }
     #cover-collection {
       overflow: hidden;
       white-space: nowrap;
       height: 100%;
-      padding: 10px 0 10px 0;
+      padding: 10px 0 50px 0;
       margin: 0;
     }
   }
@@ -41,6 +84,7 @@ $furniture-cover-margin-top: 400px;
     background-size: cover;
   }
   .cover-scroller {
+    top: 20px;
     height: 100%;
     padding: 0;
     margin: 0;
@@ -60,3 +104,7 @@ $furniture-cover-margin-top: 400px;
     }
   }
 }
+#furniture-cover ~ .container {
+  position: relative;
+  top: -150px
+} 
