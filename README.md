@@ -1,3 +1,8 @@
+Branch | Status
+------ | :------:
+Master | [![Build Status](https://travis-ci.org/noise2/friendly-doodle.svg?branch=master)](https://travis-ci.org/noise2/friendly-doodle)
+Develop | [![Build Status](https://travis-ci.org/noise2/friendly-doodle.svg?branch=develop)](https://travis-ci.org/noise2/friendly-doodle)
+
 # README
 
 This README would normally document whatever steps are necessary to get the
