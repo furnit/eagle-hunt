@@ -27,20 +27,20 @@ module ApplicationHelper
     raw '<div class="img img-responsive img-thumbnail %s" id="%s" style="%s;width:%s;height:%s;background-image:url(%s);background-size:100vw;background-repeat:no-repeat;background-position: center center"></div>' %[css_class.to_s, css_id.to_s, css_style.to_s, width.to_s, height.to_s, image.to_s]
   end
   
-  def check_awesome(title, comment, checked: false, id: nil, name: nil)
+  def check_awesome(title, comment, checked: false, id: nil, name: nil, value: nil, prefix: '')
     @check_awesome_id ||= 0
     @check_awesome_id += 1
     id = id || 'check-awesome-id' + @check_awesome_id.to_s
     raw "<div class='check-awesome form-group ir'>    
-      <input type='checkbox' id='#{id}' %s %s>
-      <label for='#{id}'>
+      <input type='checkbox' id='#{prefix}#{id}' %s %s %s>
+      <label for='#{prefix}#{id}'>
         <span></span>
         <span class='check'></span>
         <span class='box'></span>
         <msg class='title'>#{title}</msg>
       </label>  
       <p class='text-justify'>#{comment}</p>
-    </div>" %[name ? "name='#{name}'" : '', checked ? 'checked=checked' : '']
+    </div>" %[name ? "name='#{name}'" : '', checked ? 'checked=checked' : '', value ? "value='#{value}'" : '']
   end
   
   def i18n_set?(key)

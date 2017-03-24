@@ -19,6 +19,7 @@ Rails.application.config.assets.precompile += [ 'photoswipe/*', 'custom/*' ]
   jquery.fileupload jquery.fileupload-image jquery.fileupload-process jquery.fileupload-ui jquery.fileupload-validate jquery.iframe-transport jquery.ui.widget
   nprogress nprogress-bootstrap nprogress-turbolinks5
   draggable_background
+  jquery-ui
 ).each do |item|
   Rails.application.config.assets.precompile += [ "#{item}.css", "#{item}.js", "#{item}.min.css", "#{item}.min.js" ]
 end

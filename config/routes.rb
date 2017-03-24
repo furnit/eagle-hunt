@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   end
   resources :furnitures do
     member do 
+      put    :make_cover, json_request_only
+      post   :edit_cover, json_request_only
       delete :delete_image
     end
   end

@@ -1,5 +1,5 @@
 class FurnituresController < UploaderController
-  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :delete_image]
+  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :delete_image, :make_cover, :edit_cover]
 
   # GET /furnitures
   # GET /furnitures.json
@@ -72,7 +72,7 @@ class FurnituresController < UploaderController
     end
   end
   
-  # DELETE /furniture_types/1/delete_image?i=1 {i => index of the target image}
+  # DELETE /furniture/1/delete_image?i=1 {i => index of the target image}
   def delete_image
     delete_instance_image @furniture
     
@@ -86,6 +86,27 @@ class FurnituresController < UploaderController
         format.json { render json: @furniture.errors, status: :unprocessable_entity }
       end
     end
+  end
+  
+  # PUT /furniture/1/make_cover.json
+  def make_cover
+    _params = params.require(:furniture).permit(:iid)
+    # @furniture.image_profile_id = _params[:iid]
+    # @furniture.image_profile = @furniture.images[_params[:iid]]
+    # @furniture.save()
+    params[:furniture] = {
+      cover: {
+        configs: {
+          pos: 25%
+        }
+      }
+    }
+    debug _params
+  end
+  
+  def edit_cover
+    _params = params.require(:furniture).permit(:id, :iid)
+    debug _params
   end
 
   private

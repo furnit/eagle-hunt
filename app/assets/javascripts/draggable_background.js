@@ -100,22 +100,23 @@
       $window.on('mousemove.dbg touchmove.dbg', function(e) {
         e.preventDefault();
 
-        if (e.originalEvent.touches) {
-          modifyEventForTouch(e);
-        }
+        if (e.originalEvent.touches) { modifyEventForTouch(e); }
 
         var x = e.clientX,
             y = e.clientY;
+            
+        console.log([x, y, x0, y0])
 
-        xPos = options.axis === 'y' ? xPos : limit($el.innerWidth()-imageDimensions.width, 0, xPos+x-x0, options.bound);
-        yPos = options.axis === 'x' ? yPos : limit($el.innerHeight()-imageDimensions.height, 0, yPos+y-y0, options.bound);
+        xPos = options.axis === 'y' ? 'center' : limit($el.innerWidth()-imageDimensions.width, 0, xPos+Math.log2(x - x0 + 1), options.bound);
+        yPos = options.axis === 'x' ? 'center' : limit($el.innerHeight()-imageDimensions.height, 0, yPos+Math.log2(y - y0 + 1), options.bound);
         x0 = x;
         y0 = y;
 
-        xPos = (/*xPos == 0 ? 'center ' : */xPos + 'px ');
-        yPos = (/*yPos == 0 ? 'center'  : */yPos + 'px' );
-
-        $el.css('background-position', xPos + yPos);
+        // xPos = (/*xPos == 0 ? 'center ' : */xPos + 'px ');
+        // yPos = (/*yPos == 0 ? 'center'  : */yPos + 'px' );
+        console.log([xPos, yPos])
+        $el.css('background-position-y', yPos + 'px');
+        $el.css('background-position-x', xPos + 'px');
       });
 
       $window.on('mouseup.dbg touchend.dbg mouseleave.dbg', function() {

@@ -26,13 +26,16 @@
 			<legend>عکس‌های مربوطه</legend>
 		  <div class='field row' id='img-collection'>
 		  <% list_or_prompt furniture.images, 'برای این محصول عکسی ثبت نشده است.'  do |i, index| %>
-				<span class="img-wrap">
+				<span class="img-wrap" style='margin: 10px;'>
 				    <%= link_to delete_image_furniture_path(furniture, :format => :json, :i => index), :method => :delete, :remote => true, :for => i.thumb.url do %>
 				    	<span class="fa fa-times" title='این عکس‌ را حذف کن'></span>
 			    	<% end %>
 				    <%= link_to i.url, :target => :__blank do %>
 		  				<%= image_tag i.thumb.url, :class => 'img img-responsive img-thumbnail', :style => 'height: 100px!important;'  %>
 						<% end %>
+						<div class='text-center' style='margin: 10px 3px auto;'>
+						  <%= check_awesome('کاور؟', '', name: "furniture[cover_id]", value: index, prefix: 'cover-') %>
+						</div>
 				</span>
 		  <% end %>
 		  </div>
@@ -54,6 +57,20 @@
 
 <script type="text/javascript" charset="utf-8">
 	(function(){
+	  // select the cover candidate
+	  $('[name="furniture[cover_id]"]').change(function() { 
+	    if(this.checked) {
+	      $('[name="furniture[cover_id]"]').not(this).prop('checked', false);
+	      $.post({
+	        url: '<%= make_cover_furniture_path(furniture) %>',
+	        data: {iid: $(this).attr('value')},
+	        error: function() {
+	          bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام انتخاب عکس کاور مورد انتخاب صورت گرفت!'}) 
+	        }
+	      })
+      }
+    });
+    
 		$('form#<%= form_id %> a[data-method="delete"][data-remote="true"]')
 			.click(function() { $(this).parents('.img-wrap').addClass('fade') })
 			.bind("ajax:complete", function() { $(this).parents('.img-wrap').removeClass('fade') })
