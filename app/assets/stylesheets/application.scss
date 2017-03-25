@@ -30,6 +30,13 @@
   transition: $op1 $op2 $op3 $op4;
 }
 
+@mixin cross-browser-border-radius($op) {
+  -webkit-border-radius: $op!important;
+  webkit-border-radius: $op!important;
+  -moz-border-radius: $op!important;
+  border-radius: $op!important;
+}
+
 @mixin cross-browser-transform($op1) {
   -webkit-transform: $op1;
   -moz-transform: $op1;
@@ -107,6 +114,7 @@ body {
   textarea {
     // stop textarea to overflow on resize 
     max-width: 100%; 
+    @include cross-browser-border-radius(0);
   }
   
   dl {

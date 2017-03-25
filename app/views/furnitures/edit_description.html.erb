@@ -1,0 +1,53 @@
+<div id='edit-desc'>
+  <legend>ویرایش توضیحات محصول: <b><%= @furniture.name %></b></legend>
+  <ul class="nav nav-tabs">
+    <li role="presentation" class="active tabify" id='tab1'><a href="#">ویرایش متن</a></li>
+    <li role="presentation" class="tabify" id='tab2'><a href="#">خروجی</a></li>
+  </ul>
+  <div class='clearfix' style='margin: 10px;'></div>
+  <tab for='tab1'>
+    <%= redirect_form @furniture, url: update_description_furniture_path do |f| %>
+      <%= f.text_area :description, hide_label: true, placeholder: "توضیحات مدل #{@furniture.name}", autofocus: true %>
+      <%= f.submit 'ثبت تغییرات', class: 'btn btn-primary'%>
+    <% end %>
+  </tab>
+  <tab for='tab2'>
+    <center style='margin-top: 30px; font-size: 25px;' id='loading-spinner'>
+      <span class='fa fa-spinner fa-spin'></span>
+    </center>
+    <div id='content' class='hidden' style='padding: 10px;'>
+    </div>
+  </tab>
+</div>
+
+<style type="text/css" media="screen">
+  #edit-desc { padding: 10px; } 
+	#edit-desc form[name=furniture] textarea { height: 400px; font-size: 20px }
+	#edit-desc [for=tab2] { display: none }
+</style>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+	  $('#edit-desc .tabify').click(function(e){
+	    e.preventDefault();
+	    $('#edit-desc .tabify.active').removeClass('active');
+	    $('#edit-desc tab[for!='+$(this).attr('id')+']').hide();
+	    $('#edit-desc tab[for='+$(this).attr('id')+']').show();
+      $(this).addClass('active');
+	  });
+	  $('#edit-desc #tab2').click(function(e) {
+      $('[for=tab2] #loading-spinner').show();
+      $('[for=tab2] #content').addClass('hidden').html('');
+	    $.post(
+	      '<%= markup_furnitures_path %>', 
+	      {text: $("[for='tab1'] textarea").val()},
+	      function(data) {
+	        console.log(data.html);
+	        $('[for=tab2] #loading-spinner').hide();
+	        $('[for=tab2] #content').html(data.html).removeClass('hidden');
+	      },
+	      'json'
+	    );
+	  });
+	});
+</script>

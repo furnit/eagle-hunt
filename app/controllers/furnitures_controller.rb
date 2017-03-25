@@ -1,5 +1,5 @@
 class FurnituresController < UploaderController
-  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :delete_image, :cover]
+  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :delete_image, :cover, :edit_description, :update_description]
 
   # GET /furnitures
   # GET /furnitures.json
@@ -96,6 +96,32 @@ class FurnituresController < UploaderController
     end
   end
 
+  def edit_description
+  end
+  
+  def update_description
+    raise 'invalid input' if not furniture_params[:description]
+    respond_to do |format|
+      if @furniture.update({:description => furniture_params[:description], :description_html => GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, furniture_params[:description])})
+        format.html { redirect_to @furniture, notice: 'محصول «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture.name }
+        format.json { render json: @furniture, status: :ok, location: @furniture }
+      else
+        format.html { redirect_to @furniture, error: 'خطا در ویرایش محصول «<b>%s</b>»!' %@furniture.name }
+        format.json { render json: @furniture.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  def markup
+    require 'github/markup'
+    
+    text = params.permit(:text)[:text] || ''
+    
+    respond_to do |format|  
+      format.json { render json: { html: GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, text) }, status: :ok }
+    end
+  end
+
   private
     
     # Use callbacks to share common setup or constraints between actions.
@@ -105,6 +131,6 @@ class FurnituresController < UploaderController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def furniture_params
-      params.require(:furniture).permit(:id, :name, :comment, :furniture_type_id)
+      params.require(:furniture).permit(:id, :name, :comment, :furniture_type_id, :description)
     end
 end

@@ -28,6 +28,11 @@ Rails.application.routes.draw do
   resources :furnitures do
     member do 
       post   :cover, json_request_only
+      get    :edit_description, json_request_only
+      post   :update_description, json_request_only
+    end
+    collection do
+      post   :markup, json_request_only
     end
   end
   resources :profiles

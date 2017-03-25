@@ -6,6 +6,7 @@ fa:
       furniture:
         name: 'نام'
         furniture_type_id: 'دسته‌بندی محصول'
+        comment: 'درباره‌ی محصول'
     errors:
       models:
         furniture:

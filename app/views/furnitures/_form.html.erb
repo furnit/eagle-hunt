@@ -22,6 +22,10 @@
 					<%= f.collection_select :furniture_type_id, FurnitureType.all, :id, :name, { :prompt => 'لطفا نوع مبل را انتخاب کنید.' }, :required => true, :class=>'form-control' %>
 				</div>
 			  <div class="clearfix"></div>
+				<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+				  <%= f.text_area :comment, maxlength: 140 %>
+			  </div>
+        <div class="clearfix"></div>
 			</div>
 			<legend>عکس‌های مربوطه <small class='pull-left' style='font-size: 80%'>انتخاب <a href='#' class='text-default f-img-select' data-op='none'>هیچ‌یک</a> . <a href='#' class='text-danger f-img-select' data-op='all'>همه</a></small></legend>
 		  <div class='field row' id='img-collection'>
@@ -61,17 +65,25 @@
 	(function(){
 	  <% if furniture.id %>
 	  // select the cover candidate
-	  $('.f-img-select').click(function(){
+	  $('.f-img-select').click(function(e){
+	    e.preventDefault();
 	    var op = $(this).attr('data-op');
 	    switch(op) {
 	      case 'none':
-	         $('[name="furniture[images_to_delete][]"]').prop('checked', false);
+	         $('[name="furniture[images_to_delete][]"]').prop('checked', false).change();
            break;
         case 'all':
-           $('[name="furniture[images_to_delete][]"]').prop('checked', true);
+           $('[name="furniture[images_to_delete][]"]').prop('checked', true).change();
            break;
 	    }
 	  })
+	  $('[name="furniture[images_to_delete][]"]').change(function(){
+	    $el = $(this).closest('.img-wrap').find('.img');
+	    if(this.checked)
+        $el.css('border', '3px solid red');
+      else
+        $el.css('border', '');
+	  });
     <% end %>
 		$('form#<%= form_id %> a[data-method="delete"][data-remote="true"]')
 			.click(function() { $(this).parents('.img-wrap').addClass('fade') })

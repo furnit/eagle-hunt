@@ -78,8 +78,12 @@
 	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 block' id='furniture-detail-block2'>
 		<div class='row'>
 			<fieldset class='col-lg-8 col-md-8 col-sm-12 col-xs-12 pull-right'>
-				<legend>مدل <%= @furniture.furniture_type.name %>: <b><%= @furniture.name %></b></legend>
-				<p class='text-justify'><%= @furniture.description %></p>
+				<legend>مدل <%= @furniture.furniture_type.name %>: <b><%= @furniture.name %></b>
+			  <% auth_for :ADMIN do %>
+			     <small class='pull-left'><%= link_to raw('<small class="fa fa-pencil" style="font-size: 80%; margin-top: 5px"></small> ویرایش متن'), edit_description_furniture_path, remote: true, class: 'inline-html-call' %></small>
+			  <% end %>
+				</legend>
+				<div class='text-justify' style='font-size: 20px!important'><%= raw @furniture.description_html %></div>
 			</fieldset>	
 			<fieldset class='col-lg-4 col-md-4 col-sm-12 col-xs-12 pull-left'>
 				<legend>جزئیات این مدل</legend>
