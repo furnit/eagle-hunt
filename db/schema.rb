@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324173804) do
+ActiveRecord::Schema.define(version: 20170325203657) do
 
   create_table "const_consts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.float    "guni",       limit: 24
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20170324173804) do
     t.text     "description",       limit: 65535
     t.datetime "deleted_at"
     t.json     "cover_details"
+    t.string   "description_html"
     t.index ["deleted_at"], name: "index_furnitures_on_deleted_at", using: :btree
     t.index ["furniture_type_id"], name: "index_furnitures_on_furniture_type_id", using: :btree
   end

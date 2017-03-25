@@ -58,8 +58,12 @@ gem 'acts_as_paranoid', github: 'ActsAsParanoid/acts_as_paranoid'
 gem 'rmagick'
 # For progress bar indicator
 gem 'nprogress-rails'
-# auto build bootstrap forms
+# Auto build bootstrap forms
 gem 'bootstrap_form'
+# The markup gem
+gem 'github-markup', github: 'github/markup'
+# The common markers for github markdown
+gem 'commonmarker'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
