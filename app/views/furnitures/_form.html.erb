@@ -62,13 +62,13 @@
 	  <% if furniture.id %>
 	  // select the cover candidate
 	  $('.f-img-select').click(function(){
-	    var op = $(this).data('data-op');
+	    var op = $(this).attr('data-op');
 	    switch(op) {
 	      case 'none':
-	         $('[furniture[images_to_delete][]]').prop('checked', false);
+	         $('[name="furniture[images_to_delete][]"]').prop('checked', false);
            break;
         case 'all':
-           $('[furniture[images_to_delete][]]').prop('checked', true);
+           $('[name="furniture[images_to_delete][]"]').prop('checked', true);
            break;
 	    }
 	  })
