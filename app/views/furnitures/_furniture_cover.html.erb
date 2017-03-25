@@ -5,8 +5,8 @@
   <%= stylesheet_link_tag    'jquery-ui.css', 'photoswipe/photoswipe.css', 'photoswipe/default-skin/default-skin.css', media: 'all' %>
   <%= javascript_include_tag 'photoswipe/photoswipe.min.js', 'photoswipe/photoswipe-ui-default.min.js', 'draggable_background.js' %>
   
-
-	<%= create_cover image_url(@furniture.images), height: (conf.height.to_s + conf.height_unit), style: 'margin-top:-20px; z-index: -1000; background-position: 0px 100px; xposition: absolute; top: 70px', id: 'cover-img' %>
+  <img src='<%= image_url(@furniture.image_profile || @furniture.images) + '?v=' + @furniture.updated_at.to_s(:number)  %>' style='position: relative; top: -20px; width: 100%' height='<%= (conf.height) %>' id='img-f-cover' class='img imag-responsive'/>
+	<%= create_cover image_url(@furniture.images[@furniture.image_profile_id]), height: (conf.height.to_s + conf.height_unit), style: 'margin-top:-20px; z-index: -1000; background-position: center center; top: 70px; xbackground-size: 100vw;', id: 'div-f-cover', class: 'hidden' %>
 	<div id='furniture-cover'>		<div id='cover-options'>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right" role="toolbar">
 				  <%= button_tag :class => "btn btn-default inline-html-call", id: 'show-cover-options-controls' do %>
@@ -30,7 +30,7 @@
 					<% end %>
 				<% end %>
 				</div>
-				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1' data='right'><span class='fa fa-chevron-right'></span></div>
+				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1 disabled' data='right'><span class='fa fa-chevron-right'></span></div>
 			</div>
 		</div>
 		<div class='clearfix'></div>
@@ -79,6 +79,15 @@
   <% hidden_field_tag 'furniture[cover][configs]' %>
 <% end %>
 
+<style type="text/css" media="screen">
+	.pswp__button--like, .pswp__button--like:before {
+  background: url('/assets/red-heart.ico') 12px 12px no-repeat;
+  background-size: 20px 20px;
+  width: 44px;
+  height: 44px;
+}
+</style>
+
 <!-- Root element of PhotoSwipe. Must have class pswp. -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- Background of PhotoSwipe. 
@@ -103,6 +112,7 @@
                 <button class="pswp__button pswp__button--share" title="Share"></button>
                 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
                 <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <button class="pswp__button pswp__button--like" title="Make it cover image"></button>
 
                 <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
                 <!-- element will get class pswp__preloader--active when preloader is running -->

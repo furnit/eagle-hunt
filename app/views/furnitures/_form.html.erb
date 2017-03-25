@@ -57,6 +57,7 @@
 
 <script type="text/javascript" charset="utf-8">
 	(function(){
+	  <% if furniture.id %>
 	  // select the cover candidate
 	  $('[name="furniture[cover_id]"]').change(function() { 
 	    if(this.checked) {
@@ -70,7 +71,7 @@
 	      })
       }
     });
-    
+    <% end %>
 		$('form#<%= form_id %> a[data-method="delete"][data-remote="true"]')
 			.click(function() { $(this).parents('.img-wrap').addClass('fade') })
 			.bind("ajax:complete", function() { $(this).parents('.img-wrap').removeClass('fade') })

@@ -11,4 +11,13 @@ class ApplicationController < ActionController::Base
       redirect_to new_profile_path
     end
   end
+  
+  protected
+  
+  def prevent_browser_caching
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate' # HTTP 1.1.
+    response.headers['Pragma'] = 'no-cache' # HTTP 1.0.
+    response.headers['Expires'] = '0' # Proxies.
+  end
+  
 end
