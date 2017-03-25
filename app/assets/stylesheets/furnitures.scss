@@ -1,64 +1,9 @@
-$furniture-cover-margin-top: 400px;
-$furniture-cover-controls-bg-color: #1b1b1b;
-$furniture-cover-controls-border-color: #b1b1b1;
-
+$gallery-margin-top: -100px;
 
 #furniture-cover {
-  #cover-options {
-    & {
-      height: 30px;
-      left: 10px;
-      top: 65px;
-      right: 0px;
-      position: absolute;
-    }
-    #cover-options-controls {
-      & {
-        right: 45px;
-        top: 60px;
-        position: absolute;
-        text-align: center;
-        // background-color: $furniture-cover-controls-bg-color;
-        // border: 1px solid $furniture-cover-controls-border-color;
-        padding: 0px 10px 0px 10px;
-      }
-      &:after {
-          content:'';
-          position: absolute;
-          top: -15px;
-          right: 12%;
-          width: 0;
-          height: 0;
-          // border-bottom: solid 15px $furniture-cover-controls-border-color;
-          // border-left: solid 15px transparent;
-          // border-right: solid 15px transparent;
-      }
-      .ui-slider-vertical {
-          height: 400px;
-          width: 10px;
-      }
-      .ui-slider .ui-slider-handle {
-          height: 15px;
-          width: 18px;
-          padding-left: 5px;
-      }
-    }
-  }
-  #cover-container {
-    & {
-      position: relative;
-      display: inline;
-      z-index: 1000;
-      top: -90px;
-      //margin-top: -4000px;
-    }
-    #cover-collection {
-      overflow: hidden;
-      white-space: nowrap;
-      height: 100%;
-      padding: 10px 0 50px 0;
-      margin: 0;
-    }
+  & ~ .container {
+    position: relative;
+    top: -140px
   }
   .cover-item,
   .cover-scroller {
@@ -95,8 +40,64 @@ $furniture-cover-controls-border-color: #b1b1b1;
       cursor: default;
     }
   }
+  #cover-options {
+    & {
+      height: 30px;
+      left: 10px;
+      top: 65px;
+      right: 0px;
+      position: absolute;
+    }
+    #cover-options-controls {
+      & {
+        right: 45px;
+        top: 60px;
+        position: absolute;
+        text-align: center;
+        padding: 0px 10px 0px 10px;
+      }
+      &:after {
+          content:'';
+          position: absolute;
+          top: -15px;
+          right: 12%;
+          width: 0;
+          height: 0;
+      }
+      .ui-slider-vertical {
+          height: 400px;
+          width: 10px;
+      }
+      .ui-slider .ui-slider-handle {
+          height: 15px;
+          width: 18px;
+          padding-left: 5px;
+      }
+    }
+  }
+  #cover-container {
+    & {
+      position: relative;
+      display: inline;
+      z-index: 1000;
+      top: $gallery-margin-top;
+    }
+    #cover-collection {
+      overflow: hidden;
+      white-space: nowrap;
+      height: 100%;
+      padding: 10px 0 50px 0;
+      margin: 0;
+    }
+  }
 }
-#furniture-cover ~ .container {
-  position: relative;
-  top: -130px
-} 
+
+/* Medium devices (desktops; devices, 1600px and down) */
+@media (max-width: 1600px) { 
+  #div-f-cover { background-size: 100vw }
+}
+
+/* Large devices (large desktops, 1600px and up) */
+@media (min-width: 1600px) { 
+  #div-f-cover { background-size: 80vw }
+}

@@ -4,20 +4,22 @@
   
   <%= stylesheet_link_tag    'jquery-ui.css', 'photoswipe/photoswipe.css', 'photoswipe/default-skin/default-skin.css', media: 'all' %>
   <%= javascript_include_tag 'photoswipe/photoswipe.min.js', 'photoswipe/photoswipe-ui-default.min.js', 'draggable_background.js' %>
-  
-  <%= create_cover image_url(@furniture.images[@furniture.cover_details['index'].to_i]), height: (conf.height.to_s + conf.height_unit), style: "margin-top:-20px; z-index: -1000; background-position: center #{@furniture.cover_details['pos']}; top: 70px;", id: 'div-f-cover', class: '' %>
-	<div id='furniture-cover'>		<div id='cover-options'>
+  <div class='container-fluid' style='margin: 0; padding: 0'>
+  	<%= create_cover image_url(@furniture.images[@furniture.cover_details['index'].to_i]), height: (conf.height.to_s + conf.height_unit), style: "margin-top:-20px; z-index: -1000; background-position: center #{@furniture.cover_details['pos']}; top: 70px;", id: 'div-f-cover', class: '' %>
+  </div>
+	<div id='furniture-cover'>
+<% auth_for :ADMIN do %>
+		<div id='cover-options'>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right" role="toolbar">
 				  <%= button_tag :class => "btn btn-default inline-html-call", id: 'show-cover-options-controls' do %>
 				  	<span class='fa fa-photo'></span> تنظیم پروفایل
 			  	<% end %>
 			</div>
-<% auth_for :ADMIN do %>
 			<div id='cover-options-controls' class="hidden">
 			  <div id='scroller'></div>
 		  </div>
-<% end %>
 		</div>
+<% end %>
 		
 		<div class="container text-center">
 		  <div id='cover-container'>
