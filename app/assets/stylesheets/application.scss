@@ -52,6 +52,10 @@
 .ir { direction: rtl; text-align: right; }
 .en { direction: ltr; text-align: left; @extent .en-font }
 
+// make the modal be above everything, specially PhotoSwipe!
+.modal { z-index: 10000 }
+.modal-backdrop { z-index: 9999 }
+
 body {
   // assign the .ir-font to whole body
   & { @extend .ir-font; }

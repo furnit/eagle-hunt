@@ -44,6 +44,7 @@ class FurnitureTypesController < UploaderController
   # PATCH/PUT /furniture_types/1
   # PATCH/PUT /furniture_types/1.json
   def update
+    prevent_browser_caching
     # update the uploaded images
     update_uploaded_images @furniture_type, :furniture_type
     respond_to do |format|
@@ -104,22 +105,6 @@ class FurnitureTypesController < UploaderController
     respond_to do |format|
       format.html { redirect_to furniture_type_path(:id => params[:id]), notice: "دسته‌بندی «<b>#{@furniture_type.name}</b>» با موفقیت از آرشیو خارج شد. [ #{undo_url} ] " }
       format.json { head :no_content }
-    end
-  end
-  
-  # DELETE /furniture_types/1/delete_image?i=1 {i => index of the target image}
-  def delete_image
-    delete_instance_image @furniture_type
-    
-    # respond to format
-    respond_to do |format|
-      if @furniture_type.save
-        format.html { redirect_to instance, notice: 'عکس دسته‌بندی «<b>%s</b>» با موفقیت حذف گردید.' %@furniture_type.name }
-        format.json { render json: { order: @furniture_type.images.each.with_index.map {|i, index| {target: i.thumb.url, url: send("delete_image_#{@furniture_type.class.name.underscore}_path", @furniture_type, :format => :json, :i => index)} }}, status: :created, location: @furniture_type}
-      else
-        format.html { render :new }
-        format.json { render json: @furniture_type.errors, status: :unprocessable_entity }
-      end
     end
   end
 

@@ -39,28 +39,36 @@ $(document).ready(function(){
 	  minimum: 0.05,
 	  trickleRate: 0.03
 	});
-	$(document).ajaxSuccess(function(){
-		// make remote form validatable
-		$('form[data-remote]').not('.ajaxified').on('ajax:error', function(e, data, status, xhr) {
-		  form = $(this);
-		  errors = data.responseJSON;
-		  model_name = form.attr('name') || '';
-		
-		  $.each(errors, function(field, messages) {
-		    input = form.find('input, select, textarea').filter(function() {
-		      name = $(this).attr('name');
-		      if(name)
-		        return name.match(new RegExp(model_name + '\\[' + field + '\\(?'));
-		    });
-		    input.closest('.form-group').addClass('has-error');
-		    input.parent().find('.help-block').remove();
-		    input.parent().append('<span class="help-block">' + $.map(messages, function(m) { return m.charAt(0).toUpperCase() + m.slice(1); }).join('<br />') + '</span>');
-		  });
-		  
-		}).addClass('ajaxified');
-		// auto resize any text area
-		$('textarea').not('.autoresized').autosize().addClass('autoresized');
-	});
+	// things should be applied to documents
+	var apply_to_documents = function(){
+    // make remote form validatable
+    $('form[data-remote]').not('.ajaxified').on('ajax:error', function(e, data, status, xhr) {
+      if($(this).has('input[type!=hidden]').length + $(this).has('select').length + $(this).has('textarea') > 0) {
+        form = $(this);
+        errors = data.responseJSON;
+        model_name = form.attr('name') || '';
+        $.each(errors, function(field, messages) {
+          input = form.find('input, select, textarea').filter(function() {
+            name = $(this).attr('name');
+            if(name)
+              return name.match(new RegExp(model_name + '\\[' + field + '\\(?'));
+          });
+          input.closest('.form-group').addClass('has-error');
+          input.parent().find('.help-block').remove();
+          input.parent().append('<span class="help-block">' + $.map(messages, function(m) { return m.charAt(0).toUpperCase() + m.slice(1); }).join('<br />') + '</span>');
+          
+        });
+      }      
+    }).addClass('ajaxified');
+    // auto resize any text area
+    $('textarea').not('.autoresized').autosize().addClass('autoresized');
+    // enable tooltips
+    $('[data-toggle="tooltip"]').tooltip();
+	};
+	// apply to current document as well
+	apply_to_documents();
+	// and any other docuemnts loaded by ajax
+	$(document).ajaxSuccess(apply_to_documents);
 	// making alerts go away by clicking on the X button
 	$('#page-alerts .fa-times').click(function(){
 		$(this).parents('.alert').fadeOut(300, function() { $(this).remove(); });
@@ -94,6 +102,8 @@ $(document).ready(function(){
 			});
 		});
 	});
+}).ajaxError(function(){
+  bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام اجرای عملیات رخ داده‌ است؛ لطفا دوباره تلاش کنید و در صورت رخداد مجدد این خطا به تیم توسعه‌ی سایت اطلاع دهید و <b>بن تخفیف بگیرید</b>!'});
 });
 
 function update_the_shopping_cart_banner(count) {

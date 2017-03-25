@@ -1,5 +1,5 @@
 class FurnituresController < UploaderController
-  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :delete_image, :make_cover, :edit_cover]
+  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :delete_image, :cover]
 
   # GET /furnitures
   # GET /furnitures.json
@@ -39,7 +39,7 @@ class FurnituresController < UploaderController
         update_uploaded_images @furniture, :furniture , auto_save: true
         params[:furniture] = { iid: 0 }.with_indifferent_access.merge(params[:furniture]);
         @furniture.reload;
-        make_cover no_respond: true
+        # make_cover no_respond: true
         format.html { redirect_to @furniture, notice: 'دسته‌بندی جدید «<b>%s</b>» با موفقیت ایجاد شد.' %@furniture.name }
         format.json { render json: @furniture, status: :created, location: @furniture }
       else
@@ -52,11 +52,12 @@ class FurnituresController < UploaderController
   # PATCH/PUT /furnitures/1
   # PATCH/PUT /furnitures/1.json
   def update
+    prevent_browser_caching
     # update the uploaded images
     update_uploaded_images @furniture, :furniture
-    params[:furniture] = { iid: 0 }.with_indifferent_access.merge(params[:furniture]);
-    @furniture.reload;
-    make_cover no_respond: true
+    # if the user removed the cover image? reset the cover index 
+    @furniture.cover_details[:index] = 0 if ((params[:furniture][:images_to_delete] and params[:furniture][:images_to_delete].include? @furniture.cover_details['index']) or @furniture.cover_details['index'].to_i >= @furniture.images.length)
+    
     respond_to do |format|
       if @furniture.update(furniture_params)
         format.html { redirect_to @furniture, notice: 'محصول «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture.name }
@@ -78,81 +79,19 @@ class FurnituresController < UploaderController
     end
   end
   
-  # DELETE /furniture/1/delete_image?i=1 {i => index of the target image}
-  def delete_image
-    delete_instance_image @furniture
+  # POST /furniture/1/edit_cover.json
+  def cover
     
-    # respond to format
-    respond_to do |format|
+    details = params.require(:furniture).permit(:cover, :index);
+    
+    @furniture.cover_details['pos'] =  details[:cover] || @furniture.cover_details['pos']
+    @furniture.cover_details['index'] =  details[:index] || @furniture.cover_details['index']
+    
+    respond_to do |format|      
       if @furniture.save
-        format.html { redirect_to instance, notice: 'عکس محصول «<b>%s</b>» با موفقیت حذف گردید.' %@furniture.name }
-        format.json { render json: { order: @furniture.images.each.with_index.map {|i, index| {target: i.thumb.url, url: send("delete_image_#{@furniture.class.name.underscore}_path", @furniture, :format => :json, :i => index)} }}, status: :created, location: @furniture}
+        format.json { render json: {}, status: :ok, location: @furniture }
       else
-        format.html { render :new }
         format.json { render json: @furniture.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-  
-  # PUT /furniture/1/make_cover.json
-  def make_cover no_respond: false
-    _params = params.require(:furniture).permit(:iid)
-    create_cover = ->() {
-      return false if not (@furniture.images.length > _params[:iid])
-      @furniture.image_profile_id = _params[:iid]
-      @furniture.image_profile = @furniture.images[_params[:iid]]
-      @furniture.save()
-      params[:furniture] = {
-        cover: {
-          configs: {
-            pos: '25%'
-          }
-        }
-      }.with_indifferent_access.merge(params[:furniture])
-      edit_cover no_respond: no_respond
-      return true
-    }
-    if no_respond
-      create_cover.call();
-    else
-      respond_to do |format|
-        if not create_cover.call()
-          format.json { render json: {error: 'Invalid Cover ID!'}, status: :unprocessable_entity }
-        end
-      end
-    end
-  end
-  
-  def edit_cover no_respond: false
-    
-    prevent_browser_caching
-    
-    crop_cover = ->() {
-      require 'rmagick'
-      _params = params[:furniture][:cover] || raise("invalid arg")
-      if not @furniture.image_profile.file
-        params[:furniture] = { iid: 0 }.with_indifferent_access.merge(params[:furniture])
-        make_cover 
-      end
-      configs = if _params[:configs].is_a? String; JSON.parse(_params[:configs] || raise('invalid arg')) else _params[:configs] end
-      crop_percent = (configs['pos'] || raise("invalid arg")).to_f / 100 
-      cover_origin_file = @furniture.images[@furniture.image_profile_id].file.file;
-      cover = Magick::Image.read(cover_origin_file).first;
-      a = [(crop_percent * 100).to_i, (cover.rows - AppConfig.css.furniture.cover.height).abs].min
-      k = [0, a, cover.columns, AppConfig.css.furniture.cover.height]
-      cover.crop(*k).write(@furniture.image_profile.file.file)
-      @furniture.save()
-    }
-    if no_respond
-      crop_cover.call()
-    else
-      respond_to do |format|
-        begin
-          crop_cover.call();
-          format.json { redirect_to @furniture }
-        rescue RuntimeError => e
-          format.json { render json: {error: e.message}, status: :unprocessable_entity }
-        end
       end
     end
   end

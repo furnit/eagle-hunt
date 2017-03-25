@@ -24,10 +24,10 @@ module ApplicationHelper
     css_class = args[:class] || ''
     css_id = args[:id] || ''
     css_style = args[:style] || ''
-    raw '<div class="img img-responsive img-thumbnail %s" id="%s" style="%s;width:%s;height:%s;background-image:url(%s);background-repeat:no-repeat;background-position: center center"></div>' %[css_class.to_s, css_id.to_s, css_style.to_s, width.to_s, height.to_s, image.to_s]
+    raw '<div class="img img-responsive %s" id="%s" style="%s;width:%s;height:%s;background-image:url(%s);background-repeat:no-repeat;"></div>' %[css_class.to_s, css_id.to_s, css_style.to_s, width.to_s, height.to_s, image.to_s]
   end
   
-  def check_awesome(title, comment, checked: false, id: nil, name: nil, value: nil, prefix: '')
+  def check_awesome(title, comment, checked: false, id: nil, name: nil, value: nil, box_title: '', prefix: '')
     @check_awesome_id ||= 0
     @check_awesome_id += 1
     id = id || 'check-awesome-id' + @check_awesome_id.to_s
@@ -36,7 +36,7 @@ module ApplicationHelper
       <label for='#{prefix}#{id}'>
         <span></span>
         <span class='check'></span>
-        <span class='box'></span>
+        <span class='box' title='#{box_title}' data-toggle='tooltip'></span>
         <msg class='title'>#{title}</msg>
       </label>  
       <p class='text-justify'>#{comment}</p>

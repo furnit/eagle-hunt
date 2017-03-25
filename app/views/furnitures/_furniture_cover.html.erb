@@ -5,17 +5,18 @@
   <%= stylesheet_link_tag    'jquery-ui.css', 'photoswipe/photoswipe.css', 'photoswipe/default-skin/default-skin.css', media: 'all' %>
   <%= javascript_include_tag 'photoswipe/photoswipe.min.js', 'photoswipe/photoswipe-ui-default.min.js', 'draggable_background.js' %>
   
-  <img src='<%= image_url(@furniture.image_profile || @furniture.images) + '?v=' + @furniture.updated_at.to_s(:number)  %>' style='position: relative; top: -20px; width: 100%' height='<%= (conf.height) %>' id='img-f-cover' class='img imag-responsive'/>
-	<%= create_cover image_url(@furniture.images[@furniture.image_profile_id]), height: (conf.height.to_s + conf.height_unit), style: 'margin-top:-20px; z-index: -1000; background-position: center center; top: 70px; xbackground-size: 100vw;', id: 'div-f-cover', class: 'hidden' %>
+  <%= create_cover image_url(@furniture.images[@furniture.cover_details['index'].to_i]), height: (conf.height.to_s + conf.height_unit), style: "margin-top:-20px; z-index: -1000; background-position: center #{@furniture.cover_details['pos']}; top: 70px;", id: 'div-f-cover', class: '' %>
 	<div id='furniture-cover'>		<div id='cover-options'>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right" role="toolbar">
 				  <%= button_tag :class => "btn btn-default inline-html-call", id: 'show-cover-options-controls' do %>
 				  	<span class='fa fa-photo'></span> تنظیم پروفایل
 			  	<% end %>
 			</div>
+<% auth_for :ADMIN do %>
 			<div id='cover-options-controls' class="hidden">
 			  <div id='scroller'></div>
 		  </div>
+<% end %>
 		</div>
 		
 		<div class="container text-center">
@@ -23,8 +24,8 @@
 				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1' data='left'><span class='fa fa-chevron-left'></span></div>
 				<div id='cover-collection' class='col-lg-10 col-md-10 col-sm-10 col-xs-10'>
 				<% 1.times do %>
-				<% index = 0; @furniture.images.each do |i| %>
-						<%= link_to image_url(i), 'data-type' => 'photo-gallary', 'data-thumb' => thumbnail_url(i) do %>
+				<% index = 0; @furniture.images.each.with_index do |i, index| %>
+						<%= link_to image_url(i), 'data-type' => 'photo-gallary', 'data-index' => index, 'data-thumb' => thumbnail_url(i) do %>
 							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 150px;' %>
 						<% end %>
 					<% end %>
@@ -58,13 +59,20 @@
 			function openPhotoSwipe(items, options) {
 				var pswpElement = document.querySelectorAll('.pswp')[0];
 				// Initializes and opens PhotoSwipe
-				var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+				gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+				gallery.listen('afterChange', function() {
+				  idx = $('.pswp__counter').text().split('/')[0] - 1
+				  if($('.pswp').attr('data-cover-index') == idx)
+				    $('.pswp .pswp__button--like').addClass('cover-it').attr('title', 'It is the cover image');
+			    else
+			      $('.pswp .pswp__button--like').removeClass('cover-it').attr('title', 'Make it the cover image');
+				});
 				gallery.init();
 			}
 			$('#furniture-cover #cover-collection [data-type="photo-gallary"]').click(function(e){
 					e.preventDefault();
 					e.stopPropagation();
-					items = $("#furniture-cover #cover-collection [data-type='photo-gallary']").map(function() { return { src: this.href, msrc: $(this).attr('data-thumb'), w: 1280, h: 720 }; }).get();
+					items = $("#furniture-cover #cover-collection [data-type='photo-gallary']").map(function() { return { src: this.href, msrc: $(this).attr('data-thumb'), w: 1280, h: 720, 'data-index': $(this).attr('data-index') }; }).get();
 					options = {
 							index: $('#furniture-cover #cover-collection [data-type="photo-gallary"]').index(this),
 							fullscreenEl: true,
@@ -74,22 +82,80 @@
 			});
 		});
 	</script>
-	
-<%= form_tag edit_cover_furniture_path(format: :json), name: 'cover-config', method: :post do %>
-  <% hidden_field_tag 'furniture[cover][configs]' %>
-<% end %>
+
+<% auth_for :ADMIN do %>
+  <%= form_tag cover_furniture_path(format: :json), name: 'cover-config', method: :post, :remote => true do %>
+    <% hidden_field_tag 'furniture[cover]' %>
+  <% end %>
 
 <style type="text/css" media="screen">
 	.pswp__button--like, .pswp__button--like:before {
-  background: url('/assets/red-heart.ico') 12px 12px no-repeat;
-  background-size: 20px 20px;
-  width: 44px;
-  height: 44px;
-}
+    background: url('/assets/red-heart.ico') 12px 12px no-repeat;
+    background-size: 20px 20px;
+    width: 44px;
+    height: 44px;
+  }
+  .pswp__button--like.cover-it, .pswp__button--like.cover-it:before {
+    background-image: url('/assets/red-ok.ico');
+  }
 </style>
 
+<%= javascript_tag do %>
+$(document).ready(function(){
+  cover_options_btn = $('#cover-options [role=toolbar] .btn#show-cover-options-controls');
+  cover_options_btn.data('origin-html', cover_options_btn.html());
+  cover_options_btn.click(function(){
+    $('#cover-options > #cover-options-controls').toggleClass('hidden');
+    if($(this).hasClass('btn-success')) {
+      $('form[name="cover-config"] input#furniture_cover')
+        .val($('#div-f-cover').css('background-position-y'))
+        .closest('form')
+          .submit();
+      cover_options_btn
+        .html(cover_options_btn.data('origin-html'))
+        .removeClass('btn-success')
+        .addClass('btn-default');
+    }
+  });
+  
+  $('#scroller').slider({
+      orientation: "vertical",
+      min: -100,
+      max: 0,
+      value: -$('#div-f-cover').css('background-position').split(' ')[1].replace('%', ''),
+      step: 1,
+      slide: function( event, ui ) {
+        $('#div-f-cover').css('background-position-y', Math.abs(ui.value) + '%');
+        cover_options_btn
+          .html("<span class='fa fa-save'></span> ذخیره‌ تنظیمات پروفایل")
+          .removeClass('btn-default')
+          .addClass('btn-success');
+      }
+  });
+  $('.pswp__button--like').click(function(){
+    idx = parseInt($('.pswp .pswp__counter').text().split('/')[0] - 1);
+    if($('.pswp').attr('data-cover-index') == idx) return;
+    $.ajax({
+      url: '<%= cover_furniture_path(@furniture, format: :json) %>', 
+      data: {furniture:{index: idx}},
+      method: 'POST',
+      dataType: 'json',
+      success: function() {
+          $('.pswp').attr('data-cover-index', idx)
+          $('.pswp .pswp__button--like').addClass('cover-it').attr('title', 'It is the cover image');
+          $('#div-f-cover').css('background-image', 'url('+$('[data-type="photo-gallary"][data-index="'+idx.toString()+'"]').attr('href')+')')
+      },
+      error: function() { 
+      }
+    });
+  });
+});
+<% end %>
+
+<% end %>
+
 <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true" data-cover-index="<%= @furniture.cover_details['index'] %>">
     <!-- Background of PhotoSwipe. 
          It's a separate element as animating opacity is faster than rgba(). -->
     <div class="pswp__bg"></div>
@@ -112,7 +178,9 @@
                 <button class="pswp__button pswp__button--share" title="Share"></button>
                 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
                 <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+            <% auth_for :ADMIN do %>
                 <button class="pswp__button pswp__button--like" title="Make it cover image"></button>
+            <% end %>
 
                 <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
                 <!-- element will get class pswp__preloader--active when preloader is running -->

@@ -23,18 +23,15 @@
 				</div>
 			  <div class="clearfix"></div>
 			</div>
-			<legend>عکس‌های مربوطه</legend>
+			<legend>عکس‌های مربوطه <small class='pull-left' style='font-size: 80%'>انتخاب <a href='#' class='text-default f-img-select' data-op='none'>هیچ‌یک</a> . <a href='#' class='text-danger f-img-select' data-op='all'>همه</a></small></legend>
 		  <div class='field row' id='img-collection'>
 		  <% list_or_prompt furniture.images, 'برای این محصول عکسی ثبت نشده است.'  do |i, index| %>
 				<span class="img-wrap" style='margin: 10px;'>
-				    <%= link_to delete_image_furniture_path(furniture, :format => :json, :i => index), :method => :delete, :remote => true, :for => i.thumb.url do %>
-				    	<span class="fa fa-times" title='این عکس‌ را حذف کن'></span>
-			    	<% end %>
 				    <%= link_to i.url, :target => :__blank do %>
 		  				<%= image_tag i.thumb.url, :class => 'img img-responsive img-thumbnail', :style => 'height: 100px!important;'  %>
 						<% end %>
 						<div class='text-center' style='margin: 10px 3px auto;'>
-						  <%= check_awesome('کاور؟', '', name: "furniture[cover_id]", value: index, prefix: 'cover-') %>
+						  <%= check_awesome 'کاور؟', '', name: "furniture[images_to_delete][]", value: index, prefix: 'cover-', box_title: 'حذف؟' %>
 						</div>
 				</span>
 		  <% end %>
@@ -55,22 +52,26 @@
 </div>
 <div class='clearfix'></div>
 
+<style type="text/css" media="screen">
+	.img-wrap .check-awesome label .check { border-color: red; }
+	.img-wrap .check-awesome label .box { border-color: #e27a12; }
+</style>
+
 <script type="text/javascript" charset="utf-8">
 	(function(){
 	  <% if furniture.id %>
 	  // select the cover candidate
-	  $('[name="furniture[cover_id]"]').change(function() { 
-	    if(this.checked) {
-	      $('[name="furniture[cover_id]"]').not(this).prop('checked', false);
-	      $.post({
-	        url: '<%= make_cover_furniture_path(furniture) %>',
-	        data: {iid: $(this).attr('value')},
-	        error: function() {
-	          bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام انتخاب عکس کاور مورد انتخاب صورت گرفت!'}) 
-	        }
-	      })
-      }
-    });
+	  $('.f-img-select').click(function(){
+	    var op = $(this).data('data-op');
+	    switch(op) {
+	      case 'none':
+	         $('[furniture[images_to_delete][]]').prop('checked', false);
+           break;
+        case 'all':
+           $('[furniture[images_to_delete][]]').prop('checked', true);
+           break;
+	    }
+	  })
     <% end %>
 		$('form#<%= form_id %> a[data-method="delete"][data-remote="true"]')
 			.click(function() { $(this).parents('.img-wrap').addClass('fade') })

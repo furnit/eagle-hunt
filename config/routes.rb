@@ -20,17 +20,14 @@ Rails.application.routes.draw do
   resources :shopping_carts, ajax_server
   
   resources :furniture_types, :path => "category" do
-    member do 
-      delete :delete_image
+    member do
       delete :archive
       patch :recover
     end
   end
   resources :furnitures do
     member do 
-      put    :make_cover, json_request_only
-      post   :edit_cover, json_request_only
-      delete :delete_image
+      post   :cover, json_request_only
     end
   end
   resources :profiles

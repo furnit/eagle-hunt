@@ -1,6 +1,5 @@
 class AddImageProfileToFurniture < ActiveRecord::Migration[5.0]
   def change
-    add_column :furnitures, :image_profile_id, :integer
-    add_column :furnitures, :image_profile, :json
+    add_column :furnitures, :cover_details, :json
   end
 end

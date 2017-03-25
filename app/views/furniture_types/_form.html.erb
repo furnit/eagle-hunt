@@ -20,12 +20,12 @@
   <div class='field row' id='img-collection'>
   <% list_or_prompt furniture_type.images, 'برای این دسته‌بندی عکسی ثبت نشده است.'  do |i, index| %>
 		<span class="img-wrap">
-		    <%= link_to delete_image_furniture_type_path(furniture_type, :format => :json, :i => index), :method => :delete, :remote => true, :for => i.thumb.url do %>
-		    	<span class="fa fa-times" title='این عکس‌ را حذف کن'></span>
-	    	<% end %>
 		    <%= link_to i.url, :target => :__blank do %>
   				<%= image_tag i.thumb.url, :class => 'img img-responsive img-thumbnail', :style => 'height: 100px!important;'  %>
 				<% end %>
+          <div class='text-center' style='margin: 10px 3px auto;'>
+            <%= check_awesome 'کاور؟', '', name: "furniture_type[images_to_delete][]", value: index, prefix: 'cover-', box_title: 'حذف؟' %>
+          </div>
 		</span>
   <% end %>
   </div>
