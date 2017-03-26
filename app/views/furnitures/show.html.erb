@@ -61,10 +61,14 @@
 				</tbody>
 			</table>
 		</fieldset>
-		<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12' style='padding: 0; padding-top: 20px'>
-      <%= check_awesome (@shopping != nil ? 'به سبد خرید اضافه شد.' : 'به سبد خرید اضافه کن!'),
-												'توجه فرمایید که می‌توانید در مرحله‌ تکمیل خرید، کلیه‌ی سفارشات خود را با تغییرات دلخواه از ما بخواهید.',
-												id: 'add_to_cart', checked: @shopping != nil %>
+		<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12 text-center' style='padding: 0; padding-top: 40px;'>
+		  <div class='col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-2 col-sm-8 col-xs-offset-2 col-xs-8 order'>
+  		  <div class='btn-order'>
+  		    <label>سفارش محصول</label>
+  		    <div><span class='fa fa-truck'></span></div>
+  	    </div>
+  	    <p style=''>توجه فرمایید که می‌توانید در مرحله‌ تکمیل خرید، کلیه‌ی سفارشات خود را با تغییرات دلخواه از ما بخواهید.</p>
+	    </div>
 		</div>
 		<div class='col-lg-9 col-md-9 col-sm-6 col-xs-12 text-success pull-left' id='sell-conditions' style="font-weight: bold">
 			<hr />

@@ -48,7 +48,7 @@
 
 .ir-font { 
   font-family: BZar,'BZar', "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 17px;
+  font-size: 17px!important;
 }
 
 .en-font {
@@ -66,6 +66,13 @@
 body {
   // assign the .ir-font to whole body
   & { @extend .ir-font; }
+  
+  input,
+  select,
+  textarea {
+    font-size: 20px!important;  
+  }
+  
   
   #page-alerts {
     .alert {
@@ -186,6 +193,50 @@ body {
   .alert {
     &.alert-default {
       border: 1px solid #aaa
+    }
+  }
+  
+  .order {
+    & {
+      padding: 0;  
+    }
+    & > p {
+      color: #777;
+      text-decoration: justify;
+      margin-top: 10px;
+    }
+    & > .btn-order {
+      & {
+        color: white;
+        height: 50px;
+        cursor: pointer;
+        background-color: #34b52b;
+        @include cross-browser-border-radius(4px);
+      }
+      &:hover {
+        & { background-color: #39bc2d }
+        & > div { background-color: #50d341 }
+      }
+      & > * {
+        cursor: pointer;
+        padding-top: 13px;
+        @include cross-browser-border-radius(4px);
+      }
+      & > label { 
+        @extend .col-lg-8;
+        @extend .col-md-8;
+        @extend .col-sm-8;
+        @extend .col-xs-8;
+      }
+      & > div {
+        @extend .col-lg-4;
+        @extend .col-md-4;
+        @extend .col-sm-4;
+        @extend .col-xs-4;
+        background-color: #49ce40;
+        height: 100%;
+        padding-top: 16px;
+      }
     }
   }
 }
