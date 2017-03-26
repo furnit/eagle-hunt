@@ -10,6 +10,10 @@ ajax_server = {
 
 Rails.application.routes.draw do
   
+  namespace :admin do
+    root to: 'home#index'
+    resources :user_types
+  end
   root to: 'home#index'
   
   get 'contact/us/:section', to: 'home#contactus', as: 'contact_us'

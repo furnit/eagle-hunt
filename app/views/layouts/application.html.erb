@@ -10,8 +10,8 @@
   </head>
 
   <body style="padding-top: 70px;">
-    <%= javascript_include_tag controller_name %>
-    <%= stylesheet_link_tag    controller_name, media: 'all' %>
+    <%= javascript_include_tag params[:controller] %>
+    <%= stylesheet_link_tag    params[:controller], media: 'all' %>
 	  <!-- Fixed navbar -->
 	  <nav class="navbar navbar-default navbar-fixed-top" style='margin: 0;font-size: 15px'>
 	    <div class="container">

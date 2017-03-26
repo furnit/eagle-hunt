@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Admin User Types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Comment</th>
+      <th>Auth level</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_user_types.each do |admin_user_type| %>
+      <tr>
+        <td><%= admin_user_type.name %></td>
+        <td><%= admin_user_type.comment %></td>
+        <td><%= admin_user_type.auth_level %></td>
+        <td><%= link_to 'Show', admin_user_type %></td>
+        <td><%= link_to 'Edit', edit_admin_user_type_path(admin_user_type) %></td>
+        <td><%= link_to 'Destroy', admin_user_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Admin User Type', new_admin_user_type_path %>

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @admin_user_type.name %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @admin_user_type.comment %>
+</p>
+
+<p>
+  <strong>Auth level:</strong>
+  <%= @admin_user_type.auth_level %>
+</p>
+
+<%= link_to 'Edit', edit_admin_user_type_path(@admin_user_type) %> |
+<%= link_to 'Back', admin_user_types_path %>

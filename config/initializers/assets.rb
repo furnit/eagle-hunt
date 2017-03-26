@@ -43,14 +43,13 @@ end
   home
   furnitures
   furniture_types
-  sitting_sets
   registrations
   sessions
   profiles
   shopping_carts
-  orders
-  pictures
   uploaded_files
+  admin/home
+  admin/user_types
 ).each do |controller|
   Rails.application.config.assets.precompile += [ "#{controller}.coffee", "#{controller}.js", "#{controller}.css", "#{controller}.scss" ]
 end
