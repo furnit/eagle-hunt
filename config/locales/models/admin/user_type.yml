@@ -1,0 +1,22 @@
+fa:
+  activerecord:
+    models:
+      admin/user_type: 'نوع کاربری'
+    attributes:
+      admin/user_type:
+        name: 'نام'
+        comment: 'توضیحات'
+        symbol: 'نماد'
+        auth_level: 'سطح دسترسی'
+    errors:
+      models:
+        admin/user_type:
+          attributes:
+            name:
+              blank: 'نمیتواند خالی باشد.'
+              taken: 'نمیتواند تکراری باشد.'
+            symbol:
+              blank: 'نمیتواند خالی باشد.'
+              taken: 'نمیتواند تکراری باشد.'
+            auth_level:
+              blank: 'نمیتواند خالی باشد.'

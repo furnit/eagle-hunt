@@ -1,17 +1,19 @@
 <div id='management-panel' style='margin-top: -20px'>
   <div class='row' style='padding:0;'>
     <div id='panel' class='col-lg-10 col-md-10 col-sm-9 col-xs-12 pull-left'>
-      <iframe name='panel-frame' class="embed-responsive-itemx" style='width: 100%; height: 100%;' frameborder='0' src="<%= dashboard_admin_home_index_path %>"></iframe>
+      <iframe name='panel-frame' style='width: 100%; height: 100%;' frameborder='0' src="<%= dashboard_admin_home_index_path %>" onLoad="window.history.pushState('', '', '<%= request.path %>/#'+this.contentWindow.location.pathname);"></iframe>
     </div>
     <div id='navigation' class='col-lg-2 col-md-2 col-sm-3 hidden-xs pull-right'>
       <legend style="margin-bottom: 30px">پنل مدیریتی</legend>
       <div class="list-group">
-        <a href="<%= dashboard_admin_home_index_path %>" class="list-group-item active" target='panel-frame'>
-          داشبورد مدیریتی
+        <a href="<%= dashboard_admin_home_index_path %>" class="list-group-item" target='panel-frame'>
+          داشبورد
         </a>
-        <a href="<%= admin_user_types_path %>" class="list-group-item" target='panel-frame'>
-          مدیریت انواع کاربران
-        </a>
+      </div>
+      
+      <legend>مدیریت محصولات</legend>
+      <div class="list-group">
+      
         <a href="#" class="list-group-item" target='panel-frame'>
           مدیریت دسته‌بندی‌ محصولات
         </a>
@@ -19,11 +21,21 @@
           مدیریت محصولات
         </a>
       </div>
+      
+      <legend>مدیریت کاربران</legend>
+      <div class="list-group">
+        <a href="<%= admin_user_types_path %>" class="list-group-item" target='panel-frame'>
+          مدیریت انواع کاربران
+        </a>
+        <a href="<%= '#' %>" class="list-group-item" target='panel-frame'>
+          مدیریت کاربران
+        </a>
+      </div>
+      
     </div>
     <div class='clearfix'></div>
   </div>
 </div>
-
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 	  $('#management-panel #navigation .list-group a[href!="#"]').click(function(){
@@ -32,5 +44,19 @@
 	      .siblings()
 	        .removeClass('active');
 	  });
+	  // make bookmarkable hash
+    if(window.location.hash) {
+      url = window.location.hash.split('#')[1];
+      // only allow by pass the urls that are defined in this section
+      if(url.startsWith('/') && $('#management-panel #navigation .list-group a[href="'+url+'"]').length) {
+        // assign the url
+        $("iframe[name='panel-frame']").attr('src', url)
+        // make the related link active
+        $('#management-panel #navigation .list-group a[href="'+url+'"]').click();
+      }
+    }
+    // if none is active? activate the first one
+    if(!$('#management-panel #navigation .list-group a[href!="#"].active').length)
+      $('#management-panel #navigation .list-group:first a[href!="#"]:first').addClass('active')
 	})
 </script>

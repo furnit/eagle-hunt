@@ -15,9 +15,12 @@ ActiveRecord::Schema.define(version: 20170326121612) do
   create_table "admin_user_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.text     "comment",    limit: 65535
+    t.string   "symbol"
     t.integer  "auth_level"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.index ["name"], name: "index_admin_user_types_on_name", unique: true, using: :btree
+    t.index ["symbol"], name: "index_admin_user_types_on_symbol", unique: true, using: :btree
   end
 
   create_table "const_consts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

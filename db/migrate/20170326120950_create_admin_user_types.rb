@@ -3,9 +3,13 @@ class CreateAdminUserTypes < ActiveRecord::Migration[5.0]
     create_table :admin_user_types do |t|
       t.string :name
       t.text :comment
+      t.string :symbol
       t.integer :auth_level
 
       t.timestamps
+
+      t.index :name, unique: true
+      t.index :symbol, unique: true
     end
   end
 end

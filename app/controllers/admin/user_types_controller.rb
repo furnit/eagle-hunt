@@ -69,6 +69,6 @@ class Admin::UserTypesController < Admin::AdminbaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_user_type_params
-      params.require(:admin_user_type).permit(:name, :comment, :auth_level)
+      params.require(:admin_user_type).permit(:name, :comment, :symbol, :auth_level)
     end
 end
