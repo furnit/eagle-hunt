@@ -240,4 +240,11 @@ body {
       }
     }
   }
+  .pagination {
+    .prev-symbol,
+    .next-symbol {
+      top: 2.3px;
+      position: relative;
+    }
+  }
 }

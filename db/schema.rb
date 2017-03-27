@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170326121612) do
+ActiveRecord::Schema.define(version: 20170327110801) do
 
   create_table "admin_user_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -153,6 +153,7 @@ ActiveRecord::Schema.define(version: 20170326121612) do
     t.integer  "profile_id"
     t.datetime "deleted_at"
     t.integer  "admin_user_type_id"
+    t.datetime "blocked_at"
     t.index ["admin_user_type_id"], name: "index_users_on_admin_user_type_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

@@ -64,6 +64,12 @@ gem 'bootstrap_form'
 gem 'github-markup', github: 'github/markup'
 # The common markers for github markdown
 gem 'commonmarker'
+# For pagination
+gem 'will_paginate', '~> 3.1.0'
+# The bootstrap stylish for pagination
+gem 'will_paginate-bootstrap'
+# Translation for will_paginate
+gem 'will-paginate-i18n', github: 'noise2/will-paginate-i18n'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

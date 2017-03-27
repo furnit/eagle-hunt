@@ -12,6 +12,8 @@ module AdminRoutes
         resources :home, RC::non_restful.merge({:path => ''}) do 
           collection do 
             get :dashboard
+            get :users
+            delete :user_block
           end
         end
         

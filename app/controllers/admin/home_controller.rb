@@ -4,4 +4,8 @@ class Admin::HomeController < Admin::AdminbaseController
   end
   def dashboard
   end
+  
+  def users
+    @users = User.all.paginate(:page => params[:page])
+  end
 end
