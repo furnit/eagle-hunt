@@ -1,16 +1,16 @@
 <div id='management-panel' style='margin-top: -20px'>
   <div class='row' style='padding:0;'>
     <div id='panel' class='col-lg-10 col-md-10 col-sm-9 col-xs-12 pull-left'>
-      <iframe name='panel-frame' class="embed-responsive-itemx" style='width: 100%; height: 100%' frameborder='0'></iframe>
+      <iframe name='panel-frame' class="embed-responsive-itemx" style='width: 100%; height: 100%;' frameborder='0' src="<%= dashboard_admin_home_index_path %>"></iframe>
     </div>
     <div id='navigation' class='col-lg-2 col-md-2 col-sm-3 hidden-xs pull-right'>
       <legend style="margin-bottom: 30px">پنل مدیریتی</legend>
       <div class="list-group">
-        <a href="<%= '#' %>" class="list-group-item" target='panel-frame'>
+        <a href="<%= dashboard_admin_home_index_path %>" class="list-group-item active" target='panel-frame'>
           داشبورد مدیریتی
         </a>
-        <a href="https://www.w3schools.com" class="list-group-item" target='panel-frame'>
-          مدیریت کاربران
+        <a href="<%= admin_user_types_path %>" class="list-group-item" target='panel-frame'>
+          مدیریت انواع کاربران
         </a>
         <a href="#" class="list-group-item" target='panel-frame'>
           مدیریت دسته‌بندی‌ محصولات
@@ -23,3 +23,14 @@
     <div class='clearfix'></div>
   </div>
 </div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+	  $('#management-panel #navigation .list-group a[href!="#"]').click(function(){
+	    $(this)
+	      .addClass('active')
+	      .siblings()
+	        .removeClass('active');
+	  });
+	})
+</script>

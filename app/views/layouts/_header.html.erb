@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa-IR" style='text-align: right'>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Viramobl</title>
+    <%= csrf_meta_tags %>
+    
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= javascript_include_tag params[:controller] %>
+    <%= stylesheet_link_tag    params[:controller], media: 'all' %>

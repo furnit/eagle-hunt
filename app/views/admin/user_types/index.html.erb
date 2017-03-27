@@ -1,31 +1,37 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Admin User Types</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Comment</th>
-      <th>Auth level</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @admin_user_types.each do |admin_user_type| %>
+<div class='col-md-offset-2 col-md-8'>
+  <legend>
+    <h1 class='pull-right'> انواع کاربران</h1>
+    <small class='pull-left' style='font-size: 16px; margin-top: 40px;'>
+      <%= link_to new_admin_user_type_path, class: 'inline-html-call' do %>
+        <span class='fa fa-plus'></span>
+        ایجاد نوع جدید
+      <% end %>
+    </small>
+    <div class='clearfix'></div>
+  </legend>
+  
+  <table class='table table-striped table-hover'>
+    <thead>
       <tr>
-        <td><%= admin_user_type.name %></td>
-        <td><%= admin_user_type.comment %></td>
-        <td><%= admin_user_type.auth_level %></td>
-        <td><%= link_to 'Show', admin_user_type %></td>
-        <td><%= link_to 'Edit', edit_admin_user_type_path(admin_user_type) %></td>
-        <td><%= link_to 'Destroy', admin_user_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>ردیف</th>
+        <th>نام</th>
+        <th>توضیحات</th>
+        <th>سطح دسترسی</th>
+        <th colspan="3">عملیات</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Admin User Type', new_admin_user_type_path %>
+    </thead>
+  
+    <tbody>
+      <% @admin_user_types.each do |admin_user_type| %>
+        <tr>
+          <td><%= admin_user_type.id %></td>
+          <td><%= admin_user_type.name %></td>
+          <td><%= admin_user_type.comment %></td>
+          <td><%= admin_user_type.auth_level %></td>
+          <td><%= link_to 'ویرایش', edit_admin_user_type_path(admin_user_type), class: 'text-warning inline-html-call' %></td>
+          <td><%= link_to 'حذف', admin_user_type, method: :delete, data: { confirm: 'آیا از انجام این عمل مطمئن هستید؟' }, class: 'text-danger' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

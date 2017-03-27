@@ -20,6 +20,7 @@ Rails.application.config.assets.precompile += [ 'photoswipe/*', 'custom/*' ]
   nprogress nprogress-bootstrap nprogress-turbolinks5
   draggable_background
   jquery-ui
+  nprogress-ajax-iframe
 ).each do |item|
   Rails.application.config.assets.precompile += [ "#{item}.css", "#{item}.js", "#{item}.min.css", "#{item}.min.js" ]
 end

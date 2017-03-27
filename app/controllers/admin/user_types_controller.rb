@@ -1,4 +1,4 @@
-class Admin::UserTypesController < ApplicationController
+class Admin::UserTypesController < Admin::AdminbaseController
   before_action :set_admin_user_type, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/user_types
@@ -28,8 +28,8 @@ class Admin::UserTypesController < ApplicationController
 
     respond_to do |format|
       if @admin_user_type.save
-        format.html { redirect_to @admin_user_type, notice: 'User type was successfully created.' }
-        format.json { render :show, status: :created, location: @admin_user_type }
+        format.html { redirect_to admin_user_types_path, notice: 'نوع کاربر «<b>%s</b>» با موفقیت ایجاد شد.' %@admin_user_type.name }
+        format.json { render :index, status: :created, location: admin_user_types_path }
       else
         format.html { render :new }
         format.json { render json: @admin_user_type.errors, status: :unprocessable_entity }
@@ -42,7 +42,7 @@ class Admin::UserTypesController < ApplicationController
   def update
     respond_to do |format|
       if @admin_user_type.update(admin_user_type_params)
-        format.html { redirect_to @admin_user_type, notice: 'User type was successfully updated.' }
+        format.html { redirect_to admin_user_types_path, notice: 'نوع کاربر «<b>%s</b>» با موفقیت ویرایش شد.' %@admin_user_type.name  }
         format.json { render :show, status: :ok, location: @admin_user_type }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class Admin::UserTypesController < ApplicationController
   def destroy
     @admin_user_type.destroy
     respond_to do |format|
-      format.html { redirect_to admin_user_types_url, notice: 'User type was successfully destroyed.' }
+      format.html { redirect_to admin_user_types_url, notice: 'نوع کاربر «<b>%s</b>» با موفقیت حذف شد.' %@admin_user_type.name  }
       format.json { head :no_content }
     end
   end
