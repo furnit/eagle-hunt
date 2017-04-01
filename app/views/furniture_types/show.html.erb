@@ -3,7 +3,7 @@
 	<div class='col-lg-3 col-md-3 col-sm-12 col-xs-12 furniture-right-pannel pull-right'>
 		<fieldset class='col-md-12'>
 			<legend><span class='fa fa-chevron-left'></span> پنل تنظیمات</legend>
-	<% auth_for :ADMIN do %>
+	<% acu_as :admin do %>
 			<div>
 				<strong>مدیریت</strong>
 				<br />
@@ -31,10 +31,10 @@
 					  </ul>
 					</div>
 					<div class="btn-group-vertical" role="group" aria-label="...">
-					
-					
+
+
 					</div>
-					
+
 					<hr />
 					<%= link_to new_furniture_path(:cat => @furniture_type.id), :class => 'btn btn-success inline-html-call' do %>
 						<span class='fa fa-plus'></span> اضافه کردن محصول

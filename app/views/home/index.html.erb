@@ -1,6 +1,6 @@
 <div class='container'>
 	<legend>انواع دسته بندی‌ها:
-	<% auth_for :ADMIN do %>
+	<% acu_as :admin do %>
 		<a class='pull-left inline-html-call' style='font-size: 70%' href='<%= new_furniture_type_path %>'><span class='fa fa-plus'></span> دسته‌بندی جدید</a>
 	<% end %>
 	</legend>

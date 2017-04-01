@@ -11,16 +11,16 @@
 // about supported directives.
 //
 //= require jquery
-//! require jquery.turbolinks
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require bootbox
 //= require bootbox-delete-confirm
-//! require turbolinks
+//= require turbolinks
 //= require nprogress
 //= require jquery.autosize
 //= require nprogress-ajax-iframe
-//! require nprogress-turbolinks
+//= require nprogress-turbolinks
 
 $(document).ready(function(){
 	// auto resize any textarea
@@ -56,9 +56,9 @@ $(document).ready(function(){
           input.closest('.form-group').addClass('has-error');
           input.parent().find('.help-block').remove();
           input.parent().append('<span class="help-block">' + $.map(messages, function(m) { return m.charAt(0).toUpperCase() + m.slice(1); }).join('<br />') + '</span>');
-          
+
         });
-      }      
+      }
     }).addClass('ajaxified');
     // auto resize any text area
     $('textarea').not('.autoresized').autosize().addClass('autoresized');
@@ -86,18 +86,18 @@ $(document).ready(function(){
 		$('body').data('inline-html-call-counter', $('body').data('inline-html-call-counter') + 1);
 		blockid = $('body').data('inline-html-call-counter');
 		$('body').append('<div id="inline-html-call-block'+blockid+'" class="hidden inline-html-call-modal"></div>');
-		$("#inline-html-call-block"+blockid).load($(this).attr('href'), function(){ 
+		$("#inline-html-call-block"+blockid).load($(this).attr('href'), function(){
       var html = $(this).html();
       var body = html;
       var title = '';
-      
+
 		  if($(html).find('> *:first').is('legend')) {
         var wrapped = $("<div>" + html + "</div>");
         wrapped.find('legend:first').remove();
         var body = wrapped.html();
         var title = $(html).find('legend:first').html();
 		  }
-      
+
 			var dialog = bootbox.dialog({
 			  title: title,
 		    message: body,
@@ -134,11 +134,11 @@ function update_the_shopping_cart_banner(count) {
 			.html('سبد خرید')
 			.parents('li')
 				.removeClass('has-shopping-cart');
-	
+
 	$('.shopping-cart-tag')
 		.parents('.magnifiable')
 			.addClass('magnifiable-enabled');
-		
+
   setTimeout(function() {
       $('.shopping-cart-tag').parents('.magnifiable').removeClass('magnifiable-enabled');
   }, 500);
