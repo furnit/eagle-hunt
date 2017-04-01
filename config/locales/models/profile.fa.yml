@@ -8,6 +8,7 @@ fa:
         last_name: 'نام خانوادگی'
         contact: 'شماره موبایل'
         address: 'آدرس'
+        postal_code: 'کدپستی (اختیاری)'
     errors:
       models:
         profile:

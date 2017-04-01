@@ -26,6 +26,7 @@ end
   nprogress-ajax-iframe
   moment.min
   jalali.min
+  common
 ).each do |item|
   Rails.application.config.assets.precompile += [ "#{item}.css", "#{item}.js", "#{item}.min.css", "#{item}.min.js" ]
 end

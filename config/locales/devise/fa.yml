@@ -2,7 +2,8 @@ fa:
   activerecord:
     attributes:
       user:
-        username: 'نام کاربری'
+        phone_number: 'شماره موبایل'
+        admin_user_type_id: 'نوع کاربری'
     errors:
       models:
         user:

@@ -14,8 +14,7 @@
     <thead>
       <tr>
         <th>ردیف</th>
-        <th>نام‌کاربری</th>
-        <th style='width: 10%;'>نام و نام‌خانوادگی</th>
+        <th style='width: 12%;'>نام و نام‌خانوادگی</th>
         <th style='width: 120px;'>شماره تماس</th>
         <th>آدرس</th>
         <th style='width: 7%;'>آخرین ورود</th>
@@ -27,7 +26,6 @@
       <% @users.each do |user| %>
         <tr>
           <td><%= user.id %></td>
-          <td><%= user.username %></td>
           <td><%= user.full_name %></td>
           <td><%= user.profile.contact %></td>
           <td><%= user.profile.address %></td>

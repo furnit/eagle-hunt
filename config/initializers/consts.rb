@@ -1,1 +1,0 @@
-AUTH_LEVEL = { :CLIENT => 0b00000001, :ADMIN => 0b10000000 }.freeze

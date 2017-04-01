@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   validates_format_of :phone_number, :with => /09\d{2}[- ]?\d{3}[- ]?\d{4}/i
 
-  before_save { self.phone_number = helper.number_to_phone(self.phone_number) }
+  before_save { self.phone_number = helper.number_to_phone(self.phone_number.strip, delimiter: "", pattern: /(\d{4})[- ]?(\d{3})[- ]?(\d{4})$/) }
 
   def helper
     @helper ||= Class.new do

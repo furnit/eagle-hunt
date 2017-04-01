@@ -1,5 +1,5 @@
 class ProfilesController < ApplicationController
-  skip_before_action :acquire_profile_if_necessary, only: [:new, :create] 
+  skip_before_action :acquire_profile_if_necessary, only: [:new, :create]
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
 
   # GET /profiles
@@ -12,7 +12,7 @@ class ProfilesController < ApplicationController
   # GET /profiles/1.json
   def show
     redirect_to root_path if not user_signed_in?
-    redirect_to profiles_path if current_user.auth_level != AUTH_LEVEL[:ADMIN]
+    redirect_to profiles_path
   end
 
   # GET /profiles/new

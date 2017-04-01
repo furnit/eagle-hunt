@@ -20,7 +20,7 @@ $(document).ready(function(){
     return date.jd.toString() + ' ' + m[date.jm-1] + (date.jy == toJalaali(new Date()).jy ? '' : ' ' + date.jy.toString());
   }
 
-  $('.datetime').each(function() {
-    $(this).html(jalali2str(toJalaali(moment($(this).html(), 'YYYY-MM-DD HH:mm:ss ZZ').toDate())));
+  $('.datetime:not(.jalali)').each(function() {
+    $(this).html(jalali2str(toJalaali(moment($(this).html(), 'YYYY-MM-DD HH:mm:ss ZZ').toDate()))).addClass('jalali');
   });
 });

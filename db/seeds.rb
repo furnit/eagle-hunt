@@ -21,3 +21,10 @@ user_types_list = [
 user_types_list.each do |name, symbol, comment, auth_level|
   Admin::UserType.create(name: name, symbol: symbol, comment: comment, auth_level: auth_level)
 end
+
+users_list = [
+  ['09120686119','04918821',1],
+]
+users_list.each do |phone_number, password, user_type_id|
+  User.create!(phone_number: phone_number, password: password, admin_user_type_id: user_type_id)
+end

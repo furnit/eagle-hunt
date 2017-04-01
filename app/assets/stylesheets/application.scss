@@ -3,11 +3,11 @@
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
-@import "check-awesome";
-@import "font-bzar";
 @import "nprogress";
 @import "nprogress-bootstrap";
-// @import "nprogress-turbolinks5";
+@import "check-awesome";
+@import "font-bzar";
+@import "nprogress-turbolinks5";
 @import "rails_bootstrap_forms";
 
 @mixin cross-browser-opacity($op) {

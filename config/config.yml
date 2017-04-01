@@ -1,4 +1,5 @@
 defaults: &defaults
+  currency: تومان
   css:
     furniture:
       cover:

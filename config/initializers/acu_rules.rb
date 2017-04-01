@@ -8,7 +8,7 @@ Acu::Rules.define do
     :MARKETER, :MARKLINE, :NAGASH,
     :NAJAR, :PR, :CLIENT, :ROKOB
   ].each do |symbol|
-    whois symbol.downcase.to_sym, args: [:user] { |user| user and user.user_type.symbol == symbol.to_s }
+    whois symbol.downcase.to_sym, args: [:user] { |user| user and user.user_type && user.user_type.symbol == symbol.to_s }
   end
 
   # by default admin can go everywhere

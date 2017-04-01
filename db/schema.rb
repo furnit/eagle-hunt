@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170401121306) do
+ActiveRecord::Schema.define(version: 20170401141347) do
 
   create_table "admin_user_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -105,7 +105,6 @@ ActiveRecord::Schema.define(version: 20170401121306) do
     t.integer  "user_id"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "contact"
     t.text     "address",     limit: 65535
     t.json     "avatar"
     t.datetime "created_at",                null: false
@@ -132,7 +131,6 @@ ActiveRecord::Schema.define(version: 20170401121306) do
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
-    t.string   "username",               default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -154,7 +152,7 @@ ActiveRecord::Schema.define(version: 20170401121306) do
     t.datetime "deleted_at"
     t.integer  "admin_user_type_id"
     t.datetime "blocked_at"
-    t.string   "phone_number"
+    t.string   "phone_number",                        null: false
     t.index ["admin_user_type_id"], name: "index_users_on_admin_user_type_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

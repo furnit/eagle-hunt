@@ -5,11 +5,11 @@
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.telephone_field :phone_number, placeholder: '09**-***-****', style: 'direction: ltr' value: number_to_phone(resource.phone_number)  %>
+    <%= f.telephone_field :phone_number, placeholder: '09**-***-****', value: number_to_phone(resource.phone_number)  %>
   </div>
 
   <div class="field">
-    <%= f.password_field :password, autocomplete: "off", %>
+    <%= f.password_field :password, autocomplete: "off" %>
   </div>
 
   <div class="field">
