@@ -53,6 +53,7 @@ end
   uploaded_files
   admin/home
   admin/user_types
+  admin/users
 ).each do |controller|
   Rails.application.config.assets.precompile += [ "#{controller}.coffee", "#{controller}.js", "#{controller}.css", "#{controller}.scss" ]
 end

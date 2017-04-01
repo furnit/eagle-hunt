@@ -10,10 +10,10 @@
           داشبورد
         </a>
       </div>
-      
+
       <legend>مدیریت محصولات</legend>
       <div class="list-group">
-      
+
         <a href="#" class="list-group-item" target='panel-frame'>
           دسته‌بندی‌ محصولات
         </a>
@@ -21,17 +21,17 @@
           محصولات
         </a>
       </div>
-      
+
       <legend>مدیریت کاربران</legend>
       <div class="list-group">
         <a href="<%= admin_user_types_path %>" class="list-group-item" target='panel-frame'>
           انواع کاربران
         </a>
-        <a href="<%= users_admin_home_index_path %>" class="list-group-item" target='panel-frame'>
+        <a href="<%= admin_users_path %>" class="list-group-item" target='panel-frame'>
           کاربران
         </a>
       </div>
-      
+
     </div>
     <div class='clearfix'></div>
   </div>
@@ -39,10 +39,8 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 	  $('#management-panel #navigation .list-group a[href!="#"]').click(function(){
-	    $(this)
-	      .addClass('active')
-	      .siblings()
-	        .removeClass('active');
+	    $('#management-panel #navigation .list-group a.active').removeClass('active');
+	    $(this).addClass('active');
 	  });
 	  // make bookmarkable hash
     if(window.location.hash) {

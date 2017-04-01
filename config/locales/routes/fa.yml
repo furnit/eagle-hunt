@@ -6,6 +6,9 @@ fa:
     home:
       label: 'خانه'
 
+    users:
+      label: 'کاربر'
+
     furniture_types:
       label: 'دسته بندی'
 
