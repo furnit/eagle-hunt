@@ -46,7 +46,7 @@
 
 .fa { vertical-align: middle; padding: 0 5px 0 5px; }
 
-.ir-font { 
+.ir-font {
   font-family: BZar,'BZar', "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 17px!important;
 }
@@ -66,17 +66,19 @@
 body {
   // assign the .ir-font to whole body
   & { @extend .ir-font; }
-  
+
   input,
   select,
   textarea {
-    font-size: 20px!important;  
+    font-size: 20px!important;
   }
-  
-  th { text-align: right }  
-  
+
+  th { text-align: right }
+
+  input[type=tel] { text-align: right; direction: ltr }
+
   .text-disabled { color: #777!important; }
-  
+
   #page-alerts {
     .alert {
       position: absolute;
@@ -87,14 +89,14 @@ body {
       @include cross-browser-opacity(0.95);
     }
   }
-  
+
   .block {
       background-color: #fafafa;
-      border: 1px solid #e7e7e7; 
+      border: 1px solid #e7e7e7;
       margin-bottom: 10px;
       padding: 30px;
   }
-  
+
   #nprogress {
     .spinner-left {
       @extend .spinner;
@@ -102,7 +104,7 @@ body {
       right: auto!important;
     }
   }
-  
+
   .empty-collection {
     border: 1px solid #eee;
     text-align: center;
@@ -111,29 +113,29 @@ body {
     min-height: 50px;
     font-size: 15px
   }
-  
+
   .field_with_errors {
     @extend .has-error;
   }
-  
+
   div {
     .shared-links { float: left }
     .field { margin: 10px; }
   }
-  
+
   textarea {
-    // stop textarea to overflow on resize 
-    max-width: 100%; 
+    // stop textarea to overflow on resize
+    max-width: 100%;
     @include cross-browser-border-radius(0);
   }
-  
+
   dl {
     &.ir {
       dt { @extend .pull-right; }
       dd { margin-left: 10%; }
     }
   }
-  
+
   .magnifiable
   {
       display:inline-block;
@@ -142,8 +144,8 @@ body {
       position: relative;
       @include cross-browser-transition(all, 200ms, ease-in, 0);
       @include cross-browser-transform(scale(1));
-      transform: scale(1);   
-  
+      transform: scale(1);
+
   }
   .magnifiable-enabled
   {
@@ -152,13 +154,13 @@ body {
       @include cross-browser-transform(scale(1.15));
       font-weight: bold
   }
-  
+
   .has-shopping-cart > a
   {
     color: green!important;
     @include cross-browser-transition(color, 500ms, ease-out, 200ms);
   }
-  
+
   .img-wrap {
       & {
         position: relative;
@@ -180,28 +182,28 @@ body {
         border-radius: 50%;
         @include cross-browser-opacity(0.8);
       }
-      
+
       .fa-times:hover {
         @include cross-browser-opacity(1);
       }
       &.fade {
-        & { 
+        & {
           @include cross-browser-opacity(0.3);
           @include cross-browser-transition(opacity, 1000ms, ease-out, 100ms)
         }
         a[data-remote] { cursor: default; display: none }
-      } 
+      }
   }
-  
+
   .alert {
     &.alert-default {
       border: 1px solid #aaa
     }
   }
-  
+
   .order {
     & {
-      padding: 0;  
+      padding: 0;
     }
     & > p {
       color: #777;
@@ -225,7 +227,7 @@ body {
         padding-top: 13px;
         @include cross-browser-border-radius(4px);
       }
-      & > label { 
+      & > label {
         @extend .col-lg-8;
         @extend .col-md-8;
         @extend .col-sm-8;

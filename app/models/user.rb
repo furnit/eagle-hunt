@@ -6,7 +6,19 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :rememberable, :trackable, :validatable
   has_one :profile
+
   belongs_to :user_type, class_name: 'Admin::UserType', foreign_key: :admin_user_type_id
+
+  validates_format_of :phone_number, :with => /09\d{2}[- ]?\d{3}[- ]?\d{4}/i
+
+  before_save { self.phone_number = helper.number_to_phone(self.phone_number) }
+
+  def helper
+    @helper ||= Class.new do
+      # include `number_to_phone`
+      include ActionView::Helpers::NumberHelper
+    end.new
+  end
 
 	def email_required?
     false

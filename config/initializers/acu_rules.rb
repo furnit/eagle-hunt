@@ -14,7 +14,13 @@ Acu::Rules.define do
   # by default admin can go everywhere
   allow :admin
 
+  # default namespace
   namespace do
+    allow :everyone
+  end
+
+  # devise login namespace
+  namespace :devise do
     allow :everyone
   end
 end

@@ -10,7 +10,10 @@ Rails.application.config.assets.version = '1.0'
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 
 # precompile directories
-Rails.application.config.assets.precompile += [ 'photoswipe/*', 'custom/*' ]
+
+%w(photoswipe custom, devise).each do |directory|
+  Rails.application.config.assets.precompile += [ "#{directory}/*.js", "#{directory}/*.css", "#{directory}/*.coffee" ]
+end
 
 # Custom couple files to pre-compile
 %w(

@@ -1,5 +1,9 @@
-<%= form_for(user, url: admin_users_path) do |f| %>
+<%= redirect_form(user, url: admin_users_path) do |f| %>
+  <%= f.text_field :username, label: 'نام کاربری', :required => true %>
+  <%= f.password_field :password, label: 'رمز عبور', :required => true %>
+  <%= f.password_field :password_confirmation, label: 'تکرار رمز عبور', :required => true %>
+  <%= f.collection_select :id, Admin::UserType.all, :id, :name, { :prompt => 'لطفا نوع کاربر را انتخاب کنید.' }, :required => true %>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'تایید' %>
   </div>
 <% end %>

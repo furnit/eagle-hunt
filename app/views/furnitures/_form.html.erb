@@ -1,17 +1,6 @@
 <% form_id = 0 %>
 <%= redirect_form furniture  do |f| %>
 	<% form_id = f.options[:html][:id] %>
-  <% if furniture.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(furniture.errors.count, "error") %> prohibited this furniture from being saved:</h2>
-
-      <ul>
-      <% furniture.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 	<div class='row'>
 		<div class="col-xs-12">
 			<div class='block'>
@@ -41,7 +30,7 @@
 		  <% end %>
 		  </div>
 		</div>
-		
+
 	  <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
 	    <%= f.submit submit_text, :class => 'btn btn-primary' %>
 	  </div>
@@ -90,12 +79,12 @@
 			.bind("ajax:complete", function() { $(this).parents('.img-wrap').removeClass('fade') })
 			.bind("ajax:error", function(evt, data, status, xhr){ bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام حذف عکس مورد انتخاب صورت گرفت!'}) })
 			.bind("ajax:success", function(evt, data, status, xhr) {
-				$(this).parents('.img-wrap').fadeOut(500, function() { 
-					$(this).remove(); 
+				$(this).parents('.img-wrap').fadeOut(500, function() {
+					$(this).remove();
 					if($('form#<%= form_id %> #img-collection .img-wrap').length === 0)
 						$("form#<%= form_id %> #img-collection").html("<div class='empty-collection'>برای این محصول عکسی ثبت نشده است.</div>")
 				});
-				if(data.order !== undefined) for(var i = 0, j = data.order.length; i < j; i++) $('a[for="'+data.order[i].target+'"]').attr('href', data.order[i].url);	
+				if(data.order !== undefined) for(var i = 0, j = data.order.length; i < j; i++) $('a[for="'+data.order[i].target+'"]').attr('href', data.order[i].url);
 			});
 	})(jQuery);
 </script>

@@ -61,26 +61,13 @@ module ApplicationHelper
     return 0
   end
 
-  def redirect_form(instance, url: nil, method: nil)
-    if method
-      bootstrap_form_for instance, url: url, method: method, :html => { :name => instance.class.name.split('::').last.underscore } do |f|
-        yield f
-      end
-    else
-      bootstrap_form_for instance, url: url, :html => { :name => instance.class.name.split('::').last.underscore } do |f|
-        yield f
-      end
+  def redirect_form(instance, **args)
+    bootstrap_form_for instance, **args, :html => { :name => instance.class.name.split('::').last.underscore } do |f|
+      yield f
     end
   end
-  def remote_form(instance, url: nil, method: nil)
-    if method
-      bootstrap_form_for instance, url: url, method: method, :remote => true, :html => { :'data-type' => 'json',  :name => instance.class.name.split('::').last.underscore } do |f|
-        yield f
-      end
-    else
-      bootstrap_form_for instance, url: url, :remote => true, :html => { :'data-type' => 'json',  :name => instance.class.name.split('::').last.underscore } do |f|
-        yield f
-      end
-    end
+  def remote_form(instance, **args)
+    args[:remote] = true
+    redirect_form instance, args { yield }
   end
 end
