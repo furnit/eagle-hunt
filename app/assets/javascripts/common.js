@@ -7,8 +7,17 @@ $(document).on('ready turbolinks:load', function(){
       'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
     }
   });
+  // recursively delete the alerts
+  var delete_alerts = function () {
+    $('#page-alerts .alert:last')
+      .fadeOut(500, function() {
+        $(this).remove();
+        if($('#page-alerts .alert:first').length)
+          setTimeout(delete_alerts, 1500);
+      });
+  };
   // remove the alerts after some time
-  setTimeout(function(){ $('#page-alerts .alert').fadeOut(1000, function() { $(this).remove(); }); }, 2000);
+  setTimeout(delete_alerts, 3500);
   // setting config for 1min delay length
   document.NProgress.configure({
     speed: 500,

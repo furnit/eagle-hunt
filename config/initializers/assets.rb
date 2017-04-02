@@ -11,7 +11,7 @@ Rails.application.config.assets.version = '1.0'
 
 # precompile directories
 
-%w(photoswipe custom, devise).each do |directory|
+%w(photoswipe custom users).each do |directory|
   Rails.application.config.assets.precompile += [ "#{directory}/*.js", "#{directory}/*.css", "#{directory}/*.coffee" ]
 end
 

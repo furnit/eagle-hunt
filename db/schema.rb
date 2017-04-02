@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(version: 20170401141347) do
     t.index ["admin_user_type_id"], name: "index_users_on_admin_user_type_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
+    t.index ["phone_number"], name: "index_users_on_phone_number", using: :btree
     t.index ["profile_id"], name: "index_users_on_profile_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree

@@ -23,7 +23,7 @@ Acu::Rules.define do
   end
 
   # devise login namespace
-  namespace :devise do
+  namespace :devise, :users do
     allow :everyone
   end
 end

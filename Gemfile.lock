@@ -29,9 +29,9 @@ GIT
 
 GIT
   remote: https://github.com/noise2/rails-acu.git
-  revision: 7795431f8dc493702f3e248215f57a403adc3f3b
+  revision: 0db7aad519dc759bec6b453f0c89b0793a462816
   specs:
-    rails-acu (2.0.0)
+    rails-acu (2.1.0)
       rails (~> 5.0.0, >= 5.0.0)
 
 GIT

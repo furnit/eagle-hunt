@@ -33,7 +33,11 @@ module GeneralRoutes
 
       resources :profiles
 
-      devise_for :users
+      devise_for :users, controllers: {
+        sessions: 'users/sessions',
+        registrations: 'users/registrations'
+      }
+
 
     end
   end

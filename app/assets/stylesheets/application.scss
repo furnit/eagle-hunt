@@ -79,7 +79,7 @@ body {
   .text-disabled { color: #777!important; }
 
   #page-alerts {
-    .alert {
+    & {
       position: absolute;
       top: 30px;
       left: 10px;
@@ -87,6 +87,10 @@ body {
       z-index: 1000;
       @include cross-browser-opacity(0.95);
     }
+    .alert { position: relative; }
+    .alert-info { top: 30px; }
+    .alert-info ~ .alert-warning { margin-bottom: -10px }
+    .alert-warning { top: 30px; }
   }
 
   .block {

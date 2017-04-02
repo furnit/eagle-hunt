@@ -23,6 +23,11 @@ class User < ApplicationRecord
     end.new
   end
 
+  def self.authenticate(phone_number, password)
+    user = User.with_deleted.find_for_authentication(:phone_number => phone_number)
+    user and user.valid_password?(password) ? user : nil
+  end
+
 	def email_required?
     false
   end
