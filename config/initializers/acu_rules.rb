@@ -20,9 +20,16 @@ Acu::Rules.define do
   namespace except: [:profiles] do
     allow :everyone
   end
+
   namespace only: [:profiles] do
     deny :everyone, on: [:delete]
     allow :signed_in
+  end
+
+  namespace :admin do
+    controller :users do
+      deny :everyone, on: [:destroy]
+    end
   end
 
   # devise login namespace

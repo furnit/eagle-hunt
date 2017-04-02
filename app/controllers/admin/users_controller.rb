@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::AdminbaseController
-  before_action :set_admin_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_admin_user, only: [:show, :edit, :update, :destroy, :block]
 
   # GET /admin/users
   # GET /admin/users.json
@@ -65,7 +65,7 @@ class Admin::UsersController < Admin::AdminbaseController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to admin_users_path, notice: "کاربر شماره «#{user.id}» با موفقیت بروز رسانی شد." }
+        format.html { redirect_to admin_users_path, notice: "کاربر شماره «#{@user.id}» با موفقیت بروز رسانی شد." }
         format.json { render :show, status: :ok, location: admin_users_path }
       else
         format.html { render :edit }
@@ -79,7 +79,18 @@ class Admin::UsersController < Admin::AdminbaseController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to admin_users_path, notice: "کاربر شماره «#{user.id}» با موفقیت حذف شد." }
+      format.html { redirect_to admin_users_path, notice: "کاربر شماره «#{@user.id}» با موفقیت حذف شد." }
+      format.json { head :no_content }
+    end
+  end
+
+  # DELETE /admin/users/1/block
+  # DELETE /admin/users/1/block.json
+  def block
+    @user.blocked_at = @user.blocked_at ? nil : Time.now
+    @user.save
+    respond_to do |format|
+      format.html { redirect_to admin_users_path, notice: "کاربر شماره «#{@user.id}» با موفقیت %s شد." %[@user.blocked_at ? 'مسدود' : 'باز'] }
       format.json { head :no_content }
     end
   end

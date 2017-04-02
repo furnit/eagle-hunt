@@ -7,13 +7,16 @@ module AdminRoutes
 
         root to: 'home#index'
 
-        resources :users
+        resources :users do
+          member do
+            delete :block
+          end
+        end
         resources :user_types
 
         resources :home, RC::non_restful.merge({:path => ''}) do
           collection do
             get :dashboard
-            delete :user_block
           end
         end
 
