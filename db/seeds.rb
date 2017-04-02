@@ -35,3 +35,13 @@ profiles_list = [
 profiles_list.each do |first_name, last_name, address, user_id|
   Profile.create!(first_name: first_name, last_name: last_name, address: address, user_id: user_id)
 end
+
+states_list = [
+  'آذربایجان شرقی', 'آذربایجان غربی', 'اردبیل', 'اصفهان', 'البرز', 'ایلام', 'بوشهر', 'تهران', 'خراسان جنوبی', 'خراسان رضوی', 'خراسان شمالی', 'خوزستان', 'زنجان',
+  'سمنان', 'سیستان و بلوچستان', 'فارس', 'قزوین', 'قم', 'لرستان', 'مازندران', 'مرکزی', 'هرمزگان', 'همدان', 'چهارمحال و بختیاری', 'کردستان', 'کرمان', 'کرمانشاه',
+  'کهگیلویه و بویراحمد', 'گلستان', 'گیلان', 'یزد'
+]
+
+states_list.each do |name|
+  State.create!(name: name)
+end
