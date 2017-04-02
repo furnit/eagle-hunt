@@ -1,9 +1,14 @@
 <%= redirect_form(user, url: admin_users_path) do |f| %>
   <div class='block'>
-    <%= f.telephone_field :phone_number, placeholder: '09**-***-****', value: number_to_phone(user.phone_number)  %>
-    <%= f.password_field :password, :required => true %>
-    <%= f.password_field :password_confirmation, :required => true %>
-    <%= f.collection_select :admin_user_type_id, Admin::UserType.all, :id, :name, { :prompt => 'لطفا نوع کاربر را انتخاب کنید.' }, :required => true %>
+    <%= f.fields_for :profile do |profile| %>
+      <%= profile.text_field :first_name, label: 'نام', required: true, error: 'hi' %>
+      <%= profile.text_field :last_name, label: 'نام‌خانوادگی', required: true %>
+      <%= profile.text_area :address, label: 'آدرس', required: true %>
+    <% end %>
+    <%= f.telephone_field :phone_number, placeholder: '09**-***-****', value: number_to_phone(user.phone_number), required: true  %>
+    <%= f.password_field :password, required: true %>
+    <%= f.password_field :password_confirmation, required: true %>
+    <%= f.collection_select :admin_user_type_id, Admin::UserType.all, :id, :name, { :prompt => 'لطفا نوع کاربر را انتخاب کنید.' }, required: true %>
     <div class="actions pull-left">
       <%= f.submit 'تایید', class: 'btn btn-primary' %>
     </div>

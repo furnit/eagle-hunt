@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).on('ready turbolinks:load', function(){
   // auto resize any textarea
   $('textarea').autosize();
   // append CSRF token to headers of all ajax posts
@@ -37,7 +37,7 @@ $(document).ready(function(){
       }
     }).addClass('ajaxified');
     // auto resize any text area
-    $('textarea').not('.autoresized').autosize().addClass('autoresized');
+    $('textarea:not([data-noresize])').not('.autoresized').autosize().addClass('autoresized');
     // enable tooltips
     $('[data-toggle="tooltip"]').tooltip();
   };

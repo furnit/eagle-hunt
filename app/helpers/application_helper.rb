@@ -68,6 +68,6 @@ module ApplicationHelper
   end
   def remote_form(instance, **args)
     args[:remote] = true
-    redirect_form instance, args { yield }
+    redirect_form(instance, args) { |f| yield f }
   end
 end

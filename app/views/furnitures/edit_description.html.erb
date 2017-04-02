@@ -7,7 +7,7 @@
   <div class='clearfix' style='margin: 10px;'></div>
   <tab for='tab1'>
     <%= redirect_form @furniture, url: update_description_furniture_path do |f| %>
-      <%= f.text_area :description, hide_label: true, placeholder: "توضیحات مدل #{@furniture.name}", autofocus: true %>
+      <%= f.text_area :description, hide_label: true, placeholder: "توضیحات مدل #{@furniture.name}", autofocus: true, dir: :auto %>
       <%= f.submit 'ثبت تغییرات', class: 'btn btn-primary'%>
     <% end %>
   </tab>
@@ -21,7 +21,7 @@
 </div>
 
 <style type="text/css" media="screen">
-  #edit-desc { padding: 10px; } 
+  #edit-desc { padding: 10px; }
 	#edit-desc form[name=furniture] textarea { height: 400px; font-size: 20px }
 	#edit-desc [for=tab2] { display: none }
 </style>
@@ -39,7 +39,7 @@
       $('[for=tab2] #loading-spinner').show();
       $('[for=tab2] #content').addClass('hidden').html('');
 	    $.post(
-	      '<%= markup_furnitures_path %>', 
+	      '<%= markup_furnitures_path %>',
 	      {text: $("[for='tab1'] textarea").val()},
 	      function(data) {
 	        console.log(data.html);

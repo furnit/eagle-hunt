@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery-ui/widgets/slider.js
-//= require jquery.turbolinks
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require bootbox
@@ -20,5 +19,8 @@
 //= require nprogress
 //= require jquery.autosize
 //= require nprogress-ajax-iframe
-//= require nprogress-turbolinks
-//= require turbolinks
+//= require common
+
+//! require nprogress-turbolinks
+//! require jquery.turbolinks
+//! require turbolinks

@@ -14,7 +14,18 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse ">
         <ul class="nav navbar-nav navbar-right">
-          <li class="<%= current_page?(root_url)? 'active' : '' %>"><%= link_to 'خانه', root_path, :class => 'navbar-brand' %></li>
+          <% acu_as :admin do %>
+            <li class="<%= params[:controller].split('/').length > 1 and params[:controller].split('/')[0].downcase == 'admin' ? 'active' : '' %>">
+              <%= link_to admin_root_path do %>
+                <span class='fa fa-male'></span> مدیریت
+              <% end %>
+            </li>
+          <% end %>
+          <li class="<%= current_page?(root_url)? 'active' : '' %>">
+            <%= link_to root_path do %>
+              <span class='fa fa-home'></span> خانه
+            <% end %>
+          </li>
         </ul>
         <ul class="nav navbar-nav ir" style='font-weight: bold'>
           <% scc = shopping_cart_count? %>

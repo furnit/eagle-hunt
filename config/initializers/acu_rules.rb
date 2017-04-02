@@ -17,6 +17,9 @@ Acu::Rules.define do
   # default namespace
   namespace do
     allow :everyone
+    controller :profile do
+      deny :everyone, on: [:delete]
+    end
   end
 
   # devise login namespace

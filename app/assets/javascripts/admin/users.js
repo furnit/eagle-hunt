@@ -21,6 +21,6 @@ $(document).ready(function(){
   }
 
   $('.datetime:not(.jalali)').each(function() {
-    $(this).html(jalali2str(toJalaali(moment($(this).html(), 'YYYY-MM-DD HH:mm:ss ZZ').toDate()))).addClass('jalali');
+    try { $(this).html(jalali2str(toJalaali(moment($(this).html(), 'YYYY-MM-DD HH:mm:ss ZZ').toDate()))).addClass('jalali'); } catch(e) { }
   });
 });

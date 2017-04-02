@@ -55,9 +55,9 @@ class FurnituresController < UploaderController
     prevent_browser_caching
     # update the uploaded images
     update_uploaded_images @furniture, :furniture
-    # if the user removed the cover image? reset the cover index 
+    # if the user removed the cover image? reset the cover index
     @furniture.cover_details[:index] = 0 if ((params[:furniture][:images_to_delete] and params[:furniture][:images_to_delete].include? @furniture.cover_details['index']) or @furniture.cover_details['index'].to_i >= @furniture.images.length)
-    
+
     respond_to do |format|
       if @furniture.update(furniture_params)
         format.html { redirect_to @furniture, notice: 'محصول «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture.name }
@@ -78,16 +78,16 @@ class FurnituresController < UploaderController
       format.json { head :no_content }
     end
   end
-  
+
   # POST /furniture/1/edit_cover.json
   def cover
-    
+
     details = params.require(:furniture).permit(:cover, :index);
-    
+
     @furniture.cover_details['pos'] =  details[:cover] || @furniture.cover_details['pos']
     @furniture.cover_details['index'] =  details[:index] || @furniture.cover_details['index']
-    
-    respond_to do |format|      
+
+    respond_to do |format|
       if @furniture.save
         format.json { render json: {}, status: :ok, location: @furniture }
       else
@@ -98,8 +98,10 @@ class FurnituresController < UploaderController
 
   def edit_description
   end
-  
+
   def update_description
+    require 'github/markup'
+
     raise 'invalid input' if not furniture_params[:description]
     respond_to do |format|
       if @furniture.update({:description => furniture_params[:description], :description_html => GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, furniture_params[:description])})
@@ -111,19 +113,19 @@ class FurnituresController < UploaderController
       end
     end
   end
-  
+
   def markup
     require 'github/markup'
-    
+
     text = params.permit(:text)[:text] || ''
-    
-    respond_to do |format|  
+
+    respond_to do |format|
       format.json { render json: { html: GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, text) }, status: :ok }
     end
   end
 
   private
-    
+
     # Use callbacks to share common setup or constraints between actions.
     def set_furniture
       @furniture = Furniture.find(params[:id])

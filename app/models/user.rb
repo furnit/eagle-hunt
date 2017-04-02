@@ -5,9 +5,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :rememberable, :trackable, :validatable
-  has_one :profile
+
+  has_one :profile, autosave: true
 
   belongs_to :user_type, class_name: 'Admin::UserType', foreign_key: :admin_user_type_id
+
+  before_validation { self.phone_number = self.phone_number.to_s.tr!('۰۱۲۳۴۵۶۷۸۹','0123456789') || self.phone_number; }
 
   validates_format_of :phone_number, :with => /09\d{2}[- ]?\d{3}[- ]?\d{4}/i
 

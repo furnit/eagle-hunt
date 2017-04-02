@@ -25,10 +25,11 @@ class Admin::UsersController < Admin::AdminbaseController
   # POST /admin/users.json
   def create
     @user = User.new(user_params)
+    @profile = Profile.new(profile_params)
 
     respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+      if @user.save && @profile.save
+        format.html { redirect_to admin_users_path, notice: 'کاربر جدید با موفقیت ساخته شد.' }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -42,8 +43,8 @@ class Admin::UsersController < Admin::AdminbaseController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
+        format.html { redirect_to admin_users_path, notice: "کاربر شماره «#{user.id}» با موفقیت بروز رسانی شد." }
+        format.json { render :show, status: :ok, location: admin_users_path }
       else
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -56,7 +57,7 @@ class Admin::UsersController < Admin::AdminbaseController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to admin_users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to admin_users_path, notice: "کاربر شماره «#{user.id}» با موفقیت حذف شد." }
       format.json { head :no_content }
     end
   end
@@ -69,6 +70,9 @@ class Admin::UsersController < Admin::AdminbaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.fetch(:admin_user, {})
+      params.require(:user).permit(:phone_number, :password, :password_confirmation, :admin_user_type_id)
+    end
+    def profile_params
+      params.require(:user).permit(profile: [ :first_name, :last_name, :address ])[:profile]
     end
 end

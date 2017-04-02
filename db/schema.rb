@@ -152,7 +152,7 @@ ActiveRecord::Schema.define(version: 20170401141347) do
     t.datetime "deleted_at"
     t.integer  "admin_user_type_id"
     t.datetime "blocked_at"
-    t.string   "phone_number",                        null: false
+    t.string   "phone_number",           default: "", null: false
     t.index ["admin_user_type_id"], name: "index_users_on_admin_user_type_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
@@ -185,6 +185,6 @@ ActiveRecord::Schema.define(version: 20170401141347) do
   add_foreign_key "shopping_carts", "furnitures"
   add_foreign_key "shopping_carts", "users"
   add_foreign_key "users", "admin_user_types"
-  add_foreign_key "users", "profiles"
+  add_foreign_key "users", "profiles", on_update: :cascade, on_delete: :cascade
   add_foreign_key "wood_colors", "woods"
 end

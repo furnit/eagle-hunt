@@ -13,7 +13,7 @@
   <table class='table table-striped table-hover'>
     <thead>
       <tr>
-        <th>ردیف</th>
+        <th style='width: 30px'>ردیف</th>
         <th style='width: 12%;'>نام و نام‌خانوادگی</th>
         <th style='width: 120px;'>شماره تماس</th>
         <th>آدرس</th>
@@ -27,8 +27,8 @@
         <tr>
           <td><%= user.id %></td>
           <td><%= user.full_name %></td>
-          <td><%= user.profile.contact %></td>
-          <td><%= user.profile.address %></td>
+          <td><%= number_to_phone(user.phone_number) %></td>
+          <td><%= user.profile ? user.profile.address : '«پروفایلی ساخته نشده است»' %></td>
           <td class='datetime' data-time='<%= user.current_sign_in_at %>'><%= user.current_sign_in_at %></td>
           <td>مشاهده پروفایل</td>
           <td>بلاک کردن</td>
