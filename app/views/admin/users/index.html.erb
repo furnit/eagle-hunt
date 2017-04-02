@@ -9,34 +9,28 @@
     </small>
     <div class='clearfix'></div>
   </legend>
-  <small style='font-size: 16px;' class='text-disabled pull-left'><%= page_entries_info @users %></small>
-  <table class='table table-striped table-hover'>
-    <thead>
-      <tr>
-        <th style='width: 30px'>ردیف</th>
-        <th style='width: 12%;'>نام و نام‌خانوادگی</th>
-        <th style='width: 120px;'>شماره تماس</th>
-        <th>آدرس</th>
-        <th style='width: 7%;'>آخرین ورود</th>
-        <th colspan="2" style='width: 15%;'>عملیات</th>
-      </tr>
-    </thead>
+  <div class='block' style='padding: 20px'>
+    <%= form_for_filterrific @filterrific do |f| %>
+      <div class='row'>
+        <div class="col-md-3 pull-right">
+          <label for="filterrific[search_query]">جستجو</label>
+          <%= f.search_field :search_query, class: 'filterrific-periodically-observed form-control' %>
+        </div>
+        <div class='col-md-3 pull-right'>
+          <label for="filterrific[sorted_by]">مرتب‌سازی</label>
+          <%= f.select(:sorted_by, User.options_for_sorted_by, {}, { :class => 'form-control' }) %>
+        </div>
+      </div>
+      <div class='row' style='margin-top: 10px;'>
+        <div class='col-md-3 pull-right'>
+          <%= link_to 'حذف فیلتر‌ها', reset_filterrific_url %>
+        </div>
+        <div class='clearfix'></div>
+      </div>
+    <% end %>
+  </div>
 
-    <tbody>
-      <% @users.each do |user| %>
-        <tr>
-          <td><%= user.id %></td>
-          <td><%= user.full_name %></td>
-          <td><%= number_to_phone(user.phone_number) %></td>
-          <td><%= user.profile ? user.profile.address : '«پروفایلی ساخته نشده است»' %></td>
-          <td class='datetime' data-time='<%= user.current_sign_in_at %>'><%= user.current_sign_in_at %></td>
-          <td>مشاهده پروفایل</td>
-          <td>بلاک کردن</td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <div class="text-center" style='vertical-align: middle'>
-    <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
+  <div id="filterrific_results">
+    <%= render partial: 'list', locals: { users: @users } %>
   </div>
 </div>

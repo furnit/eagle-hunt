@@ -19,6 +19,7 @@
 //= require nprogress
 //= require jquery.autosize
 //= require nprogress-ajax-iframe
+//= require filterrific/filterrific-jquery
 //= require common
 
 //! require nprogress-turbolinks

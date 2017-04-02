@@ -11,7 +11,7 @@ Rails.application.config.assets.version = '1.0'
 
 # precompile directories
 
-%w(photoswipe custom users).each do |directory|
+%w(photoswipe custom users filterrific).each do |directory|
   Rails.application.config.assets.precompile += [ "#{directory}/*.js", "#{directory}/*.css", "#{directory}/*.coffee" ]
 end
 
@@ -30,6 +30,12 @@ end
 ).each do |item|
   Rails.application.config.assets.precompile += [ "#{item}.css", "#{item}.js", "#{item}.min.css", "#{item}.min.js" ]
 end
+
+# ----------------------- filterrific ----------------------
+
+Rails.application.config.assets.precompile += [
+  'filterrific/filterrific-spinner.gif'
+]
 
 # ----------------- jQuery File Upload ---------------------
 

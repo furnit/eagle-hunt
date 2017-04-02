@@ -1,0 +1,7 @@
+fa:
+  will_paginate:
+    page_entries_info:
+      single_page:
+        zero: هیچ داده‌ای پیدا نشد!
+      single_page_html:
+        zero: هیچ داده‌ای پیدا نشد!

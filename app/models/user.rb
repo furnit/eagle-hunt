@@ -49,4 +49,79 @@ class User < ApplicationRecord
     return 'بدون نام' if self.profile == nil
     '%s %s' %[self.profile.first_name, self.profile.last_name]
   end
+
+  ######## Filtering ########
+
+    filterrific(
+      default_filter_params: { sorted_by: 'created_at_desc' },
+      available_filters: [
+        :sorted_by,
+        :search_query,
+        :get_by_user_types,
+        :with_created_at_gte
+      ]
+    )
+
+
+    scope :search_query, lambda { |query|
+      return nil  if query.blank?
+      # condition query, parse into individual keywords
+      terms = query.downcase.split(/\s+/)
+      # replace "*" with "%" for wildcard searches,
+      # append '%', remove duplicate '%'s
+      terms = terms.map { |e|
+        (e.gsub('*', '%') + '%').gsub(/%+/, '%')
+      }
+      # configure number of OR conditions for provision
+      # of interpolation arguments. Adjust this if you
+      # change the number of OR conditions.
+      num_or_conditions = 5
+      joins(:profile).
+      joins(:user_type).
+      where(
+        terms.map {
+          or_clauses = [
+            "LOWER(profiles.first_name) LIKE ?",
+            "LOWER(profiles.last_name) LIKE ?",
+            "LOWER(profiles.address) LIKE ?",
+            "LOWER(users.phone_number) LIKE ?",
+            "LOWER(users.id) LIKE ?"
+          ].join(' OR ')
+          "(#{ or_clauses })"
+        }.join(' AND '),
+        *terms.map { |e| [e] * num_or_conditions }.flatten
+      )
+    }
+
+    scope :get_by_user_types, lambda { |user_type_id|
+      where("admin_user_type_id = ?", user_type_id)
+    }
+
+    scope :with_created_at_gte, lambda { |ref_date|
+      where('users.created_at >= ?', ref_date)
+    }
+
+    scope :sorted_by, lambda { |sort_option|
+      # extract the sort direction from the param value.
+      direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
+      case sort_option.to_s
+      when /^created_at_/
+        order("users.created_at #{ direction }")
+      when /^current_sign_in_at_/
+        order("users.current_sign_in_at #{ direction }")
+      else
+        raise(ArgumentError, "Invalid sort option: #{ sort_option.inspect }")
+      end
+    }
+
+    def self.options_for_sorted_by
+      [
+        ['زمان عضویت (جدیدترین در ابتدا)', 'created_at_desc'],
+        ['زمان عضویت (قدیمی‌ترین در ابتدا)', 'created_at_asc'],
+        ['زمان آخرین ورود (جدیدترین در ابتدا)', 'current_sign_in_at_asc'],
+        ['زمان آخرین ورود (قدیمی‌ترین در ابتدا)', 'current_sign_in_at_desc'],
+      ]
+    end
+
+
 end

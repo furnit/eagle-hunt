@@ -1,0 +1,9 @@
+fa:
+  will_paginate:
+    page_entries_info:
+      models:
+      entry:
+        zero:  داده
+        one:   داده
+        few:   داده
+        other: داده

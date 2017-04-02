@@ -13,6 +13,12 @@ GIT
     awesome_print (1.7.0)
 
 GIT
+  remote: https://github.com/ayaman/filterrific.git
+  revision: 292ecd953df4ec70f2f9a879105ef5aba5b77e95
+  specs:
+    filterrific (2.1.2)
+
+GIT
   remote: https://github.com/carrierwaveuploader/carrierwave.git
   revision: 35f50359d2456d7a8a31948529e16557653fc359
   specs:
@@ -272,6 +278,7 @@ DEPENDENCIES
   commonmarker
   devise
   devise-i18n
+  filterrific!
   font-awesome-rails
   github-markup!
   jbuilder (~> 2.5)

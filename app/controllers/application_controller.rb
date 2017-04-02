@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::Base
   # no forgery!
   protect_from_forgery with: :exception
-  # for `current_page?`
-  include ActionView::Helpers::UrlHelper
   # if user's profile not set, acquire it!
   before_action :acquire_profile_if_necessary
   # change user's password if flaged to change?

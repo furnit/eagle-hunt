@@ -4,7 +4,20 @@ class Admin::UsersController < Admin::AdminbaseController
   # GET /admin/users
   # GET /admin/users.json
   def index
-    @users = User.all.paginate(:page => params[:page])
+    @filterrific = initialize_filterrific(
+      User,
+      params[:filterrific]
+    ) or return
+    @users = @filterrific.find.paginate(:page => params[:page])
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  # Recover from invalid param sets, e.g., when a filter refers to the
+  # database id of a record that doesn’t exist any more.
+  # In this case we reset filterrific and discard all filter params.
+  rescue ActiveRecord::RecordNotFound => e
+    redirect_to(reset_filterrific_url(format: :html)) and return
   end
 
   # GET /admin/users/1

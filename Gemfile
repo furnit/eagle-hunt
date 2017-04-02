@@ -72,6 +72,8 @@ gem 'will_paginate-bootstrap'
 gem 'will-paginate-i18n', github: 'noise2/will-paginate-i18n'
 # The access control unit
 gem 'rails-acu', github: 'noise2/rails-acu'
+# for filtered search
+gem 'filterrific', github: 'ayaman/filterrific'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
