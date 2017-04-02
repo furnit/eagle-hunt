@@ -28,3 +28,10 @@ users_list = [
 users_list.each do |phone_number, password, user_type_id|
   User.create!(phone_number: phone_number, password: password, admin_user_type_id: user_type_id)
 end
+
+profiles_list = [
+  ['داریوش', 'حسن‌پور', 'فولادشهر', 1]
+]
+profiles_list.each do |first_name, last_name, address, user_id|
+  Profile.create!(first_name: first_name, last_name: last_name, address: address, user_id: user_id)
+end

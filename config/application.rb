@@ -16,5 +16,7 @@ module Viramobl
 
     # add lib to auto-loading path
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    # include all extensions
+    Dir["#{config.root}/lib/extensions/*.rb"].each {|file| require file }
   end
 end

@@ -15,11 +15,11 @@
   <% end %>
 
   <div class="field">
-    <%= f.password_field :password, autocomplete: "off", placeholder: 'اگر نمیخواهید رمز عبور خود را تغییر دهید، خالی بگذارید.' %>
+    <%= f.password_field :password, autocomplete: "off", placeholder: resource.change_password ? 'لطفا رمز عبور جدید خود را وارد کنید.' : 'اگر نمیخواهید رمز عبور خود را تغییر دهید، خالی بگذارید.' %>
   </div>
 
   <div class="field">
-    <%= f.password_field :password_confirmation, placeholder: 'اگر نمیخواهید رمز عبور خود را تغییر دهید، خالی بگذارید.'  %>
+    <%= f.password_field :password_confirmation, placeholder: resource.change_password ? 'لطفا رمز عبور جدید خود را تکرار کنید.' : 'اگر نمیخواهید رمز عبور خود را تغییر دهید، خالی بگذارید.'  %>
   </div>
 	<hr />
   <div class="field">

@@ -9,11 +9,12 @@ class Users::SessionsController < Devise::SessionsController
   # POST /resource/sign_in
   def create
     # pre-fetch the user to see if it is the comming back user or not
-    user = User.authenticate(sign_in_params[:phone_number], sign_in_params[:password])
+    user = User.authenticate(sign_in_params[:phone_number], sign_in_params[:password], "only_deleted")
     # if this is a comming back user recover the user instance to allow the devise to the rest of the job
     if user
-      user.recover and user.save
-      flash[:alert] = 'حساب کاربری شما دوباره فعال شد!'
+      user.recover
+      user.save
+      flash[:alert] = 'حساب کاربری شما فعال شد!'
     end
     # call the devise
     super

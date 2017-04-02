@@ -6,8 +6,7 @@
       <%= profile.text_area :address, label: 'آدرس', required: true %>
     <% end %>
     <%= f.telephone_field :phone_number, placeholder: '09**-***-****', value: number_to_phone(user.phone_number), required: true  %>
-    <%= f.password_field :password, required: true %>
-    <%= f.password_field :password_confirmation, required: true %>
+    <%= f.text_field :phone_number, label: :password, required: true, disabled: true, placeholder: 'رمز کاربر برابر با شماره موبایل وی می‌باشد.' %>
     <%= f.collection_select :admin_user_type_id, Admin::UserType.all, :id, :name, { :prompt => 'لطفا نوع کاربر را انتخاب کنید.' }, required: true %>
     <div class="actions pull-left">
       <%= f.submit 'تایید', class: 'btn btn-primary' %>

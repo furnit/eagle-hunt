@@ -7,14 +7,14 @@ class User < ApplicationRecord
          :rememberable, :trackable, :validatable
 
   has_one :profile, autosave: true
-
   belongs_to :user_type, class_name: 'Admin::UserType', foreign_key: :admin_user_type_id
-
-  before_validation { self.phone_number = self.phone_number.to_s.tr!('۰۱۲۳۴۵۶۷۸۹','0123456789') || self.phone_number; }
 
   validates_format_of :phone_number, :with => /09\d{2}[- ]?\d{3}[- ]?\d{4}/i
 
-  before_save { self.phone_number = helper.number_to_phone(self.phone_number.strip, delimiter: "", pattern: /(\d{4})[- ]?(\d{3})[- ]?(\d{4})$/) }
+  before_validation :normalize_phone_number
+  after_initialize :normalize_phone_number
+
+  before_save :check_if_password_changed?
 
   def helper
     @helper ||= Class.new do
@@ -23,9 +23,18 @@ class User < ApplicationRecord
     end.new
   end
 
-  def self.authenticate(phone_number, password)
-    user = User.with_deleted.find_for_authentication(:phone_number => phone_number)
+  def normalize_phone_number
+    self.phone_number = self.phone_number.to_ar2en_i;
+    self.phone_number = helper.number_to_phone(self.phone_number.strip, delimiter: "", pattern: /(\d{4})[- ]?(\d{3})[- ]?(\d{4})$/)
+  end
+
+  def self.authenticate(phone_number, password, with_deleted = "with_deleted")
+    user = eval("User.#{with_deleted}.find_for_authentication(:phone_number => '#{phone_number}')")
     user and user.valid_password?(password) ? user : nil
+  end
+
+  def check_if_password_changed?
+    self.change_password = false if self.change_password and self.encrypted_password_changed?
   end
 
 	def email_required?

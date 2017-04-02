@@ -2,7 +2,9 @@
 Acu::Rules.define do
   # anyone make a request could be count as everyone!
   whois :everyone { true }
-
+  # folks who signed in
+  whois :signed_in, args: [:user] { |user| user }
+  # other user entities
   [
     :ADMIN, :GRAPHIC, :KHAYAT,
     :MARKETER, :MARKLINE, :NAGASH,
@@ -15,11 +17,12 @@ Acu::Rules.define do
   allow :admin
 
   # default namespace
-  namespace do
+  namespace except: [:profiles] do
     allow :everyone
-    controller :profile do
-      deny :everyone, on: [:delete]
-    end
+  end
+  namespace only: [:profiles] do
+    deny :everyone, on: [:delete]
+    allow :signed_in
   end
 
   # devise login namespace

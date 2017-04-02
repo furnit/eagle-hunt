@@ -25,10 +25,19 @@ class Admin::UsersController < Admin::AdminbaseController
   # POST /admin/users.json
   def create
     @user = User.new(user_params)
-    @profile = Profile.new(profile_params)
+    @user.normalize_phone_number
+    @user.creator_user_id = current_user.id
+    @user.password = @user.phone_number
+    @user.password_confirmation = @user.password
 
     respond_to do |format|
-      if @user.save && @profile.save
+      if @user.save
+        # without any call back flag the user should change the password
+        @user.write_attribute(:change_password, 1)
+        @user.save
+        @profile = Profile.new(profile_params.merge(user_id: @user.id))
+        @profile.user_id = @user.id;
+        @profile.save
         format.html { redirect_to admin_users_path, notice: 'کاربر جدید با موفقیت ساخته شد.' }
         format.json { render :show, status: :created, location: @user }
       else
