@@ -31,10 +31,11 @@ end
   Rails.application.config.assets.precompile += [ "#{item}.css", "#{item}.js", "#{item}.min.css", "#{item}.min.js" ]
 end
 
-# ----------------------- filterrific ----------------------
+# ----------------------- images ----------------------
 
 Rails.application.config.assets.precompile += [
-  'filterrific/filterrific-spinner.gif'
+  'filterrific/filterrific-spinner.gif',
+  'images/logo'
 ]
 
 # ----------------- jQuery File Upload ---------------------
