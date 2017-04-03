@@ -35,7 +35,12 @@ end
 
 Rails.application.config.assets.precompile += [
   'filterrific/filterrific-spinner.gif',
-  'images/logo'
+  '*.png',
+  '*.svg',
+  '*.jpg',
+  '*.jpeg',
+  '*.ico',
+  '*.icon'
 ]
 
 # ----------------- jQuery File Upload ---------------------
