@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170402153716) do
+ActiveRecord::Schema.define(version: 20170403103330) do
 
   create_table "admin_user_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -110,6 +110,8 @@ ActiveRecord::Schema.define(version: 20170402153716) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.string   "postal_code"
+    t.integer  "state_id"
+    t.index ["state_id"], name: "index_profiles_on_state_id", using: :btree
     t.index ["user_id"], name: "index_profiles_on_user_id", using: :btree
   end
 
@@ -190,6 +192,7 @@ ActiveRecord::Schema.define(version: 20170402153716) do
 
   add_foreign_key "fabric_colors", "fabrics"
   add_foreign_key "furnitures", "furniture_types"
+  add_foreign_key "profiles", "states"
   add_foreign_key "profiles", "users", on_update: :cascade, on_delete: :cascade
   add_foreign_key "shopping_carts", "furnitures"
   add_foreign_key "shopping_carts", "users"

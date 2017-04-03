@@ -22,7 +22,7 @@ Acu::Rules.define do
   end
 
   namespace only: [:profiles] do
-    deny :everyone, on: [:delete]
+    deny :everyone, on: [:destroy]
     allow :signed_in
   end
 

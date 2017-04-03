@@ -20,6 +20,7 @@
 //= require jquery.autosize
 //= require nprogress-ajax-iframe
 //= require filterrific/filterrific-jquery
+//= require bootstrap-select
 //= require common
 
 //! require nprogress-turbolinks

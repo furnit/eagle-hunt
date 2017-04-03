@@ -8,6 +8,7 @@
 @import "font-bzar";
 @import "nprogress-turbolinks5";
 @import "rails_bootstrap_forms";
+@import "bootstrap-select";
 
 @mixin cross-browser-opacity($op) {
   /* IE 8 */
@@ -47,7 +48,7 @@
 
 .ir-font {
   font-family: BZar,'BZar', "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 17px!important;
+  font-size: 17px;
 }
 
 .en-font {
@@ -55,8 +56,8 @@
   font-size: 14px;
 }
 
-.ir { direction: rtl; text-align: right; }
-.en { direction: ltr; text-align: left; @extent .en-font }
+.ir { direction: rtl!important; text-align: right!important; }
+.en { direction: ltr!important; text-align: left!important; @extent .en-font }
 
 // make the modal be above everything, specially PhotoSwipe!
 .modal { z-index: 10000 }
@@ -76,21 +77,24 @@ body {
 
   input[type=tel] { text-align: right; direction: ltr }
 
+  .bootstrap-select.btn-group .filter-option,
+  .dropdown-menu { @extend .ir }
+
   .text-disabled { color: #777!important; }
 
   #page-alerts {
     & {
       position: absolute;
       top: 30px;
-      left: 10px;
-      right: 10px;
+      left: 25%;
+      right: 25%;
       z-index: 1000;
       @include cross-browser-opacity(0.95);
     }
     .alert { position: relative; }
-    .alert-info { top: 30px; }
-    .alert-info ~ .alert-warning { margin-bottom: -10px }
-    .alert-warning { top: 30px; }
+    .alert:nth-child(1) { top: 30px; }
+    .alert:nth-child(2) { top: 17px; }
+    .alert:nth-child(3) { top: 4px; }
   }
 
   .block {

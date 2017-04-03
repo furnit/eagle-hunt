@@ -34,7 +34,7 @@ class ProfilesController < ApplicationController
     respond_to do |format|
       if @profile.save
         format.html { redirect_to root_path, notice: 'پروفایل شما با موفقیت ایجاد شد.' }
-        format.json { render :show, status: :created, location: @profile }
+        format.json { render json: @profile, status: :created, location: @profile }
       else
         format.html { render :new }
         format.json { render json: @profile.errors, status: :unprocessable_entity }
@@ -45,10 +45,12 @@ class ProfilesController < ApplicationController
   # PATCH/PUT /profiles/1
   # PATCH/PUT /profiles/1.json
   def update
+    @profile.full_name = profile_params[:full_name] if profile_params[:full_name]
+
     respond_to do |format|
       if @profile.update(profile_params)
         format.html { redirect_to @profile, notice: 'پروفایل شما با موفقیت ویرایش شد.' }
-        format.json { render :show, status: :ok, location: @profile }
+        format.json { render json: @profile, status: :ok, location: @profile }
       else
         format.html { render :edit }
         format.json { render json: @profile.errors, status: :unprocessable_entity }
@@ -69,11 +71,17 @@ class ProfilesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_profile
+      # admin can edit users
+      acu_as :admin do
+        @profile = Profile.find(params[:id])
+        return
+      end
+      # everybody else can only we their profile in any conditions
       @profile = current_user.profile
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def profile_params
-      params.require(:profile).permit(:first_name, :last_name, :contact, :address, :avatar)
+      params.require(:profile).permit(:first_name, :last_name, :address, :full_name, :state_id)
     end
 end

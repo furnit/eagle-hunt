@@ -1,14 +1,13 @@
 class Admin::UsersController < Admin::AdminbaseController
-  before_action :set_admin_user, only: [:show, :edit, :update, :destroy, :block]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :block, :reset_password]
 
   # GET /admin/users
   # GET /admin/users.json
   def index
-    @filterrific = initialize_filterrific(
-      User,
-      params[:filterrific]
-    ) or return
-    @users = @filterrific.find.paginate(:page => params[:page])
+    @filterrific = initialize_filterrific(User, params[:filterrific]) or return
+
+    @users = @filterrific.find.with_deleted.paginate(:page => params[:page])
+
     respond_to do |format|
       format.html
       format.js
@@ -48,9 +47,7 @@ class Admin::UsersController < Admin::AdminbaseController
         # without any call back flag the user should change the password
         @user.write_attribute(:change_password, 1)
         @user.save
-        @profile = Profile.new(profile_params.merge(user_id: @user.id))
-        @profile.user_id = @user.id;
-        @profile.save
+        Profile.new(profile_params.merge(user_id: @user.id)).save
         format.html { redirect_to admin_users_path, notice: 'کاربر جدید با موفقیت ساخته شد.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -62,11 +59,13 @@ class Admin::UsersController < Admin::AdminbaseController
 
   # PATCH/PUT /admin/users/1
   # PATCH/PUT /admin/users/1.json
-  def update
+  def update reset_password: false
+    notice = "کاربر شماره «<b>#{@user.id}</b>» با موفقیت بروز رسانی شد."
+    notice = "رمز کاربر شماره «<b>#{@user.id}</b>» با موفقیت به «<b>به شماره تماس</b>» وی بروز رسانی شد." if reset_password
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to admin_users_path, notice: "کاربر شماره «#{@user.id}» با موفقیت بروز رسانی شد." }
-        format.json { render :show, status: :ok, location: admin_users_path }
+        format.html { redirect_to admin_users_path, notice: notice }
+        format.json { render json: @user, status: :ok, location: admin_users_path }
       else
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -79,7 +78,7 @@ class Admin::UsersController < Admin::AdminbaseController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to admin_users_path, notice: "کاربر شماره «#{@user.id}» با موفقیت حذف شد." }
+      format.html { redirect_to admin_users_path, notice: "کاربر شماره «<b>#{@user.id}</b>» با موفقیت حذف شد." }
       format.json { head :no_content }
     end
   end
@@ -87,25 +86,40 @@ class Admin::UsersController < Admin::AdminbaseController
   # DELETE /admin/users/1/block
   # DELETE /admin/users/1/block.json
   def block
+    # block the user
     @user.blocked_at = @user.blocked_at ? nil : Time.now
     @user.save
     respond_to do |format|
-      format.html { redirect_to admin_users_path, notice: "کاربر شماره «#{@user.id}» با موفقیت %s شد." %[@user.blocked_at ? 'مسدود' : 'باز'] }
+      format.html { redirect_to admin_users_path, notice: "کاربر شماره «<b>#{@user.id}</b>» با موفقیت %s شد." %[@user.blocked_at ? 'مسدود' : 'باز'] }
       format.json { head :no_content }
     end
   end
 
+  # GET /admin/users/states
+  def states
+    respond_to do |format|
+      format.json { render json: State.all.map {|i| {value: i.id, text: i.name}}, status: :ok }
+    end
+  end
+
+  def reset_password
+    params[:user] ||= {}
+    params[:user][:password] = @user.phone_number
+    params[:user][:password_confirmation] = params[:user][:password]
+    update reset_password: true
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_admin_user
-      @user = User.find(params[:id])
+    def set_user
+      @user = User.with_deleted.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:phone_number, :password, :password_confirmation, :admin_user_type_id)
+      params.require(:user).permit(:phone_number, :password, :password_confirmation, :admin_user_type_id,)
     end
     def profile_params
-      params.require(:user).permit(profile: [ :first_name, :last_name, :address ])[:profile]
+      params.require(:user).permit(profile: [ :first_name, :last_name, :address, :state_id ])[:profile]
     end
 end

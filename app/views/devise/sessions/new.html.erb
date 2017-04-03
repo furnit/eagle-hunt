@@ -5,7 +5,7 @@
 <%= redirect_form(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
   <div class="field">
-    <%= f.telephone_field :phone_number, placeholder: '09**-***-****', value: number_to_phone(resource.phone_number)  %>
+    <%= f.telephone_field :phone_number, placeholder: '09*********', value: resource.phone_number, autofocus: true, maxlength: 11  %>
   </div>
 
   <div class="field">

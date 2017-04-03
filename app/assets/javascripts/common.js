@@ -9,10 +9,10 @@ $(document).on('ready turbolinks:load', function(){
   });
   // recursively delete the alerts
   var delete_alerts = function () {
-    $('#page-alerts .alert:last')
+    $('#page-alerts .alert:not(.alert-danger):last')
       .fadeOut(500, function() {
         $(this).remove();
-        if($('#page-alerts .alert:first').length)
+        if($('#page-alerts .alert:not(.alert-danger):first').length)
           setTimeout(delete_alerts, 1500);
       });
   };
@@ -49,6 +49,10 @@ $(document).on('ready turbolinks:load', function(){
     $('textarea:not([data-noresize])').not('.autoresized').autosize().addClass('autoresized');
     // enable tooltips
     $('[data-toggle="tooltip"]').tooltip();
+    // for select pickers
+    $('.selectpicker').selectpicker();
+    // prevent default empty links
+    $("a[href='#']").click(function(e) { e.preventDefault(); });
   };
   // apply to current document as well
   apply_to_documents();
@@ -104,7 +108,9 @@ $(document).on('ready turbolinks:load', function(){
       });
     });
   });
-}).ajaxError(function(){
+}).ajaxError(function(e, xhr){
+  // i.e users sent wrong data to the server!!
+  if(xhr.status === 422) return;
   bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام اجرای عملیات رخ داده‌ است؛ لطفا دوباره تلاش کنید و در صورت رخداد مجدد این خطا به تیم توسعه‌ی سایت اطلاع دهید و <b>بن تخفیف بگیرید</b>!'});
 });
 

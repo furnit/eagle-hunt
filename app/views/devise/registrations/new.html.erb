@@ -5,7 +5,7 @@
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.telephone_field :phone_number, placeholder: '09**-***-****', value: number_to_phone(resource.phone_number)  %>
+    <%= f.telephone_field :phone_number, placeholder: '09*********', value: resource.phone_number, autofocus: true, maxlength: 11  %>
   </div>
 
   <div class="field">

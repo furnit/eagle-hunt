@@ -8,8 +8,12 @@ module AdminRoutes
         root to: 'home#index'
 
         resources :users do
+          collection do
+            get :states, RC::json_request_only
+          end
           member do
-            delete :block
+            delete  :block
+            put     :reset_password
           end
         end
         resources :user_types

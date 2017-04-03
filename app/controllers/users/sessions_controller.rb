@@ -8,15 +8,31 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    # pre-fetch the user to see if it is the comming back user or not
-    user = User.authenticate(sign_in_params[:phone_number], sign_in_params[:password], "only_deleted")
-    # if this is a comming back user recover the user instance to allow the devise to the rest of the job
+    # pre-fetch the user to check if blocked or recovered
+    user = User.authenticate(sign_in_params[:phone_number], sign_in_params[:password])
+    # due to issue devise#4484 and since I already fetched the user,
+    # if it's authenticated, then going to manually sign_in the user :)
     if user
-      user.recover
-      user.save
-      flash[:alert] = 'حساب کاربری شما فعال شد!'
+      # check the blocked before trying to recover the user
+      if user.blocked_at
+        destroy
+        flash.delete :notice
+        flash[:error] = "<b>متاسفانه حساب کاربری شما مسدود گردیده است.</b>
+        <br />اگر فکر می‌کنید این یک خطا می‌باشد، می‌توانید با بخش مدیریت سایت تماس حاصل فرمایید تا به مشکل هرچه زودتر رسیدگی شود!";
+        redirect_to root_path
+        return
+      end
+      # ok, the user is not blocked :)
+      # check for it's suspension
+      if user.deleted_at
+        user.recover
+        flash[:alert] = 'حساب کاربری شما فعال شد!'
+      end
+      # user is authenticated, sign in the good boy
+      sign_in_and_redirect(:user, user)
+      return
     end
-    # call the devise
+    # call the devise, if user is not authenticated!
     super
   end
 

@@ -5,6 +5,12 @@ class Admin::UserTypesController < Admin::AdminbaseController
   # GET /admin/user_types.json
   def index
     @admin_user_types = Admin::UserType.all
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @admin_user_types.map {|i| {value: i.id, text: i.name}}, status: :ok }
+    end
+
   end
 
   # GET /admin/user_types/1
@@ -29,7 +35,7 @@ class Admin::UserTypesController < Admin::AdminbaseController
     respond_to do |format|
       if @admin_user_type.save
         format.html { redirect_to admin_user_types_path, notice: 'نوع کاربر «<b>%s</b>» با موفقیت ایجاد شد.' %@admin_user_type.name }
-        format.json { render :index, status: :created, location: admin_user_types_path }
+        format.json { render json: @admin_user_type, status: :created, location: admin_user_types_path }
       else
         format.html { render :new }
         format.json { render json: @admin_user_type.errors, status: :unprocessable_entity }
@@ -43,7 +49,7 @@ class Admin::UserTypesController < Admin::AdminbaseController
     respond_to do |format|
       if @admin_user_type.update(admin_user_type_params)
         format.html { redirect_to admin_user_types_path, notice: 'نوع کاربر «<b>%s</b>» با موفقیت ویرایش شد.' %@admin_user_type.name  }
-        format.json { render :show, status: :ok, location: @admin_user_type }
+        format.json { render json: @admin_user_type, status: :ok, location: @admin_user_type }
       else
         format.html { render :edit }
         format.json { render json: @admin_user_type.errors, status: :unprocessable_entity }

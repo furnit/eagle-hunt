@@ -25,6 +25,8 @@
 		  </div>
 
 		  <div class="field">
+		    <legend>آدرس</legend>
+        <%= f.collection_select :state_id, State.all, :id, :name, { :prompt => 'لطفا استان محل اقامت خود را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { :"live-search" => true } %>
 		    <%= f.text_area :address %>
 		    <%= f.text_field :postal_code %>
 		  </div>

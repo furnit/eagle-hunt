@@ -74,6 +74,10 @@ gem 'will-paginate-i18n', github: 'noise2/will-paginate-i18n'
 gem 'rails-acu', github: 'noise2/rails-acu'
 # for filtered search
 gem 'filterrific', github: 'ayaman/filterrific'
+# for inline editing
+gem 'bootstrap-editable-rails'
+# for pretty bootstrap selects
+gem 'bootstrap-select-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

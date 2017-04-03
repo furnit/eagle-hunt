@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_one :profile, autosave: true
   belongs_to :user_type, class_name: 'Admin::UserType', foreign_key: :admin_user_type_id
 
+  validates :phone_number, length: { is: 11 }
   validates_format_of :phone_number, :with => /09\d{2}[- ]?\d{3}[- ]?\d{4}/i
 
   before_validation :normalize_phone_number
@@ -58,7 +59,8 @@ class User < ApplicationRecord
         :sorted_by,
         :search_query,
         :get_by_user_types,
-        :with_created_at_gte
+        :get_by_states,
+        :get_by_status
       ]
     )
 
@@ -97,8 +99,21 @@ class User < ApplicationRecord
       where("admin_user_type_id = ?", user_type_id)
     }
 
-    scope :with_created_at_gte, lambda { |ref_date|
-      where('users.created_at >= ?', ref_date)
+    scope :get_by_states, lambda { |state|
+      joins(:profile).
+      where('profiles.state_id = ?', state)
+    }
+    scope :get_by_status, lambda { |status|
+      case status.to_s.downcase
+      when "active"
+        where('users.deleted_at IS NULL and users.blocked_at IS NULL and current_sign_in_at IS NOT NULL')
+      when "deleted_at"
+        where('users.deleted_at IS NOT NULL')
+      when "blocked_at"
+        where('users.blocked_at IS NOT NULL')
+      else
+        raise(ArgumentError, "Invalid status option: #{ status.inspect }")
+      end
     }
 
     scope :sorted_by, lambda { |sort_option|
@@ -120,6 +135,13 @@ class User < ApplicationRecord
         ['زمان عضویت (قدیمی‌ترین در ابتدا)', 'created_at_asc'],
         ['زمان آخرین ورود (جدیدترین در ابتدا)', 'current_sign_in_at_asc'],
         ['زمان آخرین ورود (قدیمی‌ترین در ابتدا)', 'current_sign_in_at_desc'],
+      ]
+    end
+    def self.options_for_get_by_status
+      [
+        ['حساب‌های فعال', 'active'],
+        ['حسا‌ب‌های معلق', 'deleted_at'],
+        ['حساب‌های مسدود', 'blocked_at'],
       ]
     end
 

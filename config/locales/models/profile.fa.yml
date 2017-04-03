@@ -9,6 +9,7 @@ fa:
         contact: 'شماره موبایل'
         address: 'آدرس'
         postal_code: 'کدپستی (اختیاری)'
+        state_id: 'استان'
     errors:
       models:
         profile:
