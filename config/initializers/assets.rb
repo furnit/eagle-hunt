@@ -35,6 +35,9 @@ end
 
 Rails.application.config.assets.precompile += [
   'filterrific/filterrific-spinner.gif',
+  'photoswipe/default-skin/*.png',
+  'photoswipe/default-skin/*.svg',
+  'photoswipe/default-skin/*.gif',
   '*.png',
   '*.svg',
   '*.jpg',
