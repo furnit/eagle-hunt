@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd ..
-
 if [[ -f tmp/env && -f tmp/env.bash ]]; then
 	echo "ENV files exists and decrypted"
 else
