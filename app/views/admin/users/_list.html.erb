@@ -16,6 +16,7 @@
   <tbody>
     <% @users.each do |user| %>
       <%
+        next if not user.profile
         title  = ''
         title  = 'کاربر مسدود شده است!' if user.blocked_at
         title  = 'حساب کاربر معلق شده است!' if user.deleted_at
