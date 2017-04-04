@@ -107,6 +107,9 @@ class Admin::UsersController < Admin::AdminbaseController
     params[:user][:password] = @user.phone_number
     params[:user][:password_confirmation] = params[:user][:password]
     update reset_password: true
+    # indicate that user should change its password at the next login
+    @user.change_password = true;
+    @user.save
   end
 
   private
