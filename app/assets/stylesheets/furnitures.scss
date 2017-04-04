@@ -1,3 +1,9 @@
+/*
+ *= require photoswipe/photoswipe
+ *= require photoswipe/default-skin/default-skin
+ *= require jquery-ui/slider
+ */
+
 $gallery-margin-top: -100px;
 
 #furniture-cover {
@@ -93,11 +99,11 @@ $gallery-margin-top: -100px;
 }
 
 /* Medium devices (desktops; devices, 1600px and down) */
-@media (max-width: 1600px) { 
+@media (max-width: 1600px) {
   #div-f-cover { background-size: 100vw }
 }
 
 /* Large devices (large desktops, 1600px and up) */
-@media (min-width: 1600px) { 
+@media (min-width: 1600px) {
   #div-f-cover { background-size: 80vw }
 }
