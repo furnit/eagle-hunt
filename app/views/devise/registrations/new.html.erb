@@ -2,7 +2,6 @@
 <legend><h2><%= t('.sign_up') %></h2></legend>
 
 <%= redirect_form(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
 
   <div class="field">
     <%= f.telephone_field :phone_number, placeholder: '09*********', value: resource.phone_number, autofocus: true, maxlength: 11  %>

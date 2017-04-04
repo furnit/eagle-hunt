@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_one :profile, autosave: true
   belongs_to :user_type, class_name: 'Admin::UserType', foreign_key: :admin_user_type_id
 
-  validates :phone_number, length: { is: 11 }
+  validates :phone_number, length: { is: 11 }, uniqueness: true
   validates_format_of :phone_number, :with => /09\d{2}[- ]?\d{3}[- ]?\d{4}/i
 
   before_validation :normalize_phone_number
