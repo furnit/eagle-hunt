@@ -9,8 +9,8 @@ defaults: &defaults
     
   sms_api:
     sms_ir:
-      username: 9120686119
-      password: 0PkFBbAWZYp_2Iz0
+      username: <%= ENV['SMS_API_USERNAME'] %>
+      password: <%= ENV['SMS_API_PASSWORD'] %>
   
   css:
     furniture:
@@ -28,7 +28,4 @@ test:
 
 production:
   <<: *defaults
-  sms_api:
-    sms_ir:
-      password: <%= ENV['SMS_API_PASSWORD'] %>
   
