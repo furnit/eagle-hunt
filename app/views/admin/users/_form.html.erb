@@ -1,7 +1,7 @@
 <%= redirect_form(user, url: admin_users_path) do |f| %>
   <div class='block'>
     <%= f.fields_for :profile do |profile| %>
-      <%= profile.text_field :first_name, label: 'نام', required: true, error: 'hi' %>
+      <%= profile.text_field :first_name, label: 'نام', required: true %>
       <%= profile.text_field :last_name, label: 'نام‌خانوادگی', required: true %>
       <%= profile.collection_select :state_id, State.all, :id, :name, { :prompt => 'لطفا استان محل اقامت کاربر را انتخاب کنید.', label: 'استان' }, required: true %>
       <%= profile.text_area :address, label: 'آدرس', required: true %>

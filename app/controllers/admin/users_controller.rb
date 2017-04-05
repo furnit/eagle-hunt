@@ -10,7 +10,7 @@ class Admin::UsersController < Admin::AdminbaseController
 
     respond_to do |format|
       format.html
-      format.json { render json: @users, status: :ok }
+      format.js
     end
   # Recover from invalid param sets, e.g., when a filter refers to the
   # database id of a record that doesn’t exist any more.
