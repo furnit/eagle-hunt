@@ -1,3 +1,3 @@
-ALL_CONFIG = YAML.load_file(Rails.root.join('config/config.yml')) || {}
+ALL_CONFIG = YAML.load(ERB.new(File.read(Rails.root.join('config/config.yml'))).result) || {}
 ENV_CONFIG = ALL_CONFIG[Rails.env] || {}
 AppConfig = DeepStruct.new(ENV_CONFIG)
