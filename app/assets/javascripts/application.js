@@ -23,6 +23,6 @@
 //= require bootstrap-select
 //= require common
 
-//! require nprogress-turbolinks
-//! require jquery.turbolinks
-//! require turbolinks
+//= require nprogress-turbolinks
+//= require jquery.turbolinks
+//= require turbolinks
