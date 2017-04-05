@@ -3,7 +3,7 @@
   <% conf = AppConfig.css.furniture.cover %>
 
   <div class='container-fluid' style='margin: 0; padding: 0'>
-  	<%= create_cover image_url(@furniture.images[@furniture.cover_details['index'].to_i]), height: (conf.height.to_s + conf.height_unit), style: "margin-top:-20px; z-index: -1000; background-position: center #{@furniture.cover_details['pos']}; top: 70px;", id: 'div-f-cover', class: '' %>
+  	<%= create_cover image_url(@furniture.images[@furniture.cover_details['index'].to_i]), height: (conf.height.to_s + conf.height_unit), style: "background-position: center #{@furniture.cover_details['pos']};", id: 'div-f-cover' %>
   </div>
 	<div id='furniture-cover'>
 <% acu_as :admin do %>

@@ -4,12 +4,10 @@
  *= require jquery-ui/slider
  */
 
-$gallery-margin-top: -100px;
-
 #furniture-cover {
   & ~ .container {
     position: relative;
-    top: -140px
+    top: 60px
   }
   .cover-item,
   .cover-scroller {
@@ -83,10 +81,12 @@ $gallery-margin-top: -100px;
   }
   #cover-container {
     & {
-      position: relative;
+      position: absolute;
       display: inline;
       z-index: 1000;
-      top: $gallery-margin-top;
+      top: 450px;
+      left: 20vw;
+      right: 20vw;
     }
     #cover-collection {
       overflow: hidden;
@@ -96,6 +96,11 @@ $gallery-margin-top: -100px;
       margin: 0;
     }
   }
+}
+#div-f-cover {
+  position: relative;
+  z-index: -1000; 
+  top: -20px;
 }
 
 /* Medium devices (desktops; devices, 1600px and down) */
