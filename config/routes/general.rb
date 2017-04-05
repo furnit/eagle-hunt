@@ -32,12 +32,17 @@ module GeneralRoutes
       end
 
       resources :profiles
-
+      
       devise_for :users, controllers: {
         sessions: 'users/sessions',
-        registrations: 'users/registrations'
+        registrations: 'users/registrations',
+        passwords: 'users/passwords'
       }
-
+        
+      devise_scope :user do
+        get "users/password/confirm" => "users/passwords#confirm"
+        patch "users/password/reset"  => "users/passwords#reset"
+      end
 
     end
   end

@@ -3,7 +3,8 @@
     <div class='col-md-8 col-md-offset-2'>
       <%= raw '<p class="alert alert-danger text-center"><span class="pull-right" style="cursor: pointer"><span class="fa fa-times"></span></span>%s</p>' %flash[:error] if flash[:error] %>
       <%= raw '<p class="alert alert-warning text-center"><span class="pull-right" style="cursor: pointer"><span class="fa fa-times"></span></span>%s</p>' %flash[:alert] if flash[:alert] %>
-      <%= raw '<p class="alert alert-info text-center"><span class="pull-right" style="cursor: pointer"><span class="fa fa-times"></span></span>%s</p>' %flash[:notice] if flash[:notice] %>
+      <%= raw '<p class="alert alert-success text-center"><span class="pull-right" style="cursor: pointer"><span class="fa fa-times"></span></span>%s</p>' %flash[:notice] if flash[:notice] %>
+      <%= raw '<p class="alert alert-success text-center"><span class="pull-right" style="cursor: pointer"><span class="fa fa-times"></span></span>%s</p>' %flash[:success] if flash[:success] %>
     </div>
   </div>
 </div>

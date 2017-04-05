@@ -1,5 +1,17 @@
 defaults: &defaults
+  domain: www.viramobl.com
+    
   currency: تومان
+  
+  passwords:
+    reset_expiration: 24.hours
+    reset_token_length: 5
+    
+  sms_api:
+    sms_ir:
+      username: 9120686119
+      password: 0PkFBbAWZYp_2Iz0
+  
   css:
     furniture:
       cover:
@@ -8,9 +20,15 @@ defaults: &defaults
 
 development:
   <<: *defaults
+  domain: dev.viramobl.com
 
 test:
   <<: *defaults
+  domain: dev.viramobl.com
 
 production:
   <<: *defaults
+  sms_api:
+    sms_ir:
+      password: <%= ENV['SMS_API_PASSWORD'] %>
+  

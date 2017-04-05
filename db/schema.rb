@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170403103330) do
+ActiveRecord::Schema.define(version: 20170405073308) do
 
   create_table "admin_user_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(version: 20170403103330) do
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.datetime "deleted_at"
-    t.integer  "admin_user_type_id"
+    t.integer  "admin_user_type_id",     default: 2
     t.datetime "blocked_at"
     t.string   "phone_number",           default: "",    null: false
     t.integer  "creator_user_id"

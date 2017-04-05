@@ -22,3 +22,8 @@ fa:
     sessions:
       label: 'حساب کاربری'
       new: 'ورود'
+
+    passwords:
+      label: 'رمزعبور'
+      new: 'تنظیم مجدد'
+      confirm: 'تنظیم مجدد'

@@ -10,7 +10,7 @@ class Admin::UsersController < Admin::AdminbaseController
 
     respond_to do |format|
       format.html
-      format.js
+      format.json { render json: @users, status: :ok }
     end
   # Recover from invalid param sets, e.g., when a filter refers to the
   # database id of a record that doesn’t exist any more.
@@ -22,6 +22,10 @@ class Admin::UsersController < Admin::AdminbaseController
   # GET /admin/users/1
   # GET /admin/users/1.json
   def show
+    respond_to do |format|
+      format.html { render json: @user, status: :ok }
+      format.json { render json: @user, status: :ok }
+    end
   end
 
   # GET /admin/users/new
@@ -59,9 +63,8 @@ class Admin::UsersController < Admin::AdminbaseController
 
   # PATCH/PUT /admin/users/1
   # PATCH/PUT /admin/users/1.json
-  def update reset_password: false
+  def update
     notice = "کاربر شماره «<b>#{@user.id}</b>» با موفقیت بروز رسانی شد."
-    notice = "رمز کاربر شماره «<b>#{@user.id}</b>» با موفقیت به «<b>به شماره تماس</b>» وی بروز رسانی شد." if reset_password
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to admin_users_path, notice: notice }
@@ -103,13 +106,17 @@ class Admin::UsersController < Admin::AdminbaseController
   end
 
   def reset_password
-    params[:user] ||= {}
-    params[:user][:password] = @user.phone_number
-    params[:user][:password_confirmation] = params[:user][:password]
-    update reset_password: true
-    # indicate that user should change its password at the next login
-    @user.change_password = true;
-    @user.save
+    @user.reset_password
+    
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to admin_users_path, notice: "رمز کاربر شماره «<b>#{@user.id}</b>» با موفقیت به «<b>به شماره تماس</b>» وی بروز رسانی شد." }
+        format.json { render json: @user, status: :ok, location: admin_users_path }
+      else
+        format.html { redirect_to admin_users_path, error: "تغییر رمز عبور موفقیت‌آمیز <b>بود</b>." }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private

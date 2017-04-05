@@ -23,10 +23,10 @@ user_types_list.each do |name, symbol, comment, auth_level|
 end
 
 users_list = [
-  ['09120686119','04918821',1],
+  ['09120686119','123456',1, true],
 ]
-users_list.each do |phone_number, password, user_type_id|
-  User.create!(phone_number: phone_number, password: password, admin_user_type_id: user_type_id)
+users_list.each do |phone_number, password, user_type_id, change_password|
+  User.create!(phone_number: phone_number, password: password, admin_user_type_id: user_type_id, change_password: change_password)
 end
 
 profiles_list = [

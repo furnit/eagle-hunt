@@ -2,10 +2,8 @@
 <legend><h2><%= t('.title', resource: resource_class.model_name.human) %></h2></legend>
 
 <%= redirect_form(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-
   <div class="field">
-    <%= f.telephone_field :phone_number, placeholder: '09**-***-****', value: number_to_phone(resource.phone_number)  %>
+    <%= f.telephone_field :phone_number, placeholder: '09*********', value: resource.phone_number  %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -15,11 +13,11 @@
   <% end %>
 
   <div class="field">
-    <%= f.password_field :password, autocomplete: "off", placeholder: resource.change_password ? 'لطفا رمز عبور جدید خود را وارد کنید.' : 'اگر نمیخواهید رمز عبور خود را تغییر دهید، خالی بگذارید.' %>
+    <%= f.password_field :password, autocomplete: "off", placeholder: resource.change_password ? 'لطفا رمز عبور جدید خود را وارد کنید.' : 'اگر نمیخواهید رمز عبور خود را تغییر دهید، خالی بگذارید.', required: resource.change_password  %>
   </div>
 
   <div class="field">
-    <%= f.password_field :password_confirmation, placeholder: resource.change_password ? 'لطفا رمز عبور جدید خود را تکرار کنید.' : 'اگر نمیخواهید رمز عبور خود را تغییر دهید، خالی بگذارید.'  %>
+    <%= f.password_field :password_confirmation, placeholder: resource.change_password ? 'لطفا رمز عبور جدید خود را تکرار کنید.' : 'اگر نمیخواهید رمز عبور خود را تغییر دهید، خالی بگذارید.', required: resource.change_password  %>
   </div>
 	<hr />
   <div class="field">

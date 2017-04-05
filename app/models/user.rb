@@ -4,7 +4,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :rememberable, :trackable, :validatable
+         :rememberable, :trackable, :validatable, 
+         :recoverable
 
   has_one :profile, autosave: true
   belongs_to :user_type, class_name: 'Admin::UserType', foreign_key: :admin_user_type_id
@@ -23,6 +24,18 @@ class User < ApplicationRecord
       include ActionView::Helpers::NumberHelper
     end.new
   end
+  
+  # secure sensitive details on json request
+  def as_json(options)
+    super(:except => [:reset_password_token, :encrypted_password, :phone_number, :email])
+  end
+  
+  def reset_password
+    self.password = self.phone_number
+    self.password_confirmation = self.password
+    # indicate that user should change its password at the next login
+    self.write_attribute(:change_password, true);
+  end
 
   def normalize_phone_number
     self.phone_number = self.phone_number.to_ar2en_i;
@@ -35,7 +48,7 @@ class User < ApplicationRecord
   end
 
   def check_if_password_changed?
-    self.change_password = false if self.change_password and self.encrypted_password_changed?
+    self.change_password = false if self.change_password and self.encrypted_password_changed? and not self.change_password_changed?
   end
 
 	def email_required?

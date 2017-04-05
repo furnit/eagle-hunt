@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
 
   before_action { Acu::Monitor.gaurd by: { user: current_user } }
 
+  rescue_from ActiveRecord::RecordNotFound, :with => :render_404
+
   def acquire_profile_if_necessary
     if user_signed_in? and not current_user.profile
       redirect_to new_profile_path
@@ -17,8 +19,8 @@ class ApplicationController < ActionController::Base
   end
 
   def change_user_password_if_necessary
-    if user_signed_in? and current_user.change_password and params["controller"] != "users/registrations"
-      flash[:notice] = "شما باید رمز عبور خود را بروز رسانی کنید."
+    if user_signed_in? and current_user.change_password and not (params["controller"] == "users/registrations" or (params["controller"] == "users/sessions" and params["action"] == "destroy"))
+      flash[:alert] = "شما باید رمز عبور خود را بروز رسانی کنید."
       redirect_to edit_user_registration_path
     end
   end

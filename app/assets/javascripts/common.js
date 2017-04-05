@@ -13,11 +13,11 @@ $(document).on('ready turbolinks:load', function(){
       .fadeOut(500, function() {
         $(this).remove();
         if($('#page-alerts .alert:not(.alert-danger):first').length)
-          setTimeout(delete_alerts, 1500);
+          setTimeout(delete_alerts, 2500);
       });
   };
   // remove the alerts after some time
-  setTimeout(delete_alerts, 3500);
+  setTimeout(delete_alerts, 5000);
   // setting config for 1min delay length
   document.NProgress.configure({
     speed: 500,
@@ -79,6 +79,7 @@ $(document).on('ready turbolinks:load', function(){
       var html = $(this).html();
       var body = html;
       var title = '';
+      if(body.length === 0) return;
 
       if($(html).find('> *:first').is('legend')) {
         var wrapped = $("<div>" + html + "</div>");

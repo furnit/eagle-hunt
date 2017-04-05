@@ -27,3 +27,6 @@ fa:
       signed_in: "شما با موفقیت وارد شدید."
       signed_out: "شما با موفقیت خارج شدید."
       already_signed_out: "شما با موفقیت خارج شدید."
+    passwords:
+      confirm:
+        reset_password: 'تنظیم مجدد رمزعبور'
