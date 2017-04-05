@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   before_action :acquire_profile_if_necessary
   # change user's password if flaged to change?
   before_action :change_user_password_if_necessary
+  # add to phonebook if necessary
+  before_action :add_to_phonebook_if_necessary
   # disables the layout for AJAX calls
   layout proc { false if request.xhr? }
 
@@ -19,12 +21,36 @@ class ApplicationController < ActionController::Base
   end
 
   def change_user_password_if_necessary
-    if user_signed_in? and current_user.change_password and not (params["controller"] == "users/registrations" or (params["controller"] == "users/sessions" and params["action"] == "destroy"))
+    if user_signed_in? and current_user.change_password and not(params["controller"] == "users/registrations" or (params["controller"] == "users/sessions" and params["action"] == "destroy"))
       flash[:alert] = "شما باید رمز عبور خود را بروز رسانی کنید."
       redirect_to edit_user_registration_path
     end
   end
-
+  
+  def add_to_phonebook_if_necessary
+    if user_signed_in? and current_user.profile and not(current_user.is_added_to_phonebook or current_user.error_on_add_to_phonebook)
+      require "#{Rails.root}/lib/sms/bootstrap"
+      if not SMS.add_to_phonebook first_name: current_user.profile.first_name, last_name: current_user.profile.last_name, mobile: current_user.phone_number 
+        message = <<~sms
+          خطای اضافه کردن کاربر به دفترچه تلفن
+          ##{current_user.id}
+          
+          مبل ویرا
+          #{AppConfig.domain}
+        sms
+        # if we sent the warning to admin
+        if SMS.send message, to: User.find(1).phone_number
+          # suppress the following trials of adding the user to the phonebook
+          # it had to be the admin's job to try to put or leave it!
+          current_user.error_on_add_to_phonebook = true
+        end
+      else
+        current_user.is_added_to_phonebook = true
+      end
+      current_user.save
+    end
+  end
+  
   protected
 
   def prevent_browser_caching
