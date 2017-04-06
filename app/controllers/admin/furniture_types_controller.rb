@@ -4,19 +4,12 @@ class Admin::FurnitureTypesController < Admin::UploaderController
   # GET /furniture_types
   # GET /furniture_types.json
   def index
-    @filterrific = initialize_filterrific(Admin::FurnitureType, params[:filterrific]) or return
-
-    @furniture_types = @filterrific.find.with_deleted.paginate(:page => params[:page])
+    @furniture_types = Admin::FurnitureType.all.with_deleted.paginate(:page => params[:page])
 
     respond_to do |format|
-      format.html
-      format.js
+      format.html 
+      format.json { render json: @furniture_types, status: :ok }
     end
-  # Recover from invalid param sets, e.g., when a filter refers to the
-  # database id of a record that doesn’t exist any more.
-  # In this case we reset filterrific and discard all filter params.
-  rescue ActiveRecord::RecordNotFound => e
-    redirect_to(reset_filterrific_url(format: :html)) and return
   end
 
   # GET /furniture_types/1

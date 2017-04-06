@@ -1,4 +1,5 @@
 class FurnituresController < Admin::UploaderController
+  layout 'application'
   before_action :set_furniture, only: [:show, :edit, :update, :destroy, :delete_image, :cover, :edit_description, :update_description]
 
   # GET /furnitures

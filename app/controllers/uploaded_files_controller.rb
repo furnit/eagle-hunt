@@ -1,6 +1,4 @@
 class UploadedFilesController < ApplicationController
-  before_action :set_picture, only: [:show, :edit, :update, :destroy]
-
   # POST /pictures
   # POST /pictures.json
   def create
@@ -18,7 +16,7 @@ class UploadedFilesController < ApplicationController
   # DELETE /pictures/1
   # DELETE /pictures/1.json
   def destroy
-    @picture.destroy
+    UploadedFile.where(id: params[:id]).destroy_all
     respond_to do |format|
       format.html { redirect_to pictures_url }
       format.json { head :no_content }
@@ -26,10 +24,6 @@ class UploadedFilesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_picture
-      @picture = UploadedFile.find(params[:id])
-    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def picture_params

@@ -1,8 +1,8 @@
 class Furniture < ParanoiaRecord
     
-  belongs_to :furniture_type
+  belongs_to :furniture_type, class_name: 'Admin::FurnitureType', foreign_key: :furniture_type_id
 
-  validates_presence_of :furniture_type, :name
+  validates_presence_of :furniture_type_id, :name
   
   mount_uploaders :images,        ImageUploader
 
