@@ -3,9 +3,10 @@
 if [[ -f tmp/env && -f tmp/env.bash ]]; then
 	echo "ENV files exists and decrypted"
 else
+	cp -v data/env.dat tmp/env.gpg
 	cd tmp
 	if [ ! -f env.gpg ]; then
-		echo 'env.gpg does not exists!'
+		echo 'tmp/env.dat does not exists!'
 		echo '[ABORT]'
 		exit 1
 	fi 
