@@ -1,5 +1,5 @@
 <div class='container'>
-  <%= path_to_here! @furniture_type.name %>
+  <%= define_path_to_here! [{label: 'دسته‌بندی', href: request.path}, {label: @furniture_type.name}] %>
   <div class='col-lg-3 col-md-3 col-sm-12 col-xs-12 furniture-right-pannel pull-right'>
     <fieldset class='col-md-12'>
       <legend><span class='fa fa-chevron-left'></span> پنل تنظیمات</legend>

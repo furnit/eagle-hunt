@@ -34,6 +34,19 @@ module ApplicationHelper
     I18n.t key, :raise => true rescue false
   end
 
+  def define_path_to_here!(*args)
+    args = args.flatten
+    str = "<ol class='breadcrumb col-md-12' style='font-weight: bold; background-color: white; border: 1px solid #eee; border-radius: 0; marginx: auto 20px 30px 20px;'>
+            <li><span class='fa fa-angle-double-left' style='margin-left: 10px'></span>#{link_to 'مبل ویرا', root_path}</li>"
+    args.each.with_index do |l, index|
+      link = "#{l[:label]}"
+      link = "<a href='#{l[:href]}'>#{link}</a>" if l[:href]
+      str += "<li" + (index != args.length - 1 ? "" : " class='active'") + ">#{link}</li>"
+    end
+    str += "</ol>"
+    return raw str
+  end
+
   def path_to_here!(*_pathes)
     pathes = [link_to(t('routes.%s.label' %controller.controller_name), request.path)]
 
