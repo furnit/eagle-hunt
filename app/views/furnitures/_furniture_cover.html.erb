@@ -3,7 +3,7 @@
   <% conf = AppConfig.css.furniture.cover %>
 
   <div class='container-fluid' style='margin: 0; padding: 0'>
-  	<%= create_cover image_url(@furniture.images[@furniture.cover_details['index'].to_i]), height: (conf.height.to_s + conf.height_unit), style: "background-position: center #{@furniture.cover_details['pos']};", id: 'div-f-cover' %>
+  	<%= create_cover image_url(@furniture.images[@furniture.cover_details['index'].to_i]), thumb: @furniture.images[@furniture.cover_details['index'].to_i].thumb.url, height: (conf.height.to_s + conf.height_unit), style: "background-position: center #{@furniture.cover_details['pos']};", id: 'div-f-cover' %>
   </div>
 	<div id='furniture-cover'>
 <% acu_as :admin do %>
@@ -41,6 +41,17 @@
 		$(document).ready(function(){
 			$('#furniture-cover .cover-scroller[data="right"]').addClass('disabled');
 			if($('#cover-collection')[0].scrollWidth <= $('#cover-collection').width()) $('.cover-scroller').addClass('disabled');
+			
+			// load thumbnail first and set the cover when it's loaded
+			$('#div-f-cover[data-thumb]').each(function(){	
+				$(this)
+					.data('background-image', $('#div-f-cover[data-thumb]').css('background-image'))
+					.css('background-image', 'url("' + $(this).attr('data-thumb') + '")');
+					var newImg = new Image;
+					$this = $(this)
+					newImg.onload = function() { $this.css('background-image', 'url("' + this.src + '")'); }
+					newImg.src  = $(this).data('background-image').replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+			})
 
 			$('#furniture-cover .cover-scroller[data]').click(function() {
 				event.preventDefault();
