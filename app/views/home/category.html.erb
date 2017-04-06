@@ -12,7 +12,7 @@
             <span class='fa fa-pencil'></span> ویرایش این دسته
           <% end %>
           <hr />
-          <%= link_to new_furniture_path(:cat => @furniture_type.id), :class => 'btn btn-success inline-html-call' do %>
+          <%= link_to new_admin_furniture_path(:cat => @furniture_type.id), :class => 'btn btn-success inline-html-call' do %>
             <span class='fa fa-plus'></span> اضافه کردن محصول
           <% end %>
           <div class="btn-group">
@@ -59,7 +59,7 @@
         <div class='furniture-content'>
 
         <div class="thumbnail">
-          <%= link_to image_tag(f.images[f.cover_details["index"].to_i].thumb.url, :class => 'img img-thumbnail img-responsive', :style => 'width: 100%; height: 250px'), f %>
+          <%= link_to image_tag(f.images[f.cover_details["index"].to_i].thumb.url, :class => 'img img-thumbnail img-responsive', :style => 'width: 100%; height: 250px'), home_furniture_path(f) %>
           <div class="caption" style='padding: 20px'>
             <dl>
               <dt>نام مدل</dt>

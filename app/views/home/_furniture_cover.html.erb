@@ -95,7 +95,7 @@
 	</script>
 
 <% acu_as :admin do %>
-  <%= form_tag cover_furniture_path(format: :json), name: 'cover-config', method: :post, :remote => true do %>
+  <%= form_tag cover_admin_furniture_path(format: :json), name: 'cover-config', method: :post, :remote => true do %>
     <% hidden_field_tag 'furniture[cover]' %>
   <% end %>
 
@@ -147,7 +147,7 @@ $(document).ready(function(){
     idx = parseInt($('.pswp .pswp__counter').text().split('/')[0] - 1);
     if($('.pswp').attr('data-cover-index') == idx) return;
     $.ajax({
-      url: '<%= cover_furniture_path(@furniture, format: :json) %>',
+      url: '<%= cover_admin_furniture_path(@furniture, format: :json) %>',
       data: {furniture:{index: idx}},
       method: 'POST',
       dataType: 'json',

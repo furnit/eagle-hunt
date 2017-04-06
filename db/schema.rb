@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406134103) do
+ActiveRecord::Schema.define(version: 20170406162103) do
 
   create_table "admin_furniture_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -22,6 +22,22 @@ ActiveRecord::Schema.define(version: 20170406134103) do
     t.boolean  "is_outside_type",               default: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_admin_furniture_types_on_deleted_at", using: :btree
+  end
+
+  create_table "admin_furnitures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.json     "images"
+    t.boolean  "available"
+    t.string   "comment",           limit: 140
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "furniture_type_id"
+    t.text     "description",       limit: 65535
+    t.datetime "deleted_at"
+    t.json     "cover_details"
+    t.string   "description_html"
+    t.index ["deleted_at"], name: "index_admin_furnitures_on_deleted_at", using: :btree
+    t.index ["furniture_type_id"], name: "index_admin_furnitures_on_furniture_type_id", using: :btree
   end
 
   create_table "admin_user_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -83,22 +99,6 @@ ActiveRecord::Schema.define(version: 20170406134103) do
     t.string   "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "furnitures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.json     "images"
-    t.boolean  "available"
-    t.string   "comment",           limit: 140
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.integer  "furniture_type_id"
-    t.text     "description",       limit: 65535
-    t.datetime "deleted_at"
-    t.json     "cover_details"
-    t.string   "description_html"
-    t.index ["deleted_at"], name: "index_furnitures_on_deleted_at", using: :btree
-    t.index ["furniture_type_id"], name: "index_furnitures_on_furniture_type_id", using: :btree
   end
 
   create_table "profiles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -192,11 +192,11 @@ ActiveRecord::Schema.define(version: 20170406134103) do
     t.datetime "updated_at",            null: false
   end
 
+  add_foreign_key "admin_furnitures", "admin_furniture_types", column: "furniture_type_id"
   add_foreign_key "fabric_colors", "fabrics"
-  add_foreign_key "furnitures", "admin_furniture_types", column: "furniture_type_id"
   add_foreign_key "profiles", "states"
   add_foreign_key "profiles", "users", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "shopping_carts", "furnitures"
+  add_foreign_key "shopping_carts", "admin_furnitures", column: "furniture_id"
   add_foreign_key "shopping_carts", "users"
   add_foreign_key "users", "admin_user_types"
   add_foreign_key "wood_colors", "woods"

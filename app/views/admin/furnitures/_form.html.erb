@@ -1,6 +1,7 @@
 <% form_id = 0 %>
 <%= redirect_form furniture  do |f| %>
 	<% form_id = f.options[:html][:id] %>
+	<%= params[:admin] ? f.hidden_field(:admin, value: params[:admin]): '' %>
 	<div class='row'>
 		<div class="col-xs-12">
 			<div class='block'>

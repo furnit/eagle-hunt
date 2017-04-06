@@ -1,11 +1,22 @@
-class FurnituresController < Admin::UploaderController
-  layout 'application'
+class Admin::FurnituresController < Admin::UploaderController
   before_action :set_furniture, only: [:show, :edit, :update, :destroy, :delete_image, :cover, :edit_description, :update_description]
 
   # GET /furnitures
   # GET /furnitures.json
   def index
-    @furnitures = Furniture.all
+    @filterrific = initialize_filterrific(Admin::Furniture, params[:filterrific]) or return
+
+    @furnitures = @filterrific.find.with_deleted.paginate(:page => params[:page])
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  # Recover from invalid param sets, e.g., when a filter refers to the
+  # database id of a record that doesn’t exist any more.
+  # In this case we reset filterrific and discard all filter params.
+  rescue ActiveRecord::RecordNotFound => e
+    redirect_to(reset_filterrific_url(format: :html)) and return
   end
 
   # GET /furnitures/1
@@ -21,7 +32,7 @@ class FurnituresController < Admin::UploaderController
 
   # GET /furnitures/new
   def new
-    @furniture = Furniture.new
+    @furniture = Admin::Furniture.new
     @furniture.furniture_type_id = params[:cat].to_i if params[:cat]
   end
 
@@ -32,16 +43,16 @@ class FurnituresController < Admin::UploaderController
   # POST /furnitures
   # POST /furnitures.json
   def create
-    @furniture = Furniture.new(furniture_params)
+    @furniture = Admin::Furniture.new(furniture_params)
     respond_to do |format|
       if @furniture.save
         # update the uploaded image and re-save the model
         # the model need to be created at first then the update happen
         update_uploaded_images @furniture, :furniture , auto_save: true
-        params[:furniture] = { iid: 0 }.with_indifferent_access.merge(params[:furniture]);
+        params[:admin_furniture] = { iid: 0 }.with_indifferent_access.merge(params[:admin_furniture]);
         @furniture.reload;
         # make_cover no_respond: true
-        format.html { redirect_to @furniture, notice: 'دسته‌بندی جدید «<b>%s</b>» با موفقیت ایجاد شد.' %@furniture.name }
+        format.html { redirect_to (params[:admin_furniture][:admin] ? admin_furnitures_path : home_furniture_path(@furniture)), notice: 'دسته‌بندی جدید «<b>%s</b>» با موفقیت ایجاد شد.' %@furniture.name }
         format.json { render json: @furniture, status: :created, location: @furniture }
       else
         format.html { render :new }
@@ -57,11 +68,11 @@ class FurnituresController < Admin::UploaderController
     # update the uploaded images
     update_uploaded_images @furniture, :furniture
     # if the user removed the cover image? reset the cover index
-    @furniture.cover_details[:index] = 0 if ((params[:furniture][:images_to_delete] and params[:furniture][:images_to_delete].include? @furniture.cover_details['index']) or @furniture.cover_details['index'].to_i >= @furniture.images.length)
+    @furniture.cover_details[:index] = 0 if ((params[:admin_furniture][:images_to_delete] and params[:admin_furniture][:images_to_delete].include? @furniture.cover_details['index']) or @furniture.cover_details['index'].to_i >= @furniture.images.length)
 
     respond_to do |format|
       if @furniture.update(furniture_params)
-        format.html { redirect_to @furniture, notice: 'محصول «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture.name }
+        format.html { redirect_to home_furniture_path(@furniture), notice: 'محصول «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture.name }
         format.json { render json: @furniture, status: :ok, location: @furniture }
       else
         format.html { render :edit }
@@ -75,7 +86,7 @@ class FurnituresController < Admin::UploaderController
   def destroy
     @furniture.destroy
     respond_to do |format|
-      format.html { redirect_to furniture_type_url(:id => @furniture.furniture_type_id), notice: 'محصول «<b>%s</b>» با موفقیت حذف شد.' %@furniture.name }
+      format.html { redirect_to admin_furniture_types_path(:id => @furniture.furniture_type_id), notice: 'محصول «<b>%s</b>» با موفقیت حذف شد.' %@furniture.name }
       format.json { head :no_content }
     end
   end
@@ -129,11 +140,11 @@ class FurnituresController < Admin::UploaderController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_furniture
-      @furniture = Furniture.find(params[:id])
+      @furniture = Admin::Furniture.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def furniture_params
-      params.require(:furniture).permit(:id, :name, :comment, :furniture_type_id, :description)
+      params.require(:admin_furniture).permit(:id, :name, :comment, :furniture_type_id, :description)
     end
 end

@@ -20,7 +20,18 @@ module AdminRoutes
         resources :furniture_types, :path => "category" do
           member do
             delete :archive
-            patch :recover
+            patch  :recover
+          end
+        end
+        
+        resources :furnitures do
+          member do
+            post   :cover, RC::json_request_only
+            get    :edit_description
+            patch   :update_description
+          end
+          collection do
+            post   :markup, RC::json_request_only
           end
         end
         

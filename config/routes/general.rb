@@ -6,7 +6,10 @@ module GeneralRoutes
 
       root to: 'home#index'
 
-      get 'category/:id', to: 'home#category', as: 'home_category'
+      [:category, :furniture].each do |action|
+        action = action.to_s
+        get "#{action}/:id", to: "home##{action}", as: "home_#{action}"
+      end
       
       get 'contact/us/:section', to: 'home#contactus', as: 'contact_us'
 
@@ -14,18 +17,6 @@ module GeneralRoutes
 
       # only to create/delete shopping carts and only excepts JSON format
       resources :shopping_carts, RC::ajax_server
-      
-
-      resources :furnitures do
-        member do
-          post   :cover, RC::json_request_only
-          get    :edit_description
-          patch   :update_description
-        end
-        collection do
-          post   :markup, RC::json_request_only
-        end
-      end
 
       resources :profiles
       

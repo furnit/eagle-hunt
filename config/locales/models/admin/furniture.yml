@@ -1,15 +1,15 @@
 fa:
   activerecord:
     models:
-      furniture: 'محصول'
+      admin/furniture: 'محصول'
     attributes:
-      furniture:
+      admin/furniture:
         name: 'نام'
         furniture_type_id: 'دسته‌بندی محصول'
         comment: 'درباره‌ی محصول'
     errors:
       models:
-        furniture:
+        admin/furniture:
           attributes:
             name:
               blank: 'نمی‌تواند خالی باشد.'

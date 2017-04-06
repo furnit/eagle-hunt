@@ -1,0 +1,70 @@
+<small style='font-size: 16px;' class='text-muted pull-left'><%= render_filterrific_spinner %> <%= page_entries_info @furnitures %></small>
+<%= acu_as :admin { render 'admin/users/editable_content' }%>
+<table class='table <%= @furnitures.empty? ? "" : "table-striped table-hover" %>'>
+  <thead>
+    <tr>
+      <th style='width: 30px'>ردیف</th>
+      <th style='width: 100px;'>دسته‌بندی</th>
+      <th style='width: 120px;'>نام مدل</th>
+      <th style=''>درباره‌ی مدل</th>
+      <th style='width: 150px;'>آخرین بروزرسانی</th>
+      <th style='width: 50px;'>عملیات</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @furnitures.each do |f| %>
+      <%
+        title  = ''
+        title  = 'نوع‌ محصول آرشیو شده است!' if f.deleted_at
+        _class = ''
+        _class += 'blocked' if f.deleted_at
+      %>
+      <tr class='<%= _class %>' <%= raw title.empty? ? '' : "title='#{title}' data-toggle='tooltip'"%> >
+        <td><%= f.id %></td>
+        <td>
+          <a href="#" class='editable' data-type="select" data-resource="admin_furniture" data-name="furniture_type_id" data-value="<%= f.furniture_type_id %>" data-source="<%= admin_furniture_types_path(format: :json) %>" data-url="<%= admin_furniture_path(f) %>" data-original-title="<%= f.furniture_type.name %>">
+            <%= f.furniture_type.name %>
+          </a>
+        </td>
+        <td>
+          <a href="#" class='editable' data-type="text" data-resource="admin_furniture" data-name="name" data-url="<%= admin_furniture_path(f) %>" data-original-title="<%= f.name %>">
+            <%= f.name %>
+          </a>
+        </td>
+        <td>
+          <a href="#" class='editable' data-type="textarea" data-max-length='11' data-placement="bottom" data-resource="admin_furniture" data-name="comment" data-url="<%= admin_furniture_path(f) %>" data-original-title="<%= f.comment %>"><%= f.comment.empty? ? "«آدرسی ثبت نشده است.»" : f.comment %></a>
+        </td>
+        <td class='datetime' data-time='<%= f.updated_at %>'><%= f.updated_at %></td>
+        <td>
+          <% acu_as :admin do %>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class='fa fa-superpowers'></span> <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+              	<li>
+              		<%= link_to home_furniture_path(f), target: :_blank do %>
+              			<span class='fa fa-eye'></span> مشاهده
+              		<% end %>
+              	</li>
+              </ul>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    <% if @furnitures.empty? %>
+      <tr>
+        <td colspan="8"><div class="empty-collection">عضوی پیدا نشد!</div></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="text-center" style='vertical-align: middle'>
+  <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
+</div>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$('.editable[data-type="textarea"]').editable({ tpl: '<textarea maxlength="140"></textarea>' });
+	})
+</script>

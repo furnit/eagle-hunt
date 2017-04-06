@@ -8,7 +8,7 @@ class Admin::FurnitureTypesController < Admin::UploaderController
 
     respond_to do |format|
       format.html 
-      format.json { render json: @furniture_types, status: :ok }
+      format.json { render json: @furniture_types.map {|i| {value: i.id, text: i.name}}, status: :ok }
     end
   end
 

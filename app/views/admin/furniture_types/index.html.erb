@@ -28,7 +28,6 @@
 	        title  = 'نوع‌ دسته‌بندی آرشیو شده است!' if ft.deleted_at
 	        _class = ''
 	        _class += 'blocked' if ft.deleted_at
-	
 	      %>
 	      <tr class='<%= _class %>' <%= raw title.empty? ? '' : "title='#{title}' data-toggle='tooltip'"%> >
 	        <td><%= ft.id %></td>
@@ -58,6 +57,12 @@
 	                <span class='fa fa-superpowers'></span> <span class="caret"></span>
 	              </button>
 	              <ul class="dropdown-menu">
+	              	<li>
+	              		<%= link_to home_category_path(ft), target: :_blank do %>
+	              			<span class='fa fa-eye'></span> مشاهده
+	              		<% end %>
+	              	</li>
+	              	<li class='divider'></li>
 	                <li>
 	                	<% if ft.deleted_at %>
 		                  <%= link_to recover_admin_furniture_type_path(ft), method: :patch  do %>

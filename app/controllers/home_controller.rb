@@ -11,6 +11,9 @@ class HomeController < ApplicationController
     @furniture = @furniture_type.furniture
 	end
 	
+	def furniture
+	  @furniture  = Admin::Furniture.find(params[:id])
+	end
 	
 	def contactus
 	end

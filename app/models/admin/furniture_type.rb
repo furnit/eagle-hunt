@@ -20,29 +20,4 @@ class Admin::FurnitureType < ParanoiaRecord
       "delete_type" => "DELETE"
     }
   end
-  
-  filterrific(
-    default_filter_params: { sorted_by: 'updated_at_desc' },
-    available_filters: [
-      :sorted_by
-    ]
-  )
-  
-  scope :sorted_by, lambda { |sort_option|
-    # extract the sort direction from the param value.
-    direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
-    case sort_option.to_s
-    when /^updated_at_/
-      order("admin_furniture_types.updated_at #{ direction }")
-    else
-      raise(ArgumentError, "Invalid sort option: #{ sort_option.inspect }")
-    end
-  }
-
-  def self.options_for_sorted_by
-    [
-      ['زمان بروزرسانی (جدیدترین در ابتدا)', 'updated_at_desc'],
-      ['زمان بروزرسانی (قدیمی‌ترین در ابتدا)', 'updated_at_asc']
-    ]
-  end
 end

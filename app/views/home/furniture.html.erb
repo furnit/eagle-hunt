@@ -1,3 +1,5 @@
+<%= javascript_include_tag 'admin/furnitures' %>
+<%= stylesheet_link_tag    'admin/furnitures', media: 'all' %>
 <%= render 'furniture_cover', :furniture => @furniture %>
 
 <style type="text/css" media="screen">
@@ -13,12 +15,12 @@
 			<%= check_awesome 'قابل تولید است؟', '', checked: @furniture.available? %>
 		</div>
 		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right" role="toolbar">
-			  <%= link_to edit_furniture_path(@furniture), :remote => true, :class => "btn btn-default inline-html-call" do %>
+			  <%= link_to edit_admin_furniture_path(@furniture), :remote => true, :class => "btn btn-default inline-html-call" do %>
 			  	<span class='fa fa-pencil'></span> ویرایش
 		  	<% end %>
 		</div>
 		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-left" role="toolbar">
-			  <%= link_to furniture_path(@furniture), :class => "btn btn-danger", :method => :delete, data: { :confirm => {:title => 'آیا از حذف این محصول اطمینان دارید؟', :message => 'توجه فرمایید که با انجام این عملیات بازیابی اطلاعات این محصول غیرممکن خواهد بود!'} } do %>
+			  <%= link_to admin_furniture_path(@furniture), :class => "btn btn-danger", :method => :delete, data: { :confirm => {:title => 'آیا از حذف این محصول اطمینان دارید؟', :message => 'توجه فرمایید که با انجام این عملیات بازیابی اطلاعات این محصول غیرممکن خواهد بود!'} } do %>
 			  	<span class='fa fa-times'></span> حذف
 		  	<% end %>
 		</div>
@@ -84,7 +86,7 @@
 			<fieldset class='col-lg-8 col-md-8 col-sm-12 col-xs-12 pull-right'>
 				<legend>مدل <%= @furniture.furniture_type.name %>: <b><%= @furniture.name %></b>
 			  <% acu_as :admin do %>
-			     <small class='pull-left'><%= link_to raw('<small class="fa fa-pencil" style="font-size: 80%; margin-top: 5px"></small> ویرایش متن'), edit_description_furniture_path, remote: true, class: 'inline-html-call' %></small>
+			     <small class='pull-left'><%= link_to raw('<small class="fa fa-pencil" style="font-size: 80%; margin-top: 5px"></small> ویرایش متن'), edit_description_admin_furniture_path, remote: true, class: 'inline-html-call' %></small>
 			  <% end %>
 				</legend>
 				<div class='text-justify' style='font-size: 20px!important'><%= raw @furniture.description_html %></div>

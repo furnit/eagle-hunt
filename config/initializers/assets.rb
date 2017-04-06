@@ -60,17 +60,16 @@ end
 # Controller related files to pre-compile
 %w(
   home
-  furnitures
   registrations
-  furniture_types
   sessions
   profiles
   shopping_carts
   uploaded_files
   admin/home
+  admin/users
+  admin/furnitures
   admin/user_types
   admin/furniture_types
-  admin/users
 ).each do |controller|
   Rails.application.config.assets.precompile += [ "#{controller}.coffee", "#{controller}.js", "#{controller}.css", "#{controller}.scss" ]
 end
