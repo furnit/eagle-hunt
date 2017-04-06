@@ -1,14 +1,14 @@
 fa:
   activerecord:
     models:
-      furniture_type: 'دسته‌بندی'
+      admin/furniture_type: 'دسته‌بندی'
     attributes:
-      furniture_type:
+      admin/furniture_type:
         name: 'نام'
         comment: 'توضیحات'
     errors:
       models:
-        furniture_type:
+        admin/furniture_type:
           attributes:
             name:
               blank: 'نمی‌تواند خالی باشد.'

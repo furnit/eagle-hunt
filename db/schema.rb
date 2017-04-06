@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405142129) do
+ActiveRecord::Schema.define(version: 20170406134103) do
+
+  create_table "admin_furniture_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.text     "comment",         limit: 65535
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.json     "images"
+    t.boolean  "is_inside_type",                default: false
+    t.boolean  "is_outside_type",               default: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_admin_furniture_types_on_deleted_at", using: :btree
+  end
 
   create_table "admin_user_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -64,18 +76,6 @@ ActiveRecord::Schema.define(version: 20170405142129) do
     t.string   "comment"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
-  end
-
-  create_table "furniture_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.text     "comment",         limit: 65535
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.json     "images"
-    t.boolean  "is_inside_type",                default: false
-    t.boolean  "is_outside_type",               default: false
-    t.datetime "deleted_at"
-    t.index ["deleted_at"], name: "index_furniture_types_on_deleted_at", using: :btree
   end
 
   create_table "furniture_wood_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -193,7 +193,7 @@ ActiveRecord::Schema.define(version: 20170405142129) do
   end
 
   add_foreign_key "fabric_colors", "fabrics"
-  add_foreign_key "furnitures", "furniture_types"
+  add_foreign_key "furnitures", "admin_furniture_types", column: "furniture_type_id"
   add_foreign_key "profiles", "states"
   add_foreign_key "profiles", "users", on_update: :cascade, on_delete: :cascade
   add_foreign_key "shopping_carts", "furnitures"

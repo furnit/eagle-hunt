@@ -1,14 +1,10 @@
 <div class='container'>
-	<legend>انواع دسته بندی‌ها:
-	<% acu_as :admin do %>
-		<a class='pull-left inline-html-call' style='font-size: 70%' href='<%= new_furniture_type_path %>'><span class='fa fa-plus'></span> دسته‌بندی جدید</a>
-	<% end %>
-	</legend>
+	<legend>انواع دسته بندی‌ها:</legend>
 	<% @categories.each do |f| %>
 	<div class="furniture-item col-lg-4 col-md-4 col-sm-6 col-xs-12">
 		<div class='furniture-content'>
 			<div class="text-center">
-				<%= link_to image_tag(image_url(f.images), :class => 'img img-thumbnail img-responsive', :style => 'width: 100%; height: 250px'), f %>
+				<%= link_to image_tag(image_url(f.images), :class => 'img img-thumbnail img-responsive', :style => 'width: 100%; height: 250px'), home_category_path(f) %>
 			  <div class="overlay">
 			     <h2><b><%= f.name %></b></h2>
 			  </div>

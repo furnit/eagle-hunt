@@ -13,18 +13,18 @@
               <span class="caret"></span>
               <span class="sr-only">Toggle Dropdown</span>
             </button>
-            <%= link_to edit_furniture_type_path(@furniture_type), :class => 'btn btn-default inline-html-call' do %>
+            <%= link_to edit_admin_furniture_type_path(@furniture_type), :class => 'btn btn-default inline-html-call' do %>
               <span class='fa fa-pencil'></span> ویرایش این دسته
             <% end %>
             <ul class="dropdown-menu dropdown-menu-right ir">
               <li>
-                <%= link_to archive_furniture_type_path(@furniture_type), :method => :delete, data: { :confirm => {title: 'این دسته‌بندی آرشیو شود؟', message: 'توجه شود که در صورت تمایل بعدا از طریق پنل مدیریتی سابت می‌توانید این دسته‌بندی را «از آرشیو خارج» یا «حذف» نماید؛ تا زمانی که این دسته‌بندی در آرشیو می‌باشد امکان مشاهده و اعمال تغییرات برای این دسته‌بندی وجود ندارد.'} }, :class => 'bg-warning' do %>
+                <%= link_to archive_admin_furniture_type_path(@furniture_type), :method => :delete, data: { :confirm => {title: 'این دسته‌بندی آرشیو شود؟', message: 'توجه شود که در صورت تمایل بعدا از طریق پنل مدیریتی سابت می‌توانید این دسته‌بندی را «از آرشیو خارج» یا «حذف» نماید؛ تا زمانی که این دسته‌بندی در آرشیو می‌باشد امکان مشاهده و اعمال تغییرات برای این دسته‌بندی وجود ندارد.'} }, :class => 'bg-warning' do %>
                   <b><span class='fa fa-archive'></span> آرشیو</b>
                 <% end %>
               </li>
               <li role="separator" class="divider"></li>
               <li>
-                <%= link_to furniture_type_path(@furniture_type), :method => :delete, data: { :confirm => {title: 'آیا از انجام این عمل اطمینان دارید؟', message: 'با انچام این عمل کلیه‌ داده‌های این دسته‌بندی و مجموعه‌ی محصولات مرتبط با این دسته‌بندی حذف خواهند شد و این عملیات قابل بازیابی نیست!'} }, :class => 'bg-danger' do %>
+                <%= link_to admin_furniture_type_path(@furniture_type), :method => :delete, data: { :confirm => {title: 'آیا از انجام این عمل اطمینان دارید؟', message: 'با انچام این عمل کلیه‌ داده‌های این دسته‌بندی و مجموعه‌ی محصولات مرتبط با این دسته‌بندی حذف خواهند شد و این عملیات قابل بازیابی نیست!'} }, :class => 'bg-danger' do %>
                   <b><span class='fa fa-trash'></span> حذف</b>
                 <% end %>
               </li>

@@ -6,19 +6,15 @@ module GeneralRoutes
 
       root to: 'home#index'
 
+      get 'category/:id', to: 'home#category', as: 'home_category'
+      
       get 'contact/us/:section', to: 'home#contactus', as: 'contact_us'
 
       resources :uploaded_files, RC::ajax_server
 
       # only to create/delete shopping carts and only excepts JSON format
       resources :shopping_carts, RC::ajax_server
-
-      resources :furniture_types, :path => "category" do
-        member do
-          delete :archive
-          patch :recover
-        end
-      end
+      
 
       resources :furnitures do
         member do

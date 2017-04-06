@@ -1,4 +1,4 @@
-class UploaderController < ApplicationController
+class Admin::UploaderController < Admin::AdminbaseController
   
   def update_uploaded_images(instance, param_name, uploaded_images: :imid, images_to_delete: :images_to_delete, auto_save: false)
     # return if no related data exists

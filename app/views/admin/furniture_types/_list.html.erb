@@ -1,0 +1,68 @@
+<small style='font-size: 16px;' class='text-muted pull-left'><%= render_filterrific_spinner %> <%= page_entries_info @furniture_types %></small>
+<%= acu_as :admin { render 'admin/users/editable_content' }%>
+<table class='table <%= @furniture_types.empty? ? "" : "table-striped table-hover" %>'>
+  <thead>
+    <tr>
+      <th style='width: 30px'>ردیف</th>
+      <th style='width: 12%;'>نام‌دسته‌بندی</th>
+      <th>توضیحات</th>
+      <th style='width: 130px'>آخرین بروزرسانی</th>
+      <th style='width: 50px;'>عملیات</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @furniture_types.each do |ft| %>
+      <%
+        title  = ''
+        title  = 'نوع‌ دسته‌بندی آرشیو شده است!' if ft.deleted_at
+        _class = ''
+        _class += 'blocked' if ft.deleted_at
+
+      %>
+      <tr class='<%= _class %>' <%= raw title.empty? ? '' : "title='#{title}' data-toggle='tooltip'"%> >
+        <td><%= ft.id %></td>
+        <td>
+          <a href="#" class='editable' data-type="text" data-resource="admin_furniture_type" data-name="name" data-url="<%= admin_furniture_type_path(ft) %>" data-original-title="<%= ft.name %>">
+            <%= ft.name %>
+          </a>
+        </td>
+        <td>
+          <a href="#" class='editable' data-type="text" data-resource="admin_furniture_type" data-name="comment" data-url="<%= admin_furniture_type_path(ft) %>" data-original-title="<%= ft.comment %>">
+            <%= ft.comment %>
+          </a>
+        </td>
+        	<td class='datetime' data-time='<%= ft.updated_at %>'><%= ft.updated_at %></td>
+        <td>
+          <% acu_as :admin do %>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class='fa fa-superpowers'></span> <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                	<% if ft.deleted_at %>
+	                  <%= link_to recover_admin_furniture_type_path(ft), method: :patch  do %>
+                      <span class='fa fa-check'></span> خارچ کردن از آرشیو
+                   	<% end %>
+                  <% else %>
+	                  <%= link_to archive_admin_furniture_type_path(ft), method: :delete, data: { :confirm => { title: 'این دسته‌بندی آرشیو شود؟', message: 'تا زمانی که این دسته‌بندی در آرشیو می‌باشد امکان <b>مشاهده</b> و <b>اعمال تغییرات</b> برای این دسته‌بندی وجود ندارد.' } } do %>
+                      <span class='fa fa-archive'></span> آرشیو کردن
+                   	<% end %>                 	
+                	<% end %>
+                </li>
+              </ul>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    <% if @furniture_types.empty? %>
+      <tr>
+        <td colspan="8"><div class="empty-collection">عضوی پیدا نشد!</div></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="text-center" style='vertical-align: middle'>
+  <%= will_paginate @furniture_types, renderer: BootstrapPagination::Rails %>
+</div>

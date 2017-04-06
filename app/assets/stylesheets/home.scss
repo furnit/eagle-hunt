@@ -11,3 +11,12 @@
   padding: 10px;
   border-radius: 4px;
 }
+
+.furniture-right-pannel,
+.furniture-right-pannel > * {
+  padding: 0
+}
+
+.furniture-right-pannel > fieldset > div {
+  margin: 5px;
+}

@@ -63,7 +63,7 @@
                   <% if not (user.id == 1 and current_user.id == user.id) %>
                     <%= link_to block_admin_user_path(user), method: :delete  do %>
                      <% if user.blocked_at %>
-                        <span class='fa fa-unlock'></span> باز کردن
+                        <span class='fa fa-unlock-alt'></span> باز کردن
                      <% else %>
                         <span class='fa fa-lock'></span> مسدود کردن
                      <% end %>

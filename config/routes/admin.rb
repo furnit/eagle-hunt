@@ -16,6 +16,14 @@ module AdminRoutes
             put     :reset_password
           end
         end
+
+        resources :furniture_types, :path => "category" do
+          member do
+            delete :archive
+            patch :recover
+          end
+        end
+        
         resources :user_types
 
         resources :home, RC::non_restful.merge({:path => ''}) do

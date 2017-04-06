@@ -1,0 +1,35 @@
+<div class='col-md-12 col-lg-10 col-lg-offset-1'>
+  <legend>
+    <h1 class='pull-right'>دسته‌بندی‌ها</h1>
+    <small class='pull-left' style='font-size: 16px; margin-top: 40px;'>
+      <%= link_to new_admin_furniture_type_path, class: 'inline-html-call' do %>
+        <span class='fa fa-plus'></span>
+        ایجاد دسته‌بندی جدید
+      <% end %>
+    </small>
+    <div class='clearfix'></div>
+  </legend>
+  <div class='block' style='padding: 20px'>
+    <%= form_for_filterrific @filterrific do |f| %>
+			<div class='row'>
+        <div class='col-md-3 pull-right'>
+          <label for="filterrific[sorted_by]"><span class='fa fa-filter'></span> مرتب‌سازی</label>
+          <%= f.select(:sorted_by, Admin::FurnitureType.options_for_sorted_by, {}, { :class => 'form-control' }) %>
+        </div>
+      </div>
+      <div class='row' style='margin-top: 10px;'>
+        <div class='col-md-3 pull-right'>
+          <span class='fa fa-refresh'></span>
+          <%= link_to reset_filterrific_url do %>
+            حذف فیلتر‌ها
+          <% end %>
+        </div>
+        <div class='clearfix'></div>
+      </div>
+    <% end %>
+  </div>
+
+  <div id="filterrific_results">
+    <%= render partial: 'list', locals: { furniture_types: @furniture_types } %>
+  </div>
+</div>
