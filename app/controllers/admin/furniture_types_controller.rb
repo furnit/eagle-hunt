@@ -1,5 +1,5 @@
 class Admin::FurnitureTypesController < Admin::UploaderController
-  before_action :set_furniture_type, only: [:show, :edit, :update, :destroy, :delete_image, :archive]
+  before_action :set_furniture_type, only: [:show, :edit, :update, :delete_image, :archive]
 
   # GET /furniture_types
   # GET /furniture_types.json
@@ -66,6 +66,9 @@ class Admin::FurnitureTypesController < Admin::UploaderController
   # DELETE /furniture_types/1
   # DELETE /furniture_types/1.json
   def destroy
+    @furniture_type = Admin::FurnitureType.with_deleted.find(params[:id])
+    # first recover the furniture type if archived
+    recover no_redirect: true if @furniture_type.deleted_at
     # remove the images of f's that are about to delete
     @furniture_type.furniture.each(&:remove_images!)
     # delete the f's records
@@ -97,7 +100,7 @@ class Admin::FurnitureTypesController < Admin::UploaderController
     end
   end
   
-  def recover
+  def recover no_redirect: false
     # un-archive the furniture type and its related furniture
     Admin::FurnitureType.only_deleted.where("id = ?", params[:id]).first.recover
     # fetch the un-archived f-type
@@ -106,6 +109,8 @@ class Admin::FurnitureTypesController < Admin::UploaderController
     @furniture_type.furniture.only_deleted.update_all(['deleted_at = ?', nil]);
     # make an undo link to un-acrhiving
     undo_url = view_context.link_to view_context.raw('<span class="fa fa-archive"></span> آرشیو') , archive_admin_furniture_type_path, :method => :delete
+    # return if this is an internal call
+    return if no_redirect
     # respond to format
     respond_to do |format|
       format.html { redirect_to admin_furniture_types_path, notice: "دسته‌بندی «<b>#{@furniture_type.name}</b>» با موفقیت از آرشیو خارج شد. [ #{undo_url} ] " }

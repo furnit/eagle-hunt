@@ -69,6 +69,11 @@
 	                   	<% end %>                 	
 	                	<% end %>
 	                </li>
+	                <li>
+	                	<%= link_to admin_furniture_type_path(ft), method: :delete, data: { confirm: { title: "آیا از حذف این دسته‌بندی اطمینان دارید؟", message: "توجه فرمایید که حذف دسته‌بندی «<b>#{ft.name}</b>» غیر قابل بازگشت خواهد بود!" } } do %>
+	                		<span class='fa fa-trash'></span> حذف
+	                	<% end %>
+                	</li>
 	              </ul>
 	            </div>
 	          <% end %>
