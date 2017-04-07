@@ -21,6 +21,7 @@ module AdminRoutes
           member do
             delete :archive
             patch  :recover
+            get    :list_images, RC::json_request_only 
           end
         end
         

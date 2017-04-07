@@ -1,6 +1,7 @@
 <% form_id = '' %>
 <%= redirect_form furniture_type do |f| %>
 	<% form_id = f.options[:html][:id] %>
+	<%= params[:admin] ? f.hidden_field(:admin, value: params[:admin]): '' %>
 	<div  class='block'>
 	  <div class="field col-md-6 pull-right">
 	    <%= f.text_field :name, :class => 'form-control', :autofocus => true, :required => true %>
@@ -11,44 +12,12 @@
 	  </div>
 	  <div class='clearfix'></div>
   </div>
+  
+	<%= render 'admin/furnitures/edit_related_images', collection: furniture_type %>
 
-  <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px;'>
+  <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
     <%= f.submit submit_text, :class => 'btn btn-primary' %>
-  </div>
-	<div class='clearfix'></div>
-	<legend>عکس‌های مربوطه</legend>
-  <div class='field row' id='img-collection'>
-  <% list_or_prompt furniture_type.images, 'برای این دسته‌بندی عکسی ثبت نشده است.'  do |i, index| %>
-		<span class="img-wrap">
-		    <%= link_to i.url, :target => :__blank do %>
-  				<%= image_tag i.thumb.url, :class => 'img img-responsive img-thumbnail', :style => 'height: 100px!important;'  %>
-				<% end %>
-          <div class='text-center' style='margin: 10px 3px auto;'>
-            <%= check_awesome 'کاور؟', '', name: "furniture_type[images_to_delete][]", value: index, prefix: 'cover-', box_title: 'حذف؟' %>
-          </div>
-		</span>
-  <% end %>
   </div>
 <% end %>
 
-<div class='field' style="padding-bottom: 20px;">
-	<legend>بروزرسانی عکس‌ها <small style='color:#a7a7a7; font-size: 70%'>توجه شود که اضافه‌ کردن عکس‌ها زمانی تایید می‌شوند که این فرم به روز رسانی گردد.</small></legend>
-	<%= render 'uploaded_files/form', :target_form => {:tag => "form##{form_id}", :input => 'furniture_type[imid]'} %>
-</div>
-
-<script type="text/javascript" charset="utf-8">
-	(function(){
-		$('form#<%= form_id %> a[data-method="delete"][data-remote="true"]')
-			.click(function() { $(this).parents('.img-wrap').addClass('fade') })
-			.bind("ajax:complete", function() { $(this).parents('.img-wrap').removeClass('fade') })
-			.bind("ajax:error", function(evt, data, status, xhr){ bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام حذف عکس مورد انتخاب صورت گرفت!'}) })
-			.bind("ajax:success", function(evt, data, status, xhr) {
-				$(this).parents('.img-wrap').fadeOut(500, function() { 
-					$(this).remove(); 
-					if($('form#<%= form_id %> #img-collection .img-wrap').length === 0)
-						$("form#<%= form_id %> #img-collection").html("<div class='empty-collection'>برای این دسته‌بندی عکسی ثبت نشده است.</div>")
-				});
-				if(data.order !== undefined) for(var i = 0, j = data.order.length; i < j; i++) $('a[for="'+data.order[i].target+'"]').attr('href', data.order[i].url);	
-			});
-	})(jQuery);
-</script>
+<%= render 'admin/furnitures/edit_update_images', collection: furniture_type, form_id: form_id %>

@@ -15,16 +15,14 @@
   <tbody>
     <% @furnitures.each do |f| %>
       <%
-        title  = ''
-        title  = 'نوع‌ محصول آرشیو شده است!' if f.deleted_at
-        _class = ''
-        _class += 'blocked' if f.deleted_at
+      	next if f.deleted_at
+        type_name = Admin::FurnitureType.with_deleted.find(f.furniture_type_id).name;
       %>
-      <tr class='<%= _class %>' <%= raw title.empty? ? '' : "title='#{title}' data-toggle='tooltip'"%> >
+      <tr>
         <td><%= f.id %></td>
         <td>
-          <a href="#" class='editable' data-type="select" data-resource="admin_furniture" data-name="furniture_type_id" data-value="<%= f.furniture_type_id %>" data-source="<%= admin_furniture_types_path(format: :json) %>" data-url="<%= admin_furniture_path(f) %>" data-original-title="<%= f.furniture_type.name %>">
-            <%= f.furniture_type.name %>
+          <a href="#" class='editable' data-type="select" data-resource="admin_furniture" data-name="furniture_type_id" data-value="<%= f.furniture_type_id %>" data-source="<%= admin_furniture_types_path(format: :json) %>" data-url="<%= admin_furniture_path(f) %>" data-original-title="<%= type_name %>">
+            <%= type_name %>
           </a>
         </td>
         <td>
@@ -76,11 +74,6 @@
 <div class="text-center" style='vertical-align: middle'>
   <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
 </div>
-
-<style type="text/css" media="screen">
-	.photo-gallary-collection [data-type="photo-gallary"][data-cover="false"] { display: none; }
-	.photo-gallary-collection [data-type="photo-gallary"][data-cover="true"] { display: unset; }
-</style>
 
 <div id='photo-gallery-template' class='hidden'></div>
 

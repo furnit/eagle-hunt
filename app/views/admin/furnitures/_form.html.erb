@@ -17,19 +17,7 @@
 			  </div>
         <div class="clearfix"></div>
 			</div>
-			<legend>عکس‌های مربوطه <small class='pull-left' style='font-size: 80%'>انتخاب <a href='#' class='text-default f-img-select' data-op='none'>هیچ‌یک</a> . <a href='#' class='text-danger f-img-select' data-op='all'>همه</a></small></legend>
-		  <div class='field row' id='img-collection'>
-		  <% list_or_prompt furniture.images, 'برای این محصول عکسی ثبت نشده است.'  do |i, index| %>
-				<span class="img-wrap" style='margin: 10px;'>
-				    <%= link_to i.url, :target => :__blank do %>
-		  				<%= image_tag i.thumb.url, :class => 'img img-responsive img-thumbnail', :style => 'height: 100px!important;'  %>
-						<% end %>
-						<div class='text-center' style='margin: 10px 3px auto;'>
-						  <%= check_awesome 'کاور؟', '', name: "furniture[images_to_delete][]", value: index, prefix: 'cover-', box_title: 'حذف؟' %>
-						</div>
-				</span>
-		  <% end %>
-		  </div>
+			<%= render 'edit_related_images', collection: furniture %>
 		</div>
 
 	  <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
@@ -38,54 +26,4 @@
 	</div>
 <% end %>
 
-<div class="col-xs-12" style='padding: 3px; padding-bottom: 20px'>
-	<div class='field' style="margin:0; padding-bottom: 20px;margin-top: 20px;">
-		<legend>بروزرسانی عکس‌ها <small style='color:#a7a7a7; font-size: 70%'>توجه شود که اضافه‌ کردن عکس‌ها زمانی تایید می‌شوند که این فرم به روز رسانی گردد.</small></legend>
-		<%= render 'uploaded_files/form', :target_form => {:tag => "form##{form_id}", :input => 'furniture[imid]'} %>
-	</div>
-</div>
-<div class='clearfix'></div>
-
-<style type="text/css" media="screen">
-	.img-wrap .check-awesome label .check { border-color: red; }
-	.img-wrap .check-awesome label .box { border-color: #e27a12; }
-</style>
-
-<script type="text/javascript" charset="utf-8">
-	(function(){
-	  <% if furniture.id %>
-	  // select the cover candidate
-	  $('.f-img-select').click(function(e){
-	    e.preventDefault();
-	    var op = $(this).attr('data-op');
-	    switch(op) {
-	      case 'none':
-	         $('[name="furniture[images_to_delete][]"]').prop('checked', false).change();
-           break;
-        case 'all':
-           $('[name="furniture[images_to_delete][]"]').prop('checked', true).change();
-           break;
-	    }
-	  })
-	  $('[name="furniture[images_to_delete][]"]').change(function(){
-	    $el = $(this).closest('.img-wrap').find('.img');
-	    if(this.checked)
-        $el.css('border', '3px solid red');
-      else
-        $el.css('border', '');
-	  });
-    <% end %>
-		$('form#<%= form_id %> a[data-method="delete"][data-remote="true"]')
-			.click(function() { $(this).parents('.img-wrap').addClass('fade') })
-			.bind("ajax:complete", function() { $(this).parents('.img-wrap').removeClass('fade') })
-			.bind("ajax:error", function(evt, data, status, xhr){ bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام حذف عکس مورد انتخاب صورت گرفت!'}) })
-			.bind("ajax:success", function(evt, data, status, xhr) {
-				$(this).parents('.img-wrap').fadeOut(500, function() {
-					$(this).remove();
-					if($('form#<%= form_id %> #img-collection .img-wrap').length === 0)
-						$("form#<%= form_id %> #img-collection").html("<div class='empty-collection'>برای این محصول عکسی ثبت نشده است.</div>")
-				});
-				if(data.order !== undefined) for(var i = 0, j = data.order.length; i < j; i++) $('a[for="'+data.order[i].target+'"]').attr('href', data.order[i].url);
-			});
-	})(jQuery);
-</script>
+<%= render 'edit_update_images', collection: furniture, form_id: form_id %>

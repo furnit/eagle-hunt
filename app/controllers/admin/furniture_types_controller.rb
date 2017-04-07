@@ -1,5 +1,5 @@
 class Admin::FurnitureTypesController < Admin::UploaderController
-  before_action :set_furniture_type, only: [:show, :edit, :update, :delete_image, :archive]
+  before_action :set_furniture_type, only: [:show, :edit, :update, :delete_image, :archive, :list_images]
 
   # GET /furniture_types
   # GET /furniture_types.json
@@ -36,8 +36,8 @@ class Admin::FurnitureTypesController < Admin::UploaderController
       if @furniture_type.save
         # update the uploaded image and re-save the model
         # the model need to be created at first then the update happen
-        update_uploaded_images @furniture_type, :furniture_type , auto_save: true
-        format.html { redirect_to admin_furniture_types_path, notice: 'دسته‌بندی جدید «<b>%s</b>» با موفقیت ایجاد شد.' %@furniture_type.name }
+        update_uploaded_images @furniture_type, :admin_furniture_type , auto_save: true
+        format.html { redirect_to (params[:admin_furniture_type][:admin] ? admin_furniture_types_path : home_category_path(@furniture_type)), notice: 'دسته‌بندی جدید «<b>%s</b>» با موفقیت ایجاد شد.' %@furniture_type.name }
         format.json { render json: @furniture_type, status: :created, location: @furniture_type }
       else
         format.html { render :new }
@@ -51,10 +51,10 @@ class Admin::FurnitureTypesController < Admin::UploaderController
   def update
     prevent_browser_caching
     # update the uploaded images
-    update_uploaded_images @furniture_type, :furniture_type
+    update_uploaded_images @furniture_type, :admin_furniture_type
     respond_to do |format|
       if @furniture_type.update(furniture_type_params)
-        format.html { redirect_to home_category_path(@furniture_type), notice: 'دسته‌بندی «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture_type.name }
+        format.html { redirect_to (params[:admin_furniture_type][:admin] ? admin_furniture_types_path : home_category_path(@furniture_type)), notice: 'دسته‌بندی «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture_type.name }
         format.json { render json: @furniture_type, status: :ok, location: @furniture_type }
       else
         format.html { render :edit }
@@ -115,6 +115,12 @@ class Admin::FurnitureTypesController < Admin::UploaderController
     respond_to do |format|
       format.html { redirect_to admin_furniture_types_path, notice: "دسته‌بندی «<b>#{@furniture_type.name}</b>» با موفقیت از آرشیو خارج شد. [ #{undo_url} ] " }
       format.json { head :no_content }
+    end
+  end
+  
+  def list_images
+    respond_to do |format|
+      format.json { render json: {images: @furniture_type.images}, status: :ok }
     end
   end
 

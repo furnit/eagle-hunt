@@ -1,5 +1,5 @@
 class Admin::FurnituresController < Admin::UploaderController
-  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :delete_image, :cover, :edit_description, :update_description, :list_images]
+  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :cover, :edit_description, :update_description, :list_images]
 
   # GET /furnitures
   # GET /furnitures.json
@@ -48,7 +48,7 @@ class Admin::FurnituresController < Admin::UploaderController
       if @furniture.save
         # update the uploaded image and re-save the model
         # the model need to be created at first then the update happen
-        update_uploaded_images @furniture, :furniture , auto_save: true
+        update_uploaded_images @furniture, :admin_furniture, auto_save: true
         params[:admin_furniture] = { iid: 0 }.with_indifferent_access.merge(params[:admin_furniture]);
         @furniture.reload;
         # make_cover no_respond: true
@@ -66,7 +66,7 @@ class Admin::FurnituresController < Admin::UploaderController
   def update
     prevent_browser_caching
     # update the uploaded images
-    update_uploaded_images @furniture, :furniture
+    update_uploaded_images @furniture, :admin_furniture
     # if the user removed the cover image? reset the cover index
     @furniture.cover_details[:index] = 0 if ((params[:admin_furniture][:images_to_delete] and params[:admin_furniture][:images_to_delete].include? @furniture.cover_details['index']) or @furniture.cover_details['index'].to_i >= @furniture.images.length)
 

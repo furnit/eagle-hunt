@@ -16,6 +16,7 @@
 	    <tr>
 	      <th style='width: 30px'>ردیف</th>
 	      <th style='width: 12%;'>نام‌دسته‌بندی</th>
+      	<th style='width: 100px;'>گالری</th>
 	      <th>توضیحات</th>
 	      <th style='width: 130px'>آخرین بروزرسانی</th>
 	      <th style='width: 50px;'>عملیات</th>
@@ -40,6 +41,16 @@
 		            <%= ft.name %>
 	          <% end %>
 	        </td>
+	        <td class='photo-gallary-collection-incomplete'>
+	        	<% i = ft.images.first %>
+	        	<% if not ft.deleted_at %>
+							<%= link_to image_url(i), data: { id: ft.id, source: list_images_admin_furniture_type_path(ft) } do %>
+								<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
+							<% end %>
+						<% else %>
+							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
+						<% end %>
+	        </td>
 	        <td>
 	        	<% if not ft.deleted_at %>
 		          <a href="#" class='editable' data-type="text" data-resource="admin_furniture_type" data-name="comment" data-url="<%= admin_furniture_type_path(ft) %>" data-original-title="<%= ft.comment %>">
@@ -62,6 +73,14 @@
 	              			<span class='fa fa-eye'></span> مشاهده
 	              		<% end %>
 	              	</li>
+                	<% if not ft.deleted_at %>
+		              	<li class='divider'></li>
+		              	<li>
+						          <%= link_to edit_admin_furniture_type_path(ft, admin: :check), :class => 'inline-html-call' do %>
+						            <span class='fa fa-pencil'></span> ویرایش
+						          <% end %>
+	              		</li>
+              		<% end %>
 	              	<li class='divider'></li>
 	                <li>
 	                	<% if ft.deleted_at %>
@@ -96,3 +115,49 @@
 	  <%= will_paginate @furniture_types, renderer: BootstrapPagination::Rails %>
 	</div>
 </div>
+
+<div id='photo-gallery-template' class='hidden'></div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		String.prototype.format = function () {
+      var args = [].slice.call(arguments);
+      return this.replace(/(\{\d+\})/g, function (a){
+          return args[+(a.substr(1,a.length-2))||0];
+      });
+		};
+		$('.photo-gallary-collection-incomplete a[data-source]').click(function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			$(this).addClass('active');
+			$(this).find('*').hide();
+			$(this).append('<span class="fa fa-spinner fa-spin"></span>');
+			$this = $(this);
+			$('#photo-gallery-template').html('').addClass('photo-gallery-collection');
+			$.get({
+				url: $(this).attr('data-source'),
+				success: function(data) {
+					for (var index = 0; index < data.images.length; index++) {
+						link = 
+						'<%= link_to "{0}", data: { type: 'photo-gallery', index: "{1}", thumb: "{2}" } do %>\
+							<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
+						<% end %>'
+						.replace('%7B', '{').replace('%7D', '}')
+						.replace('src="/images/{2}"', 'src="{2}"')
+						.format(data.images[index].url, index, data.images[index].thumb.url)
+						$('#photo-gallery-template').append(link);
+					};
+					init_photo_gallery();
+					$('#photo-gallery-template [data-type="photo-gallery"]:first').click();
+				},
+				complete: function() {
+					$this.find('.fa-spinner').remove();
+					$this.find('*').show()
+				}
+			})
+		});
+		$('.editable[data-type="textarea"]').editable({ tpl: '<textarea maxlength="140"></textarea>' });
+	})
+</script>
+
+<%= render 'admin/furnitures/photo_gallary', collection: @furniture_types %>
