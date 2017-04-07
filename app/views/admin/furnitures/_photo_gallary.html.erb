@@ -24,8 +24,10 @@
 							src: this.href, 
 							msrc: $(this).attr('data-thumb'),
 							w: 1280, h: 720, 
+							obj: this,
 							index: $(this).attr('data-index'), 
-							is_cover: <%= collection.cover_details ? collection.cover_details['index'] : '-1' %> == $(this).attr('data-index')
+							cover_url: $(this).attr('data-cover-url'),
+							is_cover: $(this).attr('data-cover') == 'true'
 						}; 
 					}).get();
 							

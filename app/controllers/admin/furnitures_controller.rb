@@ -72,7 +72,7 @@ class Admin::FurnituresController < Admin::UploaderController
 
     respond_to do |format|
       if @furniture.update(furniture_params)
-        format.html { redirect_to home_furniture_path(@furniture), notice: 'محصول «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture.name }
+        format.html { redirect_to (params[:admin_furniture][:admin] ? admin_furnitures_path : home_furniture_path(@furniture)), notice: 'محصول «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture.name }
         format.json { render json: @furniture, status: :ok, location: @furniture }
       else
         format.html { render :edit }

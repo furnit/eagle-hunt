@@ -24,7 +24,7 @@
 				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1 disabled' data='left'><span class='fa fa-chevron-left'></span></div>
 				<div id='cover-collection' class='photo-gallary-collection col-lg-10 col-md-10 col-sm-10 col-xs-10'>
 					<% @furniture.images.each.with_index do |i, index| %>
-						<%= link_to image_url(i), 'data-type' => 'photo-gallary', 'data-index' => index, 'data-thumb' => thumbnail_url(i) do %>
+						<%= link_to image_url(i), 'data-type' => 'photo-gallary', data: { index: index, thumb: thumbnail_url(i), cover: @furniture.cover_details["index"].to_i == index, 'cover-url': cover_admin_furniture_path(@furniture, format: :json)  }  do %>
 							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 150px;' %>
 						<% end %>
 					<% end %>
@@ -100,6 +100,10 @@
 	  <% end %>
 		});
 	</script>
+	
+  <%= form_tag cover_admin_furniture_path(format: :json), name: 'cover-config', method: :post, :remote => true do %>
+    <% hidden_field_tag 'admin_furniture[cover]' %>
+  <% end %>
 	
 	<%= render 'admin/furnitures/photo_gallary', collection: @furniture %>
 	<%= render 'admin/furnitures/photo_gallary_cover', collection: @furniture, js_on_cover_set: "$('#div-f-cover').css('background-image', 'url('+$('[data-type=\"photo-gallary\"][data-index=\"'+idx.toString()+'\"]').attr('href')+')')" %>

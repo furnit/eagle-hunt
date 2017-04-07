@@ -1,8 +1,4 @@
 <% acu_as :admin do %>
-  <%= form_tag cover_admin_furniture_path(format: :json), name: 'cover-config', method: :post, :remote => true do %>
-    <% hidden_field_tag 'admin_furniture[cover]' %>
-  <% end %>
-
 	<style type="text/css" media="screen">
 		.pswp__button--like, .pswp__button--like:before {
 	    background: url('<%= image_path 'red-heart.ico' %>') 12px 12px no-repeat;
@@ -22,7 +18,7 @@
 		  $('.pswp__button--like').click(function(){
 		  	idx = gallery.getCurrentIndex();
 		    $.ajax({
-		      url: '<%= cover_admin_furniture_path(collection, format: :json) %>',
+		      url: gallery.items[idx].cover_url,
 		      data: {admin_furniture: {index: idx}},
 		      method: 'POST',
 		      dataType: 'json',

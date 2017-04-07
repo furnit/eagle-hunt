@@ -23,7 +23,7 @@ $(document).ready(function(){
   }
   function on_ajax_success() {
     $('.datetime:not(.jalali)').each(function() {
-      try { $(this).html(jalali2str(toJalaali(moment($(this).html(), 'YYYY-MM-DD HH:mm:ss ZZ').toDate()))).addClass('jalali'); } catch(e) { }
+      try { $(this).html(jalali2str(toJalaali(moment($(this).attr('data-date'), 'YYYY-MM-DD HH:mm:ss ZZ').toDate()))).addClass('jalali'); } catch(e) { }
     });
 
     $('.editable:not(.editabled)').editable({

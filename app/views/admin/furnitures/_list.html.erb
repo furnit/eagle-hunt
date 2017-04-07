@@ -6,7 +6,7 @@
       <th style='width: 30px'>ردیف</th>
       <th style='width: 100px;'>دسته‌بندی</th>
       <th style='width: 120px;'>نام مدل</th>
-      <th style='width: 120px;'>گالری</th>
+      <th style='width: 100px;'>گالری</th>
       <th style=''>درباره‌ی مدل</th>
       <th style='width: 150px;'>آخرین بروزرسانی</th>
       <th style='width: 50px;'>عملیات</th>
@@ -32,17 +32,17 @@
             <%= f.name %>
           </a>
         </td>
-        <td id='photo-gallary-collection'>
+        <td class='photo-gallary-collection'>
 					<% f.images.each.with_index do |i, index| %>
-						<%= link_to image_url(i), data: { type: 'photo-gallary', index: index, thumb: thumbnail_url(i) } do %>
-							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail %s' %[index == f.cover_details["index"] ? '' : 'hidden'], style: 'height: 40px;' %>
+						<%= link_to image_url(i), data: { type: 'photo-gallary', index: index, thumb: thumbnail_url(i), cover: f.cover_details["index"].to_i == index, 'cover-url': cover_admin_furniture_path(f, format: :json) } do %>
+							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
 						<% end %>
 					<% end %>
         </td>
         <td>
           <a href="#" class='editable' data-type="textarea" data-max-length='11' data-placement="bottom" data-resource="admin_furniture" data-name="comment" data-url="<%= admin_furniture_path(f) %>" data-original-title="<%= f.comment %>"><%= f.comment.empty? ? "«آدرسی ثبت نشده است.»" : f.comment %></a>
         </td>
-        <td class='datetime' data-time='<%= f.updated_at %>'><%= f.updated_at %></td>
+        <td class='datetime' data-date='<%= f.updated_at %>'></td>
         <td>
           <% acu_as :admin do %>
             <div class="btn-group">
@@ -54,6 +54,12 @@
               		<%= link_to home_furniture_path(f), target: :_blank do %>
               			<span class='fa fa-eye'></span> مشاهده
               		<% end %>
+              	</li>
+              	<li class='divider'></li>
+              	<li>
+				          <%= link_to edit_admin_furniture_path(f, admin: :check), :class => 'inline-html-call' do %>
+				            <span class='fa fa-pencil'></span> ویرایش
+				          <% end %>
               	</li>
               </ul>
             </div>
@@ -72,10 +78,21 @@
   <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
 </div>
 
-<%= render 'admin/furnitures/photo_gallary' %>
+<style type="text/css" media="screen">
+	.photo-gallary-collection [data-type="photo-gallary"][data-cover="false"] { display: none; }
+	.photo-gallary-collection [data-type="photo-gallary"][data-cover="true"] { display: unset; }
+</style>
 
 <script type="text/javascript" charset="utf-8">
+	function update_cover_thumb(idx) {
+		$pel = $(gallery.items[idx].obj).closest('.photo-gallary-collection')
+		$pel.find('[data-type="photo-gallary"][data-cover="true"]').attr('data-cover', 'false');
+		$(gallery.items[idx].obj).attr('data-cover', 'true');
+	}
 	$(document).ready(function(){
 		$('.editable[data-type="textarea"]').editable({ tpl: '<textarea maxlength="140"></textarea>' });
 	})
 </script>
+
+<%= render 'admin/furnitures/photo_gallary', collection: @furnitures %>
+<%= render 'admin/furnitures/photo_gallary_cover', collection: @furniture, js_on_cover_set: "update_cover_thumb(idx)" %>

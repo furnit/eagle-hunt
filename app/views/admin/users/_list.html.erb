@@ -51,7 +51,7 @@
             <%= user.user_type.name %>
           </a>
         </td>
-        <td class='datetime' data-time='<%= user.current_sign_in_at %>'><%= user.current_sign_in_at %></td>
+        <td class='datetime' data-date='<%= user.current_sign_in_at %>'></td>
         <td>
           <% acu_as :admin do %>
             <div class="btn-group">
