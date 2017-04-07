@@ -24,10 +24,4 @@ export RAILS_ENV=production
 
 rails assets:precompile
 
-MANUAL_ASSETS=(
-	'app/assets/stylesheets/photoswipe/default-skin/default-skin.png'
-)
-
-for asset in "${MANUAL_ASSETS[@]}"; do
-	cp -v "${asset}" public/assets
-done
+bin/deploy.d/manual-assets.py
