@@ -21,17 +21,15 @@
 
 		<div class="container text-center">
 		  <div id='cover-container'>
-				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1' data='left'><span class='fa fa-chevron-left'></span></div>
-				<div id='cover-collection' class='col-lg-10 col-md-10 col-sm-10 col-xs-10'>
-				<% 1.times do %>
-				<% index = 0; @furniture.images.each.with_index do |i, index| %>
+				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1 disabled' data='left'><span class='fa fa-chevron-left'></span></div>
+				<div id='cover-collection' class='photo-gallary-collection col-lg-10 col-md-10 col-sm-10 col-xs-10'>
+					<% @furniture.images.each.with_index do |i, index| %>
 						<%= link_to image_url(i), 'data-type' => 'photo-gallary', 'data-index' => index, 'data-thumb' => thumbnail_url(i) do %>
 							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 150px;' %>
 						<% end %>
 					<% end %>
-				<% end %>
 				</div>
-				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1 disabled' data='right'><span class='fa fa-chevron-right'></span></div>
+				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1 disabled hidden' data='right'><span class='fa fa-chevron-right'></span></div>
 			</div>
 		</div>
 		<div class='clearfix'></div>
@@ -39,8 +37,9 @@
 	</div>
 	<script type="application/javascript">
 		$(document).ready(function(){
-			$('#furniture-cover .cover-scroller[data="right"]').addClass('disabled');
-			if($('#cover-collection')[0].scrollWidth <= $('#cover-collection').width()) $('.cover-scroller').addClass('disabled');
+			// if we have overflow and need to scroll?
+			if($('#cover-collection')[0].scrollWidth > $('#cover-collection').width())
+				$('.cover-scroller[data="left"]').removeClass('disabled')
 			
 			// load thumbnail first and set the cover when it's loaded
 			$('#div-f-cover[data-thumb]').each(function(){	
@@ -67,153 +66,41 @@
 					$('#furniture-cover .cover-scroller[data="right"]').removeClass('disabled');
 				}
 			});
-			function openPhotoSwipe(items, options) {
-				var pswpElement = document.querySelectorAll('.pswp')[0];
-				// Initializes and opens PhotoSwipe
-				gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
-				gallery.listen('afterChange', function() {
-				  idx = $('.pswp__counter').text().split('/')[0] - 1
-				  if($('.pswp').attr('data-cover-index') == idx)
-				    $('.pswp .pswp__button--like').addClass('cover-it').attr('title', 'It is the cover image');
-			    else
-			      $('.pswp .pswp__button--like').removeClass('cover-it').attr('title', 'Make it the cover image');
-				});
-				gallery.init();
-			}
-			$('#furniture-cover #cover-collection [data-type="photo-gallary"]').click(function(e){
-					e.preventDefault();
-					e.stopPropagation();
-					items = $("#furniture-cover #cover-collection [data-type='photo-gallary']").map(function() { return { src: this.href, msrc: $(this).attr('data-thumb'), w: 1280, h: 720, 'data-index': $(this).attr('data-index') }; }).get();
-					options = {
-							index: $('#furniture-cover #cover-collection [data-type="photo-gallary"]').index(this),
-							fullscreenEl: true,
-							history: false,
-					};
-					openPhotoSwipe(items, options);
-			});
+		<% acu_as :admin do %>
+		  cover_options_btn = $('#cover-options [role=toolbar] .btn#show-cover-options-controls');
+		  cover_options_btn.data('origin-html', cover_options_btn.html());
+		  cover_options_btn.click(function(){
+		    $('#cover-options > #cover-options-controls').toggleClass('hidden');
+		    if($(this).hasClass('btn-success')) {
+		      $('form[name="cover-config"] input#furniture_cover')
+		        .val($('#div-f-cover').css('background-position-y'))
+		        .closest('form')
+		          .submit();
+		      cover_options_btn
+		        .html(cover_options_btn.data('origin-html'))
+		        .removeClass('btn-success')
+		        .addClass('btn-default');
+		    }
+		  });
+		
+		  $('#scroller').slider({
+		      orientation: "vertical",
+		      min: -100,
+		      max: 0,
+		      value: -$('#div-f-cover').css('background-position').split(' ')[1].replace('%', ''),
+		      step: 1,
+		      slide: function( event, ui ) {
+		        $('#div-f-cover').css('background-position-y', Math.abs(ui.value) + '%');
+		        cover_options_btn
+		          .html("<span class='fa fa-save'></span> ذخیره‌ تنظیمات پروفایل")
+		          .removeClass('btn-default')
+		          .addClass('btn-success');
+		      }
+		  });
+	  <% end %>
 		});
 	</script>
-
-<% acu_as :admin do %>
-  <%= form_tag cover_admin_furniture_path(format: :json), name: 'cover-config', method: :post, :remote => true do %>
-    <% hidden_field_tag 'furniture[cover]' %>
-  <% end %>
-
-<style type="text/css" media="screen">
-	.pswp__button--like, .pswp__button--like:before {
-    background: url('<%= image_path 'red-heart.ico' %>') 12px 12px no-repeat;
-    background-size: 20px 20px;
-    width: 44px;
-    height: 44px;
-  }
-  .pswp__button--like.cover-it, .pswp__button--like.cover-it:before {
-    background-image: url('<%= image_path 'red-ok.ico' %>');
-  }
-</style>
-
-<%= javascript_tag do %>
-$(document).ready(function(){
-  cover_options_btn = $('#cover-options [role=toolbar] .btn#show-cover-options-controls');
-  cover_options_btn.data('origin-html', cover_options_btn.html());
-  cover_options_btn.click(function(){
-    $('#cover-options > #cover-options-controls').toggleClass('hidden');
-    if($(this).hasClass('btn-success')) {
-      $('form[name="cover-config"] input#furniture_cover')
-        .val($('#div-f-cover').css('background-position-y'))
-        .closest('form')
-          .submit();
-      cover_options_btn
-        .html(cover_options_btn.data('origin-html'))
-        .removeClass('btn-success')
-        .addClass('btn-default');
-    }
-  });
-
-  $('#scroller').slider({
-      orientation: "vertical",
-      min: -100,
-      max: 0,
-      value: -$('#div-f-cover').css('background-position').split(' ')[1].replace('%', ''),
-      step: 1,
-      slide: function( event, ui ) {
-        $('#div-f-cover').css('background-position-y', Math.abs(ui.value) + '%');
-        cover_options_btn
-          .html("<span class='fa fa-save'></span> ذخیره‌ تنظیمات پروفایل")
-          .removeClass('btn-default')
-          .addClass('btn-success');
-      }
-  });
-  $('.pswp__button--like').click(function(){
-    idx = parseInt($('.pswp .pswp__counter').text().split('/')[0] - 1);
-    if($('.pswp').attr('data-cover-index') == idx) return;
-    $.ajax({
-      url: '<%= cover_admin_furniture_path(@furniture, format: :json) %>',
-      data: {furniture:{index: idx}},
-      method: 'POST',
-      dataType: 'json',
-      success: function() {
-          $('.pswp').attr('data-cover-index', idx)
-          $('.pswp .pswp__button--like').addClass('cover-it').attr('title', 'It is the cover image');
-          $('#div-f-cover').css('background-image', 'url('+$('[data-type="photo-gallary"][data-index="'+idx.toString()+'"]').attr('href')+')')
-      },
-      error: function() {
-      }
-    });
-  });
-});
-<% end %>
-
-<% end %>
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true" data-cover-index="<%= @furniture.cover_details['index'] %>">
-    <!-- Background of PhotoSwipe.
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides.
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-            <% acu_as :admin do %>
-                <button class="pswp__button pswp__button--like" title="Make it cover image"></button>
-            <% end %>
-
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>
+	
+	<%= render 'admin/furnitures/photo_gallary', collection: @furniture %>
+	<%= render 'admin/furnitures/photo_gallary_cover', collection: @furniture, js_on_cover_set: "$('#div-f-cover').css('background-image', 'url('+$('[data-type=\"photo-gallary\"][data-index=\"'+idx.toString()+'\"]').attr('href')+')')" %>
 <% end %>

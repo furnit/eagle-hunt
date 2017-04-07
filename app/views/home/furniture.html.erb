@@ -43,7 +43,7 @@
 						<th>نام مدل</th>
 						<td><%= @furniture.name %></td>
 						<th>دسته‌بندی</th>
-						<td><%= link_to @furniture.furniture_type.name, admin_furniture_type_path(@furniture.furniture_type) %></td>
+						<td><%= link_to @furniture.furniture_type.name, home_category_path(@furniture.furniture_type) %></td>
 					</tr>
 					<tr>
 						<th>قیمت پایه</th>

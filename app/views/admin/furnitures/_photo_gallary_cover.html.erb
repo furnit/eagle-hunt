@@ -1,0 +1,40 @@
+<% acu_as :admin do %>
+  <%= form_tag cover_admin_furniture_path(format: :json), name: 'cover-config', method: :post, :remote => true do %>
+    <% hidden_field_tag 'admin_furniture[cover]' %>
+  <% end %>
+
+	<style type="text/css" media="screen">
+		.pswp__button--like, .pswp__button--like:before {
+	    background: url('<%= image_path 'red-heart.ico' %>') 12px 12px no-repeat;
+	    background-size: 20px 20px;
+	    width: 44px;
+	    height: 44px;
+	  }
+	  .pswp__button--like.cover-it, .pswp__button--like.cover-it:before {
+	    background-image: url('<%= image_path 'red-ok.ico' %>');
+	  }
+	</style>
+	
+	<script type="text/javascript" charset="utf-8">
+		
+		$(document).ready(function(){
+			$('.pswp .pswp__ui .pswp__top-bar').append('<button class="pswp__button pswp__button--like" data-toggle="tooltip" data-placement="bottom" title="انتخاب این عکس جهت عکس کاور؟"></button>')
+		  $('.pswp__button--like').click(function(){
+		  	idx = gallery.getCurrentIndex();
+		    $.ajax({
+		      url: '<%= cover_admin_furniture_path(collection, format: :json) %>',
+		      data: {admin_furniture: {index: idx}},
+		      method: 'POST',
+		      dataType: 'json',
+		      success: function() {
+		          $('.pswp').attr('data-cover-index', idx)
+		          $('.pswp .pswp__button.pswp__button--like').addClass('cover-it').attr('title', 'این عکس‌ کاور می‌باشد.');
+	          	<%= raw local_assigns[:js_on_cover_set] || '' %>
+		      },
+		      error: function() {
+		      }
+		    });
+		  });
+		});
+	</script>
+<% end %>

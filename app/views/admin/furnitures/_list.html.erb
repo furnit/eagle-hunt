@@ -6,6 +6,7 @@
       <th style='width: 30px'>ردیف</th>
       <th style='width: 100px;'>دسته‌بندی</th>
       <th style='width: 120px;'>نام مدل</th>
+      <th style='width: 120px;'>گالری</th>
       <th style=''>درباره‌ی مدل</th>
       <th style='width: 150px;'>آخرین بروزرسانی</th>
       <th style='width: 50px;'>عملیات</th>
@@ -30,6 +31,13 @@
           <a href="#" class='editable' data-type="text" data-resource="admin_furniture" data-name="name" data-url="<%= admin_furniture_path(f) %>" data-original-title="<%= f.name %>">
             <%= f.name %>
           </a>
+        </td>
+        <td id='photo-gallary-collection'>
+					<% f.images.each.with_index do |i, index| %>
+						<%= link_to image_url(i), data: { type: 'photo-gallary', index: index, thumb: thumbnail_url(i) } do %>
+							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail %s' %[index == f.cover_details["index"] ? '' : 'hidden'], style: 'height: 40px;' %>
+						<% end %>
+					<% end %>
         </td>
         <td>
           <a href="#" class='editable' data-type="textarea" data-max-length='11' data-placement="bottom" data-resource="admin_furniture" data-name="comment" data-url="<%= admin_furniture_path(f) %>" data-original-title="<%= f.comment %>"><%= f.comment.empty? ? "«آدرسی ثبت نشده است.»" : f.comment %></a>
@@ -63,6 +71,9 @@
 <div class="text-center" style='vertical-align: middle'>
   <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
 </div>
+
+<%= render 'admin/furnitures/photo_gallary' %>
+
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 		$('.editable[data-type="textarea"]').editable({ tpl: '<textarea maxlength="140"></textarea>' });

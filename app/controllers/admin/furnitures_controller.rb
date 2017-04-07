@@ -94,7 +94,7 @@ class Admin::FurnituresController < Admin::UploaderController
   # POST /furniture/1/edit_cover.json
   def cover
 
-    details = params.require(:furniture).permit(:cover, :index);
+    details = params.require(:admin_furniture).permit(:cover, :index);
 
     @furniture.cover_details['pos'] =  details[:cover] || @furniture.cover_details['pos']
     @furniture.cover_details['index'] =  details[:index] || @furniture.cover_details['index']
