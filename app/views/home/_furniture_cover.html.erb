@@ -76,10 +76,14 @@
 		        .val($('#div-f-cover').css('background-position-y'))
 		        .closest('form')
 		          .submit();
-		      cover_options_btn
-		        .html(cover_options_btn.data('origin-html'))
-		        .removeClass('btn-success')
-		        .addClass('btn-default');
+          // we need to get out of .click to be able to blur the button 
+		      setTimeout(function(){ 
+		      	cover_options_btn
+			        .html(cover_options_btn.data('origin-html'))
+			        .removeClass('btn-success active')
+			        .addClass('btn-default')
+			        .blur()
+	       	}, 100);
 		    }
 		  });
 		
