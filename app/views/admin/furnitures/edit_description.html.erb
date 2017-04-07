@@ -1,12 +1,11 @@
 <div id='edit-desc'>
-  <legend>ویرایش توضیحات محصول: <b><%= @furniture.name %></b></legend>
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs nav-rtl">
     <li role="presentation" class="active tabify" id='tab1'><a href="#">ویرایش متن</a></li>
     <li role="presentation" class="tabify" id='tab2'><a href="#">خروجی</a></li>
   </ul>
   <div class='clearfix' style='margin: 10px;'></div>
-  <tab for='tab1'>
-    <%= redirect_form @furniture, url: update_description_furniture_path do |f| %>
+  <tab for='tab1' class='ir'>
+    <%= redirect_form @furniture, url: update_description_admin_furniture_path do |f| %>
       <%= f.text_area :description, hide_label: true, placeholder: "توضیحات مدل #{@furniture.name}", autofocus: true, dir: :auto %>
       <%= f.submit 'ثبت تغییرات', class: 'btn btn-primary'%>
     <% end %>
@@ -36,15 +35,14 @@
       $(this).addClass('active');
 	  });
 	  $('#edit-desc #tab2').click(function(e) {
-      $('[for=tab2] #loading-spinner').show();
+      $('[for=tab2] #loading-spinner').show().css('min-height', $("[for='tab1']").css('height'));
       $('[for=tab2] #content').addClass('hidden').html('');
 	    $.post(
-	      '<%= markup_furnitures_path %>',
+	      '<%= markup_admin_furnitures_path %>',
 	      {text: $("[for='tab1'] textarea").val()},
 	      function(data) {
-	        console.log(data.html);
 	        $('[for=tab2] #loading-spinner').hide();
-	        $('[for=tab2] #content').html(data.html).removeClass('hidden');
+	        $('[for=tab2] #content').html(data.html).removeClass('hidden').css('min-height', $("[for='tab1']").css('height'));
 	      },
 	      'json'
 	    );

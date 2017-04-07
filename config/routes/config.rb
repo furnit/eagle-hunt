@@ -10,7 +10,7 @@ module RC
     {
       constraints: lambda { |request| request.xhr? },
       only: [:create, :destroy]
-    }.merge(json_request_only)
+    }
   end
   
   def self.non_restful

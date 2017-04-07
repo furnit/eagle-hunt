@@ -86,10 +86,13 @@
 			<fieldset class='col-lg-8 col-md-8 col-sm-12 col-xs-12 pull-right'>
 				<legend>مدل <%= @furniture.furniture_type.name %>: <b><%= @furniture.name %></b>
 			  <% acu_as :admin do %>
-			     <small class='pull-left'><%= link_to raw('<small class="fa fa-pencil" style="font-size: 80%; margin-top: 5px"></small> ویرایش متن'), edit_description_admin_furniture_path, remote: true, class: 'inline-html-call' %></small>
+			     <small class='pull-left'><%= link_to raw('<small class="fa fa-pencil" style="font-size: 80%; margin-top: 5px"></small> <span>ویرایش متن<span>'), edit_description_admin_furniture_path, remote: true, id: 'edit-furniture-description' %></small>
 			  <% end %>
 				</legend>
-				<div class='text-justify' style='font-size: 20px!important'><%= raw @furniture.description_html %></div>
+				<div class='text-justify' style='font-size: 20px!important' id="furntiure_description">
+					<%= raw @furniture.description_html %>
+				</div>
+				<div id='furntiure_description-edit-zone' class='hidden'></div>
 			</fieldset>
 			<fieldset class='col-lg-4 col-md-4 col-sm-12 col-xs-12 pull-left'>
 				<legend>جزئیات این مدل</legend>
@@ -109,8 +112,33 @@
 		</div>
 	</div>
 </div>
+
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
+		$('a#edit-furniture-description').click(function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			if($(this).hasClass('editing')) {
+				$('#furntiure_description').removeClass('hidden')
+				$('#furntiure_description-edit-zone').addClass('hidden')
+				$(this).removeClass('editing')
+				$(this).find('span').html('ویرایش متن')
+				$(this).find('.fa').attr('class', 'fa fa-pencil')
+			} else {
+				$(this).find('.fa').attr('class', 'fa fa-spinner fa-spin');
+				$('#furntiure_description').addClass('hidden')
+				$('#furntiure_description-edit-zone').removeClass('hidden')
+				$this = $(this);
+				$('#furntiure_description-edit-zone')
+					.load($(this).attr('href'), function(){ 
+						$this
+							.addClass('editing') 
+							.find('span').html('لغو ویرایش');
+						$this.find('.fa').attr('class', 'fa fa-times');
+					});
+			}
+			$(this).blur()
+		})
 		$('input#add_to_cart').change(function(){
 			method = "post"
 			url = '<%= shopping_carts_path %>.json';

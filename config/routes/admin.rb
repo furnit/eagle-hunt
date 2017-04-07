@@ -28,7 +28,7 @@ module AdminRoutes
         resources :furnitures do
           member do
             post   :cover, RC::json_request_only
-            get    :edit_description
+            get    :edit_description, RC::ajax_server
             patch  :update_description
             get    :list_images, RC::json_request_only 
           end

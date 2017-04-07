@@ -117,10 +117,10 @@ class Admin::FurnituresController < Admin::UploaderController
     raise 'invalid input' if not furniture_params[:description]
     respond_to do |format|
       if @furniture.update({:description => furniture_params[:description], :description_html => GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, furniture_params[:description])})
-        format.html { redirect_to @furniture, notice: 'محصول «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture.name }
+        format.html { redirect_to home_furniture_path(@furniture), notice: 'محصول «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture.name }
         format.json { render json: @furniture, status: :ok, location: @furniture }
       else
-        format.html { redirect_to @furniture, error: 'خطا در ویرایش محصول «<b>%s</b>»!' %@furniture.name }
+        format.html { redirect_to home_furniture_path(@furniture), error: 'خطا در ویرایش محصول «<b>%s</b>»!' %@furniture.name }
         format.json { render json: @furniture.errors, status: :unprocessable_entity }
       end
     end

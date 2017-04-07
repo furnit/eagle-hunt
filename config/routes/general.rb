@@ -13,10 +13,10 @@ module GeneralRoutes
       
       get 'contact/us/:section', to: 'home#contactus', as: 'contact_us'
 
-      resources :uploaded_files, RC::ajax_server
+      resources :uploaded_files, RC::ajax_server.merge(RC::json_request_only)
 
       # only to create/delete shopping carts and only excepts JSON format
-      resources :shopping_carts, RC::ajax_server
+      resources :shopping_carts, RC::ajax_server.merge(RC::json_request_only)
 
       resources :profiles
       

@@ -259,4 +259,17 @@ body {
       position: relative;
     }
   }
+  .nav-rtl {
+    & {
+      padding-left:40px;
+      padding-right:0px;
+    }
+    li { float:right; }
+  }
+  .ir {
+    ::-webkit-input-placeholder { text-align: right; }
+    :-moz-placeholder { text-align: right; }
+    ::-moz-placeholder { text-align: right; }   
+    :-ms-input-placeholder { text-align: right; }
+  }
 }
