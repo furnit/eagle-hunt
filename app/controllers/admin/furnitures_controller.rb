@@ -1,5 +1,5 @@
 class Admin::FurnituresController < Admin::UploaderController
-  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :delete_image, :cover, :edit_description, :update_description]
+  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :delete_image, :cover, :edit_description, :update_description, :list_images]
 
   # GET /furnitures
   # GET /furnitures.json
@@ -133,6 +133,12 @@ class Admin::FurnituresController < Admin::UploaderController
 
     respond_to do |format|
       format.json { render json: { html: GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, text) }, status: :ok }
+    end
+  end
+  
+  def list_images
+    respond_to do |format|
+      format.json { render json: {images: @furniture.images, cover: @furniture.cover_details["index"]}, status: :ok }
     end
   end
 

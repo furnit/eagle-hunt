@@ -32,15 +32,14 @@
             <%= f.name %>
           </a>
         </td>
-        <td class='photo-gallary-collection'>
-					<% f.images.each.with_index do |i, index| %>
-						<%= link_to image_url(i), data: { type: 'photo-gallary', index: index, thumb: thumbnail_url(i), cover: f.cover_details["index"].to_i == index, 'cover-url': cover_admin_furniture_path(f, format: :json) } do %>
-							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
-						<% end %>
+        <td class='photo-gallary-collection-incomplete'>
+        	<% i = f.images[f.cover_details["index"].to_i] %>
+					<%= link_to image_url(i), data: { id: f.id, source: list_images_admin_furniture_path(f) } do %>
+						<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
 					<% end %>
         </td>
         <td>
-          <a href="#" class='editable' data-type="textarea" data-max-length='11' data-placement="bottom" data-resource="admin_furniture" data-name="comment" data-url="<%= admin_furniture_path(f) %>" data-original-title="<%= f.comment %>"><%= f.comment.empty? ? "«آدرسی ثبت نشده است.»" : f.comment %></a>
+          <a href="#" class='editable' data-type="textarea" data-max-length='11' data-placement="bottom" data-resource="admin_furniture" data-name="comment" data-url="<%= admin_furniture_path(f) %>" data-original-title="درباره‌ی مدل:"><%= f.comment.empty? ? "«آدرسی ثبت نشده است.»" : f.comment %></a>
         </td>
         <td class='datetime' data-date='<%= f.updated_at %>'></td>
         <td>
@@ -83,13 +82,55 @@
 	.photo-gallary-collection [data-type="photo-gallary"][data-cover="true"] { display: unset; }
 </style>
 
+<div id='photo-gallery-template' class='hidden'></div>
+
 <script type="text/javascript" charset="utf-8">
 	function update_cover_thumb(idx) {
-		$pel = $(gallery.items[idx].obj).closest('.photo-gallary-collection')
-		$pel.find('[data-type="photo-gallary"][data-cover="true"]').attr('data-cover', 'false');
-		$(gallery.items[idx].obj).attr('data-cover', 'true');
+		item = gallery.items[idx];
+		$('.photo-gallary-collection-incomplete a[data-source].active')
+			.attr('href', item.src)
+			.find('img')
+				.attr('src', item.msrc + "?" + (new Date()).getTime())
+		$('.photo-gallary-collection-incomplete a[data-source].active')
+			.removeClass('active')
 	}
 	$(document).ready(function(){
+		String.prototype.format = function () {
+      var args = [].slice.call(arguments);
+      return this.replace(/(\{\d+\})/g, function (a){
+          return args[+(a.substr(1,a.length-2))||0];
+      });
+		};
+		$('.photo-gallary-collection-incomplete a[data-source]').click(function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			$(this).addClass('active');
+			$(this).find('*').hide();
+			$(this).append('<span class="fa fa-spinner fa-spin"></span>');
+			$this = $(this);
+			$('#photo-gallery-template').html('').addClass('photo-gallery-collection');
+			$.get({
+				url: $(this).attr('data-source'),
+				success: function(data) {
+					for (var index = 0; index < data.images.length; index++) {
+						link = 
+						'<%= link_to "{0}", data: { type: 'photo-gallery', index: "{1}", thumb: "{2}", cover: "{3}", "cover-url": cover_admin_furniture_path("{4}", format: :json) } do %>\
+							<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
+						<% end %>'
+						.replace('%7B', '{').replace('%7D', '}')
+						.replace('src="/images/{2}"', 'src="{2}"')
+						.format(data.images[index].url, index, data.images[index].thumb.url, index == data.cover, $this.attr('data-id'))
+						$('#photo-gallery-template').append(link);
+					};
+					init_photo_gallery();
+					$('#photo-gallery-template [data-type="photo-gallery"]:nth-child('+(parseInt(data.cover)+1)+')').click();
+				},
+				complete: function() {
+					$this.find('.fa-spinner').remove();
+					$this.find('*').show()
+				}
+			})
+		});
 		$('.editable[data-type="textarea"]').editable({ tpl: '<textarea maxlength="140"></textarea>' });
 	})
 </script>

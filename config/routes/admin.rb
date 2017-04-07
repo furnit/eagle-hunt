@@ -28,7 +28,8 @@ module AdminRoutes
           member do
             post   :cover, RC::json_request_only
             get    :edit_description
-            patch   :update_description
+            patch  :update_description
+            get    :list_images, RC::json_request_only 
           end
           collection do
             post   :markup, RC::json_request_only

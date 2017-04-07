@@ -1,5 +1,5 @@
 <script type="text/javascript" charset="utf-8">
-	$(document).ready(function(){
+	function init_photo_gallery() {
 		function openPhotoSwipe(items, options) {
 			pswpElement = document.querySelectorAll('.pswp')[0];
 			// Initializes and opens PhotoSwipe
@@ -7,14 +7,14 @@
 			gallery.listen('afterChange', function() {
 				$el = $(pswpElement).find('.pswp__button.pswp__button--like');
 				if(gallery.items[gallery.getCurrentIndex()].is_cover)
-					$el.addClass('cover-it').attr('data-original-title', 'این عکس‌ کاور می‌باشد.');
+					$el.attr('data-original-title', 'این عکس‌ کاور می‌باشد.').find('.fa').removeClass('fa-thumbs-up').addClass('fa-heart');
 				else
-					$el.removeClass('cover-it').attr('data-original-title', 'انتخاب این عکس جهت عکس کاور؟');
+					$el.attr('data-original-title', 'انتخاب این عکس جهت عکس کاور؟').find('.fa').removeClass('fa-heart').addClass('fa-thumbs-up');
 			});
 			gallery.init();
 		}
-		gallary_item = '[data-type="photo-gallary"]'
-		gallary_parent = '.photo-gallary-collection'
+		gallary_item = '[data-type="photo-gallery"]'
+		gallary_parent = '.photo-gallery-collection'
 		$(gallary_item).click(function(e){
 				e.preventDefault();
 				e.stopPropagation();
@@ -38,7 +38,8 @@
 				};
 				openPhotoSwipe(items, options);
 		});
-	});
+	};
+	$(document).ready(init_photo_gallery)
 </script>
 	
 <!-- Root element of PhotoSwipe. Must have class pswp. -->

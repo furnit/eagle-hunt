@@ -1,20 +1,18 @@
 <% acu_as :admin do %>
 	<style type="text/css" media="screen">
 		.pswp__button--like, .pswp__button--like:before {
-	    background: url('<%= image_path 'red-heart.ico' %>') 12px 12px no-repeat;
-	    background-size: 20px 20px;
+	    background-size: 0;
 	    width: 44px;
 	    height: 44px;
-	  }
-	  .pswp__button--like.cover-it, .pswp__button--like.cover-it:before {
-	    background-image: url('<%= image_path 'red-ok.ico' %>');
+	    color: white;
+	    padding-top: 14px
 	  }
 	</style>
 	
 	<script type="text/javascript" charset="utf-8">
 		
 		$(document).ready(function(){
-			$('.pswp .pswp__ui .pswp__top-bar').append('<button class="pswp__button pswp__button--like" data-toggle="tooltip" data-placement="bottom" title="انتخاب این عکس جهت عکس کاور؟"></button>')
+			$('.pswp .pswp__ui .pswp__top-bar').append('<div class="pswp__button pswp__button--like" data-toggle="tooltip" data-placement="bottom" title="انتخاب این عکس جهت عکس کاور؟"><span class="fa fa-heart"></span></div>')
 		  $('.pswp__button--like').click(function(){
 		  	idx = gallery.getCurrentIndex();
 		    $.ajax({
@@ -23,11 +21,25 @@
 		      method: 'POST',
 		      dataType: 'json',
 		      success: function() {
-		          $('.pswp').attr('data-cover-index', idx)
-		          $('.pswp .pswp__button.pswp__button--like').addClass('cover-it').attr('title', 'این عکس‌ کاور می‌باشد.');
-	          	<%= raw local_assigns[:js_on_cover_set] || '' %>
+		      	// update the covered image flag
+	      		gallery.items = gallery.items.map(function(item){ item.is_cover = false; return item; });
+	      		gallery.items[idx].is_cover = true;
+	      		console.log(gallery.items)
+	      		// change the icon
+	          $('.pswp .pswp__button.pswp__button--like')
+		          .attr('data-original-title', 'این عکس‌ به عنوان کاور انتخاب شد.')
+		          .find('.fa')
+		          	.attr('class', 'fa fa-heart')
+          	<%= raw local_assigns[:js_on_cover_set] || '' %>
+		      },
+		      beforeSend: function() {
+		      	$('.pswp .pswp__button.pswp__button--like .fa').attr('class', 'fa fa-spinner fa-spin')
 		      },
 		      error: function() {
+		      	$('.pswp .pswp__button.pswp__button--like')
+		          .attr('data-original-title', 'خطا در انتصاب عکس کاور!')
+		          .find('.fa')
+		          	.attr('class', 'fa fa-exclamations')
 		      }
 		    });
 		  });
