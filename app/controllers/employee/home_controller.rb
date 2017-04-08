@@ -3,7 +3,7 @@ class Employee::HomeController < ApplicationController
   end
   
   def as
-    session_namespace[:as] = Admin::UserType.find(params[:as_employee]).readonly!
+    session[:admin_as_employee] = Admin::UserType.find(params[:as_employee]).name
     respond_to do |format|
       format.html { redirect_to employee_root_path }
     end

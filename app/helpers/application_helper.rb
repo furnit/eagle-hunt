@@ -8,6 +8,12 @@ module ApplicationHelper
     split = params[:controller].split('/')
     split.length > 1 and split[0].downcase == sym.to_s.downcase
   end
+  
+  def get_namespace
+    split = params["controller"].split('/')
+    return :default if split.length == 1
+    return split[0].to_sym
+  end
 
   def create_cover(image, **args)
     height = args[:height] || '350px'
