@@ -1,8 +1,32 @@
 <div class='container-fluid' id='employee-panel'>
 	<div class='row'>
-		<div class='col-lg-8 col-md-8 col-sm-6 col-xs-12'>
+		<div class='col-lg-8 col-md-8 col-sm-6 col-xs-12' id='collection-panel'>
 		</div>
-		<div class='col-lg-4 col-md-4 col-sm-6 col-xs-12' style='height: 100px; background-color: #e7e7e7;'>
+		<div class='col-lg-4 col-md-4 col-sm-6 hidden-xs' id='data-field-panel'>
+		  <% acu_as :admin do %>
+		  	<% types = Admin::UserType.where('id > 2'); %>
+		  	<div id='below-nav-top-bar'>
+		  		<div class='col-lg-8 col-md-12 col-sm-12 pull-right'>
+	  				<span class='fa fa-exclamation-triangle' style='font-size: 90%; position: relative; top: 3px'></span>
+	  				<% if not session[:admin_as_employee] %>
+							شما به «عنوان مدیر» باید به صورت یکی از «انواع کارمندان» به این بخش وارد شوید.
+						<% else %>
+							شما به «عنوان مدیر» در قالب <b>«<%= session[:admin_as_employee]["name"] %>»</b> به مشاهده‌ی این بخش می‌پردازید.
+						<% end %>
+					</div>
+	  			<%= form_tag as_employee_home_index_path, method: :post, class: 'col-lg-4 col-md-12 col-sm-12' do %>
+  					<%= select_tag :as_employee, options_for_select(types.map {|i| [i.name, i.id]}.insert(0, ["هیچ‌یک", -1]), session[:admin_as_employee] ? session[:admin_as_employee]["id"] : 0), onchange: ("javascript: this.form.submit();")  %>
+	  			<% end %>
+	  			<div class='clearfix'></div>
+				</div>
+		  <% end %>
+		  <div style='padding: 10px;'>
+				<% if session[:admin_as_employee] %>
+					<%= render "employee/home/tasks/#{session[:admin_as_employee]['sym'].to_s.downcase}" %>
+				<% else %>
+					<%= render "employee/home/tasks/#{current_user.user_type.symbol.to_s.downcase}" %>
+				<% end %>
+			</div>
 		</div>
 	</div>
 </div>

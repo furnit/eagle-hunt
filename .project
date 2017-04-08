@@ -17,30 +17,120 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1491645328905</id>
+			<id>1491681257784</id>
 			<name></name>
-			<type>13</type>
+			<type>30</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-app</arguments>
+				<arguments>1.0-name-matches-false-false-tmp</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491645328906</id>
+			<id>1491681257785</id>
 			<name></name>
-			<type>13</type>
+			<type>30</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-lib</arguments>
+				<arguments>1.0-name-matches-false-false-test</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491645328908</id>
+			<id>1491681257785</id>
 			<name></name>
-			<type>13</type>
+			<type>30</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-config</arguments>
+				<arguments>1.0-name-matches-false-false-spec</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1491681257799</id>
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-db</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1491681257800</id>
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-data</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1491681257800</id>
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-bin</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1491681257801</id>
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-log</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1491681257802</id>
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-public</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1491681257803</id>
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-vendor</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1491681257804</id>
+			<name></name>
+			<type>6</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-config.ru</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1491681257816</id>
+			<name></name>
+			<type>6</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-Gemfile.lock</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1491681257817</id>
+			<name></name>
+			<type>6</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-README.md</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1491681257819</id>
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-.git</arguments>
 			</matcher>
 		</filter>
 	</filteredResources>

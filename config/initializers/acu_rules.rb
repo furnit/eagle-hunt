@@ -24,9 +24,11 @@ Acu::Rules.define do
     allow :everyone
   end
 
-  namespace only: [:profiles] do
-    deny :everyone, on: [:destroy]
-    allow :signed_in
+  namespace do
+    controller :profiles do
+      deny :everyone, on: [:destroy]
+      allow :signed_in
+    end
   end
 
   namespace :admin do
@@ -39,7 +41,7 @@ Acu::Rules.define do
     allow :employee
     
     controller :home do
-      deny :employee, on: [:as_employee]
+      deny :employee, on: [:as]
     end
   end
 

@@ -69,25 +69,6 @@
   <div class="clearfix"></div>
   <%= render 'layouts/alerts' %>
   <div class='container-fluid' style='margin:0; padding:0'>
-	  <% acu_as :admin do %>
-	  	<% if namespace? :employee %>
-	  	<div id='below-nav-top-bar'>
-	  		<div class='container'>
-	  			<span>
-	  				<span class='fa fa-exclamation-triangle' style='font-size: 90%; position: relative; top: 3px'></span>
-	  				<% if not session[:admin_as_employee] %>
-							شما به «عنوان مدیر» باید به صورت یکی از «انواع کارمندان» به این بخش وارد شوید.
-						<% else %>
-							شما به «عنوان مدیر» در قالب <b>«<%= session[:admin_as_employee] %>»</b> به مشاهده‌ی این بخش می‌پردازید.
-						<% end %>
-					</span>
-	  			<%= form_tag as_employee_home_index_path, method: :post do %>
-  					<%= select_tag :as_employee, options_for_select(Admin::UserType.where('id > 2').map {|i| [i.name, i.id]}), prompt: (session[:admin_as_employee] ? session[:admin_as_employee] : "لطفا انتخاب نمایید..."), onchange: ("javascript: this.form.submit();")  %>
-	  			<% end %>
-  			</div>
-  		</div>
-	  	<% end %>
-	  <% end %>
     <%= yield %>
   </div>
 <%= render 'layouts/footer' %>
