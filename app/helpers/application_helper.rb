@@ -3,6 +3,11 @@ module ApplicationHelper
     concat sanitize "<div class='empty-collection'>%s</div>" %p if k.empty?
     k.each.with_index { |l, index| yield l, index }
   end
+  
+  def namespace? sym
+    split = params[:controller].split('/')
+    split.length > 1 and split[0].downcase == sym.to_s.downcase
+  end
 
   def create_cover(image, **args)
     height = args[:height] || '350px'

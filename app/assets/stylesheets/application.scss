@@ -272,4 +272,15 @@ body {
     ::-moz-placeholder { text-align: right; }   
     :-ms-input-placeholder { text-align: right; }
   }
+  #below-nav-top-bar {
+    & {
+      height: 50px; 
+      background: rgb(0, 0, 0); /* The Fallback */
+      background: rgba(0, 0, 0, 0.8); 
+      position: relative;
+      top: -20px;
+      color: white;
+      padding: 15px;
+    }
+  }
 }

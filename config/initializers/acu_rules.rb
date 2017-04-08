@@ -12,6 +12,9 @@ Acu::Rules.define do
   ].each do |symbol|
     whois symbol.downcase.to_sym, args: [:user] { |user| user and user.user_type && user.user_type.symbol == symbol.to_s }
   end
+  
+  # employees are those who are members and not (:ADMIN or :CLIENT) 
+  whois :employee, args: [:user] { |user| user and user.user_type && not([:ADMIN, :CLIENT].include? user.user_type.symbol.to_sym) }
 
   # by default admin can go everywhere
   allow :admin
@@ -29,6 +32,14 @@ Acu::Rules.define do
   namespace :admin do
     controller :users do
       deny :everyone, on: [:destroy]
+    end
+  end
+  
+  namespace :employee do
+    allow :employee
+    
+    controller :home do
+      deny :employee, on: [:as_employee]
     end
   end
 

@@ -14,8 +14,20 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse ">
         <ul class="nav navbar-nav navbar-right">
+          <% acu_as [:admin, :employee] do %>
+            <li class="<%= namespace?(:employee) ? 'active' : '' %>">
+              <%= link_to employee_root_path do %>
+              	<% acu_as :employee do %>
+                	<span class='fa fa-male'></span> مدیریت
+              	<% end %>
+              	<% acu_as :admin do %>
+                	<span class='fa fa-handshake-o'></span> کارکنان
+              	<% end %>
+              <% end %>
+            </li>
+          <% end %>
           <% acu_as :admin do %>
-            <li class="<%= params[:controller].split('/').length > 1 and params[:controller].split('/')[0].downcase == 'admin' ? 'active' : '' %>">
+            <li class="<%= namespace?(:admin) ? 'active' : '' %>">
               <%= link_to admin_root_path do %>
                 <span class='fa fa-male'></span> مدیریت
               <% end %>
@@ -57,6 +69,15 @@
   <div class="clearfix"></div>
   <%= render 'layouts/alerts' %>
   <div class='container-fluid' style='margin:0; padding:0'>
+	  <% acu_as :admin do %>
+	  	<% if namespace? :employee %>
+	  	<div id='below-nav-top-bar'>
+	  		<div class='container'>
+	  			شما به عنوان مدیر به بخش کارکنان آمده‌اید، شما باید به عنوان یکی از کارمندان به مرور این بخش بپردازید.
+  			</div>
+  		</div>
+	  	<% end %>
+	  <% end %>
     <%= yield %>
   </div>
 <%= render 'layouts/footer' %>

@@ -11,7 +11,14 @@ Rails.application.config.assets.version = '1.0'
 
 # precompile directories
 
-%w(photoswipe custom users filterrific).each do |directory|
+%w(
+  photoswipe
+  custom
+  users
+  filterrific
+  employee
+  admin
+).each do |directory|
   Rails.application.config.assets.precompile += [ "#{directory}/*.js", "#{directory}/*.css", "#{directory}/*.coffee" ]
 end
 
@@ -65,11 +72,6 @@ end
   profiles
   shopping_carts
   uploaded_files
-  admin/home
-  admin/users
-  admin/furnitures
-  admin/user_types
-  admin/furniture_types
 ).each do |controller|
   Rails.application.config.assets.precompile += [ "#{controller}.coffee", "#{controller}.js", "#{controller}.css", "#{controller}.scss" ]
 end
