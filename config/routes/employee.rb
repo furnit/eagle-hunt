@@ -8,8 +8,8 @@ module EmployeeRoutes
         root to: 'home#index'
         
         resources :home, RC::non_restful.merge({:path => ''}) do
-          member do
-            get :as_employee
+          collection do
+            post :as
           end
         end
 

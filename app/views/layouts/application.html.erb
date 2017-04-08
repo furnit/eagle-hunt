@@ -73,7 +73,15 @@
 	  	<% if namespace? :employee %>
 	  	<div id='below-nav-top-bar'>
 	  		<div class='container'>
-	  			شما به عنوان مدیر به بخش کارکنان آمده‌اید، شما باید به عنوان یکی از کارمندان به مرور این بخش بپردازید.
+	  			<span>
+	  				<span class='fa fa-exclamation-triangle' style='font-size: 90%; position: relative; top: 3px'></span>
+	  				<% if not session_namespace %>
+							شما به «عنوان مدیر» باید به صورت یکی از «انواع کارمندان» به این بخش وارد شوید.
+						<% end %>
+					</span>
+	  			<%= form_tag as_employee_home_index_path, method: :post do %>
+  					<%= select_tag :as_employee, options_for_select(Admin::UserType.where('id > 2').map {|i| [i.name, i.id]}), prompt: "لطفا انتخاب نمایید...", onchange: ("javascript: this.form.submit();")  %>
+	  			<% end %>
   			</div>
   		</div>
 	  	<% end %>

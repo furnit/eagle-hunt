@@ -274,13 +274,38 @@ body {
   }
   #below-nav-top-bar {
     & {
-      height: 50px; 
+      min-height: 50px; 
       background: rgb(0, 0, 0); /* The Fallback */
       background: rgba(0, 0, 0, 0.8); 
       position: relative;
       top: -20px;
       color: white;
       padding: 15px;
+    }
+    &:after {
+      display: none;
+      @extend .clearfix;
+    }
+    & .container {
+      & > span {
+        display: inline;
+        padding-top: 5px;
+        @extend .pull-right;
+      }
+      form {
+        & {
+          position: relative;
+          right: 20px;
+          @extend .pull-right;
+        }
+        select {
+          @extend .form-control;
+          width: 200px;
+          background-color: #555555;
+          color: white;
+          
+        }
+      }
     }
   }
 }

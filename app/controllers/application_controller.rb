@@ -14,6 +14,17 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
 
+  def get_namespace
+    split = params["controller"].split('/')
+    return :default if split.length == 1
+    return split[0].to_sym
+  end
+
+  def session_namespace
+    session[(get_namespace.to_s + __FILE__).to_sym] ||= {}
+    session[(get_namespace.to_s + __FILE__).to_sym]
+  end
+
   def acquire_profile_if_necessary
     if user_signed_in? and not current_user.profile
       redirect_to new_profile_path
