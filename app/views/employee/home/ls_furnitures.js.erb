@@ -1,0 +1,7 @@
+$('#furniture-collection').append('<%= j render @furnitures %>');
+<% if @posts.next_page %>
+  $('.pagination').replaceWith('<%= j will_paginate @furnitures %>');
+<% else %>
+  $(window).off('scroll');
+  $('.pagination').remove();
+<% end %>

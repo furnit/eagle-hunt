@@ -1,22 +1,44 @@
-#employee-panel {
-  & {
-    position: relative;
-  }
-  #data-field-panel {
-    border-color: rgb(0, 0, 0);
-    border-color: rgba(0, 0, 0, 0.8);
-    border-left-style: solid;
-    border-left-width: 4px;
-    position: fixed;
-    right: 0;
-    top: 50px;
-    height: 100%;
-    padding: 0;
-  } 
-  #collection-panel {
-    
+#management-panel {
+  .row {
+    & {
+      margin: 0;
+      padding: 0;
+      height: 94.04vh;
+    }
+    #navigation {
+      & {
+        height: 100%;
+        background-color: #f8f8f8;
+        border-left: 1px solid #e7e7e7;
+        padding: 20px;
+        height: 100%;
+        background-color: #f8f8f8;
+        border-left: 1px solid #e7e7e7;
+        padding: 20px;
+        border-color: rgb(0, 0, 0);
+        border-color: rgba(0, 0, 0, 0.8);
+        border-left-style: solid;
+        border-left-width: 4px;
+        position: fixed;
+        right: 0;
+        top: 50px;
+        height: 100%;
+        padding: 0;
+        overflow: auto;
+      }
+      @media (max-width: 723px) { 
+        &.col-xs-12 { height: 30%; overflow: auto }
+      }
+    }
+    #panel {
+      & {
+        padding: 0;
+        height: 100%;
+      }
+    }
   }
 }
+
 
 #below-nav-top-bar {
   & {

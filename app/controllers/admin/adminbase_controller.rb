@@ -1,3 +1,3 @@
 class Admin::AdminbaseController < ApplicationController
-  layout 'admin_frame'
+  layout 'no_navbar'
 end

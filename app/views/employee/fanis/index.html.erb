@@ -1,0 +1,8 @@
+<div id='employee-index-content' class='text-center'>
+	<span class='fa fa-spinner fa-spin'></span>
+</div>
+<script type="text/javascript" charset="utf-8">
+	(function(){
+		$('#employee-index-content').load('<%= ls_furnitures_employee_home_index_path %>', function(){ $(this).removeClass('text-center'); });
+	})(jQuery)
+</script>

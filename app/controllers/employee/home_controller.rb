@@ -1,4 +1,6 @@
 class Employee::HomeController < ApplicationController
+  layout 'no_navbar', only: [:ls_furnitures]
+  
   def index
   end
   
@@ -12,5 +14,14 @@ class Employee::HomeController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     session.delete :admin_as_employee
     redirect_to employee_root_path
+  end
+  
+  def ls_furnitures
+    @furnitures = Admin::Furniture.paginate(:page => params[:page], per_page: 3)
+    30.times { @furnitures += @furnitures }
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 end

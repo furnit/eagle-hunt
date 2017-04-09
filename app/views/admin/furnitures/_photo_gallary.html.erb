@@ -1,3 +1,7 @@
+
+
+<div id='photo-gallery-template' class='hidden'></div>
+
 <script type="text/javascript" charset="utf-8">
 	function init_photo_gallery() {
 		function openPhotoSwipe(items, options) {
@@ -39,7 +43,46 @@
 				openPhotoSwipe(items, options);
 		});
 	};
-	$(document).ready(init_photo_gallery)
+	$(document).ready(function(){
+		String.prototype.format = function () {
+      var args = [].slice.call(arguments);
+      return this.replace(/(\{\d+\})/g, function (a){
+          return args[+(a.substr(1,a.length-2))||0];
+      });
+		};
+		init_photo_gallery();
+		$('.photo-gallary-collection-incomplete a[data-source]').click(function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			$(this).addClass('active');
+			$(this).find('*').hide();
+			$(this).prepend('<span class="fa fa-spinner fa-spin"></span>');
+			$this = $(this);
+			$('#photo-gallery-template').html('').addClass('photo-gallery-collection');
+			$.get({
+				url: $(this).attr('data-source'),
+				success: function(data) {
+					for (var index = 0; index < data.images.length; index++) {
+						link = 
+						'<%= link_to "{0}", data: { type: 'photo-gallery', index: "{1}", thumb: "{2}", cover: "{3}", "cover-url": cover_admin_furniture_path("{4}", format: :json) } do %>\
+							<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
+						<% end %>'
+						.replace('%7B', '{').replace('%7D', '}')
+						.replace('src="/images/{2}"', 'src="{2}"')
+						.format(data.images[index].url, index, data.images[index].thumb.url, index == data.cover, $this.attr('data-id'))
+						$('#photo-gallery-template').append(link);
+					};
+					init_photo_gallery();
+					if (data.cover !== undefined)
+						$('#photo-gallery-template [data-type="photo-gallery"]:nth-child('+(parseInt(data.cover)+1)+')').click();
+				},
+				complete: function() {
+					$this.find('.fa-spinner').remove();
+					$this.find('*').show()
+				}
+			})
+		});
+	});
 </script>
 	
 <!-- Root element of PhotoSwipe. Must have class pswp. -->

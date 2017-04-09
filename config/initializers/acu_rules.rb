@@ -6,9 +6,9 @@ Acu::Rules.define do
   whois :signed_in, args: [:user] { |user| user }
   # other user entities
   [
-    :ADMIN, :GRAPHIC, :KHAYAT,
+    :ADMIN, :GRAPHIC, :FANI,
     :MARKETER, :MARKLINE, :NAGASH,
-    :NAJAR, :PR, :CLIENT, :ROKOB
+    :NAJAR, :PR, :CLIENT
   ].each do |symbol|
     whois symbol.downcase.to_sym, args: [:user] { |user| user and user.user_type && user.user_type.symbol == symbol.to_s }
   end
@@ -39,6 +39,9 @@ Acu::Rules.define do
   
   namespace :employee do
     allow :employee
+    # people can only create new stuff in database
+    # not updating them
+    deny  :everyone, on: [:destroy, :update, :edit, :show]
     
     controller :home do
       deny :employee, on: [:as]
