@@ -1,7 +1,9 @@
-$('#furniture-collection').append('<%= j render @furnitures %>');
-<% if @posts.next_page %>
-  $('.pagination').replaceWith('<%= j will_paginate @furnitures %>');
-<% else %>
+$('#furniture-collection #infinite-scrolling').remove();
+$("#photo-gallery-template").remove()
+$(".pswp").remove()
+$("script[name='pswp-js']").remove()
+$('#furniture-collection').append("<%= escape_javascript(render(partial: 'list_furnitures' )) %>");
+<% if not @furnitures.next_page %>
   $(window).off('scroll');
-  $('.pagination').remove();
+  $('#furniture-collection #infinite-scrolling').html("<span class='text-muted text-center col-lg-12 col-md-12 col-sm-12 col-xs-12' style='padding-top: 12px; border: 1px solid #e7e7e7; height: 50px; vertical-align: middle; font-weight: bold;'>پایان!</span>")
 <% end %>

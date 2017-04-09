@@ -17,8 +17,7 @@ class Employee::HomeController < ApplicationController
   end
   
   def ls_furnitures
-    @furnitures = Admin::Furniture.paginate(:page => params[:page], per_page: 3)
-    30.times { @furnitures += @furnitures }
+    @furnitures = Admin::Furniture.paginate(:page => params[:page])
     respond_to do |format|
       format.html
       format.js
