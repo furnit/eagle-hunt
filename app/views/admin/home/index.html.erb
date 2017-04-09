@@ -4,14 +4,14 @@
       <iframe name='panel-frame' style='width: 100%; height: 100%;' frameborder='0' src="<%= dashboard_admin_home_index_path %>" onLoad="window.history.pushState('', '', '<%= request.path %>/#'+this.contentWindow.location.pathname);"></iframe>
     </div>
     <div id='navigation' class='col-lg-2 col-md-2 col-sm-3 hidden-xs pull-right'>
-      <legend style="margin-bottom: 30px">پنل مدیریتی</legend>
+      <legend style="margin-bottom: 30px"><span class='fa fa-desktop'></span> پنل مدیریتی</legend>
       <div class="list-group">
         <a href="<%= dashboard_admin_home_index_path %>" class="list-group-item" target='panel-frame'>
           داشبورد
         </a>
       </div>
 
-      <legend>مدیریت محصولات</legend>
+      <legend><span class='fa fa-shopping-bag'></span> مدیریت محصولات</legend>
       <div class="list-group">
         <a href="<%= admin_furniture_types_path %>" class="list-group-item" target='panel-frame'>
           دسته‌بندی‌ محصولات
@@ -20,8 +20,56 @@
           محصولات
         </a>
       </div>
-
-      <legend>مدیریت کاربران</legend>
+      
+      <legend><span class='fa fa-industry'></span> مدیریت تولید</legend>
+      <div class="panel-group" role="tablist" id="accordion-production-management">
+			  <div class="panel panel-default">
+			    <div class="panel-heading" role="tab">
+		        <h4 class="panel-title">
+		        	<span class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-production-management" href="#collapse_parche" aria-expanded="false" aria-controls="collapseThree">
+				      	<span class='fa fa-th-large'></span> پارچه
+			      	</span>
+		        </h4>
+			    </div>
+			    <div id="collapse_parche" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+			      <div class="list-group">
+			        <a href="#" class="list-group-item" target='panel-frame'>
+			        	انواع قسمت‌ها
+			        </a>
+			        <a href="#" class="list-group-item" target='panel-frame'>
+			          انواع پارچه
+			        </a>
+			        <a href="#" class="list-group-item" target='panel-frame'>
+			          برندها
+			        </a>
+			        <a href="#" class="list-group-item" target='panel-frame'>
+			          طرح‌ها
+			        </a>
+			      </div>
+		      </div>
+		    </div>
+			  <div class="panel panel-default">
+			    <div class="panel-heading" role="tab">
+		        <h4 class="panel-title">
+		        	<span class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-production-management" href="#collapse_abr" aria-expanded="false" aria-controls="collapseThree">
+				      	<span class='fa fa-th-large'></span> ابر
+			      	</span>
+		        </h4>
+			    </div>
+			    <div id="collapse_abr" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+			      <div class="list-group">
+			        <a href="#" class="list-group-item" target='panel-frame'>
+			        	انواع قسمت‌ها
+			        </a>
+			        <a href="#" class="list-group-item" target='panel-frame'>
+			          انواع ابر
+			        </a>
+			      </div>
+		      </div>
+		    </div>
+		  </div>
+		  
+      <legend><span class='fa fa-users'></span> مدیریت کاربران</legend>
       <div class="list-group">
         <a href="<%= admin_user_types_path %>" class="list-group-item" target='panel-frame'>
           انواع کاربران

@@ -1,5 +1,7 @@
-<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><%= page_entries_info @furnitures %></div>
-<hr class='col-lg-12 col-md-12 col-sm-12 col-xs-12'/>
+<% if @furnitures.length > 0 %>
+	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><%= page_entries_info @furnitures %></div>
+	<hr class='col-lg-12 col-md-12 col-sm-12 col-xs-12'/>
+<% end %>
 <% list_or_prompt @furnitures, 'محصولی یافت نشد!' do |f| %>
 	<% next if not f.images or f.images.length == 0 %>
   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style='margin-bottom: 30px'>    
