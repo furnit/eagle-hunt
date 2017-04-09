@@ -35,6 +35,8 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
+	function set_selected_element_id(id) { window.selected_element_id = id }
+	function get_selected_element_id(id) { return window.selected_element_id }
 	(function() {
 		$('#data-field-panel-content').load('<%= eval("new_employee_#{entity}_path") %>', function(){ $(this).removeClass('text-center') })
 	})(jQuery)

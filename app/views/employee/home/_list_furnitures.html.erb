@@ -15,4 +15,10 @@
 	<%= will_paginate @furnitures, renderer: BootstrapPagination::Rails %>
 </div>
 
+<script type="text/javascript" charset="utf-8" name='parent-call'>
+	$('.photo-gallary-collection-incomplete a[data-source]:not(.parent-callified)').click(function(){
+		parent.set_selected_element_id($(this).attr('data-id'))
+	}).addClass('parent-callified');
+</script>
+
 <%= render 'admin/furnitures/photo_gallary', collection: @furnitures %>

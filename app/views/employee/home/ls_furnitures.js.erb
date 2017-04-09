@@ -1,9 +1,18 @@
-$('#furniture-collection #infinite-scrolling').remove();
-$("#photo-gallery-template").remove()
-$(".pswp").remove()
-$("script[name='pswp-js']").remove()
+// the clean ups
+<% [
+	"#furniture-collection #infinite-scrolling", 
+	"#photo-gallery-template",
+	".pswp",
+	"script[name='pswp-js']",
+	"[name='parent-call']",
+	
+].each do |s| %>
+	$("<%= raw s %>").remove();
+<% end %>
+
 $('#furniture-collection').append("<%= escape_javascript(render(partial: 'list_furnitures' )) %>");
+
 <% if not @furnitures.next_page %>
-  $(window).off('scroll');
-  $('#furniture-collection #infinite-scrolling').html("<span class='text-muted text-center col-lg-12 col-md-12 col-sm-12 col-xs-12' style='padding-top: 12px; border: 1px solid #e7e7e7; height: 50px; vertical-align: middle; font-weight: bold;'>پایان!</span>")
+	$(window).off('scroll');
+	$('#furniture-collection #infinite-scrolling').html("<span class='text-muted text-center col-lg-12 col-md-12 col-sm-12 col-xs-12' style='padding-top: 12px; border: 1px solid #e7e7e7; height: 50px; vertical-align: middle; font-weight: bold;'>پایان!</span>")
 <% end %>

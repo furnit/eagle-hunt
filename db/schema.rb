@@ -67,24 +67,15 @@ ActiveRecord::Schema.define(version: 20170409084947) do
   end
 
   create_table "employee_fanis", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "employee_khayats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "employee_rokobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.float    "abr_poshti",    limit: 24
-    t.float    "abr_ziri",      limit: 24
-    t.float    "abr_daste",     limit: 24
-    t.float    "dast_mozd",     limit: 24
     t.integer  "furnitures_id"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.index ["furnitures_id"], name: "index_employee_rokobs_on_furnitures_id", using: :btree
+    t.integer  "users_id"
+    t.float    "wage_rokob",    limit: 24
+    t.float    "wage_khayat",   limit: 24
+    t.boolean  "confirmed",                default: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.index ["furnitures_id"], name: "index_employee_fanis_on_furnitures_id", using: :btree
+    t.index ["users_id"], name: "index_employee_fanis_on_users_id", using: :btree
   end
 
   create_table "fabric_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
