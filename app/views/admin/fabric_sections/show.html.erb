@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @admin_fabric_section.name %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @admin_fabric_section.comment %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @admin_fabric_section.text %>
+</p>
+
+<%= link_to 'Edit', edit_admin_fabric_section_path(@admin_fabric_section) %> |
+<%= link_to 'Back', admin_fabric_sections_path %>

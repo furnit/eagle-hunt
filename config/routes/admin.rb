@@ -44,6 +44,8 @@ module AdminRoutes
             get :dashboard
           end
         end
+        
+        resources :fabric_sections
 
       end
     end

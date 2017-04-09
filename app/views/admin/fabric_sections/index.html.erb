@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Admin Fabric Sections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Comment</th>
+      <th>Text</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_fabric_sections.each do |admin_fabric_section| %>
+      <tr>
+        <td><%= admin_fabric_section.name %></td>
+        <td><%= admin_fabric_section.comment %></td>
+        <td><%= admin_fabric_section.text %></td>
+        <td><%= link_to 'Show', admin_fabric_section %></td>
+        <td><%= link_to 'Edit', edit_admin_fabric_section_path(admin_fabric_section) %></td>
+        <td><%= link_to 'Destroy', admin_fabric_section, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Admin Fabric Section', new_admin_fabric_section_path %>
