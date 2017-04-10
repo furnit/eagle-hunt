@@ -17,6 +17,9 @@ module Viramobl
     # 3. and it enables HSTS
     config.force_ssl = Rails.env.production?
     
+    # define the route files
+    config.paths['config/routes.rb'].concat Dir[Rails.root.join("config/routes/*.rb")]
+
     # translation directories
     config.i18n.default_locale = :fa
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
