@@ -2,7 +2,6 @@
  *= require_self
  *= require check-awesome
  *= require font-bzar
- *= require nprogress-turbolinks5
  *= require rails_bootstrap_forms
  *= require bootstrap-select
  */
@@ -10,8 +9,9 @@
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
-@import "nprogress-bootstrap";
 @import "nprogress";
+@import "nprogress-bootstrap";
+@import "nprogress-turbolinks5";
 
 @mixin cross-browser-opacity($op) {
   /* IE 8 */

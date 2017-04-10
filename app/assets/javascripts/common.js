@@ -19,7 +19,7 @@ $(document).on('ready turbolinks:load', function(){
   // remove the alerts after some time
   setTimeout(delete_alerts, 5000);
   // setting config for 1min delay length
-  document.NProgress.configure({
+  NProgress.configure({
     speed: 500,
     minimum: 0.05,
     trickleRate: 0.03
@@ -101,12 +101,12 @@ $(document).on('ready turbolinks:load', function(){
       $(this).remove();
       // if any remote link clicked, make the progress bar bound to the model
       $('.bootbox.modal .modal-body a[data-remote]').click(function(e) {
-        document.NProgress.configure({
+        NProgress.configure({
           parent: '.bootbox.modal .modal-body',
           template: '<div class="bar" role="bar"><div class="peg"></div></div><div class="spinner-left" role="spinner"><div class="spinner-icon"></div></div>'
         });
         // on ajax complete reset the progress bar boundaries
-        $(this).bind('ajax:complete', function(){ document.NProgress.configure({parent: 'body'}); });
+        $(this).bind('ajax:complete', function(){ NProgress.configure({parent: 'body'}); });
       });
     });
   });

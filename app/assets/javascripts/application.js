@@ -16,13 +16,14 @@
 //= require bootstrap-sprockets
 //= require bootbox
 //= require bootbox-delete-confirm
-//= require nprogress
 //= require jquery.autosize
-//= require nprogress-ajax-iframe
 //= require filterrific/filterrific-jquery
 //= require bootstrap-select
 //= require common
 
+//= require nprogress
+//= require nprogress-ajax
 //= require nprogress-turbolinks
+
 //= require jquery.turbolinks
 //= require turbolinks
