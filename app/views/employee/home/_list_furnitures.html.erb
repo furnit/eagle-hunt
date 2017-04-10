@@ -4,7 +4,7 @@
 <% end %>
 <% list_or_prompt @furnitures, 'محصولی یافت نشد!' do |f| %>
 	<% next if not f.images or f.images.length == 0 %>
-  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style='margin-bottom: 30px'>    
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style='margin-bottom: 10px'>    
 		<div class="thumbnail photo-gallary-collection-incomplete text-center" style='width: 100%; height: 150px; vertical-align: middle'>
     	<% i = f.images[f.cover_details["index"].to_i] %>
 			<%= link_to image_url(i), data: { id: f.id, source: list_images_admin_furniture_path(f) } do %>
@@ -18,9 +18,25 @@
 </div>
 
 <script type="text/javascript" charset="utf-8" name='parent-call'>
-	$('.photo-gallary-collection-incomplete a[data-source]:not(.parent-callified)').click(function(){
-		parent.set_selected_element_id($(this).attr('data-id'))
-	}).addClass('parent-callified');
+	$(document).ready(function() {
+		function append2gallery() {
+			$('.photo-gallary-collection-incomplete a[data-source]').bind('append2gallery', function(e, data, index, gallery) {
+				link = 
+				'<%= link_to "{0}", data: { index: "{1}", thumb: "{2}" } do %>\
+					<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
+				<% end %>'
+				.replace('%7B', '{').replace('%7D', '}')
+				.replace('src="/images/{2}"', 'src="{2}"')
+				.format(data.images[index].url, index, data.images[index].thumb.url)
+				$(gallery).append(link);
+			});
+		};
+		append2gallery();
+		$(document).ajaxSuccess(append2gallery);
+		$('.photo-gallary-collection-incomplete a[data-source]:not(.parent-callified)').click(function(){
+			parent.set_selected_element_id($(this).attr('data-id'))
+		}).addClass('parent-callified');
+	});
 </script>
 
 <%= render 'shared/photo_gallary', collection: @furnitures %>
