@@ -3,7 +3,7 @@
 import os, shutil
 
 MANUAL_ASSETS = [
-	['app/assets/stylesheets/photoswipe/default-skin/default-skin.png', 'public/assets/photoswipe/default-skin/default-skin.png']
+	['app/assets/stylesheets/photoswipe/default-skin/default-skin.png', 'public/assets/photoswipe/default-skin/']
 ]
 
 print "\nmanual assets:\n"
