@@ -22,10 +22,6 @@ export RAILS_ENV=production
 
 [[ $* == *--assets-clobber* ]] && rails assets:clobber && rails assets:clean
 
-rails assets:precompile
-
 for exec in bin/deploy.d/*; do
   eval $exec
 done
-
-bin/restart-app
