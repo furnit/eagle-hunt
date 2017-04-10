@@ -11,6 +11,13 @@ module Viramobl
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    
+    # 1. forces the browser to redirect HTTP to HTTPS.
+    # 2. it also sets your cookies to be marked "secure",
+    # 3. and it enables HSTS
+    config.force_ssl = Rails.env.production?
+    
+    # translation directories
     config.i18n.default_locale = :fa
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
