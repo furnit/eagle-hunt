@@ -135,8 +135,8 @@ class Admin::FurnituresController < Admin::UploaderController
   end
   
   def list_images
-    respond_to do |format|
-      format.json { render json: {images: @furniture.images, cover: @furniture.cover_details["index"]}, status: :ok }
+    ls_images @furniture do |obj|
+      obj[:cover] = @furniture.cover_details["index"]
     end
   end
 

@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20170409181445) do
 
-  create_table "admin_fabric_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "admin_furniture_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "comment"
     t.json     "images"

@@ -116,19 +116,22 @@
 	</div>
 </div>
 
-
 <script type="text/javascript" charset="utf-8">
-	$(document).ready(function(){
-		$('.photo-gallary-collection-incomplete a[data-source]:not(.pswpify)').bind('append2gallery', function(e, data, index, gallery) {
-			link = 
-			'<%= link_to "{0}", data: { index: "{1}", thumb: "{2}" } do %>\
-				<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
-			<% end %>'
-			.replace('%7B', '{').replace('%7D', '}')
-			.replace('src="/images/{2}"', 'src="{2}"')
-			.format(data.images[index].url, index, data.images[index].thumb.url)
-			$(gallery).append(link);
-		});
+	$(document).ready(function(){		
+		function append2gallery() {
+			$('.photo-gallary-collection-incomplete a[data-source]').bind('append2gallery', function(e, data, index, gallery) {
+				link = 
+				'<%= link_to "{0}", data: { index: "{1}", thumb: "{2}" } do %>\
+					<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
+				<% end %>'
+				.replace('%7B', '{').replace('%7D', '}')
+				.replace('src="/images/{2}"', 'src="{2}"')
+				.format(data.images[index].url, index, data.images[index].thumb.url)
+				$(gallery).append(link);
+			});
+		};
+		append2gallery();
+		$(document).ajaxSuccess(append2gallery);
 		$('.editable[data-type="textarea"]').editable({ tpl: '<textarea maxlength="140"></textarea>' });
 	})
 </script>

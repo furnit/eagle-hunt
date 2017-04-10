@@ -119,9 +119,7 @@ class Admin::FurnitureTypesController < Admin::UploaderController
   end
   
   def list_images
-    respond_to do |format|
-      format.json { render json: {images: @furniture_type.images}, status: :ok }
-    end
+    ls_images @furniture_type
   end
 
   private

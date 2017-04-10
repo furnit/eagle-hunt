@@ -1,0 +1,22 @@
+<% form_id = '' %>
+<%= redirect_form(admin_furniture_section) do |f| %>
+	<% form_id = f.options[:html][:id] %>
+	<div  class='block'>
+	  <div class="field col-md-6 pull-right">
+	    <%= f.text_field :name, :autofocus => true, :required => true %>
+	  </div>
+	
+	  <div class="field col-md-12 pull-right">
+	    <%= f.text_area :comment, :required => true %>
+	  </div>
+	  <div class='clearfix'></div>
+  </div>
+  
+	<%= render 'shared/related_images', collection: admin_furniture_section %>
+
+  <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
+    <%= f.submit submit_text, :class => 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<%= render 'shared/update_images', collection: admin_furniture_section, form_id: form_id, multiple: false %>

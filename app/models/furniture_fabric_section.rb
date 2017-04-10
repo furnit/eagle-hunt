@@ -1,2 +1,0 @@
-class FurnitureFabricSection < ApplicationRecord
-end

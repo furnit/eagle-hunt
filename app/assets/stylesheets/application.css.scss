@@ -1,7 +1,5 @@
 /*
  *= require_self
- *= require photoswipe/photoswipe
- *= require photoswipe/default-skin/default-skin
  *= require check-awesome
  *= require font-bzar
  *= require nprogress-turbolinks5
@@ -72,12 +70,11 @@ body {
   // assign the .ir-font to whole body
   & { @extend .ir-font; }
 
-  input:not([type='checkbox']),
+  input:not([type=checkbox]):not(.btn),
   select,
-  textarea {
-    @extend .form-control;
-    font-size: 20px!important;
-  }
+  textarea { @extend .form-control; font-size: 20px!important; }
+  input { font-size: 20px!important; }
+  
 
   th { text-align: right }
 

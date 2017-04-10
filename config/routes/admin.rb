@@ -45,7 +45,11 @@ module AdminRoutes
           end
         end
         
-        resources :fabric_sections
+        resources :furniture_sections, except: [:show] do
+          member do
+            get :list_images, RC::json_request_only
+          end
+        end
 
       end
     end
