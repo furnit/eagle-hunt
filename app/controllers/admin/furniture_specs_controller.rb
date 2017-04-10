@@ -23,8 +23,8 @@ class Admin::FurnitureSpecsController < Admin::AdminbaseController
 
     respond_to do |format|
       if @admin_furniture_spec.save
-        format.html { redirect_to @admin_furniture_spec, notice: 'Furniture spec was successfully created.' }
-        format.json { render :show, status: :created, location: @admin_furniture_spec }
+        format.html { redirect_to admin_furniture_specs_path, notice: "جزییات «<b>#{@admin_furniture_spec.name}</b>» با موفقیت ایجاد شد." }
+        format.json { render json: @admin_furniture_spec, status: :created, location: @admin_furniture_spec }
       else
         format.html { render :new }
         format.json { render json: @admin_furniture_spec.errors, status: :unprocessable_entity }
@@ -37,8 +37,8 @@ class Admin::FurnitureSpecsController < Admin::AdminbaseController
   def update
     respond_to do |format|
       if @admin_furniture_spec.update(admin_furniture_spec_params)
-        format.html { redirect_to @admin_furniture_spec, notice: 'Furniture spec was successfully updated.' }
-        format.json { render :show, status: :ok, location: @admin_furniture_spec }
+        format.html { redirect_to admin_furniture_specs_path, notice: "جزییات «<b>#{@admin_furniture_spec.name}</b>» با موفقیت ویرایش شد." }
+        format.json { render json: @admin_furniture_spec, status: :ok, location: @admin_furniture_spec }
       else
         format.html { render :edit }
         format.json { render json: @admin_furniture_spec.errors, status: :unprocessable_entity }
@@ -51,7 +51,7 @@ class Admin::FurnitureSpecsController < Admin::AdminbaseController
   def destroy
     @admin_furniture_spec.destroy
     respond_to do |format|
-      format.html { redirect_to admin_furniture_specs_url, notice: 'Furniture spec was successfully destroyed.' }
+      format.html { redirect_to admin_furniture_specs_path, notice: "جزییات «<b>#{@admin_furniture_spec.name}</b>» با موفقیت حذف شد." }
       format.json { head :no_content }
     end
   end
