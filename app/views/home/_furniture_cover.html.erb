@@ -109,6 +109,6 @@
     <% hidden_field_tag 'admin_furniture[cover]' %>
   <% end %>
 	
-	<%= render 'admin/furnitures/photo_gallary', collection: @furniture %>
-	<%= render 'admin/furnitures/photo_gallary_cover', collection: @furniture, js_on_cover_set: "$('#div-f-cover').css('background-image', 'url('+gallery.items[idx].src+')')" %>
+	<%= render 'shared/photo_gallary', collection: @furniture %>
+	<%= render 'shared/photo_gallary_cover', collection: @furniture, js_on_cover_set: "$('#div-f-cover').css('background-image', 'url('+gallery.items[idx].src+')')" %>
 <% end %>
