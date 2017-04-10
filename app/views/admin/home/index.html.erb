@@ -30,7 +30,7 @@
 			      	</span>
 		        </h4>
 			    </div>
-			    <div id="collapse_sofa" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+			    <div id="collapse_sofa" class="panel-collapse collapse" role="tabpanel">
 			      <div class="list-group">
 			        <a href="<%= admin_furniture_sections_path %>" class="list-group-item" target='panel-frame'>
 			        	انواع قسمت‌ها
@@ -46,7 +46,7 @@
 			      	</span>
 		        </h4>
 			    </div>
-			    <div id="collapse_parche" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+			    <div id="collapse_parche" class="panel-collapse collapse" role="tabpanel">
 			      <div class="list-group">
 			        <a href="#" class="list-group-item" target='panel-frame'>
 			          انواع پارچه
@@ -68,7 +68,7 @@
 			      	</span>
 		        </h4>
 			    </div>
-			    <div id="collapse_abr" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+			    <div id="collapse_abr" class="panel-collapse collapse" role="tabpanel">
 			      <div class="list-group">
 			        <a href="#" class="list-group-item" target='panel-frame'>
 			          انواع ابر
@@ -77,15 +77,45 @@
 		      </div>
 		    </div>
 		  </div>
-      <legend><span class='fa fa-users'></span> مدیریت کاربران</legend>
-      <div class="list-group">
-        <a href="<%= admin_user_types_path %>" class="list-group-item" target='panel-frame'>
-          انواع کاربران
-        </a>
-        <a href="<%= admin_users_path %>" class="list-group-item" target='panel-frame'>
-          کاربران
-        </a>
-      </div>
+		  
+      <legend><span class='fa fa-users'></span> مدیریت انسانی</legend>
+      <div class="panel-group" role="tablist" id="accordion-human-resource-management">
+			  <div class="panel panel-default">
+			    <div class="panel-heading" role="tab">
+		        <h4 class="panel-title">
+		        	<span class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-human-resource-management" href="#collapse_users" aria-expanded="false" aria-controls="collapseThree">
+				      	<span class='fa fa-th-large'></span> کاربران
+			      	</span>
+		        </h4>
+			    </div>
+			    <div id="collapse_users" class="panel-collapse collapse" role="tabpanel">
+			      <div class="list-group">
+			        <a href="<%= admin_user_types_path %>" class="list-group-item" target='panel-frame'>
+			          انواع کاربران
+			        </a>
+			        <a href="<%= admin_users_path %>" class="list-group-item" target='panel-frame'>
+			          کاربران
+			        </a>
+			      </div>
+		      </div>
+		    </div>
+			  <div class="panel panel-default">
+			    <div class="panel-heading" role="tab">
+		        <h4 class="panel-title">
+		        	<span class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion-human-resource-management" href="#collapse_employees" aria-expanded="false" aria-controls="collapseThree">
+				      	<span class='fa fa-th-large'></span> کارکنان
+			      	</span>
+		        </h4>
+			    </div>
+			    <div id="collapse_employees" class="panel-collapse collapse" role="tabpanel">
+			      <div class="list-group">
+			        <a href="#" class="list-group-item" target='panel-frame'>
+			          ؟؟؟
+			        </a>
+			      </div>
+		      </div>
+		    </div>
+		   </div>
 
     </div>
     <div class='clearfix'></div>
@@ -96,10 +126,7 @@
 	  $('#management-panel #navigation .list-group a[href!="#"]').click(function(){
 	    $('#management-panel #navigation .list-group a.active').removeClass('active');
 	    $(this).addClass('active');
-	    if($(this).closest('.panel-collapse').length > 0)
-	    	$(this).closest('.panel-collapse').addClass('in');
-    	else
-    		$('.panel-collapse.in').closest('.panel-group').find('[data-toggle="collapse"]').click()
+	    $('.panel-collapse.in').not(':has(.list-group a.active)').closest('.panel-group').find('[data-toggle="collapse"]').click()
 	  });
 	  // make bookmarkable hash
     if(window.location.hash) {
