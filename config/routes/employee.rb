@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     end
 
     [:admins, :fanis].each do |emply|
-      resources emply, only: [:index, :new, :create]
+      resources emply, only: [:index, :edit, :create]
     end
 
   end

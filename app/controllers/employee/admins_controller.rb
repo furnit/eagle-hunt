@@ -2,7 +2,7 @@ class Employee::AdminsController < Employee::EmployeebaseController
   def index
   end
   
-  def new  
+  def edit  
   end
   
   def create

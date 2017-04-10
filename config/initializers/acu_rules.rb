@@ -41,7 +41,7 @@ Acu::Rules.define do
     allow :employee
     # people can only create new stuff in database
     # not updating them
-    deny  :everyone, on: [:destroy, :update, :edit, :show]
+    deny  :everyone, on: [:destroy, :update, :new, :show]
     
     controller :home do
       deny :employee, on: [:as]

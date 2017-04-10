@@ -19,6 +19,7 @@ Rails.application.config.assets.version = '1.0'
   employee
   admin
   shared
+  vendors
 ).each do |directory|
   Rails.application.config.assets.precompile += [ "#{directory}/*.js", "#{directory}/*.css", "#{directory}/*.coffee" ]
 end

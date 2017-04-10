@@ -2,7 +2,8 @@ class Employee::FanisController < Employee::EmployeebaseController
   def index
   end
   
-  def new
+  def edit
+    @furniture = Admin::Furniture.find(params[:id]).freeze
   end
   
   def create

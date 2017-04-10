@@ -22,8 +22,8 @@
 //= require common
 
 //= require nprogress
-//= require nprogress-ajax
 //= require nprogress-turbolinks
+//= require vendors/nprogress-ajax-fix
 
 //= require jquery.turbolinks
 //= require turbolinks
