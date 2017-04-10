@@ -61,18 +61,17 @@
 				url: $(this).attr('data-source'),
 				success: function(data) {
 					for (var index = 0; index < data.images.length; index++) {
-						link = 
-						'<%= link_to "{0}", data: { type: 'photo-gallery', index: "{1}", thumb: "{2}", cover: "{3}", "cover-url": cover_admin_furniture_path("{4}", format: :json) } do %>\
-							<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
-						<% end %>'
-						.replace('%7B', '{').replace('%7D', '}')
-						.replace('src="/images/{2}"', 'src="{2}"')
-						.format(data.images[index].url, index, data.images[index].thumb.url, index == data.cover, $this.attr('data-id'))
-						$('#photo-gallery-template').append(link);
+						$this.trigger('append2gallery', [data, index, '#photo-gallery-template'])
 					};
+					
+					$('#photo-gallery-template a').has('img').attr('data-type', 'photo-gallery');
+					
 					init_photo_gallery();
+					
 					if (data.cover !== undefined)
 						$('#photo-gallery-template [data-type="photo-gallery"]:nth-child('+(parseInt(data.cover)+1)+')').click();
+					else
+						$('#photo-gallery-template [data-type="photo-gallery"]:first').click();
 				},
 				complete: function() {
 					$this.find('.fa-spinner').remove();

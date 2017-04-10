@@ -13,11 +13,11 @@
 	  <div class='clearfix'></div>
   </div>
   
-	<%= render 'admin/furnitures/edit_related_images', collection: furniture_type %>
+	<%= render 'shared/related_images', collection: furniture_type %>
 
   <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
     <%= f.submit submit_text, :class => 'btn btn-primary' %>
   </div>
 <% end %>
 
-<%= render 'admin/furnitures/edit_update_images', collection: furniture_type, form_id: form_id %>
+<%= render 'shared/update_images', collection: furniture_type, form_id: form_id, multiple: true %>

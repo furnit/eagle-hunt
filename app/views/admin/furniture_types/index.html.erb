@@ -10,7 +10,7 @@
     <div class='clearfix'></div>
   </legend>
 	<small style='font-size: 16px;' class='text-muted pull-left'><%= page_entries_info @furniture_types %></small>
-	<%= acu_as :admin { render 'admin/users/editable_content' }%>
+	<%= acu_as :admin { render 'shared/editable_content' }%>
 	<table class='table <%= @furniture_types.empty? ? "" : "table-striped table-hover" %>'>
 	  <thead>
 	    <tr>
@@ -116,48 +116,21 @@
 	</div>
 </div>
 
-<div id='photo-gallery-template' class='hidden'></div>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
-		String.prototype.format = function () {
-      var args = [].slice.call(arguments);
-      return this.replace(/(\{\d+\})/g, function (a){
-          return args[+(a.substr(1,a.length-2))||0];
-      });
-		};
-		$('.photo-gallary-collection-incomplete a[data-source]').click(function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-			$(this).addClass('active');
-			$(this).find('*').hide();
-			$(this).append('<span class="fa fa-spinner fa-spin"></span>');
-			$this = $(this);
-			$('#photo-gallery-template').html('').addClass('photo-gallery-collection');
-			$.get({
-				url: $(this).attr('data-source'),
-				success: function(data) {
-					for (var index = 0; index < data.images.length; index++) {
-						link = 
-						'<%= link_to "{0}", data: { type: 'photo-gallery', index: "{1}", thumb: "{2}" } do %>\
-							<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
-						<% end %>'
-						.replace('%7B', '{').replace('%7D', '}')
-						.replace('src="/images/{2}"', 'src="{2}"')
-						.format(data.images[index].url, index, data.images[index].thumb.url)
-						$('#photo-gallery-template').append(link);
-					};
-					init_photo_gallery();
-					$('#photo-gallery-template [data-type="photo-gallery"]:first').click();
-				},
-				complete: function() {
-					$this.find('.fa-spinner').remove();
-					$this.find('*').show()
-				}
-			})
+		$('.photo-gallary-collection-incomplete a[data-source]:not(.pswpify)').bind('append2gallery', function(e, data, index, gallery) {
+			link = 
+			'<%= link_to "{0}", data: { index: "{1}", thumb: "{2}" } do %>\
+				<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
+			<% end %>'
+			.replace('%7B', '{').replace('%7D', '}')
+			.replace('src="/images/{2}"', 'src="{2}"')
+			.format(data.images[index].url, index, data.images[index].thumb.url)
+			$(gallery).append(link);
 		});
 		$('.editable[data-type="textarea"]').editable({ tpl: '<textarea maxlength="140"></textarea>' });
 	})
 </script>
 
-<%= render 'admin/furnitures/photo_gallary', collection: @furniture_types %>
+<%= render 'shared/photo_gallary', collection: @furniture_types %>

@@ -17,7 +17,7 @@
 			  </div>
         <div class="clearfix"></div>
 			</div>
-			<%= render 'edit_related_images', collection: furniture %>
+			<%= render 'shared/related_images', collection: furniture %>
 		</div>
 
 	  <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
@@ -26,4 +26,4 @@
 	</div>
 <% end %>
 
-<%= render 'edit_update_images', collection: furniture, form_id: form_id %>
+<%= render 'shared/update_images', collection: furniture, form_id: form_id, multiple: true %>

@@ -75,7 +75,8 @@ $(document).on('ready turbolinks:load', function(){
     $('body').data('inline-html-call-counter', $('body').data('inline-html-call-counter') + 1);
     blockid = $('body').data('inline-html-call-counter');
     $('body').append('<div id="inline-html-call-block'+blockid+'" class="hidden inline-html-call-modal"></div>');
-    $("#inline-html-call-block"+blockid).load($(this).attr('href'), function(){
+    $("#inline-html-call-block"+blockid).load($(this).attr('href'), function(response, status, xhr){
+    	if(status == "error") { $this.removeClass('active'); return; }
       var html = $(this).html();
       var body = html;
       var title = '';

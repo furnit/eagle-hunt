@@ -1,0 +1,25 @@
+/*
+ *= require bootstrap-editable
+ */
+
+body {
+  .editable-input {
+    select { font-size: 14px!important }
+  }
+
+  table {
+    tr.blocked { background-color: #f2dede!important }
+    tr.blocked:nth-of-type(odd) { background-color: default!important; }
+    tr.strikeout {
+      td { position: relative }
+      td:not(:last-child):before {
+        content: " ";
+        position: absolute;
+        top: 35%;
+        left: 0;
+        border-bottom: 1px solid #111;
+        width: 100%;
+      }
+    }
+  }
+}

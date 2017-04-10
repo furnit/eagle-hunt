@@ -49,8 +49,6 @@ class Admin::FurnituresController < Admin::UploaderController
         # update the uploaded image and re-save the model
         # the model need to be created at first then the update happen
         update_uploaded_images @furniture, :admin_furniture, auto_save: true
-        params[:admin_furniture] = { iid: 0 }.with_indifferent_access.merge(params[:admin_furniture]);
-        @furniture.reload;
         # make_cover no_respond: true
         format.html { redirect_to (params[:admin_furniture][:admin] ? admin_furnitures_path : home_furniture_path(@furniture)), notice: 'دسته‌بندی جدید «<b>%s</b>» با موفقیت ایجاد شد.' %@furniture.name }
         format.json { render json: @furniture, status: :created, location: @furniture }

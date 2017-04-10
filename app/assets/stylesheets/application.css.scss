@@ -72,7 +72,7 @@ body {
   // assign the .ir-font to whole body
   & { @extend .ir-font; }
 
-  input,
+  input:not([type='checkbox']),
   select,
   textarea {
     @extend .form-control;

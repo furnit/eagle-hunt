@@ -17,7 +17,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1491681257784</id>
+			<id>1491809275255</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
@@ -26,7 +26,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491681257785</id>
+			<id>1491809275258</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
@@ -35,7 +35,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491681257785</id>
+			<id>1491809275261</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
@@ -44,7 +44,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491681257799</id>
+			<id>1491809275264</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
@@ -53,7 +53,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491681257800</id>
+			<id>1491809275265</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
@@ -62,7 +62,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491681257800</id>
+			<id>1491809275267</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
@@ -71,7 +71,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491681257801</id>
+			<id>1491809275275</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
@@ -80,7 +80,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491681257802</id>
+			<id>1491809275279</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
@@ -89,16 +89,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491681257803</id>
-			<name></name>
-			<type>30</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-vendor</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1491681257804</id>
+			<id>1491809275283</id>
 			<name></name>
 			<type>6</type>
 			<matcher>
@@ -107,7 +98,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491681257816</id>
+			<id>1491809275285</id>
 			<name></name>
 			<type>6</type>
 			<matcher>
@@ -116,7 +107,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491681257817</id>
+			<id>1491809275288</id>
 			<name></name>
 			<type>6</type>
 			<matcher>
@@ -125,7 +116,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1491681257819</id>
+			<id>1491809275290</id>
 			<name></name>
 			<type>30</type>
 			<matcher>

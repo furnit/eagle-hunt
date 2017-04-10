@@ -1,4 +1,4 @@
-class Admin::FabricSectionsController < ApplicationController
+class Admin::FabricSectionsController < Admin::UploaderController
   before_action :set_admin_fabric_section, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/fabric_sections
@@ -28,10 +28,11 @@ class Admin::FabricSectionsController < ApplicationController
 
     respond_to do |format|
       if @admin_fabric_section.save
-        format.html { redirect_to @admin_fabric_section, notice: 'Fabric section was successfully created.' }
-        format.json { render :show, status: :created, location: @admin_fabric_section }
+        update_uploaded_images @admin_fabric_section, :admin_fabric_section, auto_save: true
+        format.html { redirect_to admin_fabric_sections_path, notice: "قسمت «<b>#{@admin_fabric_section.name}</b>» با موفقیت ایجاد شد." }
+        format.json { render json: @admin_fabric_section, status: :created, location: @admin_fabric_section }
       else
-        format.html { render :new }
+        format.html { render json: @admin_fabric_section }
         format.json { render json: @admin_fabric_section.errors, status: :unprocessable_entity }
       end
     end
@@ -42,10 +43,10 @@ class Admin::FabricSectionsController < ApplicationController
   def update
     respond_to do |format|
       if @admin_fabric_section.update(admin_fabric_section_params)
-        format.html { redirect_to @admin_fabric_section, notice: 'Fabric section was successfully updated.' }
-        format.json { render :show, status: :ok, location: @admin_fabric_section }
+        format.html { redirect_to admin_fabric_sections_path, notice: "قسمت «<b>#{@admin_fabric_section.name}</b>» با موفقیت ویرایش شد." }
+        format.json { render json: @admin_fabric_section, status: :ok, location: @admin_fabric_section }
       else
-        format.html { render :edit }
+        format.html { render json: @admin_fabric_section }
         format.json { render json: @admin_fabric_section.errors, status: :unprocessable_entity }
       end
     end
@@ -56,7 +57,7 @@ class Admin::FabricSectionsController < ApplicationController
   def destroy
     @admin_fabric_section.destroy
     respond_to do |format|
-      format.html { redirect_to admin_fabric_sections_url, notice: 'Fabric section was successfully destroyed.' }
+      format.html { redirect_to admin_fabric_sections_url, notice: "قسمت «<b>#{@admin_fabric_section.name}</b>» با موفقیت حذف شد."}
       format.json { head :no_content }
     end
   end
@@ -69,6 +70,6 @@ class Admin::FabricSectionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_fabric_section_params
-      params.require(:admin_fabric_section).permit(:name, :comment, :text)
+      params.require(:admin_fabric_section).permit(:name, :comment)
     end
 end

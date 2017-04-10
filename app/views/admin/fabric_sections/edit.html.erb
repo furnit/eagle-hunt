@@ -1,6 +1,6 @@
-<h1>Editing Admin Fabric Section</h1>
+<div class='' style="width: 100%">
+	<legend>ویرایش قسمت پارچه <strong><%= @admin_fabric_section.name %></strong></legend>
 
-<%= render 'form', admin_fabric_section: @admin_fabric_section %>
+	<%= render 'form', admin_fabric_section: @admin_fabric_section, :submit_text => 'ویرایش'  %>
 
-<%= link_to 'Show', @admin_fabric_section %> |
-<%= link_to 'Back', admin_fabric_sections_path %>
+</div>

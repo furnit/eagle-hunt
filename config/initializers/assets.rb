@@ -18,6 +18,7 @@ Rails.application.config.assets.version = '1.0'
   filterrific
   employee
   admin
+  shared
 ).each do |directory|
   Rails.application.config.assets.precompile += [ "#{directory}/*.js", "#{directory}/*.css", "#{directory}/*.coffee" ]
 end

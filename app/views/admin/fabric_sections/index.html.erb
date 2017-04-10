@@ -1,31 +1,46 @@
-<p id="notice"><%= notice %></p>
+<div class='col-md-offset-2 col-md-8'>
+  <legend>
+    <h1 class='pull-right'>انواع قسمت‌های پارچه</h1>
+    <small class='pull-left' style='font-size: 16px; margin-top: 40px;'>
+      <%= link_to new_admin_fabric_section_path, class: 'inline-html-call' do %>
+        <span class='fa fa-plus'></span>
+        ایجاد نوع جدید
+      <% end %>
+    </small>
+    <div class='clearfix'></div>
+  </legend>
 
-<h1>Admin Fabric Sections</h1>
+<%= acu_as :admin { render 'shared/editable_content' }%>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Comment</th>
-      <th>Text</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @admin_fabric_sections.each do |admin_fabric_section| %>
+  <table class='table table-striped table-hover'>
+    <thead>
       <tr>
-        <td><%= admin_fabric_section.name %></td>
-        <td><%= admin_fabric_section.comment %></td>
-        <td><%= admin_fabric_section.text %></td>
-        <td><%= link_to 'Show', admin_fabric_section %></td>
-        <td><%= link_to 'Edit', edit_admin_fabric_section_path(admin_fabric_section) %></td>
-        <td><%= link_to 'Destroy', admin_fabric_section, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>ردیف</th>
+        <th>نام</th>
+        <th>توضیحات</th>
+        <th colspan="1">عملیات</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
-
-<%= link_to 'New Admin Fabric Section', new_admin_fabric_section_path %>
+    <tbody>
+      <% @admin_fabric_sections.each do |admin_fabric_section| %>
+        <tr>
+          <td><%= admin_fabric_section.id %></td>
+          <td>
+            <a href="#" class='editable' data-type="text" data-resource="admin_fabric_section" data-name="name" data-url="<%= admin_fabric_section_path(admin_fabric_section) %>" data-original-title="<%= admin_fabric_section.name %>">
+              <%= admin_fabric_section.name %>
+            </a>
+          </td>
+          <td>
+            <a href="#" class='editable' data-type="textarea" data-placement="bottom" data-resource="admin_fabric_section" data-name="comment" data-url="<%= admin_fabric_section_path(admin_fabric_section) %>" data-original-title="<%= admin_fabric_section.comment %>"><%= admin_fabric_section.comment %></a>
+          </td>
+          <td>
+            <%= link_to admin_fabric_section, method: :delete, data: { confirm: 'آیا از انجام این عمل مطمئن هستید؟' }, class: 'text-danger' do %>
+              <span class='fa fa-trash'></span> حذف
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

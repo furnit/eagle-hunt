@@ -1,5 +1,5 @@
 <small style='font-size: 16px;' class='text-muted pull-left'><%= render_filterrific_spinner %> <%= page_entries_info @users %></small>
-<%= acu_as :admin { render 'editable_content' }%>
+<%= acu_as :admin { render 'shared/editable_content' }%>
 <table class='table <%= @users.empty? ? "" : "table-striped table-hover" %>'>
   <thead>
     <tr>
