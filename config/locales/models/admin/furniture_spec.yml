@@ -6,6 +6,7 @@ fa:
       admin/furniture_spec:
         name: 'عنوان'
         comment: 'توضیحات'
+        scale: واحد
     errors:
       models:
         admin/furniture_spec:

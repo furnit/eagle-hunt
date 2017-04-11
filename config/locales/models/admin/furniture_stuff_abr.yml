@@ -1,14 +1,15 @@
 fa:
   activerecord:
     models:
-      admin/furniture_scale: 'قسمت‌های پارچه'
+      admin/furniture_stuff_abr: نوع ابر
     attributes:
-      admin/furniture_scale:
+      admin/furniture_stuff_abr:
         name: 'عنوان'
         comment: 'توضیحات'
+        value: مبلغ
     errors:
       models:
-        admin/furniture_scale:
+        admin/furniture_stuff_abr:
           attributes:
             name:
               blank: 'نمی‌تواند خالی باشد.'

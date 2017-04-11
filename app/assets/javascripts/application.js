@@ -13,13 +13,17 @@
 //= require jquery
 //= require jquery-ui/widgets/slider.js
 //= require jquery_ujs
+//= require jquery.autosize
+
 //= require bootstrap-sprockets
+
 //= require bootbox
 //= require bootbox-delete-confirm
-//= require jquery.autosize
+
 //= require filterrific/filterrific-jquery
 //= require bootstrap-select
 //= require common
+
 
 //= require nprogress
 //= require nprogress-turbolinks

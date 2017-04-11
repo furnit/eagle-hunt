@@ -5,6 +5,9 @@ fa:
     attributes:
       furniture_build_detail:
         value: 'مقدار'
+        admin_furniture_scale_id: واحد
+        admin_furniture_sections_id: برای
+        admin_furniture_specs_id: از
     errors:
       models:
         furniture_build_detail:

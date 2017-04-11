@@ -64,6 +64,6 @@ class Admin::FurnitureSpecsController < Admin::AdminbaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_furniture_spec_params
-      params.require(:admin_furniture_spec).permit(:name, :comment)
+      params.require(:admin_furniture_spec).permit(:name, :comment, :scale)
     end
 end

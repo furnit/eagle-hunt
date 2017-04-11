@@ -62,6 +62,8 @@ $(document).on('ready turbolinks:load', function(){
     $('.selectpicker').selectpicker();
     // prevent default empty links
     $("a[href='#']").click(function(e) { e.preventDefault(); });
+    // make sure auto-focus happen
+    setTimeout(function() { $("[autofocus]:first").focus(); }, 300);
   };
   // apply to current document as well
   apply_to_documents();

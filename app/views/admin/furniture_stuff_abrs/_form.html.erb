@@ -1,14 +1,14 @@
 <% form_id = '' %>
-<%= redirect_form(admin_furniture_spec) do |f| %>
+<%= redirect_form(admin_furniture_stuff_abr) do |f| %>
 	<% form_id = f.options[:html][:id] %>
 	<div  class='block'>
-	  <div class="row">
+	  <div class="row ir">
 	    <%= f.text_field :name, :autofocus => true, :required => true, wrapper: {class: 'col-md-6 pull-right'} %>
-	    <%= f.text_field :scale, :required => true, wrapper: {class: 'col-md-6'} %>
+	    <%= f.number_field :value, :required => true, step: :any, wrapper: {class: 'col-md-6'}, append: "هزار تومان به ازای هر «%s»" %Admin::FurnitureSpec.where('name = ?', 'ابر').first.scale %>
 	  </div>
 	
 	  <div class="row">
-	    <%= f.text_area :comment, :required => true, wrapper: {class: 'col-md-12'} %>
+	    <%= f.text_area :comment, wrapper: {class: 'col-md-12'} %>
 	  </div>
 	  <div class='clearfix'></div>
   </div>
