@@ -5,7 +5,7 @@
 			  <div class="panel-heading"><strong><span class='fa fa-money'></span> دست‌مزد</strong></div>
 			  <div class="panel-body">
 					<div class='row'>
-						<%= ff.number_field :wage_rokob, step: :any, append: "هزار تومان", wrapper: { class: 'col-md-6' } %>
+						<%= ff.number_field :wage_rokob, step: :any, append: "هزار تومان", wrapper: { class: 'col-md-6 pull-right' } %>
 						<%= ff.number_field :wage_khayat, step: :any, append: "هزار تومان", wrapper: { class: 'col-md-6' } %>
 					</div>
 			  </div>
@@ -14,62 +14,14 @@
 			  <div class="panel-heading"><strong><span class='fa fa-clock-o'></span> زمان‌بندی</strong></div>
 			  <div class="panel-body">
 					<div class='row'>
-			      <div class='col-md-offset-4 col-md-2'>
+			      <%= ff.number_field :days_to_complete, step: 1, value: 0, wrapper: { class: 'col-md-6 pull-right' }  %>
+			      <div class='col-md-offset-3 col-md-3'>
 				      <%= ff.select :days_to_complete_scale, [['روز', 'days'], ['هفته', 'weeks'], ['ماه', 'month']] %>
 						</div>
-			      <%= ff.number_field :days_to_complete, step: 1, value: 0, wrapper: { class: 'col-md-6' }  %>
 					</div>
 			  </div>
 			</div>
 			<div class="panel panel-primary">
-			  <div class="panel-heading"><strong><span class='fa fa-balance-scale'></span> جزییات</strong></div>
-			  <div class="panel-body">
-						<%= ff.fields_for FurnitureBuildDetail.new do |fff| %>
-							<% fur_sections = Admin::FurnitureSection.all %>
-							<div class='row'>
-			      		<div class='col-md-5'>
-			      			<label>برای</label>
-			      			<br />
-			      			<% fur_sections.each do |l| %>
-										<%= image_tag thumbnail_url(l.images), :class => 'furniture-section img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
-			      			<% end %>
-								</div>
-			      		<div class='col-md-2'>
-									<%= fff.collection_select :admin_furniture_specs_id, Admin::FurnitureSpec.all, :id, :name %>
-								</div>
-			      		<div class='col-md-2'>
-									<%= fff.collection_select :admin_furniture_scale_id, Admin::FurnitureScale.all, :id, :name %>
-								</div>
-								<%= fff.number_field :value, wrapper: { class: 'col-md-3' }, multiple: true %>
-							</div>
-						<% end %>
-			  </div>
-			</div>
-			<div class="panel panel-primary">
-			  <div class="panel-heading"><strong><span class='fa fa-balance-scale'></span> جزییات</strong></div>
-			  <div class="panel-body">
-						<%= ff.fields_for FurnitureBuildDetail.new do |fff| %>
-							<% fur_sections = Admin::FurnitureSection.all %>
-							<div class='row'>
-			      		<div class='col-md-5'>
-			      			<label>برای</label>
-			      			<br />
-			      			<% fur_sections.each do |l| %>
-										<%= image_tag thumbnail_url(l.images), :class => 'furniture-section img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
-			      			<% end %>
-								</div>
-			      		<div class='col-md-2'>
-									<%= fff.collection_select :admin_furniture_specs_id, Admin::FurnitureSpec.all, :id, :name %>
-								</div>
-			      		<div class='col-md-2'>
-									<%= fff.collection_select :admin_furniture_scale_id, Admin::FurnitureScale.all, :id, :name %>
-								</div>
-								<%= fff.number_field :value, wrapper: { class: 'col-md-3' }, multiple: true %>
-							</div>
-						<% end %>
-			  </div>
-			</div>
-			<div class="panel panel-warning">
 			  <div class="panel-heading"><strong><span class='fa fa-info'></span> اطلاعات عمومی</strong></div>
 			  <div class="panel-body">
 					<% [[:needs_kande, 'کنده‌کاری'], [:needs_kanaf, 'کناف'], [:needs_rang, 'رنگ']].each do |e| %>
@@ -77,6 +29,37 @@
 					<% end %>
 			  </div>
 			</div>
+			<%= ff.fields_for FurnitureBuildDetail.new do |fff| %>
+				<% Admin::FurnitureSpec.where('name IN (?)', ['پارچه', 'ابر']).each do |spec| %>
+					<div class="panel panel-primary">
+					  <div class="panel-heading"><span class='fa fa-balance-scale'></span> جزییات <strong><%= spec.name %></strong></div>
+					  <div class="panel-body">
+				  		<table class='table'>
+				  			<thead>
+				  				<th class='col-md-9'>مقدار</th>
+				  				<th class='col-md-3'>قسمت</th>
+				  			</thead>
+				  			<tbody>
+									<% Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']).each do |section| %>
+										<tr>
+											<td style='padding-top: 33px;'>
+												<%= fff.number_field :value, multiple: true, append: raw("#{spec.scale} از <b>#{spec.name}</b>"), hide_label: true %>
+											</td>
+						      		<td>
+												<%= image_tag thumbnail_url(section.images), \
+															class: 'furniture-section img-responsive', \
+															style: 'height: 80px;margin-top: 0px;', \
+															
+															title: section.comment %>
+											</td>
+										</tr>
+									<% end %>
+								</tbody>
+							</table>
+					  </div>
+					</div>
+				<% end %>
+			<% end %>
 		<% end %>
 	</div>
 <% end %>
@@ -87,12 +70,8 @@
 			$(this).popover({
 	      html: true,
 	      trigger: 'hover',
-	      placement: 'bottom',
-	      content: function () {
-	      	console.log('<img src="' + $(this)[0].src + '" />');
-	        return 
-	          '<img src="' + $(this)[0].src + '" />';
-	      }
+	      placement: 'top',
+	      content: function(){ return '<img src="'+$(this).attr('src') + '" />';}
 	    });
 	    $(this).popover('show');
     });

@@ -46,13 +46,16 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-	function set_selected_element_id(id) { 
-		$('#data-field-panel-content').trigger('load-content', id);
+	function load_content(id) 
+	{ 
+		$('#data-field-panel-content')
+			.addClass('text-center')
+			.html('<span class="fa fa-spinner fa-spin"></span>')
+			.load(
+				'<%= eval("edit_employee_#{entity}_path('{0}')") %>'.replace('%7B', '{').replace('%7D', '}').format(id),
+				function() {
+					$(this).removeClass('text-center')
+				})
 	}
-	(function() {
-		$('#data-field-panel-content').bind('load-content', function(e, id) {
-			console.log('کال')
-			$(this).load('<%= eval("edit_employee_#{entity}_path('{0}')") %>'.replace('%7B', '{').replace('%7D', '}').format(id))
-		});
-	})(jQuery)
+	function set_selected_element_id(id) { load_content(id); }
 </script>

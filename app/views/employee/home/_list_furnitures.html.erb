@@ -33,7 +33,7 @@
 		};
 		append2gallery();
 		$(document).ajaxSuccess(append2gallery);
-		$('.photo-gallary-collection-incomplete a[data-source]:not(.parent-callified)').click(function(){
+		$('.photo-gallary-collection-incomplete a[data-source]').click(function(){
 			parent.set_selected_element_id($(this).attr('data-id'))
 		}).addClass('parent-callified');
 	});
