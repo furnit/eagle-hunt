@@ -16,7 +16,7 @@
         <ul class="nav navbar-nav navbar-right">
           <% acu_as [:admin, :employee] do %>
             <li class="<%= namespace?(:employee) ? 'active' : '' %>">
-              <%= link_to employee_root_path do %>
+              <%= link_to employee_root_path, data: { turbolinks: false } do %>
               	<% acu_as :employee do %>
                 	<span class='fa fa-male'></span> مدیریت
               	<% end %>
@@ -28,7 +28,7 @@
           <% end %>
           <% acu_as :admin do %>
             <li class="<%= namespace?(:admin) ? 'active' : '' %>">
-              <%= link_to admin_root_path do %>
+              <%= link_to admin_root_path, data: { turbolinks: false } do %>
                 <span class='fa fa-male'></span> مدیریت
               <% end %>
             </li>
