@@ -48,14 +48,21 @@
 <script type="text/javascript" charset="utf-8">
 	function load_content(id) 
 	{ 
-		$('#data-field-panel-content')
-			.addClass('text-center')
-			.html('<span class="fa fa-spinner fa-spin"></span>')
-			.load(
-				'<%= eval("edit_employee_#{entity}_path('{0}')") %>'.replace('%7B', '{').replace('%7D', '}').format(id),
-				function() {
-					$(this).removeClass('text-center')
-				})
+		$.get({
+			url: '<%= eval("edit_employee_#{entity}_path('{0}')") %>'.replace('%7B', '{').replace('%7D', '}').format(id),
+			global: false,
+			dataType: 'html',
+			beforSend: function() {
+				$('#data-field-panel-content')
+					.addClass('text-center')
+					.html('<span class="fa fa-spinner fa-spin"></span>')
+			},
+			success: function(data) {
+				$('#data-field-panel-content')
+					.removeClass('text-center')
+					.html(data)
+			}
+		})
 	}
 	function set_selected_element_id(id) { load_content(id); }
 </script>
