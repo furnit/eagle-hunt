@@ -1,6 +1,7 @@
 require_relative 'routes/config.rb'
 
 Rails.application.routes.draw do
+  
   root to: 'home#index'
 
   [:category, :furniture].each do |action|

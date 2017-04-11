@@ -1,0 +1,16 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture_scale: 'قسمت‌های پارچه'
+    attributes:
+      admin/furniture_scale:
+        name: 'عنوان'
+        comment: 'توضیحات'
+    errors:
+      models:
+        admin/furniture_scale:
+          attributes:
+            name:
+              blank: 'نمی‌تواند خالی باشد.'
+            comment:
+              blank: 'نمی‌تواند خالی باشد.'

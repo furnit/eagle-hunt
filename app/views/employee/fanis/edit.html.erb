@@ -1,1 +1,44 @@
-<%= @furniture.inspect %>
+<%= remote_form @furniture do |f| %>
+	<div class='ir container'>
+		<%= f.fields_for Employee::Fani.new do |ff| %>
+			<div class="panel panel-success">
+			  <div class="panel-heading"><strong><span class='fa fa-money'></span> دست‌مزد</strong></div>
+			  <div class="panel-body">
+					<div class='row'>
+						<%= ff.number_field :wage_rokob, step: :any, append: "هزار تومان", wrapper: { class: 'col-md-6' } %>
+						<%= ff.number_field :wage_khayat, step: :any, append: "هزار تومان", wrapper: { class: 'col-md-6' } %>
+					</div>
+			  </div>
+			</div>
+			<div class="panel panel-info">
+			  <div class="panel-heading"><strong><span class='fa fa-clock-o'></span> زمان‌بندی</strong></div>
+			  <div class="panel-body">
+					<div class='row'>
+			      <div class='col-md-offset-4 col-md-2'>
+				      <%= ff.select :days_to_complete_scale, [['روز', 'days'], ['هفته', 'weeks'], ['ماه', 'month']] %>
+						</div>
+			      <%= ff.number_field :days_to_complete, step: 1, value: 0, wrapper: { class: 'col-md-6' }  %>
+					</div>
+			  </div>
+			</div>
+			<div class="panel panel-primary">
+			  <div class="panel-heading"><strong><span class='fa fa-balance-scale'></span> جزییات</strong></div>
+			  <div class="panel-body">
+						<%= ff.fields_for FurnitureBuildDetail.new do |fff| %>
+							<div class='row'>
+								<%= fff.number_field :value, wrapper: { class: 'col-md-3' }, multiple: true %>
+							</div>
+						<% end %>
+			  </div>
+			</div>
+			<div class="panel panel-warning">
+			  <div class="panel-heading"><strong><span class='fa fa-info'></span> اطلاعات عمومی</strong></div>
+			  <div class="panel-body">
+					<% [[:needs_kande, 'کنده‌کاری'], [:needs_kanaf, 'کناف'], [:needs_rang, 'رنگ']].each do |e| %>
+						<%= check_awesome "نیاز به #{e[1]} دارد.", '', name: e[0] %>
+					<% end %>
+			  </div>
+			</div>
+		<% end %>
+	</div>
+<% end %>

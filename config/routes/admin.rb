@@ -47,7 +47,9 @@ Rails.application.routes.draw do
       end
     end
     
-    resources :furniture_specs, except: [:show]
+    [:furniture_scales, :furniture_specs].each do |rsrc|
+      resources rsrc, except: [:show]
+    end
     
   end
 end

@@ -1,0 +1,18 @@
+fa:
+  activerecord:
+    models:
+      employee/fani: 'محصول'
+    attributes:
+      employee/fani:
+        wage_rokob: 'دست‌مزد روکوب'
+        wage_khayat: 'دست‌مزد خیاط'
+        days_to_complete: مدت زمان پایان «خیاطی» و «روکوبی» 
+        days_to_complete_scale: معیار زمان
+    errors:
+      models:
+        employee/fani:
+          attributes:
+            wage_rokob:
+              blank: 'نمی‌تواند خالی باشد.'
+            wage_khayat:
+              blank: 'نمی‌تواند خالی باشد.'

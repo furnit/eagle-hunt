@@ -39,6 +39,12 @@
   -moz-border-radius: $op!important;
   border-radius: $op!important;
 }
+@mixin cross-browser-border-radius-direction($op, $dir) {
+  -webkit-border-#{$dir}-radius: $op!important;
+  webkit-border-#{$dir}-radius: $op!important;
+  -moz-border-#{$dir}-radius: $op!important;
+  border-#{$dir}-radius: $op!important;
+}
 
 @mixin cross-browser-transform($op1) {
   -webkit-transform: $op1;
@@ -274,5 +280,36 @@ body {
     :-moz-placeholder { text-align: right; }
     ::-moz-placeholder { text-align: right; }   
     :-ms-input-placeholder { text-align: right; }
+    /*
+     * input group for .ir class
+     */
+    .input-group-addon:last-child {
+      border-left: 1px solid #ccc;
+      border-right: 0;
+      @include cross-browser-border-radius(4px);
+      @include cross-browser-border-radius-direction(0, 'bottom-right');
+      @include cross-browser-border-radius-direction(0, 'top-right');
+    }
+    .input-group-addon:first-child {
+      border-right: 1px solid #ccc;
+      border-left: 0;
+      @include cross-browser-border-radius(4px);
+      @include cross-browser-border-radius-direction(0, 'bottom-left');
+      @include cross-browser-border-radius-direction(0, 'top-left');
+    }
+    .input-group {
+      .form-control:last-child {
+        @extend .form-control:last-child;
+        @include cross-browser-border-radius(4px);
+        @include cross-browser-border-radius-direction(0, 'bottom-right');
+        @include cross-browser-border-radius-direction(0, 'top-right');
+      }
+      .form-control:first-child {
+        @extend .form-control:first-child;
+        @include cross-browser-border-radius(4px);
+        @include cross-browser-border-radius-direction(0, 'bottom-left');
+        @include cross-browser-border-radius-direction(0, 'top-left');
+      }
+    }
   }
 }

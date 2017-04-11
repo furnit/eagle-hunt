@@ -35,8 +35,11 @@
 			        <a href="<%= admin_furniture_sections_path %>" class="list-group-item" target='panel-frame'>
 			        	تعریف قسمت‌ها
 			        </a>
+			        <a href="<%= admin_furniture_scales_path %>" class="list-group-item" target='panel-frame'>
+			        	تعریف مقیاس‌ها
+			        </a>
 			        <a href="<%= admin_furniture_specs_path %>" class="list-group-item" target='panel-frame'>
-			        	تعریف جزئیات ساخت
+			        	تعریف اجزای ساخت
 			        </a>
 			      </div>
 		      </div>
@@ -139,7 +142,12 @@
         // assign the url
         $("iframe[name='panel-frame']").attr('src', url)
         // make the related link active
-        $('#management-panel #navigation .list-group a[href="'+url+'"]').click();
+        $('#management-panel #navigation .list-group a[href="'+url+'"]')
+        	.click()
+      		.closest('.panel-group')
+      			.find('[data-toggle="collapse"]')
+      				.click();
+        
       }
     }
     // if none is active? activate the first one

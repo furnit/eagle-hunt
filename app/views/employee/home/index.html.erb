@@ -51,6 +51,7 @@
 	}
 	(function() {
 		$('#data-field-panel-content').bind('load-content', function(e, id) {
+			console.log('کال')
 			$(this).load('<%= eval("edit_employee_#{entity}_path('{0}')") %>'.replace('%7B', '{').replace('%7D', '}').format(id))
 		});
 	})(jQuery)

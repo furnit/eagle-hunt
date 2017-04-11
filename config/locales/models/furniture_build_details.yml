@@ -1,0 +1,13 @@
+fa:
+  activerecord:
+    models:
+      furniture_build_detail: 'جزییات ساخت مبل'
+    attributes:
+      furniture_build_detail:
+        value: 'مقدار'
+    errors:
+      models:
+        furniture_build_detail:
+          attributes:
+            value:
+              blank: 'باید وارد شود.'

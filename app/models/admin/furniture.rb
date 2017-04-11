@@ -1,5 +1,9 @@
 class Admin::Furniture < ParanoiaRecord
-    
+  
+  has_many :employee_fanis, dependent: :destroy, class_name: '::Employee::Fani'
+  
+  accepts_nested_attributes_for :employee_fanis, :allow_destroy => true
+  
   belongs_to :furniture_type, class_name: 'Admin::FurnitureType', foreign_key: :furniture_type_id
 
   validates_presence_of :furniture_type_id, :name
