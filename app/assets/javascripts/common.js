@@ -1,3 +1,13 @@
+$(document).on('ready', function() {
+  document.NProgress = window.NProgress;
+  // setting config for 1min delay length
+  document.NProgress.configure({
+    speed: 500,
+    minimum: 0.05,
+    trickleRate: 0.03
+  });
+});
+
 $(document).on('ready turbolinks:load', function(){
 	// define format proto-type for string class 
 	String.prototype.format = function () {
@@ -25,14 +35,6 @@ $(document).on('ready turbolinks:load', function(){
   };
   // remove the alerts after some time
   setTimeout(delete_alerts, 5000);
-  
-  document.NProgress = window.NProgress;
-  // setting config for 1min delay length
-  document.NProgress.configure({
-    speed: 500,
-    minimum: 0.05,
-    trickleRate: 0.03
-  });
   // things should be applied to documents
   var apply_to_documents = function(){
     // make remote form validatable

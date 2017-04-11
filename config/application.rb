@@ -19,6 +19,9 @@ module Viramobl
     
     # define the route files
     config.paths['config/routes.rb'].concat Dir[Rails.root.join("config/routes/*.rb")]
+    
+    # load secret base keys
+    config.secret_key_base = ((YAML.load(ERB.new(File.read(Rails.root.join('config/secrets.yml'))).result) || {})[Rails.env] || nil)["secret_key_base"]
 
     # translation directories
     config.i18n.default_locale = :fa

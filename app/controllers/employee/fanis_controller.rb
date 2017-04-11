@@ -7,6 +7,7 @@ class Employee::FanisController < Employee::EmployeebaseController
   end
   
   def create
+    byebug
   end
   
   private
