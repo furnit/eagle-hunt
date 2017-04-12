@@ -66,14 +66,26 @@ end
 # => adding furniture section details
 #
 [
-  ['پشتی', 'به قسمت تکیه‌گاه مبل گفته می‌شود.', "data/images/sofa/poshti.jpg"],
-  ['زیری', 'به قسمت تحتانی و نشیمنگاه مبل گفته می‌شود.', "data/images/sofa/ziri.jpg"],
-  ['دسته', 'به دسته‌های مبل گفته می‌شود.', "data/images/sofa/daste.jpg"],
-  ['پایه', 'به پایه‌های مبل اطلاق می‌شود.', "data/images/sofa/paye.jpg"],
-  ['کوسن', 'به بالشتک‌های مبل گفته‌ می‌شود.', "data/images/sofa/kosan.jpg"]
+  ['پشتی', 'قسمت تکیه‌گاه و پشت مبل', "data/images/sofa/poshti.jpg"],
+  ['زیری', 'قسمت تحتانی و نشیمن‌گاه', "data/images/sofa/ziri.jpg"],
+  ['دسته', 'دسته‌های مبل', "data/images/sofa/daste.jpg"],
+  ['پایه', 'پایه‌های مبل', "data/images/sofa/paye.jpg"],
+  ['کوسن', 'بالشتک‌های مبل', "data/images/sofa/kosan.jpg"]
 ]
 .each do |name, comment, image|
   section = Admin::FurnitureSection.create!(name: name, comment: comment)
   section.images = [Rails.root.join(image).open]
   section.save!
+end
+
+#
+# => adding types of abrs
+#
+[
+  '۳۰ کیلویی',
+  '۲۰ کیلویی',
+  '۱۰ کیلویی',
+]
+.each.with_index do |name, index|
+  Admin::FurnitureStuffAbr.create!(name: name, value: 3 - index)
 end
