@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170411095557) do
+ActiveRecord::Schema.define(version: 20170412112408) do
 
   create_table "admin_furniture_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 20170411095557) do
     t.float    "value",                       limit: 24
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.json     "options"
     t.index ["admin_furniture_sections_id"], name: "index_furniture_build_details_on_admin_furniture_sections_id", using: :btree
     t.index ["admin_furniture_specs_id"], name: "index_furniture_build_details_on_admin_furniture_specs_id", using: :btree
   end

@@ -25,7 +25,7 @@
 			  <div class="panel-heading"><strong><span class='fa fa-info'></span> اطلاعات عمومی</strong></div>
 			  <div class="panel-body">
 					<% [[:needs_kande, 'کنده‌کاری'], [:needs_kanaf, 'کناف'], [:needs_rang, 'رنگ']].each do |e| %>
-						<%= check_awesome "نیاز به #{e[1]} دارد.", '', name: e[0] %>
+						<%= check_awesome "نیاز به #{e[1]} دارد.", '', name: "#{f.object_name}[#{e[0]}]" %>
 					<% end %>
 			  </div>
 			</div>
@@ -52,11 +52,11 @@
 									<% Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']).each.with_index do |section, index| %>
 										<tr>
 											<td>
-												<%= fff.number_field :value, step: :any, multiple: true, append: raw("#{spec.scale} از <b>#{spec.name}</b>"), label: "برای #{section.comment}", name: "#{fff.object_name}[spec][#{spec.id}][value][]" %>
+												<%= fff.number_field :value, step: :any, multiple: true, append: raw("#{spec.scale} از <b>#{spec.name}</b>"), label: "برای #{section.comment}", name: "#{fff.object_name}[spec][#{spec.id}][section][#{section.id}][value]" %>
 											</td>
 											<% if is_abr %>
 											<td>
-												<%= fff.select :admin_furniture_stuff_abr_id,  Admin::FurnitureStuffAbr.all.collect {|i| [i.name, i.id]}, { label: raw("&nbsp;"), selected: [2, 1, 3][index] }, name: "#{fff.object_name}[spec][#{spec.id}][abr][]" %>
+												<%= fff.select :admin_furniture_stuff_abr_id,  Admin::FurnitureStuffAbr.all.collect {|i| [i.name, i.id]}, { label: raw("&nbsp;"), selected: [2, 1, 3][index] }, name: "#{fff.object_name}[spec][#{spec.id}][section][#{section.id}][options][#{Admin::FurnitureStuffAbr.table_name}][id]" %>
 											</td>
 											<% end %>
 						      		<td>
