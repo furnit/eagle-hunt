@@ -16,7 +16,7 @@
 			  <div class="panel-heading"><strong><span class='fa fa-clock-o'></span> زمان‌بندی</strong></div>
 			  <div class="panel-body">
 					<div class='row'>
-			      <%= ff.number_field :days_to_complete, step: 1, min: 0, wrapper: { class: 'col-md-6 pull-right' }  %>
+			      <%= ff.number_field :days_to_complete, step: 1, value: 0, min: 0, wrapper: { class: 'col-md-6 pull-right' }  %>
 			      <%= ff.select :days_to_complete_scale, [['روز', 'days'], ['هفته', 'weeks'], ['ماه', 'month']], {}, wrapper: { class: 'col-md-offset-3 col-md-3' } %>
 					</div>
 			  </div>
@@ -97,6 +97,84 @@
 <% end %>
 
 <script type="text/javascript" charset="utf-8">
+	function on_employee_form_submit(callback) {
+		message_header = '<table class="table">\
+			<thead>\
+				<tr>\
+					<th>عنوان</th>\
+					<th>مقدار</th>\
+					<th>توضیحات</th>\
+				</tr>\
+			</thead>\
+			<tbody>'
+		message_footer = '</tbody></table>';
+		
+		message_body = ''
+		
+		var days_scale_locale = {
+			days: 'روز',
+			weeks: 'هفته',
+			months: 'ماه'
+		}
+		
+		var get_val = function(e) { return $(e).val().length ? $(e).val() : '؟'  }
+		var get_checked = function(e) { return $(e + ':checked').length ? 'بله' : 'خیر' }
+		
+		var k = [
+			{
+				spec: 'دستمزد‌ها',
+				list: [
+					{val: get_val('[name="admin_furniture[employee_fani][wage_rokob]"]'), append: 'هزار تومان', title: 'دست‌مزد روکوب', desc: ''},
+					{val: get_val('[name="admin_furniture[employee_fani][wage_khayat]"]'), append: 'هزار تومان', title: 'دستمزد خیاط', desc: ''}
+				]
+			},
+			{
+				spec: 'زمان', 
+				list: [
+					{val: get_val('[name="admin_furniture[employee_fani][days_to_complete]"]'), append: days_scale_locale[$('[name="admin_furniture[employee_fani][days_to_complete_scale]"]').val()], title: 'مدت زمان پایان «خیاطی» و «روکوبی»', desc: ''}
+				]
+			},
+			{
+				spec: 'اطلاعات عمومی',
+				list: [
+					{val: get_checked('[name="admin_furniture[needs_kande]"]'), append: '', title: 'نیاز به روکوبی دارد؟', desc: ''},
+					{val: get_checked('[name="admin_furniture[needs_kanaf]"]'), append: '', title: 'نیاز به کناف دارد؟', desc: ''},
+					{val: get_checked('[name="admin_furniture[needs_rang]"]'), append: '', title: 'نیاز به رنگ دارد؟', desc: ''}
+				]
+			},
+			{
+				spec: 'جزییات ابر',
+				list: [
+					{
+						val: get_val('[name="admin_furniture[employee_fani][furniture_build_detail][spec][1][section][6][value]"]'), 
+						append: $('[name="admin_furniture[employee_fani][furniture_build_detail][spec][1][section][6][value]"]').siblings('.input-group-addon') + get_val('[name="admin_furniture[employee_fani][furniture_build_detail][spec][1][section][6][options][admin_furniture_stuff_abrs][id]"]')
+					}
+				]
+			}
+		]
+		
+		
+		for (var j = 0; j < k.length; j++) {
+			console.log([k[j], k.length]);
+			message_body += '<tr class="active"><td colspan="3"><b>'+k[j].spec+'</b></td><tr/>';
+			var l = k[j].list;
+			
+			for (var i = 0; i < l.length; i++) {
+				message_body += 
+					'<tr>' + 
+						'<td>' + l[i].title + '</td>' +
+						'<td>' + l[i].val + ' ' + l[i].append + '</td>' +
+						'<td>' + l[i].desc + '</td>' + 
+					'</tr>'
+			}
+		}		
+		
+		bootbox.confirm({
+			title: 'آیا اطلاعات زیر مورد تایید می‌باشد؟', 
+			message: message_header + message_body + message_footer,
+			callback: callback
+		})
+	}
 	$(document).ready(function(){
 		$('.furniture-section').on('mouseover', function(e) {
 			$(this).popover({

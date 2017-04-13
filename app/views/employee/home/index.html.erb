@@ -59,10 +59,12 @@
 			})
 			.on('ajax:success', function() {
 				console.log('do some stuff to remove the curent fur. and move on!')
-			})
-			.on('submit', function(){
-				alert('please take confirmation from users')
-				return true;
+			}).find('[type="submit"]').click(function(){
+				$this = $(this)
+				on_employee_form_submit(function(result) { 
+					if(result) $this.submit(); 
+				});
+				return false;
 			})
 	}
 	function load_content(id) 
