@@ -1,14 +1,14 @@
-<%= remote_form @furniture, url: employee_fanis_path, method: :post do |f| %>
-	<%= f.hidden_field :id, value: @furniture.id %>
-	<%= f.hidden_field :hd, value: Digest::SHA256.new << (@furniture.id.to_s + Rails.application.config.secret_key_base) %>
+<%= remote_form @form[:furniture], url: employee_fanis_path, method: :post do |f| %>
+	<%= f.hidden_field :id, value: @form[:furniture].id %>
+	<%= f.hidden_field :hd, value: Digest::SHA256.new << (@form[:furniture].id.to_s + Rails.application.config.secret_key_base) %>
 	<div class='ir'>
-		<%= f.fields_for Employee::Fani.new do |ff| %>
+		<%= f.fields_for @form[:fani] do |ff| %>
 			<div class="panel panel-success">
 			  <div class="panel-heading"><strong><span class='fa fa-money'></span> دست‌مزد</strong></div>
 			  <div class="panel-body">
 					<div class='row'>
-						<%= ff.number_field :wage_rokob, step: :any, append: "هزار تومان", wrapper: { class: 'col-md-6 pull-right' } %>
-						<%= ff.number_field :wage_khayat, step: :any, append: "هزار تومان", wrapper: { class: 'col-md-6' } %>
+						<%= ff.number_field :wage_rokob, step: 1, min: 0, append: "هزار تومان", wrapper: { class: 'col-md-6 pull-right' } %>
+						<%= ff.number_field :wage_khayat, step: 1, min: 0, append: "هزار تومان", wrapper: { class: 'col-md-6' } %>
 					</div>
 			  </div>
 			</div>
@@ -16,7 +16,7 @@
 			  <div class="panel-heading"><strong><span class='fa fa-clock-o'></span> زمان‌بندی</strong></div>
 			  <div class="panel-body">
 					<div class='row'>
-			      <%= ff.number_field :days_to_complete, step: 1, value: 0, wrapper: { class: 'col-md-6 pull-right' }  %>
+			      <%= ff.number_field :days_to_complete, step: 1, min: 0, wrapper: { class: 'col-md-6 pull-right' }  %>
 			      <%= ff.select :days_to_complete_scale, [['روز', 'days'], ['هفته', 'weeks'], ['ماه', 'month']], {}, wrapper: { class: 'col-md-offset-3 col-md-3' } %>
 					</div>
 			  </div>
@@ -29,30 +29,31 @@
 					<% end %>
 			  </div>
 			</div>
-			<%= ff.fields_for FurnitureBuildDetail.new do |fff| %>
-				<% Admin::FurnitureSpec.where('name IN (?)', ['پارچه', 'ابر']).each do |spec| %>
-					<% 
-						is_abr = spec.name == 'ابر'
-						value_col = 9 
-						value_col = 6	if is_abr
-						symbol = is_abr ? :abr : :parche 
-					%>
-					<div class="panel panel-primary">
-					  <div class="panel-heading"><span class='fa fa-balance-scale'></span> جزییات <strong><%= spec.name %></strong></div>
-					  <div class="panel-body">
-				  		<table class='table'>
-				  			<thead>
-				  				<th class='col-md-<%= value_col %>'>مقدار</th>
-				  				<% if is_abr %>
-				  				<th class='col-md-<%= 9 - value_col %>'>جنس<br />(درحالت کلی)</th>				  				
-				  				<% end %>
-				  				<th class='col-md-3'>قسمت</th>
-				  			</thead>
-				  			<tbody>
-									<% Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']).each.with_index do |section, index| %>
+			<% build_details_index = 0 %>
+			<% Admin::FurnitureSpec.where('name IN (?)', ['پارچه', 'ابر']).each do |spec| %>
+				<% 
+					is_abr = spec.name == 'ابر'
+					value_col = 9 
+					value_col = 6	if is_abr
+					symbol = is_abr ? :abr : :parche 
+				%>
+				<div class="panel panel-primary">
+				  <div class="panel-heading"><span class='fa fa-balance-scale'></span> جزییات <strong><%= spec.name %></strong></div>
+				  <div class="panel-body">
+			  		<table class='table'>
+			  			<thead>
+			  				<th class='col-md-<%= value_col %>'>مقدار</th>
+			  				<% if is_abr %>
+			  				<th class='col-md-<%= 9 - value_col %>'>جنس<br />(درحالت کلی)</th>				  				
+			  				<% end %>
+			  				<th class='col-md-3'>قسمت</th>
+			  			</thead>
+			  			<tbody>
+								<% Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']).each.with_index do |section, index| %>
+									<%= ff.fields_for @form[:build_details][build_details_index] do |fff| %>
 										<tr>
 											<td>
-												<%= fff.number_field :value, step: :any, multiple: true, append: raw("#{spec.scale} از <b>#{spec.name}</b>"), label: "برای #{section.comment}", name: "#{fff.object_name}[spec][#{spec.id}][section][#{section.id}][value]" %>
+												<%= fff.number_field :value, step: :any, min: 0, multiple: true, append: raw("#{spec.scale} از <b>#{spec.name}</b>"), label: "برای #{section.comment}", name: "#{fff.object_name}[spec][#{spec.id}][section][#{section.id}][value]" %>
 											</td>
 											<% if is_abr %>
 											<td>
@@ -63,16 +64,16 @@
 												<%= image_tag thumbnail_url(section.images), \
 															class: 'furniture-section img-responsive', \
 															style: 'height: 80px;margin-top: 0px;', \
-															
 															title: section.comment %>
 											</td>
 										</tr>
+										<% build_details_index += 1 %>
 									<% end %>
-								</tbody>
-							</table>
-					  </div>
-					</div>
-				<% end %>
+								<% end %>
+							</tbody>
+						</table>
+				  </div>
+				</div>
 			<% end %>
 			<div class="panel panel-danger" style='margin-bottom: 150px'>
 			  <div class="panel-heading"><strong><span class='fa fa-pencil-square-o'></span> ثبت اطلاعات</strong></div>

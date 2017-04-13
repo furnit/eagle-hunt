@@ -16,3 +16,5 @@ fa:
               blank: 'نمی‌تواند خالی باشد.'
             wage_khayat:
               blank: 'نمی‌تواند خالی باشد.'
+            days_to_complete:
+              greater_than: 'غیر قابل قبول است.'

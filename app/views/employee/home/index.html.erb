@@ -46,6 +46,25 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
+	function on_load_contents() {
+		$('#data-field-panel-content form[data-remote]')
+			.on("keypress", function (e) { return (e.keyCode != 13 || $(this).find($(document.activeElement)).attr('type') === 'submit') })
+			.on('ajax:error', function(e, data, status, xhr) {
+				$(this).replaceWith(data.responseText);
+				bootbox.alert({
+					title: 'خطا در انجام عملیات!', 
+					message: 'به علت وجود <b>' + $(data.responseText).find('.has-error').length + ' خطا</b> امکان ثبت اطلاعات وجود نداشت؛ لطفا پس از اصلاح خطاها دوباره فرم را ثبت کنید.'
+				})
+				on_load_contents();
+			})
+			.on('ajax:success', function() {
+				console.log('do some stuff to remove the curent fur. and move on!')
+			})
+			.on('submit', function(){
+				alert('please take confirmation from users')
+				return true;
+			})
+	}
 	function load_content(id) 
 	{ 
 		$('#data-field-panel-content')
@@ -59,8 +78,9 @@
 				$('#data-field-panel-content')
 					.removeClass('text-center')
 					.html(data);
+				on_load_contents();
 			}
 		})
 	}
-	function set_selected_element_id(id) { load_content(id); }
+	function set_selected_element_id(id) { load_content(id); }	
 </script>

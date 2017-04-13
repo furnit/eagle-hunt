@@ -6,6 +6,8 @@ $(document).on('ready', function() {
     minimum: 0.05,
     trickleRate: 0.03
   });
+  // set bootbox default args
+  bootbox.setLocale('fa');
 });
 
 $(document).on('ready turbolinks:load', function(){

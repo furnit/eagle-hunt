@@ -1,8 +1,8 @@
 class Employee::EmployeebaseController < ApplicationController
-  layout 'no_navbar'
-  before_action :no_layout, only: [:new]
+  layout :get_layout
   
-  def no_layout
-    render layout: false
+  def get_layout
+    return false if ["new", "edit", "create"].include? params[:action]
+    return 'no_navbar'
   end
 end

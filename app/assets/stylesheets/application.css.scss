@@ -284,19 +284,26 @@ body {
      * input group for .ir class
      */
     .input-group-addon:last-child {
-      border-left: 1px solid #ccc;
+      border-left: 1px solid $input-group-addon-border-color;
       border-right: 0;
-      @include cross-browser-border-radius(4px);
-      @include cross-browser-border-radius-direction(0, 'bottom-right');
-      @include cross-browser-border-radius-direction(0, 'top-right');
+      border-radius: 4px;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
     }
     .input-group-addon:first-child {
-      border-right: 1px solid #ccc;
+      border-right: 1px solid $input-group-addon-border-color;
       border-left: 0;
-      @include cross-browser-border-radius(4px);
-      @include cross-browser-border-radius-direction(0, 'bottom-left');
-      @include cross-browser-border-radius-direction(0, 'top-left');
+      border-radius: 4px;
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
     }
+    
+    .has-error {
+      .input-group-addon {
+        border-color: $state-danger-text!important;
+      }
+    }
+    
     .input-group {
       .form-control:last-child {
         @extend .form-control:last-child;
