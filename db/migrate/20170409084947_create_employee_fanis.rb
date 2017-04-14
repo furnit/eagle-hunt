@@ -1,8 +1,8 @@
 class CreateEmployeeFanis < ActiveRecord::Migration[5.0]
   def change
     create_table :employee_fanis do |t|
-      t.references :furnitures
-      t.references :users
+      t.references :furniture
+      t.references :user
       t.float      :wage_rokob
       t.float      :wage_khayat
 

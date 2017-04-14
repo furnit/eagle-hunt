@@ -20,8 +20,8 @@ class Employee::FanisController < Employee::EmployeebaseController
         params = params.slice(:value, :options)
         
         @form[:build_details] << FurnitureBuildDetail.new(
-          admin_furniture_specs_id: spec_id, 
-          admin_furniture_sections_id: section_id,
+          admin_furniture_spec_id: spec_id, 
+          admin_furniture_section_id: section_id,
           value: params[:value],
           options: params[:options])
       end
@@ -81,9 +81,9 @@ class Employee::FanisController < Employee::EmployeebaseController
     # purge out un-necessary
     par.delete :days_to_complete_scale
     # add the furniture-id to the collection
-    par[:furnitures_id] = furniture_params[:id]
+    par[:furniture_id] = furniture_params[:id]
     # add the user-id to the collection
-    par[:users_id] = current_user.id
+    par[:user_id] = current_user.id
     # convert to thousand tomans
     [:wage_rokob, :wage_khayat].each { |i| par[i] = par[i].to_i * 1000 }
     # return the processed params

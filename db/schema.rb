@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170412112408) do
+ActiveRecord::Schema.define(version: 20170414093836) do
 
   create_table "admin_furniture_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -91,17 +91,17 @@ ActiveRecord::Schema.define(version: 20170412112408) do
   end
 
   create_table "employee_fani_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "employee_fanis_id"
+    t.integer  "employee_fani_id"
     t.integer  "furniture_build_detail_id"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
-    t.index ["employee_fanis_id"], name: "index_employee_fani_details_on_employee_fanis_id", using: :btree
+    t.index ["employee_fani_id"], name: "index_employee_fani_details_on_employee_fani_id", using: :btree
     t.index ["furniture_build_detail_id"], name: "index_employee_fani_details_on_furniture_build_detail_id", using: :btree
   end
 
   create_table "employee_fanis", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "furnitures_id"
-    t.integer  "users_id"
+    t.integer  "furniture_id"
+    t.integer  "user_id"
     t.float    "wage_rokob",       limit: 24
     t.float    "wage_khayat",      limit: 24
     t.boolean  "confirmed",                   default: false
@@ -110,20 +110,29 @@ ActiveRecord::Schema.define(version: 20170412112408) do
     t.boolean  "needs_kande",                 default: false
     t.boolean  "needs_kanaf",                 default: false
     t.boolean  "needs_rang",                  default: false
-    t.integer  "days_to_complete",            default: -1
-    t.index ["furnitures_id"], name: "index_employee_fanis_on_furnitures_id", using: :btree
-    t.index ["users_id"], name: "index_employee_fanis_on_users_id", using: :btree
+    t.integer  "days_to_complete",            default: 0
+    t.index ["furniture_id"], name: "index_employee_fanis_on_furniture_id", using: :btree
+    t.index ["user_id"], name: "index_employee_fanis_on_user_id", using: :btree
+  end
+
+  create_table "employee_processeds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "admin_furniture_id"
+    t.integer  "user_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.index ["admin_furniture_id"], name: "index_employee_processeds_on_admin_furniture_id", using: :btree
+    t.index ["user_id"], name: "index_employee_processeds_on_user_id", using: :btree
   end
 
   create_table "furniture_build_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "admin_furniture_sections_id"
-    t.integer  "admin_furniture_specs_id"
-    t.float    "value",                       limit: 24
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.integer  "admin_furniture_section_id"
+    t.integer  "admin_furniture_spec_id"
+    t.float    "value",                      limit: 24
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.json     "options"
-    t.index ["admin_furniture_sections_id"], name: "index_furniture_build_details_on_admin_furniture_sections_id", using: :btree
-    t.index ["admin_furniture_specs_id"], name: "index_furniture_build_details_on_admin_furniture_specs_id", using: :btree
+    t.index ["admin_furniture_section_id"], name: "index_furniture_build_details_on_admin_furniture_section_id", using: :btree
+    t.index ["admin_furniture_spec_id"], name: "index_furniture_build_details_on_admin_furniture_spec_id", using: :btree
   end
 
   create_table "profiles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -200,10 +209,12 @@ ActiveRecord::Schema.define(version: 20170412112408) do
   end
 
   add_foreign_key "admin_furnitures", "admin_furniture_types", column: "furniture_type_id"
-  add_foreign_key "employee_fani_details", "employee_fanis", column: "employee_fanis_id"
+  add_foreign_key "employee_fani_details", "employee_fanis"
   add_foreign_key "employee_fani_details", "furniture_build_details"
-  add_foreign_key "furniture_build_details", "admin_furniture_sections", column: "admin_furniture_sections_id"
-  add_foreign_key "furniture_build_details", "admin_furniture_specs", column: "admin_furniture_specs_id"
+  add_foreign_key "employee_processeds", "admin_furnitures"
+  add_foreign_key "employee_processeds", "users"
+  add_foreign_key "furniture_build_details", "admin_furniture_sections"
+  add_foreign_key "furniture_build_details", "admin_furniture_specs"
   add_foreign_key "profiles", "states"
   add_foreign_key "profiles", "users", on_update: :cascade, on_delete: :cascade
   add_foreign_key "shopping_carts", "admin_furnitures", column: "furniture_id"

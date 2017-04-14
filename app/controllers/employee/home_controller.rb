@@ -17,7 +17,12 @@ class Employee::HomeController < ApplicationController
   end
   
   def ls_furnitures
-    @furnitures = Admin::Furniture.paginate(:page => params[:page])
+    if params[:archived] 
+      
+    else
+      @furnitures = Admin::Furniture.paginate(:page => params[:page])
+    end
+    
     respond_to do |format|
       format.html
       format.js
