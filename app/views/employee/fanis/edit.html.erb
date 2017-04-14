@@ -1,4 +1,6 @@
-<%= remote_form @form[:furniture], url: employee_fanis_path, method: :post do |f| %>
+<% specs = Admin::FurnitureSpec.where('name IN (?)', ['پارچه', 'ابر']) %>
+<% sections = Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']) %>
+<%= remote_form @form[:furniture], url: employee_fanis_path(format: :json), method: :post do |f| %>
 	<%= f.hidden_field :id, value: @form[:furniture].id %>
 	<%= f.hidden_field :hd, value: Digest::SHA256.new << (@form[:furniture].id.to_s + Rails.application.config.secret_key_base) %>
 	<div class='ir'>
@@ -7,8 +9,8 @@
 			  <div class="panel-heading"><strong><span class='fa fa-money'></span> دست‌مزد</strong></div>
 			  <div class="panel-body">
 					<div class='row'>
-						<%= ff.number_field :wage_rokob, step: 1, min: 0, append: "هزار تومان", wrapper: { class: 'col-md-6 pull-right' } %>
-						<%= ff.number_field :wage_khayat, step: 1, min: 0, append: "هزار تومان", wrapper: { class: 'col-md-6' } %>
+						<%= ff.number_field :wage_rokob, step: 1, min: 0, append: "تومان", prepend: '000 , ', wrapper: { class: 'col-md-6 pull-right' }, class: 'currency' %>
+						<%= ff.number_field :wage_khayat, step: 1, min: 0, append: "تومان", prepend: '000 , ', wrapper: { class: 'col-md-6' }, class: 'currency' %>
 					</div>
 			  </div>
 			</div>
@@ -30,7 +32,7 @@
 			  </div>
 			</div>
 			<% build_details_index = 0 %>
-			<% Admin::FurnitureSpec.where('name IN (?)', ['پارچه', 'ابر']).each do |spec| %>
+			<% specs.each do |spec| %>
 				<% 
 					is_abr = spec.name == 'ابر'
 					value_col = 9 
@@ -49,7 +51,7 @@
 			  				<th class='col-md-3'>قسمت</th>
 			  			</thead>
 			  			<tbody>
-								<% Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']).each.with_index do |section, index| %>
+								<% sections.each.with_index do |section, index| %>
 									<%= ff.fields_for @form[:build_details][build_details_index] do |fff| %>
 										<tr>
 											<td>
@@ -98,7 +100,7 @@
 
 <script type="text/javascript" charset="utf-8">
 	function on_employee_form_submit(callback) {
-		message_header = '<table class="table">\
+		var message_header = '<table class="table">\
 			<thead>\
 				<tr>\
 					<th>عنوان</th>\
@@ -107,9 +109,9 @@
 				</tr>\
 			</thead>\
 			<tbody>'
-		message_footer = '</tbody></table>';
+		var message_footer = '</tbody></table>';
 		
-		message_body = ''
+		var message_body = ''
 		
 		var days_scale_locale = {
 			days: 'روز',
@@ -119,62 +121,123 @@
 		
 		var get_val = function(e) { return $(e).val().length ? $(e).val() : '؟'  }
 		var get_checked = function(e) { return $(e + ':checked').length ? 'بله' : 'خیر' }
+		var get_currency = function(e) {
+			if(get_val(e) === '؟') return get_val(e);
+			return parseInt(get_val(e) + ($(e).siblings('.input-group-addon').length ? $(e).siblings('.input-group-addon').html() : '')).toLocaleString();
+		};
 		
 		var k = [
 			{
+				icon: 'fa-money',
 				spec: 'دستمزد‌ها',
 				list: [
-					{val: get_val('[name="admin_furniture[employee_fani][wage_rokob]"]'), append: 'هزار تومان', title: 'دست‌مزد روکوب', desc: ''},
-					{val: get_val('[name="admin_furniture[employee_fani][wage_khayat]"]'), append: 'هزار تومان', title: 'دستمزد خیاط', desc: ''}
-				]
-			},
-			{
-				spec: 'زمان', 
-				list: [
-					{val: get_val('[name="admin_furniture[employee_fani][days_to_complete]"]'), append: days_scale_locale[$('[name="admin_furniture[employee_fani][days_to_complete_scale]"]').val()], title: 'مدت زمان پایان «خیاطی» و «روکوبی»', desc: ''}
-				]
-			},
-			{
-				spec: 'اطلاعات عمومی',
-				list: [
-					{val: get_checked('[name="admin_furniture[needs_kande]"]'), append: '', title: 'نیاز به روکوبی دارد؟', desc: ''},
-					{val: get_checked('[name="admin_furniture[needs_kanaf]"]'), append: '', title: 'نیاز به کناف دارد؟', desc: ''},
-					{val: get_checked('[name="admin_furniture[needs_rang]"]'), append: '', title: 'نیاز به رنگ دارد؟', desc: ''}
-				]
-			},
-			{
-				spec: 'جزییات ابر',
-				list: [
 					{
-						val: get_val('[name="admin_furniture[employee_fani][furniture_build_detail][spec][1][section][6][value]"]'), 
-						append: $('[name="admin_furniture[employee_fani][furniture_build_detail][spec][1][section][6][value]"]').siblings('.input-group-addon') + get_val('[name="admin_furniture[employee_fani][furniture_build_detail][spec][1][section][6][options][admin_furniture_stuff_abrs][id]"]')
+						valid: get_val('[name="admin_furniture[employee_fani][wage_rokob]"]') !== '؟', 
+						val: get_currency('[name="admin_furniture[employee_fani][wage_rokob]"]'),
+						append: 'تومان',
+						title: 'دست‌مزد روکوب'
+					},
+					{
+						valid: get_val('[name="admin_furniture[employee_fani][wage_khayat]"]') !== '؟',
+						val: get_currency('[name="admin_furniture[employee_fani][wage_khayat]"]'),
+						append: 'تومان',
+						title: 'دستمزد خیاط'
 					}
 				]
-			}
+			},
+			{
+				icon: 'fa-clock-o',
+				spec: 'زمان', 
+				list: [
+					{
+						valid: get_val('[name="admin_furniture[employee_fani][days_to_complete]"]') > 0,
+						val: get_val('[name="admin_furniture[employee_fani][days_to_complete]"]'),
+						append: days_scale_locale[$('[name="admin_furniture[employee_fani][days_to_complete_scale]"]').val()],
+						title: 'مدت زمان پایان «خیاطی» و «روکوبی»'
+					}
+				]
+			},
+			{
+				icon: 'fa-info',
+				spec: 'اطلاعات عمومی',
+				list: [
+					{valid: true, val: get_checked('[name="admin_furniture[needs_kande]"]'), append: '', title: 'نیاز به روکوبی دارد؟'},
+					{valid: true, val: get_checked('[name="admin_furniture[needs_kanaf]"]'), append: '', title: 'نیاز به کناف دارد؟'},
+					{valid: true, val: get_checked('[name="admin_furniture[needs_rang]"]'), append: '', title: 'نیاز به رنگ دارد؟'}
+				]
+			},
+			<% specs.each do |spec| %>
+				<% is_abr = spec.name == 'ابر' %> 
+			{
+				icon: 'fa-balance-scale',
+				spec: 'جزییات <%= spec.name %>',
+				list: [
+					<% sections.each do |section| %>
+					{
+						valid: get_val('[name="admin_furniture[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]') !== '؟',
+						val: get_val('[name="admin_furniture[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]'), 
+						append: $('[name="admin_furniture[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]')
+											.siblings('.input-group-addon').html() <% if is_abr %>
+											 + $('[name="admin_furniture[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][options][admin_furniture_stuff_abrs][id]"] [selected]').text()
+											 <% end %>
+										,
+					 	title: 'برای <%= section.comment %>',
+					 	desc: ''
+					},
+					<% end %>
+				]
+			},
+			<% end %>
 		]
 		
+		var all_valid = true;
 		
 		for (var j = 0; j < k.length; j++) {
-			console.log([k[j], k.length]);
-			message_body += '<tr class="active"><td colspan="3"><b>'+k[j].spec+'</b></td><tr/>';
+			message_body += '<tr class="active"><td colspan="3"><span class="fa ' + k[j].icon + '"></span> <b>'+k[j].spec+'</b></td><tr/>';
 			var l = k[j].list;
 			
 			for (var i = 0; i < l.length; i++) {
+				all_valid &= l[i].valid;
+				append = l[i].append ? ' ' + l[i].append : ''
+				prepend = l[i].prepend ? l[i].prepend : ''
 				message_body += 
-					'<tr>' + 
+					'<tr ' + (l[i].valid ? '' : 'class="danger" data-toggle="tooltip" title=""') + '>' + 
 						'<td>' + l[i].title + '</td>' +
-						'<td>' + l[i].val + ' ' + l[i].append + '</td>' +
-						'<td>' + l[i].desc + '</td>' + 
+						'<td>' + prepend + l[i].val + append + '</td>' +
+						'<td>' + (l[i].valid ? '' : '<b>خطا!</b> داده‌ای وارد نشده است.') + '</td>'
 					'</tr>'
 			}
-		}		
-		
-		bootbox.confirm({
+		}
+		var func = 'bootbox.confirm'
+		var buttons = {
+      confirm: {
+          label: '<i class="fa fa-check"></i> تایید',
+          className: 'btn-success pull-right'
+      },
+      cancel: {
+          label: '<i class="fa fa-times"></i> لغو',
+          className: 'btn-danger'
+      }
+   	};
+   	
+   	if(!all_valid) {
+   		func = 'bootbox.alert'
+			buttons = {
+	      ok: {
+	          label: '<i class="fa fa-pencil"></i> اصلاح',
+	          className: 'btn-default'
+	      }
+	   	};
+   	}
+   	
+		eval(func)({
 			title: 'آیا اطلاعات زیر مورد تایید می‌باشد؟', 
 			message: message_header + message_body + message_footer,
-			callback: callback
+			callback: callback,
+	    buttons: buttons
 		})
 	}
+	
 	$(document).ready(function(){
 		$('.furniture-section').on('mouseover', function(e) {
 			$(this).popover({

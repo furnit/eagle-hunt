@@ -35,7 +35,7 @@ class Employee::FanisController < Employee::EmployeebaseController
       if valid.all?
         @form[:fani].save
         @form[:build_details].each { |f| f.save }
-        format.html { redirect_to edit_employee_fani, notice: 'جزییات با موفقیت ثبت گردید.' }
+        format.html { redirect_to employee_root_path, notice: 'جزییات با موفقیت ثبت گردید.' }
         format.json { head :no_content, status: :ok, location: admin_users_path }
       else
         format.html { render :edit, layout: false, status: :unprocessable_entity }
@@ -84,6 +84,8 @@ class Employee::FanisController < Employee::EmployeebaseController
     par[:furnitures_id] = furniture_params[:id]
     # add the user-id to the collection
     par[:users_id] = current_user.id
+    # convert to thousand tomans
+    [:wage_rokob, :wage_khayat].each { |i| par[i] = par[i].to_i * 1000 }
     # return the processed params
     par
   end

@@ -6,8 +6,12 @@ $(document).on('ready', function() {
     minimum: 0.05,
     trickleRate: 0.03
   });
+  // set bootbox locale
+  bootbox.setLocale('fa');  
   // set bootbox default args
-  bootbox.setLocale('fa');
+  bootbox.setDefaults({
+  	closeButton: false
+  });
 });
 
 $(document).on('ready turbolinks:load', function(){
