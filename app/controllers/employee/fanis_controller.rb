@@ -6,7 +6,12 @@ class Employee::FanisController < Employee::EmployeebaseController
   end
   
   def edit
-    @furniture = Admin::Furniture.find(params[:id]).freeze
+    if not Employee::Processed.where(admin_furniture_id: params[:id], user_id: current_user.id).empty?
+      # this means the user wants to re-evaluate the params
+      @form[:fani] = Employee::Fani.where(furniture_id: params[:id], user_id: current_user.id).first
+      @form[:build_details] = [];
+      byebug
+    end
   end
   
   def create    
@@ -30,11 +35,19 @@ class Employee::FanisController < Employee::EmployeebaseController
     valid = [] 
     valid << @form[:fani].validate
     @form[:build_details].each { |f| valid << f.validate }
-    
+     
     respond_to do |format|
       if valid.all?
         @form[:fani].save
         @form[:build_details].each { |f| f.save }
+        
+        # indicate that the user processed the furniture
+        # if already procecessed, no exception will raised
+        # instead update the updated at column
+        proc = Employee::Processed.find_or_create_by(admin_furniture_id: furniture_params[:id], user_id: fanis_params[:user_id])
+        proc.updated_at = @form[:fani].updated_at
+        proc.save
+        
         format.html { redirect_to employee_root_path, notice: 'جزییات با موفقیت ثبت گردید.' }
         format.json { head :no_content, status: :ok, location: admin_users_path }
       else

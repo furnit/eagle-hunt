@@ -1,4 +1,16 @@
 <div class='container-fluid' id='furniture-collection'>
+	<div style='margin: 20px 0 20px 0'>
+		<% if params[:archived] %>
+			<%= link_to ls_furnitures_employee_home_index_path, class: 'btn btn-default' do %>
+				<span class='fa fa-archive'></span> محصولات ارزیابی نشده
+			<% end %>
+		<% else %>
+			<%= link_to ls_furnitures_employee_home_index_path(archived: 1), class: 'btn btn-success' do %>
+				<span class='fa fa-check'></span> محصولات ارزیابی شده
+			<% end %>
+		<% end %>
+	</div>
+
 	<%= render 'list_furnitures' %>
 </div>
 

@@ -18,7 +18,7 @@
 			  <div class="panel-heading"><strong><span class='fa fa-clock-o'></span> زمان‌بندی</strong></div>
 			  <div class="panel-body">
 					<div class='row'>
-			      <%= ff.number_field :days_to_complete, step: 1, value: 0, min: 0, wrapper: { class: 'col-md-6 pull-right' }  %>
+			      <%= ff.number_field :days_to_complete, step: 1, min: 0, wrapper: { class: 'col-md-6 pull-right' }  %>
 			      <%= ff.select :days_to_complete_scale, [['روز', 'days'], ['هفته', 'weeks'], ['ماه', 'month']], {}, wrapper: { class: 'col-md-offset-3 col-md-3' } %>
 					</div>
 			  </div>

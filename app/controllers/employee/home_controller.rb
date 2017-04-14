@@ -17,15 +17,22 @@ class Employee::HomeController < ApplicationController
   end
   
   def ls_furnitures
-    if params[:archived] 
-      
-    else
-      @furnitures = Admin::Furniture.paginate(:page => params[:page])
-    end
+    @furnitures = ls_furnitures_scop.paginate(:page => params[:page])
     
     respond_to do |format|
       format.html
       format.js
     end
+  end
+  
+  private 
+  def ls_furnitures_scop
+    symbol = current_user.user_type.symbol;
+    acu_as :admin { symbol = session[:admin_as_employee]["sym"] }
+    
+    not_archived = "NOT"
+    not_archived = "" if params[:archived] 
+    
+    Admin::Furniture.where("`id` #{not_archived} IN (SELECT `admin_furniture_id` FROM `employee_processeds` WHERE user_id = ?)", current_user.id)
   end
 end
