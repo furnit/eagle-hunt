@@ -57,24 +57,25 @@
       <% col_scales = [6, 6, 6, 12] %>
       <div class="furniture-item col-lg-<%= col_scales[0] %> col-md-<%= col_scales[1] %> col-sm-<%= col_scales[2] %> col-xs-<%= col_scales[3] %>" style='margin-bottom: 30px'>
         <div class='furniture-content'>
-
-        <div class="thumbnail">
-          <%= link_to image_tag(image_url(f.images[f.cover_details["index"].to_i], thumb: true), :class => 'img img-thumbnail img-responsive', :style => 'width: 100%; height: 250px'), home_furniture_path(f) %>
-          <div class="caption" style='padding: 20px'>
-            <dl>
-              <dt>نام مدل</dt>
-              <dd><%= f.name %></dd>
-              <dt>قیمت</dt>
-              <dd><%= f.cost? %> <%= AppConfig.currency %></dd>
-              <dt>درباره‌ی طرح</dt>
-              <dd class='text-justify'><%= f.comment %></dd>
-            </dl>
-            <div class='clearfix'></div>
-            <p><%= link_to 'مشاهده‌ جزئیات', f, :class => 'info btn btn-primary pull-left' %></p>
-            <div class='clearfix'></div>
-          </div>
-        </div>
-
+	        <div class="thumbnail">
+	          <%= link_to image_tag(image_url(f.images[f.cover_details["index"].to_i], thumb: true), :class => 'img img-thumbnail img-responsive', :style => 'width: 100%; height: 250px'), home_furniture_path(f) %>
+	          <div class="caption" style='padding: 20px'>
+	            <dl>
+	              <dt>نام مدل</dt>
+	              <dd><%= f.name %></dd>
+	              <dt>قیمت</dt>
+	              <dd><%= f.cost? %> <%= AppConfig.currency %></dd>
+	              <dt>درباره‌ی طرح</dt>
+	              <dd class='text-justify'><%= f.comment %></dd>
+	            </dl>
+	            <div class='clearfix'></div>
+	            <p>
+	            	<%= link_to 'مشاهده‌ جزئیات', home_furniture_path(f), :class => 'info btn btn-primary pull-left' %>
+	            	<span style='position: relative; top: 5px' class="label label-<%= f.available ? 'success' : 'warning' %>"><%= f.available ? 'قابل سفارش' : 'غیرقابل سفارش' %></span>
+		            <div class='clearfix'></div>
+            	</p>
+	          </div>
+	        </div>
         </div>
       </div>
     <% end %>

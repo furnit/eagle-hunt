@@ -7,12 +7,12 @@ class HomeController < ApplicationController
     @furniture_type = Admin::FurnitureType.find(params[:id])
     # if image list is nill? make it an empty array
     @furniture_type.images ||= []
-    # fetch the furnitures
+    # fetch from database
     @furniture = @furniture_type.furniture
 	end
 	
 	def furniture
-	  @furniture  = Admin::Furniture.find(params[:id])
+	  @furniture = Admin::Furniture.find(params[:id]) 
 	end
 	
 	def contactus

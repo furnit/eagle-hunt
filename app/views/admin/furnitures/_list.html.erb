@@ -18,7 +18,7 @@
       	next if f.deleted_at
         type_name = Admin::FurnitureType.with_deleted.find(f.furniture_type_id).name;
       %>
-      <tr>
+      <tr <%= raw f.available ? '': "class='warning' data-toggle='tooltip' title='این محصول قابل تولید نیست!'" %>>
         <td><%= f.id %></td>
         <td>
           <a href="#" class='editable' data-type="select" data-resource="admin_furniture" data-name="furniture_type_id" data-value="<%= f.furniture_type_id %>" data-source="<%= admin_furniture_types_path(format: :json) %>" data-url="<%= admin_furniture_path(f) %>" data-original-title="<%= type_name %>">
@@ -52,6 +52,9 @@
               			<span class='fa fa-eye'></span> مشاهده
               		<% end %>
               	</li>
+              	<% if not f.available %>
+              	<li><a href='#'>علت عدم تولید؟</a></li>
+              	<% end %>
               	<li class='divider'></li>
               	<li>
 				          <%= link_to edit_admin_furniture_path(f, admin: :check), :class => 'inline-html-call' do %>

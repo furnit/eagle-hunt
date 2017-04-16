@@ -48,12 +48,9 @@
 					<tr>
 						<th>قیمت پایه</th>
 						<td><%= @furniture.cost? %> تومان</td>
-						<th class='text-<%= @furniture.available ? 'success' : 'danger' %>'>وضعیت</th>
-						<td class='text-<%= @furniture.available ? 'success' : 'danger' %>'>
-							<%= raw @furniture.available \
-								? '<span class="fa fa-check"></span> موجود' \
-								: '<span class="fa fa-times"></span> ناموجود'
-							%>
+						<th>وضعیت</th>
+						<td>
+							<span class="label label-<%= @furniture.available ? 'success' : 'warning' %>"><%= @furniture.available ? 'قابل سفارش' : 'غیرقابل سفارش' %></span>
 						</td>
 					</tr>
 					<tr>
@@ -65,11 +62,23 @@
 		</fieldset>
 		<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12 text-center' style='padding: 0; padding-top: 40px;'>
 		  <div class='col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-2 col-sm-8 col-xs-offset-2 col-xs-8 order'>
-  		  <div class='btn-order'>
-  		    <label>سفارش محصول</label>
-  		    <div><span class='fa fa-truck'></span></div>
+  		  <div class='btn-order <%= @furniture.available ? '' : 'not-available'%>'>
+  		    <label>
+  		    	<% if @furniture.available %>
+  		    		سفارش محصول
+		    		<% else %>
+		    			من را در جریان بگذار!
+		    		<% end %>
+		    	</label>
+  		    <div><span class='fa <%= @furniture.available ? 'fa-truck' : 'fa-bell-o' %>'></span></div>
   	    </div>
-  	    <p style=''>توجه فرمایید که می‌توانید در مرحله‌ تکمیل خرید، کلیه‌ی سفارشات خود را با تغییرات دلخواه از ما بخواهید.</p>
+  	    <p style=''>
+		    	<% if @furniture.available %>
+  	    		توجه فرمایید که می‌توانید در مرحله‌ تکمیل خرید، کلیه‌ی سفارشات خود را با تغییرات دلخواه از ما بخواهید.
+	    		<% else %>
+	    			می‌توانیم شما را از قابل تولید شدن این محصول در آینده از طریق پیام کوتاه مطلع کنیم.
+	    		<% end %>
+	    	</p>
 	    </div>
 		</div>
 		<div class='col-lg-9 col-md-9 col-sm-6 col-xs-12 text-success pull-left' id='sell-conditions' style="font-weight: bold">

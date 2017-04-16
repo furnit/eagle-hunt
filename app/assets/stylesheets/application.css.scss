@@ -232,12 +232,12 @@ body {
         color: white;
         height: 50px;
         cursor: pointer;
-        background-color: #34b52b;
+        background-color: $label-success-bg;
         @include cross-browser-border-radius(4px);
       }
       &:hover {
-        & { background-color: #39bc2d }
-        & > div { background-color: #50d341 }
+        & { background-color: darken($label-success-bg, 5%) }
+        & > div { background-color: darken($label-success-bg, 15%) }
       }
       & > * {
         cursor: pointer;
@@ -255,9 +255,20 @@ body {
         @extend .col-md-4;
         @extend .col-sm-4;
         @extend .col-xs-4;
-        background-color: #49ce40;
+        background-color: darken($label-success-bg, 10%);
         height: 100%;
         padding-top: 16px;
+      }
+      &.not-available {
+        & {
+          color: white;
+          background-color: $label-warning-bg;
+        }
+        & > div { background-color: darken($label-warning-bg, 10%); }
+        &:hover {
+          & { background-color: darken($label-warning-bg, 5%) }
+          & > div { background-color: darken($label-warning-bg, 15%) }
+        }
       }
     }
   }
