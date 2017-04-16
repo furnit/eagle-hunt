@@ -37,7 +37,7 @@
 					<% end %>
         </td>
         <td>
-          <a href="#" class='editable' data-type="textarea" data-max-length='11' data-placement="bottom" data-resource="admin_furniture" data-name="comment" data-url="<%= admin_furniture_path(f) %>" data-original-title="درباره‌ی مدل:"><%= f.comment.empty? ? "«آدرسی ثبت نشده است.»" : f.comment %></a>
+          <a href="#" class='editable' data-type="textarea" data-max-length='11' data-placement="bottom" data-resource="admin_furniture" data-name="comment" data-url="<%= admin_furniture_path(f) %>" data-original-title="درباره‌ی مدل:"><%= f.comment.empty? ? "«توضیحی ثبت نشده است.»" : f.comment %></a>
         </td>
         <td class='datetime' data-date='<%= f.updated_at %>'></td>
         <td>
