@@ -71,13 +71,15 @@ gem 'will_paginate-bootstrap'
 # Translation for will_paginate
 gem 'will-paginate-i18n', github: 'noise2/will-paginate-i18n'
 # The access control unit
-gem 'rails-acu', github: 'noise2/rails-acu'
+gem 'rails-acu'
 # for filtered search
 gem 'filterrific', github: 'ayaman/filterrific'
 # for inline editing
 gem 'bootstrap-editable-rails'
 # for pretty bootstrap selects
 gem 'bootstrap-select-rails'
+# for RECAPTCHA
+gem "recaptcha", require: "recaptcha/rails"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

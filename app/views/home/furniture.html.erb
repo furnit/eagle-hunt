@@ -1,5 +1,6 @@
 <%= javascript_include_tag 'admin/furnitures' %>
 <%= stylesheet_link_tag    'admin/furnitures', media: 'all' %>
+
 <%= render 'furniture_cover', :furniture => @furniture %>
 
 <style type="text/css" media="screen">
@@ -62,7 +63,7 @@
 		</fieldset>
 		<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12 text-center' style='padding: 0; padding-top: 40px;'>
 		  <div class='col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-2 col-sm-8 col-xs-offset-2 col-xs-8 order'>
-  		  <div class='btn-order <%= @furniture.available ? '' : 'not-available'%>'>
+  		  <div class='btn-order <%= @furniture.available ? '' : 'not-available notify-me'%>' <%= @furniture.available ? '' : "data-callback='notify_me'" %> onclick="notify_me()">
   		    <label>
   		    	<% if @furniture.available %>
   		    		سفارش محصول
@@ -120,9 +121,58 @@
 			</fieldset>
 		</div>
 	</div>
+</div>      
+
+<div id="notify_me_form" class='hidden'>
+  <%= redirect_form "", url: 'x' do |f| %>
+  	<%= f.telephone_field :phone_number, hide_label: true, placeholder: '09*********',  autofocus: true, maxlength: 11, name: 'phone_number', required: true %>
+  	<%= recaptcha_tags hl: I18n.locale, ajax: true %>
+  	<hr />
+  	<div class='field'>
+	  	<%= link_to '#', class: 'btn btn-success btn-submit', onclick: '$(this).closest("form").submit(); return false;' do %>
+	  		<span class='fa fa-check'></span> ثبت شماره
+	  	<% end %>
+	  	<%= link_to '#', class: 'btn btn-danger', onclick: '$(this).closest(".modal").modal("hide"); return false;' do %>
+	  		<span class='fa fa-times'></span> انصراف
+  		<% end %>
+  	</div>
+	<% end %>
 </div>
 
 <script type="text/javascript" charset="utf-8">
+	<% if not @furniture.available %>
+		function notify_me() {
+			
+			var notify_user = function(phone_number) {
+				$.post('<%= home_furniture_notify_path %>', {phone_number: phone_number}, function() {
+					
+				})
+			};
+			<% acu_as :guest do %>
+				var dialog_text = "لطفا شماره‌ موبایل خود را وارد کنید:";
+				var box = undefined;
+				var bootbox_alert = function(text) {
+					box = bootbox.dialog({
+						title: text,	
+					  message: $('#notify_me_form').html(),
+					  onEscape: true
+					}, get_phone_number);
+				};
+				var get_phone_number = function(result){
+					if(!(new RegExp('09[0-9]{9}')).test(result)) {
+						setTimeout(function() { bootbox_alert(dialog_text.replace("<small class='text-muted'>", "<small class='text-danger'>")); }, 500)
+					} else {
+						notify_user(phone_number);
+					}
+				};
+				bootbox_alert(dialog_text);
+			<% end %>
+			<% acu_except :guest do %>
+				notify_user("<%= current_user.phone_number %>");
+			<% end %>
+		};
+	<% end %>
+
 	$(document).ready(function(){
 		$('a#edit-furniture-description').click(function(e){
 			e.preventDefault();

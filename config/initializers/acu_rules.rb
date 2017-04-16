@@ -4,6 +4,8 @@ Acu::Rules.define do
   whois :everyone { true }
   # folks who signed in
   whois :signed_in, args: [:user] { |user| user }
+  # folks who didn't signed in
+  whois :guest, args: [:user] { |user| not user }
   # other user entities
   [
     :ADMIN, :GRAPHIC, :FANI,

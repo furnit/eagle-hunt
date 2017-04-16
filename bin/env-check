@@ -1,0 +1,14 @@
+#!/bin/bash
+if [[ -f tmp/env && -f tmp/env.bash ]]; then
+  echo "environment files exists and decrypted"
+else
+  cp -v data/env.dat tmp/
+  cd tmp
+  if [ ! -f env.dat ]; then
+    echo 'tmp/env.dat does not exists!'
+    echo '[ABORT]'
+    exit 1
+  fi 
+  gpg env.dat && unzip -jo env.zip && sudo service nginx reload
+  cd ..
+fi

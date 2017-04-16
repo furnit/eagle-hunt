@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     get "#{action}/:id", to: "home##{action}", as: "home_#{action}"
   end
   
+  post 'furniture/notify', to: 'home#furniture_notify', as: 'home_furniture_notify'
+  
   get 'contact/us/:section', to: 'home#contactus', as: 'contact_us'
 
   resources :uploaded_files, RC::ajax_server.merge(RC::json_request_only)

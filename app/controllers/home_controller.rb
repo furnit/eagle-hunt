@@ -15,6 +15,10 @@ class HomeController < ApplicationController
 	  @furniture = Admin::Furniture.find(params[:id]) 
 	end
 	
+	def furniture_notify
+	  
+	end
+	
 	def contactus
 	end
 end
