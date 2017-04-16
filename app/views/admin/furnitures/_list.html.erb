@@ -30,7 +30,7 @@
             <%= f.name %>
           </a>
         </td>
-        <td class='photo-gallary-collection-incomplete'>
+        <td class='photo-gallery-collection-incomplete'>
         	<% i = f.images[f.cover_details["index"].to_i] %>
 					<%= link_to image_url(i), data: { id: f.id, source: list_images_admin_furniture_path(f) } do %>
 						<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
@@ -78,16 +78,16 @@
 <script type="text/javascript" charset="utf-8">
 	function update_cover_thumb(idx) {
 		item = gallery.items[idx];
-		$('.photo-gallary-collection-incomplete a[data-source].active')
+		$('.photo-gallery-collection-incomplete a[data-source].active')
 			.attr('href', item.src)
 			.find('img')
 				.attr('src', item.msrc + "?" + (new Date()).getTime())
-		$('.photo-gallary-collection-incomplete a[data-source].active')
+		$('.photo-gallery-collection-incomplete a[data-source].active')
 			.removeClass('active')
 	}
 	$(document).ready(function(){
 		function append2gallery() {
-			$('.photo-gallary-collection-incomplete a[data-source]').bind('append2gallery', function(e, data, index, gallery) {
+			$('.photo-gallery-collection-incomplete a[data-source]').bind('append2gallery', function(e, data, index, gallery) {
 				link = 
 				'<%= link_to "{0}", data: { index: "{1}", thumb: "{2}", cover: "{3}", "cover-url": cover_admin_furniture_path("{4}", format: :json) } do %>\
 					<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
@@ -104,5 +104,5 @@
 	})
 </script>
 
-<%= render 'shared/photo_gallary', collection: @furnitures %>
-<%= render 'shared/photo_gallary_cover', collection: @furniture, js_on_cover_set: "update_cover_thumb(idx)" %>
+<%= render 'shared/photo_gallery', collection: @furnitures %>
+<%= render 'shared/photo_gallery_cover', collection: @furniture, js_on_cover_set: "update_cover_thumb(idx)" %>

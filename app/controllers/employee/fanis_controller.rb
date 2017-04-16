@@ -9,9 +9,13 @@ class Employee::FanisController < Employee::EmployeebaseController
     if not Employee::Processed.where(admin_furniture_id: params[:id], user_id: current_user.id).empty?
       # this means the user wants to re-evaluate the params
       @form[:fani] = Employee::Fani.where(furniture_id: params[:id], user_id: current_user.id).last
+      # create new records if something is wrong and the Fani not found
+      set_forms_instance and return if not @form[:fani] 
+      # try to normalize the wages to thousand tomans!
       [:wage_rokob, :wage_khayat].each do |column|
         @form[:fani][column] = (@form[:fani][column] / 1000).to_i
       end
+      # fetch the details
       @form[:build_details] = @form[:fani].furniture_build_details
     end
   end

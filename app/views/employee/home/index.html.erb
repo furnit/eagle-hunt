@@ -45,8 +45,23 @@
   </div>
 </div>
 
+<div id='data-field-panel-success' class='hidden'>
+	<div class="panel panel-success" style='font-size: 18px'>
+	  <div class="panel-heading">
+	  	<span class='fa fa-eercast'></span> عملیات موفق!
+	  </div>
+	  <div class="panel-body">
+	  	اطلاعات شما با موفقیت ثبت گردید، لطفا با کلیک بر روی دیگر عکس‌های سمت چپ (در صورت وجود) صفحه (<span class='fa fa-hand-o-left'></span>) به ارزیابی محصولات بپردازید. <br />
+	  	<small class='text-muted pull-left' style='margin-top: 10px;'>
+	  		باتشکر<br />
+	  		تیم مدیریت «مبل ویرا»
+  		</small>
+	  </div>
+	</div>
+</div>
+
 <script type="text/javascript" charset="utf-8">
-	function on_load_contents() {
+	function on_load_content(id) {
 		$('#data-field-panel-content form[data-remote]')
 			.on("keypress", function (e) { return (e.keyCode != 13 || $(this).find($(document.activeElement)).attr('type') === 'submit') })
 			.on('ajax:error', function(e, data, status, xhr) {
@@ -55,10 +70,17 @@
 					title: 'خطا در انجام عملیات!', 
 					message: 'به علت وجود <b>' + $(data.responseText).find('.has-error').length + ' خطا</b> امکان ثبت اطلاعات وجود نداشت؛ لطفا پس از اصلاح خطاها دوباره فرم را ثبت کنید.'
 				})
-				on_load_contents();
+				on_load_content();
 			})
 			.on('ajax:success', function() {
-				console.log('do some stuff to remove the curent fur. and move on!')
+				// make it the success
+				$('#data-field-panel-content').html($('#data-field-panel-success').html())
+				// get the iframe object
+				iframe = $('[name="panel-frame"]').get()[0].contentWindow
+				// close the gallery
+				iframe["gallery"].close()
+				// indicate the success by check the selected element
+				iframe.check_element_by_id(id, 'اطلاعات مربوط به این نمونه با موفقیت ثبت گردید!');
 			}).find('[type="submit"]').click(function(){
 				$this = $(this)
 				on_employee_form_submit(function(result) { 
@@ -80,7 +102,7 @@
 				$('#data-field-panel-content')
 					.removeClass('text-center')
 					.html(data);
-				on_load_contents();
+				on_load_content(id);
 			}
 		})
 	}

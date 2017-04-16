@@ -68,3 +68,31 @@
     }
   }
 }
+
+.photo-gallery-parent {
+  & {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+  }
+  &:hover .checked
+  { display: none; }
+  
+  .checked {
+    & {
+      background-color: white;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: .5;
+      cursor: pointer;
+    }
+    .fa {
+      color: green;
+      position: relative;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+    }
+  }
+}

@@ -51,10 +51,10 @@ ActiveRecord::Schema.define(version: 20170414102811) do
   create_table "admin_furnitures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.json     "images"
-    t.boolean  "available"
+    t.boolean  "available",                       default: false
     t.string   "comment",           limit: 140
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.integer  "furniture_type_id"
     t.text     "description",       limit: 65535
     t.datetime "deleted_at"
@@ -211,8 +211,8 @@ ActiveRecord::Schema.define(version: 20170414102811) do
   end
 
   add_foreign_key "admin_furnitures", "admin_furniture_types", column: "furniture_type_id"
-  add_foreign_key "employee_fanis_furniture_build_details", "employee_fanis"
-  add_foreign_key "employee_fanis_furniture_build_details", "furniture_build_details"
+  add_foreign_key "employee_fanis_furniture_build_details", "employee_fanis", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "employee_fanis_furniture_build_details", "furniture_build_details", on_update: :cascade, on_delete: :cascade
   add_foreign_key "employee_processeds", "admin_furnitures"
   add_foreign_key "employee_processeds", "users"
   add_foreign_key "furniture_build_details", "admin_furniture_sections"

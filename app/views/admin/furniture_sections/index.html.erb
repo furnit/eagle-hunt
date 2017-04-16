@@ -32,7 +32,7 @@
               <%= admin_furniture_section.name %>
             </a>
           </td>
-	        <td class='photo-gallary-collection-incomplete'>
+	        <td class='photo-gallery-collection-incomplete'>
 	        	<% i = admin_furniture_section.images.first %>
 						<%= link_to image_url(i), data: { id: admin_furniture_section.id, source: list_images_admin_furniture_section_path(admin_furniture_section) } do %>
 							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
@@ -75,7 +75,7 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 		function append2gallery() {
-			$('.photo-gallary-collection-incomplete a[data-source]').bind('append2gallery', function(e, data, index, gallery) {
+			$('.photo-gallery-collection-incomplete a[data-source]').bind('append2gallery', function(e, data, index, gallery) {
 				link = 
 				'<%= link_to "{0}", data: { index: "{1}", thumb: "{2}" } do %>\
 					<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
@@ -91,4 +91,4 @@
 	})
 </script>
 
-<%= render 'shared/photo_gallary', collection: @admin_furniture_sections %>
+<%= render 'shared/photo_gallery', collection: @admin_furniture_sections %>

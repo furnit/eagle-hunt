@@ -1,5 +1,5 @@
 [
-  ['راحتی', 'data/images/samples/furnitures/sample-1.jpg']
+  ['راحتی', 'data/images/samples/furnitures/1/sample-1.jpg']
 ]
 .each do |name, image|
   type = Admin::FurnitureType.create(name: name, comment: name)
@@ -9,7 +9,8 @@ end
 
 
 [
-  ['بهارک', 'data/images/samples/furnitures/sample*.jpg']
+  ['گلزاد', 'data/images/samples/furnitures/1/sample*.jpg'],
+  ['بهارک', 'data/images/samples/furnitures/2/sample*.jpg']
 ]
 .each do |name, pattern|
   fur = Admin::Furniture.create(name: name, comment: name, furniture_type_id: 1)

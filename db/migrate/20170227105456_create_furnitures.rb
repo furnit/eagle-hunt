@@ -16,7 +16,7 @@ class CreateFurnitures < ActiveRecord::Migration[5.0]
 
       t.json :images
 
-      t.boolean :available
+      t.boolean :available, default: false
       t.text :comment
 
       t.timestamps
