@@ -90,15 +90,6 @@ ActiveRecord::Schema.define(version: 20170414102811) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "employee_fani_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "employee_fani_id"
-    t.integer  "furniture_build_detail_id"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.index ["employee_fani_id"], name: "index_employee_fani_details_on_employee_fani_id", using: :btree
-    t.index ["furniture_build_detail_id"], name: "index_employee_fani_details_on_furniture_build_detail_id", using: :btree
-  end
-
   create_table "employee_fanis", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "furniture_id"
     t.integer  "user_id"
@@ -115,11 +106,21 @@ ActiveRecord::Schema.define(version: 20170414102811) do
     t.index ["user_id"], name: "index_employee_fanis_on_user_id", using: :btree
   end
 
+  create_table "employee_fanis_furniture_build_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "employee_fani_id"
+    t.integer  "furniture_build_detail_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["employee_fani_id"], name: "index_employee_fani", using: :btree
+    t.index ["furniture_build_detail_id"], name: "index_furniture_build_detail", using: :btree
+  end
+
   create_table "employee_processeds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "admin_furniture_id"
     t.integer  "user_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.index ["admin_furniture_id", "user_id"], name: "index_admin_furniture_id_user_id", unique: true, using: :btree
     t.index ["admin_furniture_id", "user_id"], name: "index_employee_processeds_on_admin_furniture_id_and_user_id", unique: true, using: :btree
     t.index ["admin_furniture_id"], name: "index_employee_processeds_on_admin_furniture_id", using: :btree
     t.index ["user_id"], name: "index_employee_processeds_on_user_id", using: :btree
@@ -210,8 +211,8 @@ ActiveRecord::Schema.define(version: 20170414102811) do
   end
 
   add_foreign_key "admin_furnitures", "admin_furniture_types", column: "furniture_type_id"
-  add_foreign_key "employee_fani_details", "employee_fanis"
-  add_foreign_key "employee_fani_details", "furniture_build_details"
+  add_foreign_key "employee_fanis_furniture_build_details", "employee_fanis"
+  add_foreign_key "employee_fanis_furniture_build_details", "furniture_build_details"
   add_foreign_key "employee_processeds", "admin_furnitures"
   add_foreign_key "employee_processeds", "users"
   add_foreign_key "furniture_build_details", "admin_furniture_sections"

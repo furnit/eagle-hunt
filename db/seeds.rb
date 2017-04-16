@@ -89,3 +89,15 @@ end
 .each.with_index do |name, index|
   Admin::FurnitureStuffAbr.create!(name: name, value: 3 - index)
 end
+
+[
+  ['ابر', 'ورق'],
+  ['پارچه', 'متر']
+]
+.each do |name, scale|
+  Admin::FurnitureSpec.create!(name: name, scale: scale, comment: name)
+end
+
+target_asset = Rails.root.join( 'db', 'seeds', "#{Rails.env.downcase}.rb")
+
+load(target_asset) if File.file?(target_asset)

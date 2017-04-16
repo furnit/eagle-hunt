@@ -8,9 +8,11 @@ class Employee::FanisController < Employee::EmployeebaseController
   def edit
     if not Employee::Processed.where(admin_furniture_id: params[:id], user_id: current_user.id).empty?
       # this means the user wants to re-evaluate the params
-      @form[:fani] = Employee::Fani.where(furniture_id: params[:id], user_id: current_user.id).first
-      @form[:build_details] = [];
-      byebug
+      @form[:fani] = Employee::Fani.where(furniture_id: params[:id], user_id: current_user.id).last
+      [:wage_rokob, :wage_khayat].each do |column|
+        @form[:fani][column] = (@form[:fani][column] / 1000).to_i
+      end
+      @form[:build_details] = @form[:fani].furniture_build_details
     end
   end
   
@@ -35,11 +37,17 @@ class Employee::FanisController < Employee::EmployeebaseController
     valid = [] 
     valid << @form[:fani].validate
     @form[:build_details].each { |f| valid << f.validate }
-     
+    
     respond_to do |format|
       if valid.all?
+        # destroy all related data from previous un-confirmed details for current furniture and user
+        # this will give the user edit-like ability without making database messy and also keeping the confirmed data on touched!
+        Employee::Fani.where(furniture_id: furniture_params[:id], user_id: current_user.id, confirmed: false).destroy_all
+        # store the new data
         @form[:fani].save
         @form[:build_details].each { |f| f.save }
+        # link stuff together
+        @form[:build_details].each { |f| Employee::FanisFurnitureBuildDetails.create(employee_fani_id: @form[:fani].id, furniture_build_detail_id: f.id) }
         
         # indicate that the user processed the furniture
         # if already procecessed, no exception will raised
