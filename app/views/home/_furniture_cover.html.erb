@@ -37,9 +37,13 @@
 	</div>
 	<script type="application/javascript">
 		$(document).ready(function(){
-			// if we have overflow and need to scroll?
-			if($('#cover-collection')[0].scrollWidth > $('#cover-collection').width())
-				$('.cover-scroller[data="left"]').removeClass('disabled')
+			// this is a fix for turbolink's UI glinch bug
+			// we enable scrolling after 1.5sec of page loading
+			setTimeout(function(){
+				// if we have overflow and need to scroll?
+				if($('#cover-collection')[0].scrollWidth > $('#cover-collection').width())
+					$('.cover-scroller[data="left"]').removeClass('disabled')
+			}, 1000);
 			
 			// load thumbnail first and set the cover when it's loaded
 			$('#div-f-cover[data-thumb]').each(function(){	
