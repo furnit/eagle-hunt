@@ -124,12 +124,16 @@
 </div>      
 
 <div id="notify_me_form" class='hidden'>
-  <%= redirect_form "", url: 'x' do |f| %>
+  <%= redirect_form "", url: home_furniture_notify_path, remote: true do |f| %>
+  	<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+		<% acu_as :guest do %>
   	<%= f.telephone_field :phone_number, hide_label: true, placeholder: '09*********',  autofocus: true, maxlength: 11, name: 'phone_number', required: true %>
-  	<%= recaptcha_tags hl: I18n.locale, ajax: true %>
+  	<% end %>
+  	<p>لطفا جهت احراز هویت گزینه‌ی «من ربات نیستم» را انتخاب کنید.</p>
+  	<div class='g-recaptcha' data-sitekey='<%= AppConfig.recaptcha.keys.site %>' data-callback='console.log("callback###");$(this).closest("form").find(".btn-submit").removeClass("disabled")'></div>
   	<hr />
   	<div class='field'>
-	  	<%= link_to '#', class: 'btn btn-success btn-submit', onclick: '$(this).closest("form").submit(); return false;' do %>
+	  	<%= link_to '#', class: 'btn btn-success btn-submit disabled', onclick: '$(this).closest("form")[0].submit(); return false;' do %>
 	  		<span class='fa fa-check'></span> ثبت شماره
 	  	<% end %>
 	  	<%= link_to '#', class: 'btn btn-danger', onclick: '$(this).closest(".modal").modal("hide"); return false;' do %>
@@ -142,34 +146,57 @@
 <script type="text/javascript" charset="utf-8">
 	<% if not @furniture.available %>
 		function notify_me() {
-			
-			var notify_user = function(phone_number) {
-				$.post('<%= home_furniture_notify_path %>', {phone_number: phone_number}, function() {
-					
+			var dialog_text = "لطفا شماره‌ موبایل خود را وارد کنید:";
+			var box = undefined;
+			var bootbox_alert = function(text) {
+				box = bootbox.dialog({
+				<% acu_as :guest do %>
+					title: text,	
+				<% end %>
+				  message: $('#notify_me_form').html(),
+				  onEscape: true
+				}, get_phone_number);
+				box.init(function(){
+					box.find('form[data-remote="true"]')
+						.on('ajax:success', function() {
+							alert('SHIT FORM-SUBMIT OK');
+						})
+						.on('ajax:error', function() {
+							alert('SUBMIT ERROR!')
+						});
 				})
 			};
-			<% acu_as :guest do %>
-				var dialog_text = "لطفا شماره‌ موبایل خود را وارد کنید:";
-				var box = undefined;
-				var bootbox_alert = function(text) {
-					box = bootbox.dialog({
-						title: text,	
-					  message: $('#notify_me_form').html(),
-					  onEscape: true
-					}, get_phone_number);
-				};
-				var get_phone_number = function(result){
+			var get_phone_number = function(result){
+				<% acu_as :guest do %>
 					if(!(new RegExp('09[0-9]{9}')).test(result)) {
 						setTimeout(function() { bootbox_alert(dialog_text.replace("<small class='text-muted'>", "<small class='text-danger'>")); }, 500)
 					} else {
 						notify_user(phone_number);
 					}
-				};
-				bootbox_alert(dialog_text);
-			<% end %>
-			<% acu_except :guest do %>
-				notify_user("<%= current_user.phone_number %>");
-			<% end %>
+				<% end %>
+			};
+			
+			var bootbox_alert = function(text) {
+				box = bootbox.dialog({
+				<% acu_as :guest do %>
+					title: text,	
+				<% end %>
+				  message: $('#notify_me_form').html(),
+				  onEscape: true
+				}, get_phone_number);
+				
+				box.init(function(){
+					box.find('form[data-remote="true"]')
+						.on('ajax:success', function() {
+							alert('SHIT FORM-SUBMIT OK');
+						})
+						.on('ajax:error', function() {
+							alert('SUBMIT ERROR!')
+						});
+				})
+			};
+			
+			bootbox_alert(dialog_text);
 		};
 	<% end %>
 

@@ -78,8 +78,6 @@ gem 'filterrific', github: 'ayaman/filterrific'
 gem 'bootstrap-editable-rails'
 # for pretty bootstrap selects
 gem 'bootstrap-select-rails'
-# for RECAPTCHA
-gem "recaptcha", require: "recaptcha/rails"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

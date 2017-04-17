@@ -11,6 +11,12 @@ defaults: &defaults
     sms_ir:
       username: <%= ENV['SMS_API_USERNAME'] %>
       password: <%= ENV['SMS_API_PASSWORD'] %>
+      
+  recaptcha:
+    verify: https://www.google.com/recaptcha/api/siteverify
+    keys:
+      site: <%= ENV['RECAPTCHA_SITE_KEY'] || '' %>
+      secret: <%= ENV['RECAPTCHA_SECRET_KEY'] || '' %>
   
   css:
     furniture:

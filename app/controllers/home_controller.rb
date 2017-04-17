@@ -16,6 +16,15 @@ class HomeController < ApplicationController
 	end
 	
 	def furniture_notify
+	  require "uri"
+    require "net/http"
+	  params = {
+	    secret: AppConfig.recaptcha.keys.secret,
+	    response: params["g-recaptcha-response"],
+	    remoteip: request.remote_ip
+	  }
+	  byebug
+	  x = Net::HTTP.post_form(URI.parse(AppConfig.recaptcha.verify), params)
 	  
 	end
 	

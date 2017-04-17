@@ -8,23 +8,20 @@
     <%= javascript_include_tag 'application' %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
         
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
       var recaptcha_callback = function() {
       	$('.recaptcha-check').each(function(){
       		if($(this).attr('id') === undefined || $(this).attr('id').length === 0)
       			$(this).attr('id', 'id-' + Math.floor(Date.now() + 1e+10 * Math.random()).toString())
     			ID = $(this).attr('id');
 	        grecaptcha.render(ID, {
-	          'sitekey' : '<%= AppConfig %>',
-	          'callback': function() {
-	          	eval($('#'+ID).attr('data-callback'))
-	          }
+	          'sitekey' : '<%= AppConfig.recaptcha.keys.site %>',
+	          'callback': function() { eval($('#'+ID).attr('data-callback')) }
 	        });
       	})
       };
     </script>
-
-    <script src="https://www.google.com/recaptcha/api.js?hl=fa&onload=recaptcha_callback&render=explicit" async defer></script> -->
+    <script src="https://www.google.com/recaptcha/api.js?hl=<%= I18n.locale.to_s %>"></script>
   </head>
 
   <body>

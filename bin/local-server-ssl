@@ -1,0 +1,7 @@
+#!/bin/bash
+
+bin/env-check
+
+. tmp/env.bash
+
+puma -b 'ssl://127.0.0.1:3000?key=data/local-certs/localhost.key&cert=data/local-certs/localhost.crt' -b 'tcp://127.0.0.1:3001'
