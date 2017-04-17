@@ -2,7 +2,7 @@
 <%= stylesheet_link_tag    'admin/furnitures', media: 'all' %>
 
 <%= render 'furniture_cover', :furniture => @furniture %>
-
+<% subscribed_on_avail = (user_signed_in? and NotifyOnFurnitureAvailable.exists?(admin_furniture_id: @furniture.id, phone_number: current_user.phone_number)); %>
 <style type="text/css" media="screen">
 	.block th { direction: rtl; text-align: right; }
 </style>
@@ -63,23 +63,15 @@
 		</fieldset>
 		<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12 text-center' style='padding: 0; padding-top: 40px;'>
 		  <div class='col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-2 col-sm-8 col-xs-offset-2 col-xs-8 order'>
-  		  <div class='btn-order <%= @furniture.available ? '' : 'not-available notify-me'%> <%= (user_signed_in? and NotifyOnFurnitureAvailable.exists?(admin_furniture_id: @furniture.id, phone_number: current_user.phone_number)) ? 'will-be-notified' : '' %>' <%= @furniture.available ? '' : "data-callback='notify_me'" %>>
-  		    <label>
-  		    	<% if @furniture.available %>
-  		    		سفارش محصول
-		    		<% else %>
-		    			من را در جریان بگذار!
-		    		<% end %>
-		    	</label>
-  		    <div><span class='fa <%= @furniture.available ? 'fa-truck' : 'fa-bell-o' %>'></span></div>
-  	    </div>
-		    <p style=''>
-		    	<% if @furniture.available %>
-  	    		توجه فرمایید که می‌توانید در مرحله‌ تکمیل خرید، کلیه‌ی سفارشات خود را با تغییرات دلخواه از ما بخواهید.
-	    		<% else %>
-	    			می‌توانیم شما را از قابل تولید شدن این محصول در آینده از طریق پیام کوتاه مطلع کنیم.
-	    		<% end %>
-	    	</p>
+		  	<% if @furniture.available %>
+	  		  <div class='btn-order'>
+	  		    <label>سفارش محصول</label>
+	  		    <div><span class='fa <%= @furniture.available ? 'fa-truck' : 'fa-bell-o' %>'></span></div>
+	  	    </div>
+			    <p style=''>توجه فرمایید که می‌توانید در مرحله‌ تکمیل خرید، کلیه‌ی سفارشات خود را با تغییرات دلخواه از ما بخواهید.</p>
+	    	<% else %>
+					<%= check_awesome 'مرا در جریان بگذار!', 'می‌توانیم شما را از قابل تولید شدن این محصول در آینده از طریق پیام کوتاه مطلع کنیم', name: 'notify-me', checked: subscribed_on_avail %>
+	    	<% end %>
 	    </div>
 		</div>
 		<div class='col-lg-9 col-md-9 col-sm-6 col-xs-12 text-success pull-left block-footer' style="font-weight: bold">
@@ -100,16 +92,18 @@
 				  	<% end %>
 				  	<div class='col-md-6 <%= user_signed_in? ? 'pull-right' : '' %>'>
 					  	<p class=''>لطفا جهت احراز هویت گزینه‌ی «من ربات نیستم» را انتخاب کنید.</p>
-					  	<div class='g-recaptcha' data-sitekey='<%= AppConfig.recaptcha.keys.site %>' data-callback='enable_notify_me'></div>
+					  	<div class='g-recaptcha' data-sitekey='<%= AppConfig.recaptcha.keys.site %>' data-callback='notify_me_enable'></div>
 				  	</div>
 			  	</div>
 			  	<div class='clearfix'></div>
 			  	<hr />
 			  	<div class='field'>
-				  	<%= link_to '#', class: 'btn btn-success btn-submit disabled', onclick: '$(this).closest("form").trigger("submit.rails"); return false;' do %>
-				  		<span class='fa fa-check'></span> ثبت شماره
+				  	<%= link_to '#', class: 'btn btn-success btn-submit disabled', onclick: 'notify_me_submit(); return false;' do %>
+				  		<span class="fa fa-trash-o"></span>
+				  		<span avail-checked="false" class="<%= subscribed_on_avail ? '' : 'hidden' %>">حذف پیگیری</span>
+				  		<span avail-checked="true" class="<%= subscribed_on_avail ? 'hidden' : '' %>">ثبت شماره</span>
 				  	<% end %>
-				  	<%= link_to '#', class: 'btn btn-danger', onclick: 'close_notify_me(); return false;' do %>
+				  	<%= link_to '#', class: 'btn btn-danger', onclick: '$("[name=\"notify-me\"]").click(); return false;' do %>
 				  		<span class='fa fa-times'></span> انصراف
 			  		<% end %>
 			  	</div>
@@ -151,44 +145,69 @@
 </div>  	    
 
 <script type="text/javascript" charset="utf-8">
-	function enable_notify_me() {
+	function notify_me_enable() {
 		$('#notify-me-form .btn-submit').removeClass('disabled');
 	}
-	function open_notify_me() {
-		grecaptcha.reset();
-		var $el = $('.btn-order.notify-me').addClass('open').closest('.block').find('.block-footer');
+	function notify_me_reset() {
+		if(typeof grecaptcha === "object")
+			grecaptcha.reset();
+	}
+	function notify_me_submit() {
+		form = ('#notify-me-form form');
+		$(form).find('.btn-submit').addClass('disabled');
+		$(form).find('[name="checked"]').remove()
+		$('<input>').attr({
+		    type: 'hidden',
+		    value: $('[name="notify-me"]').prop('checked'),
+		    name: 'checked'
+		}).prependTo(form)
+		$(form).trigger('submit.rails');
+	}
+	function notify_me_open($this) {
+		notify_me_reset();
+		var $el = $this.addClass('open').closest('.block').find('.block-footer');
+		$('#notify-me-form form .btn-submit')
+			.find('[avail-checked]')
+				.addClass('hidden')
+			.closest('.btn-submit')
+				.find('.fa')
+					.attr('class', 'fa fa-'+($('[name="notify-me"]').prop('checked') ? 'check' : 'trash'))
+			.closest('.btn-submit')
+				.find('[avail-checked="'+ $('[name="notify-me"]').prop('checked')+'"]')
+					.removeClass('hidden');
+		
 		$el.find('#sell-conditions').fadeOut(function(){
 			$el.find('#notify-me-form').hide().removeClass('hidden').fadeIn()
 		});
 	}
-	function close_notify_me() {
-		var $el = $('.btn-order.notify-me').removeClass('open').closest('.block').find('.block-footer');
+	function notify_me_close($this) {
+		var $el = $this.removeClass('open').closest('.block').find('.block-footer');
 		$el.find('#notify-me-form').fadeOut(function(){
 			$(this).removeClass('hidden');
 			$el.find('#sell-conditions').fadeIn();
 		})
 	}
 	$(document).ready(function(){
-		$('.btn-order.notify-me').click(function() {
-			if($(this).hasClass('open')) close_notify_me(); 
-			else open_notify_me();
+		$('[name="notify-me"]').change(function() {
+			if($(this).hasClass('open')) notify_me_close($(this)); 
+			else notify_me_open($(this));
 		});
-		$('#notify-me-form form').on('ajax:error', function(e, data) {
-			grecaptcha.reset();
-			bootbox.alert({
-				title: 'خطا در ثبت اطلاعات!',
-				message: JSON.parse(data.responseText).message,
-				callback: function() {
-					window.location.reload()
-				}
-			})
-		}).on('ajax:success', function(e, data){
-			grecaptcha.reset();
-			close_notify_me();
-			bootbox.alert({
-				message: data.message
-			})
-		});
+		$('#notify-me-form form')
+			.on('ajax:error', function(e, data) {
+				bootbox.alert({
+					title: 'خطا در ثبت اطلاعات!',
+					message: JSON.parse(data.responseText).message,
+					callback: function() {
+						window.location.reload()
+					}
+				})
+			}).on('ajax:success', function(e, data){
+				notify_me_reset();
+				notify_me_close($('[name="notify-me"]'));
+				bootbox.alert({
+					message: data.message
+				})
+			});
 		$('a#edit-furniture-description').click(function(e){
 			e.preventDefault();
 			e.stopPropagation();
