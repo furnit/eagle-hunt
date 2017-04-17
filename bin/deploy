@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./env-check
+bin/env-check
 
 source tmp/env.bash
 
