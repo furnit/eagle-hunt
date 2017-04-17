@@ -1,4 +1,6 @@
 class Users::PasswordsController < Devise::PasswordsController
+  prepend_before_action :check_captcha, only: [:create, :reset]
+  
   # GET /resource/password/new
   # def new
   #   super
@@ -59,7 +61,7 @@ class Users::PasswordsController < Devise::PasswordsController
   def reset
     @user = User.find(resource_params[:id])
     # check if code expired?
-    if (@user.reset_password_sent_at and (Time.now - @user.reset_password_sent_at) > eval(AppConfig.passwords.reset_expiration))
+    if (@user.reset_password_sent_at and @user.reset_password_sent_at < eval(AppConfig.passwords.reset_expiration))
       # the code is expired, have to re-send it
       @user.reset_password_token = nil
       @user.reset_password_sent_at = nil
@@ -71,7 +73,7 @@ class Users::PasswordsController < Devise::PasswordsController
       return
     end
     # check if code match?
-    if @user.reset_password_token == resource_params[:reset_token]
+    if @user.reset_password_token == resource_params[:reset_token].to_ar2en_i
       @user.reset_password
       @user.save
       
@@ -99,7 +101,24 @@ class Users::PasswordsController < Devise::PasswordsController
   #   super
   # end
 
-  # protected
+  protected
+  
+  def check_captcha
+    views = {
+      create: :new,
+      reset:  :confirm 
+    }
+    unless verify_recaptcha
+      case params[:action].to_sym
+      when :reset
+        @user = User.find(params.require(:user).permit(:id)[:id])
+      else
+        self.resource = resource_class.new
+      end
+      respond_with_navigational(resource) { render views[params[:action].to_sym] }
+    end
+      
+  end
 
   # def after_resetting_password_path_for(resource)
   #   super(resource)

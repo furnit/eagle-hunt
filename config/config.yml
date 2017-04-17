@@ -5,7 +5,7 @@ defaults: &defaults
   currency: تومان
   
   passwords:
-    reset_expiration: 24.hours
+    reset_expiration: 24.hours.ago
     reset_token_length: 5
     
   sms_api:

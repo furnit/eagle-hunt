@@ -10,6 +10,11 @@
 	  <div class="field">
 	    <%= f.text_field :reset_token, value: nil,hide_label: true, placeholder: "کد #{AppConfig.passwords.reset_token_length} رقمی", autofocus: true, maxlength: AppConfig.passwords.reset_token_length, required: true %>
 	  </div>
+  
+	  <div class='form-group field <%= flash[:recaptcha_error] ? 'has-error' : '' %>'>
+	  	<label class='control-label'>لطفا جهت احراز هویت گزینه‌ی «من ربات نیستم» را انتخاب کنید.</label>
+	  	<div class='g-recaptcha' data-sitekey='<%= AppConfig.recaptcha.keys.site %>'></div>
+		</div>
 	
 	  <div class="actions field">
 	    <%= f.submit t('.reset_password') %>

@@ -31,10 +31,10 @@ class User < ApplicationRecord
   end
   
   def reset_password
+    @reset_password = true
+    self.change_password = true;
     self.password = self.phone_number
     self.password_confirmation = self.password
-    # indicate that user should change its password at the next login
-    self.write_attribute(:change_password, true);
   end
 
   def normalize_phone_number
@@ -48,7 +48,7 @@ class User < ApplicationRecord
   end
 
   def check_if_password_changed?
-    self.change_password = false if self.change_password and self.encrypted_password_changed? and not self.change_password_changed?
+    self.change_password = false if self.encrypted_password_changed? and not @reset_password
   end
 
 	def email_required?

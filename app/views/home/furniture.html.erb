@@ -91,7 +91,7 @@
 				  	<%= f.telephone_field :phone_number, label: 'لطفا شماره موبایل خود را وارد کنید:', wrapper: {class: 'col-md-6 col-sm-12 col-xs-12 pull-right'}, placeholder: '09*********',  autofocus: true, maxlength: 11, name: 'phone_number', required: true %>
 				  	<% end %>
 				  	<div class='col-md-6 col-sm-12 col-xs-12 <%= user_signed_in? ? 'pull-right' : '' %>'>
-					  	<p class=''>لطفا جهت احراز هویت گزینه‌ی «من ربات نیستم» را انتخاب کنید.</p>
+					  	<label class='control-label'>لطفا جهت احراز هویت گزینه‌ی «من ربات نیستم» را انتخاب کنید.</label>
 					  	<div class='g-recaptcha' data-sitekey='<%= AppConfig.recaptcha.keys.site %>' data-callback='notify_me_enable'></div>
 				  	</div>
 			  	</div>
