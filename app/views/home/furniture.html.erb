@@ -10,7 +10,7 @@
 <div class='clearfix'></div>
 <div class='container'>
 <% acu_as :admin do %>
-	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 block ir' id='furniture-detail-block1'>
+	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 block ir' id='furniture-detail-block0'>
 		<legend>پنل مدیریتی</legend>
 		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right" role="toolbar" style='padding-top: 10px;'>
 			<%= check_awesome 'قابل تولید است؟', '', checked: @furniture.available? %>
@@ -63,7 +63,7 @@
 		</fieldset>
 		<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12 text-center' style='padding: 0; padding-top: 40px;'>
 		  <div class='col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-2 col-sm-8 col-xs-offset-2 col-xs-8 order'>
-  		  <div class='btn-order <%= @furniture.available ? '' : 'not-available notify-me'%>' <%= @furniture.available ? '' : "data-callback='notify_me'" %> onclick="notify_me()">
+  		  <div class='btn-order <%= @furniture.available ? '' : 'not-available notify-me'%> <%= (user_signed_in? and NotifyOnFurnitureAvailable.exists?(admin_furniture_id: @furniture.id, phone_number: current_user.phone_number)) ? 'will-be-notified' : '' %>' <%= @furniture.available ? '' : "data-callback='notify_me'" %>>
   		    <label>
   		    	<% if @furniture.available %>
   		    		سفارش محصول
@@ -73,7 +73,7 @@
 		    	</label>
   		    <div><span class='fa <%= @furniture.available ? 'fa-truck' : 'fa-bell-o' %>'></span></div>
   	    </div>
-  	    <p style=''>
+		    <p style=''>
 		    	<% if @furniture.available %>
   	    		توجه فرمایید که می‌توانید در مرحله‌ تکمیل خرید، کلیه‌ی سفارشات خود را با تغییرات دلخواه از ما بخواهید.
 	    		<% else %>
@@ -82,12 +82,39 @@
 	    	</p>
 	    </div>
 		</div>
-		<div class='col-lg-9 col-md-9 col-sm-6 col-xs-12 text-success pull-left' id='sell-conditions' style="font-weight: bold">
+		<div class='col-lg-9 col-md-9 col-sm-6 col-xs-12 text-success pull-left block-footer' style="font-weight: bold">
 			<hr />
-			<div class='col-md-3'><span class='fa fa-money'></span> پرداخت در محل</div>
-			<div class='col-md-3'><span class='fa fa-check'></span> تضمین بهترین کیفیت</div>
-			<div class='col-md-3'><span class='fa fa-shield'></span> دو سال گارانتی</div>
-			<div class='col-md-3'><span class='fa fa-refresh'></span> ۷ روز ضمانت بازگشت</div>
+			<div id="sell-conditions">
+				<div class='col-md-3'><span class='fa fa-money'></span> پرداخت در محل</div>
+				<div class='col-md-3'><span class='fa fa-check'></span> تضمین بهترین کیفیت</div>
+				<div class='col-md-3'><span class='fa fa-shield'></span> دو سال گارانتی</div>
+				<div class='col-md-3'><span class='fa fa-refresh'></span> ۷ روز ضمانت بازگشت</div>
+			</div>
+			<div id="notify-me-form" class='hidden' style='color: black'>
+			  <%= redirect_form "", url: home_furniture_notify_path, remote: true do |f| %>
+			  	<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+			  	<%= hidden_field_tag :fid, @furniture.id %>
+			  	<div class='row'>
+						<% acu_as :guest do %>
+				  	<%= f.telephone_field :phone_number, label: 'لطفا شماره موبایل خود را وارد کنید:', wrapper: {class: 'col-md-6 pull-right'}, placeholder: '09*********',  autofocus: true, maxlength: 11, name: 'phone_number', required: true %>
+				  	<% end %>
+				  	<div class='col-md-6 <%= user_signed_in? ? 'pull-right' : '' %>'>
+					  	<p class=''>لطفا جهت احراز هویت گزینه‌ی «من ربات نیستم» را انتخاب کنید.</p>
+					  	<div class='g-recaptcha' data-sitekey='<%= AppConfig.recaptcha.keys.site %>' data-callback='enable_notify_me'></div>
+				  	</div>
+			  	</div>
+			  	<div class='clearfix'></div>
+			  	<hr />
+			  	<div class='field'>
+				  	<%= link_to '#', class: 'btn btn-success btn-submit disabled', onclick: '$(this).closest("form").trigger("submit.rails"); return false;' do %>
+				  		<span class='fa fa-check'></span> ثبت شماره
+				  	<% end %>
+				  	<%= link_to '#', class: 'btn btn-danger', onclick: 'close_notify_me(); return false;' do %>
+				  		<span class='fa fa-times'></span> انصراف
+			  		<% end %>
+			  	</div>
+				<% end %>
+			</div>
 		</div>
 		<div class='clearfix'></div>
 	</div>
@@ -121,86 +148,47 @@
 			</fieldset>
 		</div>
 	</div>
-</div>      
-
-<div id="notify_me_form" class='hidden'>
-  <%= redirect_form "", url: home_furniture_notify_path, remote: true do |f| %>
-  	<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-		<% acu_as :guest do %>
-  	<%= f.telephone_field :phone_number, hide_label: true, placeholder: '09*********',  autofocus: true, maxlength: 11, name: 'phone_number', required: true %>
-  	<% end %>
-  	<p>لطفا جهت احراز هویت گزینه‌ی «من ربات نیستم» را انتخاب کنید.</p>
-  	<div class='g-recaptcha' data-sitekey='<%= AppConfig.recaptcha.keys.site %>' data-callback='console.log("callback###");$(this).closest("form").find(".btn-submit").removeClass("disabled")'></div>
-  	<hr />
-  	<div class='field'>
-	  	<%= link_to '#', class: 'btn btn-success btn-submit disabled', onclick: '$(this).closest("form")[0].submit(); return false;' do %>
-	  		<span class='fa fa-check'></span> ثبت شماره
-	  	<% end %>
-	  	<%= link_to '#', class: 'btn btn-danger', onclick: '$(this).closest(".modal").modal("hide"); return false;' do %>
-	  		<span class='fa fa-times'></span> انصراف
-  		<% end %>
-  	</div>
-	<% end %>
-</div>
+</div>  	    
 
 <script type="text/javascript" charset="utf-8">
-	<% if not @furniture.available %>
-		function notify_me() {
-			var dialog_text = "لطفا شماره‌ موبایل خود را وارد کنید:";
-			var box = undefined;
-			var bootbox_alert = function(text) {
-				box = bootbox.dialog({
-				<% acu_as :guest do %>
-					title: text,	
-				<% end %>
-				  message: $('#notify_me_form').html(),
-				  onEscape: true
-				}, get_phone_number);
-				box.init(function(){
-					box.find('form[data-remote="true"]')
-						.on('ajax:success', function() {
-							alert('SHIT FORM-SUBMIT OK');
-						})
-						.on('ajax:error', function() {
-							alert('SUBMIT ERROR!')
-						});
-				})
-			};
-			var get_phone_number = function(result){
-				<% acu_as :guest do %>
-					if(!(new RegExp('09[0-9]{9}')).test(result)) {
-						setTimeout(function() { bootbox_alert(dialog_text.replace("<small class='text-muted'>", "<small class='text-danger'>")); }, 500)
-					} else {
-						notify_user(phone_number);
-					}
-				<% end %>
-			};
-			
-			var bootbox_alert = function(text) {
-				box = bootbox.dialog({
-				<% acu_as :guest do %>
-					title: text,	
-				<% end %>
-				  message: $('#notify_me_form').html(),
-				  onEscape: true
-				}, get_phone_number);
-				
-				box.init(function(){
-					box.find('form[data-remote="true"]')
-						.on('ajax:success', function() {
-							alert('SHIT FORM-SUBMIT OK');
-						})
-						.on('ajax:error', function() {
-							alert('SUBMIT ERROR!')
-						});
-				})
-			};
-			
-			bootbox_alert(dialog_text);
-		};
-	<% end %>
-
+	function enable_notify_me() {
+		$('#notify-me-form .btn-submit').removeClass('disabled');
+	}
+	function open_notify_me() {
+		grecaptcha.reset();
+		var $el = $('.btn-order.notify-me').addClass('open').closest('.block').find('.block-footer');
+		$el.find('#sell-conditions').fadeOut(function(){
+			$el.find('#notify-me-form').hide().removeClass('hidden').fadeIn()
+		});
+	}
+	function close_notify_me() {
+		var $el = $('.btn-order.notify-me').removeClass('open').closest('.block').find('.block-footer');
+		$el.find('#notify-me-form').fadeOut(function(){
+			$(this).removeClass('hidden');
+			$el.find('#sell-conditions').fadeIn();
+		})
+	}
 	$(document).ready(function(){
+		$('.btn-order.notify-me').click(function() {
+			if($(this).hasClass('open')) close_notify_me(); 
+			else open_notify_me();
+		});
+		$('#notify-me-form form').on('ajax:error', function(e, data) {
+			grecaptcha.reset();
+			bootbox.alert({
+				title: 'خطا در ثبت اطلاعات!',
+				message: JSON.parse(data.responseText).message,
+				callback: function() {
+					window.location.reload()
+				}
+			})
+		}).on('ajax:success', function(e, data){
+			grecaptcha.reset();
+			close_notify_me();
+			bootbox.alert({
+				message: data.message
+			})
+		});
 		$('a#edit-furniture-description').click(function(e){
 			e.preventDefault();
 			e.stopPropagation();

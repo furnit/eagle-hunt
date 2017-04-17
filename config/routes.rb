@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     get "#{action}/:id", to: "home##{action}", as: "home_#{action}"
   end
   
-  post 'furniture/notify', to: 'home#furniture_notify', as: 'home_furniture_notify'
+  post 'furniture/notify', to: 'home#furniture_notify', as: 'home_furniture_notify', **RC::json_request_only.merge({constraints: lambda { |request| request.xhr? }})
   
   get 'contact/us/:section', to: 'home#contactus', as: 'contact_us'
 

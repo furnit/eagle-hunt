@@ -16,16 +16,19 @@ class HomeController < ApplicationController
 	end
 	
 	def furniture_notify
-	  require "uri"
-    require "net/http"
-	  params = {
-	    secret: AppConfig.recaptcha.keys.secret,
-	    response: params["g-recaptcha-response"],
-	    remoteip: request.remote_ip
-	  }
-	  byebug
-	  x = Net::HTTP.post_form(URI.parse(AppConfig.recaptcha.verify), params)
-	  
+	  if not verify_recaptcha
+      respond_to do |format|
+        format.json { render json: {message: "احراز هویت به درستی صورت نگرفته است، لطفا دوباره تلاش کنید."}, status: :unprocessable_entity }
+      end
+      return
+	  end
+    respond_to do |format|
+  	  if NotifyOnFurnitureAvailable.find_or_create_by(phone_number: params[:phone_number], admin_furniture_id: params[:fid])
+  	    format.json { render json: {message: 'شماره شما با موفقیت ثبت گردید.'}, status: :ok }
+	    else
+  	    format.json { render json: {message: "خطا در ثبت اطلاعات، لطفا دوباره تلاش کنید."}, status: :unprocessable_entity }
+  	  end
+	  end
 	end
 	
 	def contactus
