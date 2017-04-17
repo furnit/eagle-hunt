@@ -3,7 +3,23 @@ class NotifyOnFurnitureAvailable < ApplicationRecord
   validates_presence_of :phone_number
   validates_uniqueness_of :admin_furniture_id, scope: :phone_number
   
-  include Rails.application.routes.url_helpers
+  validates :phone_number, length: { is: 11 }
+  validates_format_of :phone_number, :with => /09\d{2}[- ]?\d{3}[- ]?\d{4}/i
+  
+  before_validation :normalize_phone_number
+  after_initialize :normalize_phone_number
+
+  def helper
+    @helper ||= Class.new do
+      # include `number_to_phone`
+      include ActionView::Helpers::NumberHelper
+    end.new
+  end
+  
+  def normalize_phone_number
+    self.phone_number = self.phone_number.to_ar2en_i;
+    self.phone_number = helper.number_to_phone(self.phone_number.strip, delimiter: "", pattern: /(\d{4})[- ]?(\d{3})[- ]?(\d{4})$/)
+  end
   
   def self.notify_for_furniture id, name
     Thread.new do

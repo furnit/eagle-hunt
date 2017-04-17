@@ -57,7 +57,7 @@ class HomeController < ApplicationController
   	  if valid 
   	    format.json { render json: {message: success_notice}, status: :ok }
 	    else
-  	    format.json { render json: {message: "خطا در ثبت اطلاعات، لطفا دوباره تلاش کنید."}, status: :unprocessable_entity }
+  	    format.json { render json: {message: "خطا در ثبت اطلاعات، لطفا دوباره تلاش کنید، ممکن است شماره‌ی موبایل خود را اشتباه وارد کرده باشید."}, status: :unprocessable_entity }
   	  end
 	  end
 	end

@@ -88,9 +88,9 @@
 			  	<%= hidden_field_tag :fid, @furniture.id %>
 			  	<div class='row'>
 						<% acu_as :guest do %>
-				  	<%= f.telephone_field :phone_number, label: 'لطفا شماره موبایل خود را وارد کنید:', wrapper: {class: 'col-md-6 pull-right'}, placeholder: '09*********',  autofocus: true, maxlength: 11, name: 'phone_number', required: true %>
+				  	<%= f.telephone_field :phone_number, label: 'لطفا شماره موبایل خود را وارد کنید:', wrapper: {class: 'col-md-6 col-sm-12 col-xs-12 pull-right'}, placeholder: '09*********',  autofocus: true, maxlength: 11, name: 'phone_number', required: true %>
 				  	<% end %>
-				  	<div class='col-md-6 <%= user_signed_in? ? 'pull-right' : '' %>'>
+				  	<div class='col-md-6 col-sm-12 col-xs-12 <%= user_signed_in? ? 'pull-right' : '' %>'>
 					  	<p class=''>لطفا جهت احراز هویت گزینه‌ی «من ربات نیستم» را انتخاب کنید.</p>
 					  	<div class='g-recaptcha' data-sitekey='<%= AppConfig.recaptcha.keys.site %>' data-callback='notify_me_enable'></div>
 				  	</div>
@@ -145,82 +145,20 @@
 </div>  	    
 
 <script type="text/javascript" charset="utf-8">
-	function notify_me_enable() {
-		$('#notify-me-form .btn-submit').removeClass('disabled');
-	}
-	function notify_me_reset() {
-		if(typeof grecaptcha === "object")
-			grecaptcha.reset();
-	}
-	function notify_me_submit() {
-		form = ('#notify-me-form form');
-		$(form).find('.btn-submit').addClass('disabled');
-		$(form).find('[name="checked"]').remove()
-		$('<input>').attr({
-		    type: 'hidden',
-		    value: $('[name="notify-me"]').prop('checked'),
-		    name: 'checked'
-		}).prependTo(form)
-		$(form).trigger('submit.rails');
-	}
-	function notify_me_open($this) {
-		notify_me_reset();
-		var $el = $this.addClass('open').closest('.block').find('.block-footer');
-		$('#notify-me-form form .btn-submit')
-			.find('[avail-checked]')
-				.addClass('hidden')
-			.closest('.btn-submit')
-				.find('.fa')
-					.attr('class', 'fa fa-'+($('[name="notify-me"]').prop('checked') ? 'check' : 'trash'))
-			.closest('.btn-submit')
-				.find('[avail-checked="'+ $('[name="notify-me"]').prop('checked')+'"]')
-					.removeClass('hidden');
-		
-		$el.find('#sell-conditions').fadeOut(function(){
-			$el.find('#notify-me-form').hide().removeClass('hidden').fadeIn()
-		});
-	}
-	function notify_me_close($this) {
-		var $el = $this.removeClass('open').closest('.block').find('.block-footer');
-		$el.find('#notify-me-form').fadeOut(function(){
-			$(this).removeClass('hidden');
-			$el.find('#sell-conditions').fadeIn();
-		})
-	}
 	$(document).ready(function(){
-		$('[name="notify-me"]').change(function() {
-			if($(this).hasClass('open')) notify_me_close($(this)); 
-			else notify_me_open($(this));
-		});
-		$('#notify-me-form form')
-			.on('ajax:error', function(e, data) {
-				bootbox.alert({
-					title: 'خطا در ثبت اطلاعات!',
-					message: JSON.parse(data.responseText).message,
-					callback: function() {
-						window.location.reload()
-					}
-				})
-			}).on('ajax:success', function(e, data){
-				notify_me_reset();
-				notify_me_close($('[name="notify-me"]'));
-				bootbox.alert({
-					message: data.message
-				})
-			});
 		$('a#edit-furniture-description').click(function(e){
 			e.preventDefault();
 			e.stopPropagation();
 			if($(this).hasClass('editing')) {
-				$('#furntiure_description').removeClass('hidden')
-				$('#furntiure_description-edit-zone').addClass('hidden')
-				$(this).removeClass('editing')
-				$(this).find('span').html('ویرایش متن')
-				$(this).find('.fa').attr('class', 'fa fa-pencil')
+				$('#furntiure_description').removeClass('hidden');
+				$('#furntiure_description-edit-zone').addClass('hidden');
+				$(this).removeClass('editing');
+				$(this).find('span').html('ویرایش متن');
+				$(this).find('.fa').attr('class', 'fa fa-pencil');
 			} else {
 				$(this).find('.fa').attr('class', 'fa fa-spinner fa-spin');
-				$('#furntiure_description').addClass('hidden')
-				$('#furntiure_description-edit-zone').removeClass('hidden')
+				$('#furntiure_description').addClass('hidden');
+				$('#furntiure_description-edit-zone').removeClass('hidden');
 				$this = $(this);
 				$('#furntiure_description-edit-zone')
 					.load($(this).attr('href'), function(){ 
@@ -230,19 +168,19 @@
 						$this.find('.fa').attr('class', 'fa fa-times');
 					});
 			}
-			$(this).blur()
-		})
+			$(this).blur();
+		});
 		$('input#add_to_cart').change(function(){
-			method = "post"
+			method = "post";
 			url = '<%= shopping_carts_path %>.json';
 			if(!this.checked) {
-				method = "delete"
-				url = '<%= shopping_carts_path	%>/' + $(this).data('id') + '.json'
+				method = "delete";
+				url = '<%= shopping_carts_path	%>/' + $(this).data('id') + '.json';
 				$('[for="add_to_cart"] .title').text('به سبد خرید اضافه کن!');
 			} else {
 				$('[for="add_to_cart"] .title').text('به سبد خرید اضافه شد.');
 			}
-
+	
 			$.ajax({
 			  type: "POST",
 			  url: url,
@@ -262,7 +200,7 @@
 			  	'})
 			  	$('input#add_to_cart').prop('checked', !$('input#add_to_cart').prop('checked'));
 			  }
-			})
+			});
 		})<%= raw ".data('id', '#{@shopping}')" if @shopping %>;
 	});
 </script>

@@ -5,10 +5,9 @@
     <title>Viramobl</title>
     <%= csrf_meta_tags %>
 
-    <%= javascript_include_tag 'application' %>
-    <%= stylesheet_link_tag    'application', media: 'all' %>
-
-    <script src="//www.google.com/recaptcha/api.js?hl=<%= I18n.locale.to_s %>"></script>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <script src="//www.google.com/recaptcha/api.js?hl=<%= I18n.locale.to_s %>&v=<%= Time.now.to_i %>" async defer data-turbolinks-track='reload'></script>
   </head>
 
   <body>
