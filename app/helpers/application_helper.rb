@@ -9,6 +9,13 @@ module ApplicationHelper
     split.length > 1 and split[0].downcase == sym.to_s.downcase
   end
   
+  def recaptcha_tag callback: nil, has_error: false
+    raw "<div class='form-group %s'>
+      <label class='control-label'>لطفا جهت احراز هویت گزینه‌ی «من ربات نیستم» را انتخاب کنید.</label>
+      <div class='g-recaptcha' data-sitekey='#{AppConfig.recaptcha.keys.site}' %s></div>
+     </div>" %[(has_error ? 'has-error' : ''), (callback.blank? ? '' : "data-callback='#{callback}'")]
+   end
+  
   def get_namespace
     split = params["controller"].split('/')
     return :default if split.length == 1

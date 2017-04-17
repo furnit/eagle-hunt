@@ -1,4 +1,4 @@
-class UploadedFile < ApplicationRecord
+class Admin::UploadedFile < ApplicationRecord
   include Rails.application.routes.url_helpers
   mount_uploaders :images, ImageUploader
   
@@ -11,7 +11,7 @@ class UploadedFile < ApplicationRecord
         :name => read_attribute(:images)[index],
         :url => image.url,
         :thumbnail_url => image.thumb.url,
-        :delete_url => uploaded_file_path(self)
+        :delete_url => admin_uploaded_file_path(self)
       }
     end
     return out

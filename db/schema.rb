@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170417101018) do
+ActiveRecord::Schema.define(version: 20170417200835) do
 
   create_table "admin_furniture_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -62,6 +62,12 @@ ActiveRecord::Schema.define(version: 20170417101018) do
     t.string   "description_html"
     t.index ["deleted_at"], name: "index_admin_furnitures_on_deleted_at", using: :btree
     t.index ["furniture_type_id"], name: "index_admin_furnitures_on_furniture_type_id", using: :btree
+  end
+
+  create_table "admin_uploaded_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.json     "images"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "admin_user_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -175,12 +181,6 @@ ActiveRecord::Schema.define(version: 20170417101018) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_states_on_name", unique: true, using: :btree
-  end
-
-  create_table "uploaded_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.json     "images"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

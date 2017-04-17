@@ -13,7 +13,7 @@ class Admin::UploaderController < Admin::AdminbaseController
     # return if no image uploaded 
     if params[param_name][uploaded_images] 
       # find the uploaded imaged with passed image ids
-      uploaded_files = UploadedFile.find(params[param_name][uploaded_images]);
+      uploaded_files = Admin::UploadedFile.find(params[param_name][uploaded_images]);
       # list uploaded images and append the to current image list
       # this has to be this way; o.w the operation will cost so much time-wise
       instance.images += uploaded_files.map { |m| m.images }.flatten

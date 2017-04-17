@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   namespace :admin do
 
     root to: 'home#index'
+    
+    resources :uploaded_files, RC::ajax_server.merge(RC::json_request_only)
 
     resources :users do
       collection do

@@ -1,8 +1,8 @@
-class UploadedFilesController < ApplicationController
+class Admin::UploadedFilesController < Admin::AdminbaseController
   # POST /pictures
   # POST /pictures.json
   def create
-    @picture = UploadedFile.new(picture_params)
+    @picture = Admin::UploadedFile.new(picture_params)
     
     respond_to do |format|
       if @picture.save
@@ -16,7 +16,7 @@ class UploadedFilesController < ApplicationController
   # DELETE /pictures/1
   # DELETE /pictures/1.json
   def destroy
-    UploadedFile.where(id: params[:id]).destroy_all
+    Admin::UploadedFile.where(id: params[:id]).destroy_all
     respond_to do |format|
       format.html { redirect_to pictures_url }
       format.json { head :no_content }
