@@ -10,7 +10,7 @@ class NotifyOnFurnitureAvailable < ApplicationRecord
       require "#{Rails.root}/lib/sms/bootstrap"
       
       message = <<~sms
-        محصول «#{name}» قابل تولید شد!
+        محصول «#{name}» قابل سفارش شد!
         
         شماره محصول: #{id}
         
