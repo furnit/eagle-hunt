@@ -80,6 +80,8 @@ gem 'bootstrap-editable-rails'
 gem 'bootstrap-select-rails'
 # for reCAPTCHA
 gem "recaptcha", require: "recaptcha/rails"
+# for shorten URLs
+gem "bitly"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

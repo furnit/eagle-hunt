@@ -35,6 +35,18 @@ class HomeController < ApplicationController
 	  # if we should add it to database?
 	  if params[:checked].to_boolean
 	    valid = NotifyOnFurnitureAvailable.find_or_create_by(phone_number: phone_number, admin_furniture_id: params[:fid]).errors.empty?
+	    
+      # add the number to the phone book, so we can sms to them later!
+	    if valid
+        require "#{Rails.root}/lib/sms/bootstrap"
+        fname = "مشتری"
+        lname = "مجهول"
+        if user_signed_in?
+          fname = current_user.profile.first_name
+          lname = current_user.profile.last_name
+        end
+        SMS.add_to_phonebook first_name: fname, last_name: lname, mobile: phone_number
+      end
 	  else
 	    # we should delete from database
 	    success_notice = 'شماره شما با موفقیت از لیست پیگیری‌های این محصول حذف گردید.' 

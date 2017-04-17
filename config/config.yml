@@ -1,5 +1,6 @@
 defaults: &defaults
   domain: www.viramobl.com
+  protocol: http
     
   currency: تومان
   
@@ -34,4 +35,5 @@ test:
 
 production:
   <<: *defaults
+  protocol: https
   

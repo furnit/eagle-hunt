@@ -12,6 +12,9 @@ module Viramobl
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     
+    # pre-load app config
+    require_relative 'initializers/app_configs.rb'
+    
     # 1. forces the browser to redirect HTTP to HTTPS.
     # 2. it also sets your cookies to be marked "secure",
     # 3. and it enables HSTS

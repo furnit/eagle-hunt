@@ -14,6 +14,8 @@ class Admin::Furniture < ParanoiaRecord
   # see: (github.com/carrierwaveuploader/carrierwave/issues/624#issuecomment-15243440)
   skip_callback :commit, :after, :remove_images!
   
+  before_save :notify_on_availble
+  
   def cost?
     return 1e+6
   end
@@ -22,6 +24,10 @@ class Admin::Furniture < ParanoiaRecord
 	# default values for cover details
     self.cover_details ||= {index: 0, pos: '50%'}
     super
+  end
+  
+  def notify_on_availble
+    NotifyOnFurnitureAvailable.notify_for_furniture self.id, self.name if self.available and self.available_changed?
   end
   
   filterrific(
