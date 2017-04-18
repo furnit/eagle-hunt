@@ -1,3 +1,4 @@
+<% unit = Admin::FurnitureSpec.where(name: 'رنگ').first.unit %>
 <%= remote_form @form[:furniture], url: employee_nagashes_path(format: :json), method: :post do |f| %>
 	<%= f.hidden_field :id, value: @form[:furniture].id %>
 	<%= f.hidden_field :hd, value: Digest::SHA256.new << (@form[:furniture].id.to_s + Rails.application.config.secret_key_base) %>
@@ -23,15 +24,15 @@
 			<div class="panel panel-primary">
 			  <div class="panel-heading"><strong><span class='fa fa-balance-scale'></span> جزییات آستر</strong></div>
 			  <div class="panel-body">
-			  	<%= ff.number_field :astare_avaliye, append: raw('بر حسب <b>لیتر</b>') %>
-			  	<%= ff.number_field :astare_asli, append: raw('بر حسب <b>لیتر</b>') %>
+			  	<%= ff.number_field :astare_avaliye, append: raw("بر حسب <b>#{unit}</b>") %>
+			  	<%= ff.number_field :astare_asli, append: raw("بر حسب <b>#{unit}</b>") %>
 			  </div>
 			</div>
 			<div class="panel panel-primary">
 			  <div class="panel-heading"><strong><span class='fa fa-balance-scale'></span> جزییات رنگ و رویه</strong></div>
 			  <div class="panel-body">
-			  	<%= ff.number_field :range_asli, append: raw('بر حسب <b>لیتر</b>')	 %>
-			  	<%= ff.number_field :rouye, append: raw('بر حسب <b>لیتر</b>') %>
+			  	<%= ff.number_field :range_asli, append: raw("بر حسب <b>#{unit}</b>")	 %>
+			  	<%= ff.number_field :rouye, append: raw("بر حسب <b>#{unit}</b>") %>
 			  </div>
 			</div>
 			<div class="panel panel-danger" style='margin-bottom: 150px'>
@@ -116,13 +117,13 @@
 					{
 						valid: get_val('[name="admin_furniture[employee_nagash][astare_avaliye]"]') !== '؟', 
 						val: get_currency('[name="admin_furniture[employee_nagash][astare_avaliye]"]'),
-						append: 'لیتر',
+						append: "#{unit}",
 						title: 'آستر اولیه'
 					},
 					{
 						valid: get_val('[name="admin_furniture[employee_nagash][astare_asli]"]') !== '؟', 
 						val: get_currency('[name="admin_furniture[employee_nagash][astare_asli]"]'),
-						append: 'لیتر',
+						append: "#{unit}",
 						title: 'آستر اصلی'
 					},
 				]
@@ -134,13 +135,13 @@
 					{
 						valid: get_val('[name="admin_furniture[employee_nagash][range_asli]"]') !== '؟', 
 						val: get_currency('[name="admin_furniture[employee_nagash][range_asli]"]'),
-						append: 'لیتر',
+						append: "#{unit}",
 						title: 'رنگ اصلی'
 					},
 					{
 						valid: get_val('[name="admin_furniture[employee_nagash][rouye]"]') !== '؟', 
 						val: get_currency('[name="admin_furniture[employee_nagash][rouye]"]'),
-						append: 'لیتر',
+						append: "#{unit}",
 						title: 'رویه'
 					},
 				]

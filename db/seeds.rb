@@ -94,10 +94,12 @@ end
 
 [
   ['ابر', 'ورق'],
-  ['پارچه', 'متر']
+  ['پارچه', 'متر'],
+  ['رنگ', 'لیتر'],
+  ['چوب', 'متر']
 ]
-.each do |name, scale|
-  Admin::FurnitureSpec.create!(name: name, scale: scale, comment: name)
+.each do |name, unit|
+  Admin::FurnitureSpec.create!(name: name, unit: unit, comment: name)
 end
 
 target_asset = Rails.root.join( 'db', 'seeds', "#{Rails.env.downcase}.rb")

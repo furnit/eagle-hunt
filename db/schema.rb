@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170418100041) do
+ActiveRecord::Schema.define(version: 20170418193823) do
 
   create_table "admin_furniture_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20170418100041) do
   create_table "admin_furniture_specs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "comment"
-    t.string   "scale"
+    t.string   "unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -135,6 +135,19 @@ ActiveRecord::Schema.define(version: 20170418100041) do
     t.integer  "confirmed",        limit: 1
     t.index ["furniture_id"], name: "index_employee_nagashes_on_furniture_id", using: :btree
     t.index ["user_id"], name: "index_employee_nagashes_on_user_id", using: :btree
+  end
+
+  create_table "employee_najars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "furniture_id"
+    t.integer  "user_id"
+    t.float    "wage",             limit: 24
+    t.float    "choob",            limit: 24
+    t.integer  "days_to_complete"
+    t.integer  "confirmed",        limit: 1,  default: 0
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.index ["furniture_id"], name: "index_employee_najars_on_furniture_id", using: :btree
+    t.index ["user_id"], name: "index_employee_najars_on_user_id", using: :btree
   end
 
   create_table "employee_processeds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

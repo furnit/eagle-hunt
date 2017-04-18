@@ -1,4 +1,5 @@
-class Employee::NagashesController < Employee::EmployeebaseController
+class Employee::NajarsController < ApplicationController
+  before_action { raise RuntimeError.new('NOT IMPLEMENTED') }
   before_action :set_forms_instance, only: [:edit, :create]
   
   def index
@@ -7,26 +8,22 @@ class Employee::NagashesController < Employee::EmployeebaseController
   def edit
     unless has_processed_before params[:id]
       # this means the user wants to re-evaluate the params
-      @form[:nagash] = Employee::Nagash.where(furniture_id: params[:id], user_id: current_user.id).last
-      # create new records if something is wrong and the Nagash not found
-      set_forms_instance and return if not @form[:nagash] 
+      @form[:najar] = Employee::najar.where(furniture_id: params[:id], user_id: current_user.id).last
+      # create new records if something is wrong and the najar not found
+      set_forms_instance and return if not @form[:najar] 
       # try to normalize the wages to thousand tomans!
-      @form[:nagash].wage = @form[:nagash].wage.tomans
-      # convert to int
-      [:wage, :astare_avaliye, :astare_asli, :range_asli, :rouye, :days_to_complete].each do |column|
-        @form[:nagash][column] = @form[:nagash][column].to_i
-      end
+      @form[:najar].wage = @form[:najar].wage.tomans
     end
   end
   
   def create
-    @form[:nagash] = Employee::Nagash.new(nagash_params)
+    @form[:najar] = Employee::najar.new(najar_params)
     
     respond_to do |format|
-      if @form[:nagash].save
+      if @form[:najar].save
         # destroy all related data from previous un-confirmed details for current furniture and user
         # this will give the user edit-like ability without making database messy and also keeping the confirmed data on touched!
-        Employee::Nagash.where(furniture_id: furniture_params[:id], user_id: current_user.id, confirmed: 0).destroy_all
+        Employee::Najar.where(furniture_id: furniture_params[:id], user_id: current_user.id, confirmed: 0).destroy_all
         
         # flag current furniture processed by current user
         flag_processed furniture_params[:id]
@@ -46,7 +43,7 @@ class Employee::NagashesController < Employee::EmployeebaseController
   def set_forms_instance
     @form = {
       furniture: Admin::Furniture.find(params[:id] || furniture_params[:id]).freeze,
-      nagash: Employee::Nagash.new
+      najar: Employee::Najar.new
     }
   end
   
@@ -58,9 +55,9 @@ class Employee::NagashesController < Employee::EmployeebaseController
     params.require(:admin_furniture).permit(:id, :hd)
   end
   
-  def nagash_params
+  def najar_params
     # purify the params
-    par = params.require(:admin_furniture).require(:employee_nagash).permit(:wage, :astare_avaliye, :astare_asli, :range_asli, :rouye, :days_to_complete, :days_to_complete_scale)
+    par = params.require(:admin_furniture).require(:employee_najar).permit(:wage, :choob, :days_to_complete, :days_to_complete_scale)
     # have to convert it to hash to process
     par = par.to_h
     # convert to days, based on defined scale

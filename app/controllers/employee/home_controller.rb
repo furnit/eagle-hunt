@@ -1,7 +1,10 @@
 class Employee::HomeController < ApplicationController
-  layout 'no_navbar', only: [:ls_furnitures]
+  layout 'no_navbar', only: [:ls_furnitures, :invalid_path]
   
   def index
+  end
+  
+  def invalid_path
   end
   
   # post /employee/as

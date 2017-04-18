@@ -6,7 +6,7 @@ fa:
       admin/furniture_spec:
         name: 'عنوان'
         comment: 'توضیحات'
-        scale: واحد
+        unit: واحد
     errors:
       models:
         admin/furniture_spec:
@@ -14,4 +14,6 @@ fa:
             name:
               blank: 'نمی‌تواند خالی باشد.'
             comment:
+              blank: 'نمی‌تواند خالی باشد.'
+            unit:
               blank: 'نمی‌تواند خالی باشد.'

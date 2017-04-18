@@ -55,7 +55,7 @@
 									<%= ff.fields_for @form[:build_details][build_details_index] do |fff| %>
 										<tr>
 											<td>
-												<%= fff.number_field :value, step: :any, min: 0, multiple: true, append: raw("#{spec.scale} از <b>#{spec.name}</b>"), label: "برای #{section.comment}", name: "#{fff.object_name}[spec][#{spec.id}][section][#{section.id}][value]" %>
+												<%= fff.number_field :value, step: :any, min: 0, multiple: true, append: raw("#{spec.unit} از <b>#{spec.name}</b>"), label: "برای #{section.comment}", name: "#{fff.object_name}[spec][#{spec.id}][section][#{section.id}][value]" %>
 											</td>
 											<% if is_abr %>
 											<td>

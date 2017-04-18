@@ -14,7 +14,17 @@ module ApplicationHelper
       <label class='control-label'>لطفا جهت احراز هویت گزینه‌ی «من ربات نیستم» را انتخاب کنید.</label>
       <div class='g-recaptcha' data-sitekey='#{AppConfig.recaptcha.keys.site}' %s></div>
      </div>" %[(has_error ? 'has-error' : ''), (callback.blank? ? '' : "data-callback='#{callback}'")]
-   end
+  end
+   
+  def path_exists? path
+    begin
+      eval(path)
+    rescue NameError
+      return false
+    end
+    
+    return true
+  end
   
   def get_namespace
     split = params["controller"].split('/')
