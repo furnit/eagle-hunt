@@ -8,7 +8,7 @@
 		<span class='checked hidden'>
 			<span class="fa fa-check fa-3x"></span>
 		</span>
-		<div class="thumbnail photo-gallery-collection-incomplete text-center" style='width: 100%; height: 150px; vertical-align: middle'>
+		<div class="thumbnail photo-gallery-collection-incomplete text-center" style='width: 100%; height: 120px; vertical-align: middle'>
     	<% i = f.images[f.cover_details["index"].to_i] %>
 			<%= link_to image_url(i), data: { id: f.id, source: list_images_admin_furniture_path(f) } do %>
 				<%= image_tag thumbnail_url(i), :class => 'img-responsive img-thumbnail', style: 'width: 100%; height: 100%' %>
