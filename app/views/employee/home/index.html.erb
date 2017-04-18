@@ -93,7 +93,7 @@
 	{ 
 		$('#data-field-panel-content')
 			.addClass('text-center')
-			.html('<span class="fa fa-spinner fa-spin"></span>');
+			.html('<span class="fa fa-spinner fa-spin fa-2x"></span>');
 		$.get({
 			url: '<%= eval("edit_employee_#{entity}_path('{0}')") %>'.replace('%7B', '{').replace('%7D', '}').format(id),
 			global: false,

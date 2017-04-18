@@ -1,0 +1,29 @@
+fa:
+  activerecord:
+    models:
+      employee/nagash: 'نقاش'
+    attributes:
+      employee/nagash:
+        wage: 'دست‌مزد نقاشی'
+        days_to_complete: مدت زمان پایان «نقاشی»
+        days_to_complete_scale: معیار زمان
+        astare_avaliye: آستر اولیه
+        astare_asli: آستر اصلی
+        range_asli: رنگ اصلی
+        rouye: رویه
+    errors:
+      models:
+        employee/nagash:
+          attributes:
+            wage:
+              blank: 'نمی‌تواند خالی باشد.'
+            astare_avaliye:
+              blank: 'نمی‌تواند خالی باشد.'
+            astare_asli:
+              blank: 'نمی‌تواند خالی باشد.'
+            range_asli:
+              blank: 'نمی‌تواند خالی باشد.'
+            rouye:
+              blank: 'نمی‌تواند خالی باشد.'
+            days_to_complete:
+              greater_than: 'غیر قابل قبول است.'

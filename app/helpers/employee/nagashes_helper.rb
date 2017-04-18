@@ -1,0 +1,2 @@
+module Employee::NagashesHelper
+end

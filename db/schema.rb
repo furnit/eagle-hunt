@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170417200835) do
+ActiveRecord::Schema.define(version: 20170418100041) do
 
   create_table "admin_furniture_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -121,14 +121,31 @@ ActiveRecord::Schema.define(version: 20170417200835) do
     t.index ["furniture_build_detail_id"], name: "index_furniture_build_detail", using: :btree
   end
 
+  create_table "employee_nagashes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "furniture_id"
+    t.integer  "user_id"
+    t.float    "wage",             limit: 24
+    t.float    "astare_avaliye",   limit: 24
+    t.float    "astare_asli",      limit: 24
+    t.float    "range_asli",       limit: 24
+    t.float    "rouye",            limit: 24
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "days_to_complete"
+    t.integer  "confirmed",        limit: 1
+    t.index ["furniture_id"], name: "index_employee_nagashes_on_furniture_id", using: :btree
+    t.index ["user_id"], name: "index_employee_nagashes_on_user_id", using: :btree
+  end
+
   create_table "employee_processeds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "admin_furniture_id"
     t.integer  "user_id"
+    t.string   "as_symbol"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
-    t.index ["admin_furniture_id", "user_id"], name: "index_admin_furniture_id_user_id", unique: true, using: :btree
-    t.index ["admin_furniture_id", "user_id"], name: "index_employee_processeds_on_admin_furniture_id_and_user_id", unique: true, using: :btree
+    t.index ["admin_furniture_id", "user_id", "as_symbol"], name: "index_unique_employee_processeds_all", unique: true, using: :btree
     t.index ["admin_furniture_id"], name: "index_employee_processeds_on_admin_furniture_id", using: :btree
+    t.index ["as_symbol"], name: "index_employee_processeds_on_as_symbol", using: :btree
     t.index ["user_id"], name: "index_employee_processeds_on_user_id", using: :btree
   end
 

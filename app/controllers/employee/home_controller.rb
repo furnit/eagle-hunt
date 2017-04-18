@@ -26,13 +26,33 @@ class Employee::HomeController < ApplicationController
   end
   
   private 
+  
   def ls_furnitures_scop
     symbol = current_user.user_type.symbol;
     acu_as :admin { symbol = session[:admin_as_employee]["sym"] }
     
     not_archived = "NOT"
-    not_archived = "" if params[:archived] 
+    not_archived = "" if params[:archived]
     
-    Admin::Furniture.where("`id` #{not_archived} IN (SELECT `admin_furniture_id` FROM `employee_processeds` WHERE user_id = ?)", current_user.id)
+    query = [
+      "`id` #{not_archived} IN (SELECT `admin_furniture_id` FROM `employee_processeds` WHERE `as_symbol` = ? AND `user_id` = ?)",
+      symbol,
+      current_user.id
+    ]
+
+    case symbol.to_sym
+    when :FANI
+    when :NAGASH
+      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_rang` and `confirmed`) AND #{query[0]}"
+    when :KANDE
+      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_kande` and `confirmed`) AND #{query[0]}"
+    when :NAJAR
+      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_kanaf` and `needs_kande` and `confirmed`) AND #{query[0]}"
+    else
+      raise RuntimeError.new("invalid symbol `#{symbol}`")
+    end
+    
+    Admin::Furniture.where(query)    
+    
   end
 end

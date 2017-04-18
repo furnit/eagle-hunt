@@ -35,6 +35,7 @@ class User < ApplicationRecord
     self.change_password = true;
     self.password = self.phone_number
     self.password_confirmation = self.password
+    return self
   end
 
   def normalize_phone_number

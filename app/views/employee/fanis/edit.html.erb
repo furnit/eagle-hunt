@@ -27,7 +27,7 @@
 			  <div class="panel-heading"><strong><span class='fa fa-info'></span> اطلاعات عمومی</strong></div>
 			  <div class="panel-body">
 					<% [[:needs_kande, 'کنده‌کاری'], [:needs_kanaf, 'کناف'], [:needs_rang, 'رنگ']].each do |e| %>
-						<%= check_awesome "نیاز به #{e[1]} دارد.", '', name: "#{f.object_name}[#{e[0]}]" %>
+						<%= check_awesome "نیاز به #{e[1]} دارد.", '', checked: ff.object[e[0]], name: "#{ff.object_name}[#{e[0]}]" %>
 					<% end %>
 			  </div>
 			</div>
@@ -161,9 +161,9 @@
 				icon: 'fa-info',
 				spec: 'اطلاعات عمومی',
 				list: [
-					{valid: true, val: get_checked('[name="admin_furniture[needs_kande]"]'), append: '', title: 'نیاز به روکوبی دارد؟'},
-					{valid: true, val: get_checked('[name="admin_furniture[needs_kanaf]"]'), append: '', title: 'نیاز به کناف دارد؟'},
-					{valid: true, val: get_checked('[name="admin_furniture[needs_rang]"]'), append: '', title: 'نیاز به رنگ دارد؟'}
+					{valid: true, val: get_checked('[name="admin_furniture[employee_fani][needs_kande]"]'), append: '', title: 'نیاز به روکوبی دارد؟'},
+					{valid: true, val: get_checked('[name="admin_furniture[employee_fani][needs_kanaf]"]'), append: '', title: 'نیاز به کناف دارد؟'},
+					{valid: true, val: get_checked('[name="admin_furniture[employee_fani][needs_rang]"]'), append: '', title: 'نیاز به رنگ دارد؟'}
 				]
 			},
 			<% specs.each do |spec| %>
