@@ -9,8 +9,8 @@
 			  <div class="panel-heading"><strong><span class='fa fa-money'></span> دست‌مزد</strong></div>
 			  <div class="panel-body">
 					<div class='row'>
-						<%= ff.number_field :wage_rokob, step: 1, min: 0, append: "تومان", prepend: '000 , ', wrapper: { class: 'col-md-6 pull-right' }, class: 'currency' %>
-						<%= ff.number_field :wage_khayat, step: 1, min: 0, append: "تومان", prepend: '000 , ', wrapper: { class: 'col-md-6' }, class: 'currency' %>
+						<%= ff.number_field :wage_rokob, step: 1, min: 0, append: "تومان", prepend: '000 , ', wrapper: { class: 'col-xs-12' }, class: 'currency' %>
+						<%= ff.number_field :wage_khayat, step: 1, min: 0, append: "تومان", prepend: '000 , ', wrapper: { class: 'col-xs-12' }, class: 'currency' %>
 					</div>
 			  </div>
 			</div>
@@ -44,11 +44,11 @@
 				  <div class="panel-body">
 			  		<table class='table'>
 			  			<thead>
-			  				<th class='col-md-<%= value_col %>'>مقدار</th>
+			  				<th class='col-lg-<%= value_col %> col-md-3 col-sm-<%= value_col %> col-xs-12'>مقدار</th>
 			  				<% if is_abr %>
-			  				<th class='col-md-<%= 9 - value_col %>'>جنس<br />(درحالت کلی)</th>				  				
+			  				<th class='col-lg-<%= 9 - value_col %> col-md-3 col-sm-<%= 9 - value_col %> col-xs-12'>جنس<br />(درحالت کلی)</th>				  				
 			  				<% end %>
-			  				<th class='col-md-3'>قسمت</th>
+			  				<th>قسمت</th>
 			  			</thead>
 			  			<tbody>
 								<% sections.each.with_index do |section, index| %>

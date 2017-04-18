@@ -68,11 +68,11 @@ end
 # => adding furniture section details
 #
 [
-  ['پشتی', 'قسمت تکیه‌گاه و پشت مبل', "data/images/sofa/poshti.jpg"],
+  ['پشتی', 'قسمت تکیه‌گاه و پشت', "data/images/sofa/poshti.jpg"],
   ['زیری', 'قسمت تحتانی و نشیمن‌گاه', "data/images/sofa/ziri.jpg"],
-  ['دسته', 'دسته‌های مبل', "data/images/sofa/daste.jpg"],
-  ['پایه', 'پایه‌های مبل', "data/images/sofa/paye.jpg"],
-  ['کوسن', 'بالشتک‌های مبل', "data/images/sofa/kosan.jpg"]
+  ['دسته', 'دسته‌ها', "data/images/sofa/daste.jpg"],
+  ['پایه', 'پایه‌ها', "data/images/sofa/paye.jpg"],
+  ['کوسن', 'بالشتک‌ها', "data/images/sofa/kosan.jpg"]
 ]
 .each do |name, comment, image|
   section = Admin::FurnitureSection.create!(name: name, comment: comment)
