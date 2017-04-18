@@ -23,10 +23,13 @@ class Employee::NagashesController < Employee::EmployeebaseController
     @form[:nagash] = Employee::Nagash.new(nagash_params)
     
     respond_to do |format|
-      if @form[:nagash].save
+      if @form[:nagash].valid?
         # destroy all related data from previous un-confirmed details for current furniture and user
         # this will give the user edit-like ability without making database messy and also keeping the confirmed data on touched!
         Employee::Nagash.where(furniture_id: furniture_params[:id], user_id: current_user.id, confirmed: 0).destroy_all
+        
+        # save the details
+        @form[:nagash].save
         
         # flag current furniture processed by current user
         flag_processed furniture_params[:id]

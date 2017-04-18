@@ -19,7 +19,6 @@
 	      <th style='width: 12%;'>عنوان</th>
 	      <th style='width: 12%;'>واحد</th>
         <th>توضیحات</th>
-        <th style='width: 80px;'>عملیات</th>
       </tr>
     </thead>
 
@@ -27,11 +26,7 @@
       <% @admin_furniture_specs.each do |admin_furniture_spec| %>
         <tr>
           <td><%= admin_furniture_spec.id %></td>
-          <td>
-            <a href="#" class='editable' data-type="text" data-resource="admin_furniture_spec" data-name="name" data-url="<%= admin_furniture_spec_path(admin_furniture_spec) %>" data-original-title="<%= admin_furniture_spec.name %>">
-              <%= admin_furniture_spec.name %>
-            </a>
-          </td>
+          <td><%= admin_furniture_spec.name %></td>
           <td>
             <a href="#" class='editable' data-type="text" data-resource="admin_furniture_spec" data-name="unit" data-url="<%= admin_furniture_spec_path(admin_furniture_spec) %>" data-original-title="<%= admin_furniture_spec.unit %>">
               <%= admin_furniture_spec.unit %>
@@ -39,11 +34,6 @@
           </td>
           <td>
             <a href="#" class='editable' data-type="textarea" data-placement="bottom" data-resource="admin_furniture_spec" data-name="comment" data-url="<%= admin_furniture_spec_path(admin_furniture_spec) %>" data-original-title="<%= admin_furniture_spec.comment %>"><%= admin_furniture_spec.comment %></a>
-          </td>
-          <td>
-            <%= link_to admin_furniture_spec, method: :delete, data: { confirm: 'آیا از انجام این عمل مطمئن هستید؟' }, class: 'text-danger' do %>
-              <span class='fa fa-trash'></span> حذف
-            <% end %>
           </td>
         </tr>
       <% end %>

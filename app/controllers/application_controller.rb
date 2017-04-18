@@ -1,18 +1,20 @@
 class ApplicationController < ActionController::Base
   # no forgery!
   protect_from_forgery with: :exception
+  # set prefered layout
+  layout :prefer_layout
   # if user's profile not set, acquire it!
   before_action :acquire_profile_if_necessary
   # change user's password if flaged to change?
   before_action :change_user_password_if_necessary
   # add to phonebook if necessary
   before_action :add_to_phonebook_if_necessary
-  # disables the layout for AJAX calls
-  layout proc { false if request.xhr? }
 
   before_action { Acu::Monitor.gaurd by: { user: current_user } }
 
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
+  
+  private
 
   def acquire_profile_if_necessary
     if user_signed_in? and not current_user.profile
@@ -52,6 +54,15 @@ class ApplicationController < ActionController::Base
   end
   
   protected
+
+  def prefer_layout lyout = nil
+    return 'ajax' if is_ajax_call?
+    lyout
+  end
+
+  def is_ajax_call?
+    not request.xhr?.nil?
+  end
 
   def prevent_browser_caching
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate' # HTTP 1.1.

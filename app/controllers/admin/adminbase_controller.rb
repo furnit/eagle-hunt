@@ -1,3 +1,3 @@
 class Admin::AdminbaseController < ApplicationController
-  layout 'no_navbar'
+  layout proc { prefer_layout 'no_navbar' }
 end

@@ -49,10 +49,9 @@ class Admin::FurnitureSpecsController < Admin::AdminbaseController
   # DELETE /admin/furniture_specs/1
   # DELETE /admin/furniture_specs/1.json
   def destroy
-    @admin_furniture_spec.destroy
     respond_to do |format|
-      format.html { redirect_to admin_furniture_specs_path, notice: "جز «<b>#{@admin_furniture_spec.name}</b>» با موفقیت حذف شد." }
-      format.json { head :no_content }
+      format.html { redirect_to admin_furniture_specs_path, alert: "به دلیل فنی امکان حذف اجزا وجود ندارد!" }
+      format.json { head :no_content, status: :unprocessable_entity }
     end
   end
 
@@ -64,6 +63,7 @@ class Admin::FurnitureSpecsController < Admin::AdminbaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_furniture_spec_params
-      params.require(:admin_furniture_spec).permit(:name, :comment, :unit)
+      # we don't permit name, because names are crucial parts of specs and cannot be changed!
+      params.require(:admin_furniture_spec).permit(:comment, :unit)
     end
 end

@@ -46,11 +46,11 @@ class Employee::HomeController < ApplicationController
     case symbol.to_sym
     when :FANI
     when :NAGASH
-      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_rang` and `confirmed`) AND #{query[0]}"
-    when :KANDE
-      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_kande` and `confirmed`) AND #{query[0]}"
+      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_rang` AND `confirmed`) AND #{query[0]}"
     when :NAJAR
-      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_kanaf` and `needs_kande` and `confirmed`) AND #{query[0]}"
+      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_kanaf` AND `needs_kande` AND `confirmed`) AND #{query[0]}"
+    when :KANDE
+      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_kande` AND NOT `needs_kanaf` AND `confirmed`) AND #{query[0]}"
     else
       raise RuntimeError.new("invalid symbol `#{symbol}`")
     end

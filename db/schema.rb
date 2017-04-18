@@ -129,10 +129,10 @@ ActiveRecord::Schema.define(version: 20170418193823) do
     t.float    "astare_asli",      limit: 24
     t.float    "range_asli",       limit: 24
     t.float    "rouye",            limit: 24
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.integer  "days_to_complete"
-    t.integer  "confirmed",        limit: 1
+    t.integer  "confirmed",        limit: 1,  default: 0
     t.index ["furniture_id"], name: "index_employee_nagashes_on_furniture_id", using: :btree
     t.index ["user_id"], name: "index_employee_nagashes_on_user_id", using: :btree
   end

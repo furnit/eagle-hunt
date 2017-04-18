@@ -35,6 +35,6 @@ class Employee::EmployeebaseController < ApplicationController
   
   def get_layout
     return false if ["new", "edit", "create"].include? params[:action]
-    return 'no_navbar'
+    prefer_layout 'no_navbar'
   end
 end

@@ -1,5 +1,4 @@
-class Employee::NajarsController < ApplicationController
-  before_action { raise RuntimeError.new('NOT IMPLEMENTED') }
+class Employee::NajarsController < Employee::EmployeebaseController
   before_action :set_forms_instance, only: [:edit, :create]
   
   def index
@@ -8,7 +7,7 @@ class Employee::NajarsController < ApplicationController
   def edit
     unless has_processed_before params[:id]
       # this means the user wants to re-evaluate the params
-      @form[:najar] = Employee::najar.where(furniture_id: params[:id], user_id: current_user.id).last
+      @form[:najar] = Employee::Najar.where(furniture_id: params[:id], user_id: current_user.id).last
       # create new records if something is wrong and the najar not found
       set_forms_instance and return if not @form[:najar] 
       # try to normalize the wages to thousand tomans!
@@ -17,13 +16,16 @@ class Employee::NajarsController < ApplicationController
   end
   
   def create
-    @form[:najar] = Employee::najar.new(najar_params)
+    @form[:najar] = Employee::Najar.new(najar_params)
     
     respond_to do |format|
-      if @form[:najar].save
+      if @form[:najar].valid?
         # destroy all related data from previous un-confirmed details for current furniture and user
         # this will give the user edit-like ability without making database messy and also keeping the confirmed data on touched!
         Employee::Najar.where(furniture_id: furniture_params[:id], user_id: current_user.id, confirmed: 0).destroy_all
+        
+        # save the details
+        @form[:najar].save
         
         # flag current furniture processed by current user
         flag_processed furniture_params[:id]
