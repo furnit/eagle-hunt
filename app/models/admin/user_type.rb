@@ -4,6 +4,6 @@ class Admin::UserType < ApplicationRecord
 
   validates :name, :symbol, uniqueness: true
 
-  has_many :user
+  has_many :users, foreign_key: :admin_user_type_id
 
 end

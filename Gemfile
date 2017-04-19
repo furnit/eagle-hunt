@@ -82,6 +82,8 @@ gem 'bootstrap-select-rails'
 gem "recaptcha", require: "recaptcha/rails"
 # for shorten URLs
 gem "bitly"
+# colorizes the string 
+gem "colorize"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
