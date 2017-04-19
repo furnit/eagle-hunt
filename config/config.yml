@@ -24,6 +24,10 @@ defaults: &defaults
       cover:
         height: 500
         height_unit: px
+        
+  preference:
+    timing:
+      sms: [9, 21]
 
 development:
   <<: *defaults

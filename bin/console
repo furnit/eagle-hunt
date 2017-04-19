@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source tmp/env.bash
+
+rails c $*

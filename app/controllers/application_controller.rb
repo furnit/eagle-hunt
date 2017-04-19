@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
           #{AppConfig.domain}
         sms
         # if we sent the warning to admin
-        if SMS.send message, to: User.find(1).phone_number
+        if SmsJob.send_proper message, to: User.find(1).phone_number
           # suppress the following trials of adding the user to the phonebook
           # it had to be the admin's job to try to put or leave it!
           current_user.error_on_add_to_phonebook = true

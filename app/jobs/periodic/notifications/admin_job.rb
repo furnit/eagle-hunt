@@ -23,7 +23,7 @@ class Periodic::Notifications::AdminJob < PeriodicJob
       
     @message = "مدیر گرامی\nآخرین وضعیت سایت:\n" + @message + "\nمبل ویرا\n#{AppConfig.domain}"
     
-    SMS.send @message, to: admins.collect {|u| u.phone_number }.join(',')
+    SmsJob.send_urgent @message, to: admins.collect {|u| u.phone_number }.join(',')
   end
   
   protected

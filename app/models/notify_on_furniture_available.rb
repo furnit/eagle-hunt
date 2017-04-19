@@ -39,7 +39,7 @@ class NotifyOnFurnitureAvailable < ApplicationRecord
       
       return if records.empty?
       
-      if not SMS.send message, to: (records.collect { |i| i.phone_number }.join(','))
+      if not SmsJob.send_proper message, to: (records.collect { |i| i.phone_number }.join(','))
         Rails.logger.error "unable to send SMS #{__FILE__}/#{__LINE__}"
         return
       end

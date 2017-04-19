@@ -33,7 +33,7 @@ module SMS
     
     res = Net::HTTP.get_response(init_uri params)
     
-    return res.is_a? Net::HTTPSuccess
+    return (res.is_a? Net::HTTPSuccess and not res.body =~ /system error/) 
   end
   
   protected
