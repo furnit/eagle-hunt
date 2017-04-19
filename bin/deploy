@@ -11,7 +11,7 @@ export RAILS_ENV=production
 [[ $* == *--assets-clobber* ]] && rails assets:clobber && rails assets:clean
 
 for exec in bin/deploy.d/*; do
-  echo -ne "\033[33mExecuting \`$exec\`\033[m" \
+  echo -ne "\033[33mExecuting \`$exec\`\033[m"
   eval $exec || exit 1
   echo -e "\033[32m [OK]\033[m"
 done
