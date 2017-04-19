@@ -20,7 +20,6 @@ class Periodic::Notifications::AdminJob < DailyJob
     @message = "مدیر گرامی\nآخرین وضعیت سایت:\n" + @message
     
     SMS.send @message, to: admins.collect {|u| u.phone_number }.join(',')
-    
   end
   
   protected

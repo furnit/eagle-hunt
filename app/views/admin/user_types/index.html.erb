@@ -19,7 +19,6 @@
         <th>نام</th>
         <th>توضیحات</th>
         <th>سطح دسترسی</th>
-        <th colspan="1">عملیات</th>
       </tr>
     </thead>
 
@@ -39,11 +38,6 @@
             <a href="#" class='editable' data-type="text" data-resource="admin_user_type" data-name="auth_level" data-url="<%= admin_user_type_path(admin_user_type) %>" data-original-title="<%= admin_user_type.auth_level %>">
               <%= admin_user_type.auth_level %>
             </a>
-          </td>
-          <td>
-            <%= link_to admin_user_type, method: :delete, data: { confirm: 'آیا از انجام این عمل مطمئن هستید؟' }, class: 'text-danger' do %>
-              <span class='fa fa-trash'></span> حذف
-            <% end %>
           </td>
         </tr>
       <% end %>

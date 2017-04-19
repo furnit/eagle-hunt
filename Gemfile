@@ -84,6 +84,10 @@ gem "recaptcha", require: "recaptcha/rails"
 gem "bitly"
 # colorizes the string 
 gem "colorize"
+# for backing up the database
+gem "backup"
+# for general schedule purposes 
+gem 'whenever', :require => false
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

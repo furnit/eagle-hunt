@@ -53,5 +53,14 @@ Rails.application.routes.draw do
       resources rsrc, except: [:show]
     end
     
+    resources :confirmations, only: [:index] do
+      member do 
+        post :confirm
+      end
+    end
+    
+    resources :systems, RC::non_restful do
+    end
+    
   end
 end

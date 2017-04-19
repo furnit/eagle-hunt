@@ -34,7 +34,8 @@ Acu::Rules.define do
   end
 
   namespace :admin do
-    controller :users do
+    # define the none-destroyable controllers
+    controller [:users, :user_types, :furniture_specs] do
       deny :everyone, on: [:destroy]
     end
   end

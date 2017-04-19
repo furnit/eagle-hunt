@@ -60,9 +60,8 @@ class Admin::UserTypesController < Admin::AdminbaseController
   # DELETE /admin/user_types/1
   # DELETE /admin/user_types/1.json
   def destroy
-    @admin_user_type.destroy
     respond_to do |format|
-      format.html { redirect_to admin_user_types_url, notice: 'نوع کاربر «<b>%s</b>» با موفقیت حذف شد.' %@admin_user_type.name  }
+      format.html { redirect_to admin_user_types_url, notice: 'به دلیل فنی امکان حذف «انواع کاربران» وجود ندارد.'  }
       format.json { head :no_content }
     end
   end
@@ -75,6 +74,7 @@ class Admin::UserTypesController < Admin::AdminbaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_user_type_params
-      params.require(:admin_user_type).permit(:name, :comment, :symbol, :auth_level)
+      # ignore `symbol`! changing this could cause a serious damage to the system  
+      params.require(:admin_user_type).permit(:name, :comment, :auth_level)
     end
 end
