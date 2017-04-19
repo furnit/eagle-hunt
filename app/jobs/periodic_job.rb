@@ -8,11 +8,11 @@ class PeriodicJob < ApplicationJob
   def schedule
   end
   
-  def wait w
+  def delay w
     self.enqueue wait: w
   end
   
-  def wait_until wv
+  def time wv
     self.enqueue wait_until: wv
   end
 end

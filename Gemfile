@@ -52,7 +52,7 @@ gem "font-awesome-rails"
 # For HTML dialog box
 gem 'bootbox-rails'
 # Act as paranoid for models soft deletions
-# gem "paranoia", github: "rubysherpas/paranoia", branch: "rails5"
+# gem 'paranoia', github: "rubysherpas/paranoia", branch: 'rails5'
 gem 'acts_as_paranoid', github: 'ActsAsParanoid/acts_as_paranoid'
 # For making thumbnail with carrierwave
 gem 'rmagick'
@@ -79,13 +79,17 @@ gem 'bootstrap-editable-rails'
 # for pretty bootstrap selects
 gem 'bootstrap-select-rails'
 # for reCAPTCHA
-gem "recaptcha", require: "recaptcha/rails"
+gem 'recaptcha', require: "recaptcha/rails"
 # for shorten URLs
-gem "bitly"
+gem 'bitly'
 # colorizes the string 
-gem "colorize"
+gem 'colorize'
 # for general schedule purposes 
 gem 'whenever', :require => false
+# for fixing the `openssl.so: warning: already initialized constant` issue caused when backing up the database 
+gem 'openssl', '2.0.2'
+# for fixing the `bigdecimal.so: warning: already initialized constant` issue caused when backing up the database 
+gem 'bigdecimal', '~> 1.1'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

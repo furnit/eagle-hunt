@@ -3,7 +3,7 @@ require Rails.root.join('lib/sms/bootstrap')
 class Periodic::Notifications::AdminJob < PeriodicJob
   
   def schedule
-    wait_until Date.tomorrow.noon
+    time Date.tomorrow.noon
   end
   
   def perform(*args)    
@@ -21,7 +21,7 @@ class Periodic::Notifications::AdminJob < PeriodicJob
     
     return if not @message.length > 0
       
-    @message = "مدیر گرامی\nآخرین وضعیت سایت:\n" + @message
+    @message = "مدیر گرامی\nآخرین وضعیت سایت:\n" + @message + "\nمبل ویرا\n#{AppConfig.domain}"
     
     SMS.send @message, to: admins.collect {|u| u.phone_number }.join(',')
   end

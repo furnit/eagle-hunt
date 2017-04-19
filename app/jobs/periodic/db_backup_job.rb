@@ -1,13 +1,11 @@
 class Periodic::DbBackupJob < PeriodicJob
   
   def schedule
-    # schedule the 
-    # wait_until Date.tomorrow.noon.change hour: 3
+    # backup database everyday at `4:00 AM`
+    time Date.tomorrow.noon.change hour: 4
   end
   
   def perform(*args)
-    ActiveRecord::Base.connection.tables.each do |t|
-      ap [t, t.classify]
-    end
+    `/bin/bash -c "cd #{Rails.root} && source tmp/env.bash && RAILS_ENV=#{Rails.env} bundle exec rake db:backup --silent"`
   end
 end

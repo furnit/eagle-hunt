@@ -18,3 +18,10 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+
+require File.expand_path(File.dirname(__FILE__) + "/environment")
+
+env :PATH, ENV['PATH']
+env :GEM_PATH, ENV['GEM_PATH']
+
+set :environment, Rails.env
