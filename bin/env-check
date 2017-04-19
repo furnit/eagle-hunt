@@ -9,6 +9,6 @@ else
     echo '[ABORT]'
     exit 1
   fi 
-  gpg env.dat && unzip -jo env.zip && sudo service nginx reload
+  (gpg env.dat && unzip -jo env.zip && sudo service nginx reload) || exit 1
   cd ..
 fi

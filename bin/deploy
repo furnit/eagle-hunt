@@ -1,8 +1,8 @@
 #!/bin/bash
 
-bin/env-check
+bin/env-check || exit 1
 
-source tmp/env.bash
+source tmp/env.bash || exit 1
 
 export RAILS_ENV=production
 
@@ -11,5 +11,5 @@ export RAILS_ENV=production
 [[ $* == *--assets-clobber* ]] && rails assets:clobber && rails assets:clean
 
 for exec in bin/deploy.d/*; do
-  eval $exec
+  eval $exec || exit 1
 done

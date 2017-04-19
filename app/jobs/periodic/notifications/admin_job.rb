@@ -1,6 +1,10 @@
 require Rails.root.join('lib/sms/bootstrap')
 
-class Periodic::Notifications::AdminJob < DailyJob
+class Periodic::Notifications::AdminJob < PeriodicJob
+  
+  def schedule
+    wait_until Date.tomorrow.noon
+  end
   
   def perform(*args)    
     admins = Admin::UserType.where(symbol: :ADMIN).first.users.select(:phone_number)
