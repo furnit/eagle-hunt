@@ -18,16 +18,14 @@ defaults: &defaults
     keys:
       site: <%= ENV['RECAPTCHA_SITE_KEY'] || '' %>
       secret: <%= ENV['RECAPTCHA_SECRET_KEY'] || '' %>
-  
-  css:
-    furniture:
-      cover:
-        height: 500
-        height_unit: px
-        
+      
   preference:
     timing:
       sms: [9, 21]
+      
+  process:
+    employee:
+      verify: ["FANI", "NAJAR", "NAGASH", "KANAF"]
 
 development:
   <<: *defaults

@@ -1,7 +1,7 @@
 require Rails.root.join('lib/sms/bootstrap')
 
 class AutoStart::SmsJob < ApplicationJob
-  queue_as :default
+  queue_as :urgent
   
   def schedule
     # schedule all un-sent messages into database!

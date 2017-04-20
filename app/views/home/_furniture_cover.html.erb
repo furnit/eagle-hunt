@@ -1,9 +1,7 @@
 <% if @furniture.images.length > 0 %>
 
-  <% conf = AppConfig.css.furniture.cover %>
-
   <div class='container-fluid' style='margin: 0; padding: 0'>
-  	<%= create_cover image_url(@furniture.images[@furniture.cover_details['index'].to_i]), thumb: @furniture.images[@furniture.cover_details['index'].to_i].thumb.url, height: (conf.height.to_s + conf.height_unit), style: "background-position: center #{@furniture.cover_details['pos']};", id: 'div-f-cover' %>
+  	<%= create_cover image_url(@furniture.images[@furniture.cover_details['index'].to_i]), thumb: @furniture.images[@furniture.cover_details['index'].to_i].thumb.url, height: "500px", style: "background-position: center #{@furniture.cover_details['pos']};", id: 'div-f-cover' %>
   </div>
 	<div id='furniture-cover'>
 <% acu_as :admin do %>
