@@ -1,4 +1,4 @@
-class Periodic::DbBackupJob < PeriodicJob
+class AutoStart::DbBackupJob < PeriodicJob
   
   def schedule
     # backup database everyday at `4:00 AM`

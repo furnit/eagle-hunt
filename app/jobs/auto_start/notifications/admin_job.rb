@@ -1,6 +1,6 @@
 require Rails.root.join('lib/sms/bootstrap')
 
-class Periodic::Notifications::AdminJob < PeriodicJob
+class AutoStart::Notifications::AdminJob < PeriodicJob
   
   def schedule
     time Date.tomorrow.noon

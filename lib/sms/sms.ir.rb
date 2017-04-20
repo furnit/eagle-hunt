@@ -15,9 +15,7 @@ module SMS
       to: to.join(",")
     })
     
-    res = Net::HTTP.get_response(init_uri params)
-    
-    return res.is_a? Net::HTTPSuccess 
+    is_success? Net::HTTP.get_response(init_uri params)
     
   rescue Net::OpenTimeout
     return false   
@@ -31,9 +29,10 @@ module SMS
       mobile: mobile
     })
     
-    res = Net::HTTP.get_response(init_uri params)
+    is_success? Net::HTTP.get_response(init_uri params)
     
-    return (res.is_a? Net::HTTPSuccess and not res.body =~ /system error/) 
+  rescue Net::OpenTimeout
+    return false   
   end
   
   protected
@@ -51,5 +50,8 @@ module SMS
     uri
   end
   
+  def is_success? res
+    (res.is_a? Net::HTTPSuccess and not res.body =~ /system error/) 
+  end
   end
 end
