@@ -22,10 +22,6 @@ defaults: &defaults
   preference:
     timing:
       sms: [9, 21]
-      
-  process:
-    employee:
-      verify: ["FANI", "NAJAR", "NAGASH", "KANAF"]
 
 development:
   <<: *defaults

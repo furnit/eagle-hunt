@@ -38,6 +38,10 @@ Acu::Rules.define do
     controller [:users, :user_types, :furniture_specs] do
       deny :everyone, on: [:destroy]
     end
+    # allowing employees to see the list images for a furniture
+    controller :furnitures do
+      allow :employee, on: [:list_images]
+    end
   end
   
   namespace :employee do
