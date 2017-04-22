@@ -1,6 +1,6 @@
 class Employee::Najar < ApplicationRecord
-  belongs_to :users
-  belongs_to :furnitures
+  belongs_to :user
+  belongs_to :furniture, class_name: '::Admin::Furniture', foreign_key: :furniture_id
   
   attr_accessor :days_to_complete_scale
   

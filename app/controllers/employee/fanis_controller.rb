@@ -13,8 +13,10 @@ class Employee::FanisController < Employee::EmployeebaseController
       set_forms_instance and return if not @form[:fani] 
       # try to normalize the wages to thousand tomans!
       [:wage_rokob, :wage_khayat].each { |column| @form[:fani][column] = @form[:fani][column].tomans.to_i }
+      # build details
+      build_details = @form[:fani].furniture_build_details;
       # fetch the details
-      @form[:build_details] = @form[:fani].furniture_build_details
+      @form[:build_details] = @form[:fani].furniture_build_details if not build_details.empty?
     end
   end
   
@@ -50,6 +52,9 @@ class Employee::FanisController < Employee::EmployeebaseController
         @form[:build_details].each { |f| f.save }
         # link stuff together
         @form[:build_details].each { |f| Employee::FanisFurnitureBuildDetails.create(employee_fani_id: @form[:fani].id, furniture_build_detail_id: f.id) }
+        
+        # flag it as unconfirmed data
+        @form[:fani].furniture.update has_unconfirmed_data: true
         
         # flag current furniture processed by current user
         flag_processed furniture_params[:id]

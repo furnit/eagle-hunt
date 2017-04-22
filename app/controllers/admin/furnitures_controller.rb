@@ -140,6 +140,10 @@ class Admin::FurnituresController < Admin::UploaderController
     end
   end
 
+  def ls_confirmations
+    @furnitures = Admin::Furniture.where(has_unconfirmed_data: true).paginate(page: params[:page])
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.

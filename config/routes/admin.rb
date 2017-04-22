@@ -29,9 +29,11 @@ Rails.application.routes.draw do
         get    :edit_description, RC::ajax_server
         patch  :update_description
         get    :list_images, RC::json_request_only 
+        post   :confirm, RC::ajax_server.merge(RC::json_request_only)
       end
       collection do
         post   :markup, RC::json_request_only
+        get    :ls_confirmations
       end
     end
     
@@ -51,12 +53,6 @@ Rails.application.routes.draw do
     
     [:furniture_stuff_abrs, :furniture_specs].each do |rsrc|
       resources rsrc, except: [:show]
-    end
-    
-    resources :confirmations, only: [:index] do
-      member do 
-        post :confirm
-      end
     end
     
     resources :systems, RC::non_restful do

@@ -1,6 +1,6 @@
 class Employee::Fani < ApplicationRecord
-  belongs_to :users
-  belongs_to :furnitures
+  belongs_to :user
+  belongs_to :furniture, class_name: '::Admin::Furniture', foreign_key: :furniture_id
   
   has_and_belongs_to_many :furniture_build_details, class_name: '::FurnitureBuildDetail', foreign_key: :employee_fani_id
 

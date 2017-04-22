@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170420191104) do
+ActiveRecord::Schema.define(version: 20170422072756) do
 
   create_table "admin_furniture_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -51,15 +51,16 @@ ActiveRecord::Schema.define(version: 20170420191104) do
   create_table "admin_furnitures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.json     "images"
-    t.boolean  "available",                       default: false
-    t.string   "comment",           limit: 140
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.boolean  "available",                          default: false
+    t.string   "comment",              limit: 140
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
     t.integer  "furniture_type_id"
-    t.text     "description",       limit: 65535
+    t.text     "description",          limit: 65535
     t.datetime "deleted_at"
     t.json     "cover_details"
     t.string   "description_html"
+    t.boolean  "has_unconfirmed_data",               default: true
     t.index ["deleted_at"], name: "index_admin_furnitures_on_deleted_at", using: :btree
     t.index ["furniture_type_id"], name: "index_admin_furnitures_on_furniture_type_id", using: :btree
   end

@@ -27,6 +27,9 @@ class Employee::NajarsController < Employee::EmployeebaseController
         # save the details
         @form[:najar].save
         
+        # flag it as unconfirmed data
+        @form[:najar].furniture.update has_unconfirmed_data: true
+        
         # flag current furniture processed by current user
         flag_processed furniture_params[:id]
         

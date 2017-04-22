@@ -31,6 +31,9 @@ class Employee::NagashesController < Employee::EmployeebaseController
         # save the details
         @form[:nagash].save
         
+        # flag it as unconfirmed data
+        @form[:nagash].furniture.update has_unconfirmed_data: true
+        
         # flag current furniture processed by current user
         flag_processed furniture_params[:id]
         
