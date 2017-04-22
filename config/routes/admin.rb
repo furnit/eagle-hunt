@@ -29,11 +29,11 @@ Rails.application.routes.draw do
         get    :edit_description, RC::ajax_server
         patch  :update_description
         get    :list_images, RC::json_request_only 
+        get    :ls_intel, RC::ajax_server
         post   :confirm, RC::ajax_server.merge(RC::json_request_only)
       end
       collection do
         post   :markup, RC::json_request_only
-        get    :ls_confirmations
       end
     end
     
