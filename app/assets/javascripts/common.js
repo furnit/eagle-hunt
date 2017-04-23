@@ -65,11 +65,11 @@ $(document).on('ready turbolinks:load', function(){
     // auto resize any text area
     $('textarea:not([data-noresize])').not('.autoresized').autosize().addClass('autoresized');
     // enable tooltips
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]:not(.tooltipfied)').tooltip().addClass('tooltipfied');
     // for select pickers
-    $('.selectpicker').selectpicker();
+    $('.selectpicker:not(.selectpickerified)').selectpicker().addClass('selectpickerified');
     // prevent default empty links
-    $("a[href='#']").click(function(e) { e.preventDefault(); });
+    $("a[href='#']:not(.hash-disabled)").click(function(e) { e.preventDefault(); }).addClass('hash-disabled');
     // make sure auto-focus happen
     setTimeout(function() { $("[autofocus]:first").focus(); }, 300);
   };

@@ -1,10 +1,62 @@
-<div>
-	<div class="panel panel-success">
-	  <div class="panel-heading"><strong><span class='fa fa-money'></span> دست‌مزد</strong></div>
-	  <div class="panel-body">
-			<div class='row'>
+<% outlier_color = 'danger' %>
+<% outlier_text  = 'data-toggle="tooltip" title="سیستم این مقدار را در تناسب با دیگر مقادیر غیر عادی تشخیص داده است"' %>
+<% 
+	def build_section **args
+		render_thead = Proc.new { |thead| thead.each { |h| concat raw "<th>#{h}</th>" } }
+		{
+			thead: '',
+			pangel_heading: '',
+			panel_type: 'default'
+		}.each { |k, v| args[k] ||= v }
+%>
+			<div class="panel panel-<%= raw args[:panel_type] %>">
+			  <div class="panel-heading"><strong><%= raw args[:pangel_heading] %></strong></div>
+			  <div class="panel-body">
+			  	<table class="table table-striped table-hover">
+			  		<thead><tr><% render_thead.call args[:thead] %></tr></thead>
+			  		<tbody><% yield if block_given? %></tbody>
+		  		</table>
+			  </div>
 			</div>
-	  </div>
-	</div>
+<% 
+	end
+%>
+
+<div>
+	<% # DAST MOZD HA %>
+	<% build_section panel_type: 'success',
+				pangel_heading: "<span class='fa fa-money'></span> دست‌مزد</strong>",
+				thead: ['کارمند', 'دست‌مزد روکوب', 'دست‌مزد خیاط'] do %>
+		<% 
+			collection = { }
+			[:wage_rokob, :wage_khayat].each do |label|
+				collection[label] = intel.map {|i| i[:data][label]}
+			end
+		%>
+		<% intel.each do |i| %>
+			<% is_outlier = { } %>
+			<% [:wage_rokob, :wage_khayat].each { |label| is_outlier[label] = is_outlier?(i[:data][label], collection: collection[label]) } %>
+			<tr <%= raw is_outlier.values.any? ? outlier_text : "" %>>
+				<td><%= i[:data].user.full_name %></td>
+				<% [:wage_rokob, :wage_khayat].each do |label| %>
+					<td <%= raw is_outlier[label] ? "class='#{outlier_color}'" : "" %>><%= i[:data][label] %></td>
+				<% end %>
+			</tr>
+		<% end %>
+	<% end %>
+	
+	<% # ZAMAN BANDI %>
+	<% build_section panel_type: 'info',
+				pangel_heading: "<span class='fa fa-clock-o'></span> دست‌مزد</strong>",
+				thead: ['کارمند', 'مدت‌ زمان پایان «خیاطی» و «روکوبی»'] do %>
+		
+		<% intel.each do |i| %>
+			<tr <%= raw is_outlier?(i[:data][:days_to_complete], collection: intel.map {|i| i[:data][:days_to_complete] }) ? "class='#{outlier_color}' #{outlier_text}" : "" %>>
+				<td><%= i[:data].user.full_name %></td>
+				<td><%= i[:data][:days_to_complete] %>&nbsp;روز</td>
+			</tr>
+		<% end %>
+	<% end %>
+	
 	<div class='clearfix'></div>
 </div>
