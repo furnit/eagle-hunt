@@ -28,4 +28,6 @@ class ApplicationRecord < ActiveRecord::Base
   def error_messages?
     self.errors.any?
   end
+  
+  scope :select_except, lambda { |*columns| select(column_names - columns.map(&:to_s)) }
 end

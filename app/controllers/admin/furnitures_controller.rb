@@ -1,5 +1,5 @@
 class Admin::FurnituresController < Admin::UploaderController
-  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :cover, :edit_description, :update_description, :list_images]
+  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :cover, :edit_description, :update_description, :list_images, :ls_intel]
 
   # GET /furnitures
   # GET /furnitures.json
@@ -141,6 +141,15 @@ class Admin::FurnituresController < Admin::UploaderController
   end
 
   def ls_intel
+    @intel = { }
+    Employee::Processed.where(admin_furniture_id: @furniture.id).distinct.each do |proc|
+      name = proc.as_symbol.downcase.to_sym
+      @intel[name] ||= []
+      @intel[name] << {
+        meta: proc,
+        data: "Employee::#{proc.as_symbol.to_s.downcase.classify}".constantize.where(furniture_id: @furniture.id, user_id: proc.user_id).last
+      }
+    end
   end
 
   private
