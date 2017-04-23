@@ -1,5 +1,6 @@
 <% specs = Admin::FurnitureSpec.where('name IN (?)', ['پارچه', 'ابر']) %>
 <% sections = Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']) %>
+<%= render 'employee/shared/input_for7' %>
 <%= remote_form @form[:furniture], url: employee_fanis_path(format: :json), method: :post do |f| %>
 	<%= f.hidden_field :id, value: @form[:furniture].id %>
 	<%= f.hidden_field :hd, value: Digest::SHA256.new << (@form[:furniture].id.to_s + Rails.application.config.secret_key_base) %>
@@ -100,7 +101,9 @@
 
 <script type="text/javascript" charset="utf-8">
 	function on_employee_form_submit(callback) {
-		var message_header = '<table class="table">\
+		var message_header = 
+		'<%= escape_javascript(render 'employee/shared/input_for7') %>' +
+		'<table class="table">\
 			<thead>\
 				<tr>\
 					<th>عنوان</th>\
