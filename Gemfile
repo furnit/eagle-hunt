@@ -91,7 +91,7 @@ gem 'openssl', '2.0.2'
 # for fixing the `bigdecimal.so: warning: already initialized constant` issue caused when backing up the database 
 gem 'bigdecimal', '~> 1.1'
 # for dependency of `gem 'descriptive_statistics'`
-gem 'statistics2'
+gem 'statistics2', github: 'noise2/statistics2'
 # for statistical method, also used by `gem 'savanna-outliers'`
 gem 'descriptive_statistics', '~> 2.4.0', :require => 'descriptive_statistics/safe'
 # for outlier detection

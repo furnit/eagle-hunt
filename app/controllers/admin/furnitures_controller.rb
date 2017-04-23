@@ -150,6 +150,7 @@ class Admin::FurnituresController < Admin::UploaderController
         data: "Employee::#{proc.as_symbol.to_s.downcase.classify}".constantize.where(furniture_id: @furniture.id, user_id: proc.user_id).last
       }
     end
+    p ap @intel
   end
 
   private

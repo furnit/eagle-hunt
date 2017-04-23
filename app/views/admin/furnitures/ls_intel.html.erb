@@ -19,7 +19,6 @@
 	<% @intel.keys.each.with_index do |k, index| %>
 	  <div aria-labelledby="<%= k.to_s %>-tab" class="tab-pane fade <%= index == 0 ? 'active in' : '' %>" id="<%= k.to_s %>-tab-content" role="tabpanel">
 			<%= render "admin/furnitures/ls_intel/#{k.to_s}", locals: {intel: @intel[k]} %>
-			<div class='en'><%= raw ap(@intel[k], html: true) %></div>
 	  </div>
 	<% end %>
 </div>
