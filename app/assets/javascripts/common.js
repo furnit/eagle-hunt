@@ -62,6 +62,54 @@ $(document).on('ready turbolinks:load', function(){
         });
       }
     }).addClass('ajaxified');
+	  // load inline html from links
+	  $('.inline-html-call:not(.active)').click(function(e) {
+	    e.preventDefault();
+	    if($(this).hasClass('active')) return;
+	    // don't recall it when active'
+	    $this = $(this);
+	    $this.addClass('active');
+	    // define counter
+	    if($('body').data('inline-html-call-counter') === undefined)
+	      $('body').data('inline-html-call-counter', 0);
+	    $('body').data('inline-html-call-counter', $('body').data('inline-html-call-counter') + 1);
+	    blockid = $('body').data('inline-html-call-counter');
+	    $('body').append('<div id="inline-html-call-block'+blockid+'" class="hidden inline-html-call-modal"></div>');
+	    $("#inline-html-call-block"+blockid).load($(this).attr('href'), function(response, status, xhr){
+	    	if(status == "error") { $this.removeClass('active'); return; }
+	      var html = $(this).html();
+	      var body = html;
+	      var title = '';
+	      if(body.length === 0) return;
+	
+	      if($(html).find('> *:first').is('legend')) {
+	        var wrapped = $("<div>" + html + "</div>");
+	        wrapped.find('legend:first').remove();
+	        var body = wrapped.html();
+	        var title = $(html).find('legend:first').html();
+	      }
+	
+	      var dialog = bootbox.dialog({
+	        title: title,
+	        message: body,
+	        backdrop: true,
+	        onEscape: function() { $('.inline-html-call-modal').remove(); $this.removeClass('active'); },
+	        size: 'large'
+	      }).on('shown.bs.modal',function(){
+	        $(this).find('[autofocus]').focus();
+	      });
+	      $(this).remove();
+	      // if any remote link clicked, make the progress bar bound to the model
+	      $('.bootbox.modal .modal-body a[data-remote]').click(function(e) {
+	        document.NProgress.configure({
+	          parent: '.bootbox.modal .modal-body',
+	          template: '<div class="bar" role="bar"><div class="peg"></div></div><div class="spinner-left" role="spinner"><div class="spinner-icon"></div></div>'
+	        });
+	        // on ajax complete reset the progress bar boundaries
+	        $(this).bind('ajax:complete', function(){ document.NProgress.configure({parent: 'body'}); });
+	      });
+	    });
+	  });
     // auto resize any text area
     $('textarea:not([data-noresize])').not('.autoresized').autosize().addClass('autoresized');
     // enable tooltips
@@ -80,54 +128,6 @@ $(document).on('ready turbolinks:load', function(){
   // making alerts go away by clicking on the X button
   $('#page-alerts .fa-times').click(function(){
     $(this).parents('.alert').fadeOut(300, function() { $(this).remove(); });
-  });
-  // load inline html from links
-  $('.inline-html-call:not(.active)').click(function(e) {
-    e.preventDefault();
-    if($(this).hasClass('active')) return;
-    // don't recall it when active'
-    $this = $(this);
-    $this.addClass('active');
-    // define counter
-    if($('body').data('inline-html-call-counter') === undefined)
-      $('body').data('inline-html-call-counter', 0);
-    $('body').data('inline-html-call-counter', $('body').data('inline-html-call-counter') + 1);
-    blockid = $('body').data('inline-html-call-counter');
-    $('body').append('<div id="inline-html-call-block'+blockid+'" class="hidden inline-html-call-modal"></div>');
-    $("#inline-html-call-block"+blockid).load($(this).attr('href'), function(response, status, xhr){
-    	if(status == "error") { $this.removeClass('active'); return; }
-      var html = $(this).html();
-      var body = html;
-      var title = '';
-      if(body.length === 0) return;
-
-      if($(html).find('> *:first').is('legend')) {
-        var wrapped = $("<div>" + html + "</div>");
-        wrapped.find('legend:first').remove();
-        var body = wrapped.html();
-        var title = $(html).find('legend:first').html();
-      }
-
-      var dialog = bootbox.dialog({
-        title: title,
-        message: body,
-        backdrop: true,
-        onEscape: function() { $('.inline-html-call-modal').remove(); $this.removeClass('active'); },
-        size: 'large'
-      }).on('shown.bs.modal',function(){
-        $(this).find('[autofocus]').focus();
-      });
-      $(this).remove();
-      // if any remote link clicked, make the progress bar bound to the model
-      $('.bootbox.modal .modal-body a[data-remote]').click(function(e) {
-        document.NProgress.configure({
-          parent: '.bootbox.modal .modal-body',
-          template: '<div class="bar" role="bar"><div class="peg"></div></div><div class="spinner-left" role="spinner"><div class="spinner-icon"></div></div>'
-        });
-        // on ajax complete reset the progress bar boundaries
-        $(this).bind('ajax:complete', function(){ document.NProgress.configure({parent: 'body'}); });
-      });
-    });
   });
 }).ajaxError(function(e, xhr){
   // i.e users sent wrong data to the server!!

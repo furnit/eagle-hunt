@@ -36,6 +36,7 @@ class Admin::Furniture < ParanoiaRecord
       :sorted_by,
       :search_query,
       :get_by_furniture_types,
+      :get_by_flags
     ]
   )
   
@@ -79,6 +80,33 @@ class Admin::Furniture < ParanoiaRecord
       raise(ArgumentError, "Invalid sort option: #{ sort_option.inspect }")
     end
   }
+
+  scope :get_by_flags, lambda { |flag_id|
+    case get_flags.map { |i| i[:column] }[flag_id]
+    when 'has_unconfirmed_data'
+      where('has_unconfirmed_data')
+    when 'data_locked_at'
+      where('data_locked_at IS NOT NULL')
+    when 'not_data_locked_at'
+      where('data_locked_at IS NULL')
+    when 'available'
+      where('available')
+    when 'not_available'
+      where('not available')
+    else
+      raise RuntimeError.new('undefined flag')
+    end
+  }
+
+  def self.get_flags
+    [
+      { column: 'has_unconfirmed_data', title: 'حاوی اطلاعات تایید نشده' },
+      { column: 'data_locked_at', title: 'اطلاعات قفل شده' },
+      { column: 'not_data_locked_at', title: 'اطلاعات قفل نشده' },
+      { column: 'available', title: 'قابل سفارش' },
+      { column: 'not_available', title: 'غیر قابل سفارش' }
+    ]
+  end
 
   def self.options_for_sorted_by
     [

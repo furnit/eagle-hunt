@@ -85,6 +85,12 @@ body {
   th { text-align: right }
 
   input[type=tel] { text-align: right; direction: ltr }
+  
+  table {
+    tr.divider {
+      td { border-top: 3px solid $table-border-color; }
+    }
+  }
 
   .bootstrap-select.btn-group .filter-option,
   .dropdown-menu { @extend .ir }

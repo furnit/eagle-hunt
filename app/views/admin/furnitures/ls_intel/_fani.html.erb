@@ -1,5 +1,7 @@
 <% outlier_color = 'danger' %>
 <% outlier_text  = 'data-toggle="tooltip" title="سیستم این مقدار را در تناسب با دیگر مقادیر غیر عادی تشخیص داده است"' %>
+<% specs = Admin::FurnitureSpec.where('name IN (?)', ['پارچه', 'ابر']) %>
+<% sections = Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']) %>
 <% 
 	def build_section **args
 		render_thead = Proc.new { |thead| thead.each { |h| concat raw "<th>#{h}</th>" } }
@@ -12,7 +14,7 @@
 			<div class="panel panel-<%= raw args[:panel_type] %>">
 			  <div class="panel-heading"><strong><%= raw args[:pangel_heading] %></strong></div>
 			  <div class="panel-body">
-			  	<table class="table table-striped table-hover">
+			  	<table class="table table-striped">
 			  		<thead><tr><% render_thead.call args[:thead] %></tr></thead>
 			  		<tbody><% yield if block_given? %></tbody>
 		  		</table>
@@ -25,7 +27,7 @@
 <div>
 	<% # DAST MOZD HA %>
 	<% build_section panel_type: 'success',
-				pangel_heading: "<span class='fa fa-money'></span> دست‌مزد</strong>",
+				pangel_heading: "<span class='fa fa-money'></span> دست‌مزد",
 				thead: ['کارمند', 'دست‌مزد روکوب', 'دست‌مزد خیاط'] do %>
 		<% 
 			collection = { }
@@ -47,7 +49,7 @@
 	
 	<% # ZAMAN BANDI %>
 	<% build_section panel_type: 'info',
-				pangel_heading: "<span class='fa fa-clock-o'></span> دست‌مزد</strong>",
+				pangel_heading: "<span class='fa fa-clock-o'></span> زمان‌بندی",
 				thead: ['کارمند', 'مدت‌ زمان پایان «خیاطی» و «روکوبی»'] do %>
 		
 		<% intel.each do |i| %>
@@ -58,5 +60,50 @@
 		<% end %>
 	<% end %>
 	
+	<% specs.each do |spec| %>
+		<% is_abr = (spec.name == "ابر") %>
+		<% thead = ['کارمند', 'قسمت', 'مقدار'] %>
+		<% thead = ['کارمند', 'قسمت', 'جنس<br />(در حالت کلی)', 'مقدار'] if is_abr %>
+		<% build_section panel_type: 'primary',
+					pangel_heading: "<span class='fa fa-balance-scale'></span> جزییات #{spec.name}",
+					thead: thead do %>
+			<% intel.each do |i| %>
+				<% sections.each.with_index do |section, index| %>
+					<% detail = i[:data].furniture_build_details.where(admin_furniture_spec_id: spec.id, admin_furniture_section_id: section.id).first %>
+					<tr <%= raw index == 0 ? 'class="divider"' : '' %>>
+						<% if index == 0 %>
+							<td rowspan="<%= sections.length %>"><%= i[:data].user.full_name %></td>
+						<% end %>
+	      		<td>
+							<%= image_tag thumbnail_url(section.images), \
+										class: 'furniture-section img-responsive', \
+										style: 'height: 40px;margin-top: 0px;', \
+										title: section.comment %>
+						</td>
+						<% if is_abr %>
+						<td><%= Admin::FurnitureStuffAbr.find(detail.options["admin_furniture_stuff_abrs"]["id"]).name %></td>
+						<% end %>
+						<td>
+							<%= detail.value %>
+							<%= spec.unit %>
+						</td>
+					</tr>
+				<% end %>
+			<% end %>
+		<% end %>
+	<% end %>
+	
 	<div class='clearfix'></div>
 </div>
+
+<script type="text/javascript" charset="utf-8">
+	$('.furniture-section').on('mouseover', function(e) {
+		$(this).popover({
+      html: true,
+      trigger: 'hover',
+      placement: 'bottom',
+      content: function(){ return '<img src="'+$(this).attr('src') + '" />';}
+    });
+    $(this).popover('show');
+  });
+</script>

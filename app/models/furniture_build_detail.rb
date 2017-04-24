@@ -1,6 +1,6 @@
 class FurnitureBuildDetail < ApplicationRecord
-  belongs_to :admin_furniture_sections
-  belongs_to :admin_furniture_specs
+  belongs_to :admin_furniture_section, class_name: 'Admin::FurnitureSection'
+  belongs_to :admin_furniture_spec, class_name: 'Admin::FurnitureSpec'
   
   attr_accessor :admin_furniture_stuff_abr_id
   
