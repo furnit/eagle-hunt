@@ -34,14 +34,14 @@ class ApplicationController < ActionController::Base
       require "#{Rails.root}/lib/sms/bootstrap"
       if not SMS.add_to_phonebook first_name: current_user.profile.first_name, last_name: current_user.profile.last_name, mobile: current_user.phone_number 
         message = <<~sms
-          خطای اضافه کردن کاربر به دفترچه تلفن
-          ##{current_user.id}
+          خطای اضافه کردن به دفترچه تلفن
+          کاربر: #{current_user.id}
           
           مبل ویرا
           #{AppConfig.domain}
         sms
-        # if we sent the warning to admin
-        if AutoStart::SmsJob.send_proper message, to: User.find(1).phone_number
+        # if we sent the warning to ALL admins registered in database
+        if AutoStart::SmsJob.send_proper message, to: Admin::UserType.where(symbol: :ADMIN).first.users.map { |u| u.phone_number }.join(',')
           # suppress the following trials of adding the user to the phonebook
           # it had to be the admin's job to try to put or leave it!
           current_user.error_on_add_to_phonebook = true
