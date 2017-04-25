@@ -36,7 +36,7 @@ class Users::PasswordsController < Devise::PasswordsController
       #{AppConfig.domain}
     sms
     
-    if not SmsJob.send_urgent message, to: @user.phone_number
+    if not AutoStart::SmsJob.send_urgent message, to: @user.phone_number
       fail_with_message 'امکان ارسال پیام به این شماره وجود ندارد، لطفا با تیم مدیریت سایت تماس حاصل فرمایید.'
       return
     end
