@@ -1,7 +1,7 @@
-<% outlier_color = 'danger' %>
-<% outlier_text  = 'data-toggle="tooltip" title="سیستم این مقدار را در تناسب با دیگر مقادیر غیر عادی تشخیص داده است"' %>
 <% specs = Admin::FurnitureSpec.where('name IN (?)', ['پارچه', 'ابر']) %>
 <% sections = Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']) %>
+<% klass_counter = 0 %>
+<% next_klass = Proc.new { klass_counter += 1; "kid=#{klass_counter}"  }%>
 <% 
 	def build_section **args
 		render_thead = Proc.new { |thead| thead.each { |h| concat raw "<th>#{h}</th>" } }
@@ -24,7 +24,9 @@
 	end
 %>
 
-<div>
+
+<div class='furniture-intel'>
+	<%= acu_as :admin { render 'shared/editable_content' }%>
 	<% # DAST MOZD HA %>
 	<% build_section panel_type: 'success',
 				pangel_heading: "<span class='fa fa-money'></span> دست‌مزد",
@@ -35,13 +37,16 @@
 				collection[label] = intel.map {|i| i[:data][label]}
 			end
 		%>
+		<% klass_id = next_klass.call %>
 		<% intel.each do |i| %>
-			<% is_outlier = { } %>
-			<% [:wage_rokob, :wage_khayat].each { |label| is_outlier[label] = is_outlier?(i[:data][label], collection: collection[label]) } %>
-			<tr <%= raw is_outlier.values.any? ? outlier_text : "" %>>
+			<tr <%= klass_id %>>
 				<td><%= i[:data].user.full_name %></td>
 				<% [:wage_rokob, :wage_khayat].each do |label| %>
-					<td <%= raw is_outlier[label] ? "class='#{outlier_color}'" : "" %>><%= i[:data][label] %></td>
+					<td>
+						<% outlier_label i[:data][label], collection: collection[label] do %>
+							<%= i[:data][label].to_i %>
+						<% end %>
+					</td>
 				<% end %>
 			</tr>
 		<% end %>
@@ -52,40 +57,79 @@
 				pangel_heading: "<span class='fa fa-clock-o'></span> زمان‌بندی",
 				thead: ['کارمند', 'مدت‌ زمان پایان «خیاطی» و «روکوبی»'] do %>
 		
+		<% klass_id = next_klass.call %>
 		<% intel.each do |i| %>
-			<tr <%= raw is_outlier?(i[:data][:days_to_complete], collection: intel.map {|i| i[:data][:days_to_complete] }) ? "class='#{outlier_color}' #{outlier_text}" : "" %>>
+			<tr <%= klass_id %>>
 				<td><%= i[:data].user.full_name %></td>
-				<td><%= i[:data][:days_to_complete] %>&nbsp;روز</td>
+				<td>
+					<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] } do %>
+						<%= i[:data][:days_to_complete] %>&nbsp;
+						روز
+					<% end %>
+				</td>
 			</tr>
 		<% end %>
 	<% end %>
 	
+	<% # ETELA'ATE UMUMI %>
+	<% build_section panel_type: 'primary',
+				pangel_heading: "<span class='fa fa-info'></span> اطلاعات عمومی",
+				thead: ['کارمند', 'رنگ‌آمیزی دارد؟', 'کنده‌کاری دارد؟', 'کناف دارد؟'] do %>
+		
+		<% klass_id = next_klass.call %>
+		<% intel.each do |i| %>
+			<tr <%= klass_id %>>
+				<td><%= i[:data].user.full_name %></td>
+				<% [:needs_rang, :needs_kande, :needs_kanaf].each do |label| %>
+					<td>
+						<% outlier_label i[:data][label], collection: intel.map { |i| i[:data][label] }, categorical: true do %>
+							<span class='fa fa-<%= i[:data][label] ? 'check' : 'times' %>'></span>
+						<% end %>
+					</td>
+				<% end %>
+			</tr>
+		<% end %>
+	<% end %>
+	
+	<% # JOZIYAT %>
 	<% specs.each do |spec| %>
 		<% is_abr = (spec.name == "ابر") %>
-		<% thead = ['کارمند', 'قسمت', 'مقدار'] %>
-		<% thead = ['کارمند', 'قسمت', 'جنس<br />(در حالت کلی)', 'مقدار'] if is_abr %>
+		<% thead = ['قسمت', 'کارمند', 'مقدار'] %>
+		<% thead = ['قسمت', 'کارمند', 'جنس<br />(در حالت کلی)', 'مقدار'] if is_abr %>
 		<% build_section panel_type: 'primary',
 					pangel_heading: "<span class='fa fa-balance-scale'></span> جزییات #{spec.name}",
 					thead: thead do %>
-			<% intel.each do |i| %>
-				<% sections.each.with_index do |section, index| %>
-					<% detail = i[:data].furniture_build_details.where(admin_furniture_spec_id: spec.id, admin_furniture_section_id: section.id).first %>
-					<tr <%= raw index == 0 ? 'class="divider"' : '' %>>
-						<% if index == 0 %>
-							<td rowspan="<%= sections.length %>"><%= i[:data].user.full_name %></td>
+			<% sections.each do |section| %>
+				<% details = [] %>
+				<% intel.each.with_index do |i, index| %>
+					<% details << i[:data].furniture_build_details.where(admin_furniture_spec_id: spec.id, admin_furniture_section_id: section.id).first %>
+				<% end %>
+				<% details_value = details.map { |d| d.value }%>
+				<% klass_id = next_klass.call %>
+				<% details.each.with_index do |detail, index| %>
+					<% i = intel[index] %>
+					<tr class="<%= index == 0 ? 'divider' : '' %>" <%= klass_id %>>
+	      		<% if index == 0 %>
+		      		<td rowspan="<%= intel.length %>">
+								<%= image_tag thumbnail_url(section.images), \
+											class: 'furniture-section img-responsive', \
+											style: 'height: 80px;margin-top: 0px;', \
+											title: section.comment %>
+							</td>
 						<% end %>
-	      		<td>
-							<%= image_tag thumbnail_url(section.images), \
-										class: 'furniture-section img-responsive', \
-										style: 'height: 40px;margin-top: 0px;', \
-										title: section.comment %>
-						</td>
+						<td><%= i[:data].user.full_name %></td>
 						<% if is_abr %>
-						<td><%= Admin::FurnitureStuffAbr.find(detail.options["admin_furniture_stuff_abrs"]["id"]).name %></td>
+						<td>
+							<% outlier_label detail.options["admin_furniture_stuff_abrs"]["id"], collection: details.map { |d| d.options["admin_furniture_stuff_abrs"]["id"] }, categorical: true do %>
+								<%= Admin::FurnitureStuffAbr.find(detail.options["admin_furniture_stuff_abrs"]["id"]).name %>
+							<% end %>
+						</td>
 						<% end %>
 						<td>
-							<%= detail.value %>
-							<%= spec.unit %>
+							<% outlier_label detail.value, collection: details_value do%>
+								<%= detail.value %>&nbsp;
+								<%= spec.unit %>
+							<% end %>
 						</td>
 					</tr>
 				<% end %>
@@ -94,6 +138,11 @@
 	<% end %>
 	
 	<div class='clearfix'></div>
+</div>
+
+<div class="alert alert-warning" role="alert">
+	<span class='fa fa-info-circle fa-2x'></span>
+	اطلاعاتی که با <span class='label label-danger'>رنگ پس‌زمینه‌ی فرمز</span> مشخص شده‌اند داده‌هایی هستند که سیستم با در نظر گرفتن دیگر داده‌ها، <b>«مشکوک» به اشتباه بودن آن‌ها</b> است؛ این بستگی به مدیریت سیستم دارد که این داده‌ها را <b>تایید</b> یا <b>ویرایش</b> نماید.
 </div>
 
 <script type="text/javascript" charset="utf-8">
@@ -106,4 +155,31 @@
     });
     $(this).popover('show');
   });
+  $('.furniture-intel tr td').has('.label').hover(function(){
+  	row    = $(this).closest('tr')
+  	column = $(this).closest('td')
+  	if($('tr[kid="' + row.attr('kid') + '"]').hasClass('divider')) {
+  		if(row.hasClass('divider')) {
+  			console.log('shit')
+  			column.find('.label').addClass('kid-effect')
+		  	$('tr[kid="' + row.attr('kid') + '"]').not(row).find('td:nth-child(' + (column.index()) + ') .label').addClass('kid-effect');
+			} else {	
+		  	$('tr[kid="' + row.attr('kid') + '"]').not('.divider').find('td:nth-child(' + (column.index() + 1) + ') .label').addClass('kid-effect');
+		  	$('tr.divider[kid="' + row.attr('kid') + '"]').find('td:nth-child(' + (column.index() + 2) + ') .label').addClass('kid-effect');
+			}
+  	} else {
+  		$('tr[kid="' + row.attr('kid') + '"] td:nth-child(' + (column.index() + 1) + ') .label').addClass('kid-effect');
+  	}
+  	$('.furniture-intel tr .label:not(.kid-effect)').css('opacity', 0.1);
+  }, function(){
+  	$('.furniture-intel tr .label').css('opacity', 1).removeClass('kid-effect')
+  });
 </script>
+
+<style type="text/css" media="screen">
+	.kid-effect {
+		-webkit-box-shadow:0 0 20px #0088cc; 
+    -moz-box-shadow: 0 0 20px #0088cc; 
+    box-shadow:0 0 20px #0088cc;
+	}
+</style>

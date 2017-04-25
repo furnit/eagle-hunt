@@ -114,6 +114,8 @@ $(document).on('ready turbolinks:load', function(){
     $('textarea:not([data-noresize])').not('.autoresized').autosize().addClass('autoresized');
     // enable tooltips
     $('[data-toggle="tooltip"]:not(.tooltipfied)').tooltip().addClass('tooltipfied');
+    // enable popover
+    $('[data-toggle="popover-hover"]:not(.popoverified)').popover({trigger: 'hover', placement: 'top'}).addClass('popoverified');
     // for select pickers
     $('.selectpicker:not(.selectpickerified)').selectpicker().addClass('selectpickerified');
     // prevent default empty links
