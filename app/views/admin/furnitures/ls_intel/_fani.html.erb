@@ -1,5 +1,6 @@
 <% specs = Admin::FurnitureSpec.where('name IN (?)', ['پارچه', 'ابر']) %>
 <% sections = Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']) %>
+<% stuff_abr = Admin::FurnitureStuffAbr.all %>
 <% klass_counter = 0 %>
 <% value_counter = 0 %>
 <% next_klass = Proc.new { klass_counter += 1; "kid=#{klass_counter}"  }%>
@@ -134,13 +135,21 @@
 						<% if is_abr %>
 						<td>
 							<% outlier_label detail.options["admin_furniture_stuff_abrs"]["id"], collection: details.map { |d| d.options["admin_furniture_stuff_abrs"]["id"] }, categorical: true do %>
-								<%= Admin::FurnitureStuffAbr.find(detail.options["admin_furniture_stuff_abrs"]["id"]).name %>
+								<% abr = stuff_abr.select { |a| a.id == detail.options["admin_furniture_stuff_abrs"]["id"].to_i }.first %>
+								<span class='value' data-type="select" data-pk="<%= next_value.call %>" data-value="<%= abr.id %>" data-source="<%= stuff_abr.map { |i| {value: i.id, text: i.name} }.to_json %>" data-options='<%= {
+									"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
+								}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="options[admin_furniture_stuff_abrs][id]" data-original-title="<%= abr.name %>">
+									<%= abr.name %>
+								</span>
 							<% end %>
 						</td>
 						<% end %>
 						<td>
 							<% outlier_label detail.value, collection: details_value do%>
-								<%= detail.value %>&nbsp;
+								<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-options='<%= {
+									"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
+								}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="value" data-original-title="<%= detail.value %>"><%= detail.value %></span>
+								&nbsp;
 								<%= spec.unit %>
 							<% end %>
 						</td>
