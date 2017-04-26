@@ -1,5 +1,5 @@
 <small style='font-size: 16px;' class='text-muted pull-left'><%= render_filterrific_spinner %> <%= page_entries_info @furnitures %></small>
-<%= acu_as :admin { render 'shared/editable_content' }%>
+<%= acu_as :admin { render 'shared/editable_content' } %>
 <table class='table <%= @furnitures.empty? ? "" : "table-striped table-hover" %>'>
   <thead>
     <tr>
@@ -20,9 +20,8 @@
         klass, title = "", ""
         klass, title = "warning", "این محصول قابل سفارش نیست!" if not f.available
         klass, title = "danger", "اطلاعات مربوط به این محصول تایید نشده است!"  if f.has_unconfirmed_data
-         
       %>
-      <tr class='<%= klass %>' data-toggle='<%= title.length > 0 ? 'tooltip' : '' %>' title='<%= title %>' %>>
+      <tr class='<%= klass %>' data-toggle='<%= title.length > 0 ? 'tooltip' : '' %>' title='<%= title %>'>
         <td><%= f.id %></td>
         <td>
           <a href="#" class='editable' data-type="select" data-resource="admin_furniture" data-name="furniture_type_id" data-value="<%= f.furniture_type_id %>" data-source="<%= admin_furniture_types_path(format: :json) %>" data-url="<%= admin_furniture_path(f) %>" data-original-title="<%= type_name %>">

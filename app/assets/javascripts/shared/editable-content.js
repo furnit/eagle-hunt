@@ -21,6 +21,7 @@ $(document).ready(function(){
     ];
     return date.jd.toString() + ' ' + m[date.jm-1] + (date.jy == toJalaali(new Date()).jy ? '' : ' ' + date.jy.toString());
   }
+  
   function on_ajax_success() {
     $('.datetime:not(.jalali)').each(function() {
       try { $(this).html(jalali2str(toJalaali(moment($(this).attr('data-date'), 'YYYY-MM-DD HH:mm:ss ZZ').toDate()))).addClass('jalali'); } catch(e) { }
@@ -50,18 +51,19 @@ $(document).ready(function(){
 	    }).editable('toggleDisabled').addClass('editabled');
     }
 
-    $('#edit-content-btn:not(.editabled)').click(function() {
-      $(this).blur();
-      $('.editable').editable('toggleDisabled');
-      $(this).toggleClass('btn-danger btn-default');
-      $('#edit-content .text-muted').toggleClass('hidden');
-      if($(this).hasClass('btn-danger'))
-        $(this).html("<span class='fa fa-lock'></span> قفل ویرایش");
-      else
-        $(this).html($(this).attr('data-origin-text'));
-    }).addClass('editabled');
+    $('.btn-edit-content').off('click.editable-content').on('click.editable-content', function() {
+		  $(this).blur();
+		  $('.editable').editable('toggleDisabled');
+		  $(this).toggleClass('btn-danger btn-default');
+		  $(this).closest('.edit-content').find('.text-muted').toggleClass('invisible');
+		  if($(this).hasClass('btn-danger'))
+		    $(this).html("<span class='fa fa-lock'></span> قفل ویرایش");
+		  else
+		    $(this).html($(this).attr('data-origin-text'));
+    });
   }
 
   on_ajax_success();
+  
   $(document).ajaxSuccess(on_ajax_success);
 });

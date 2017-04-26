@@ -1,9 +1,10 @@
 <%= javascript_include_tag 'shared/editable-content' %>
 <%= stylesheet_link_tag    'shared/editable-content', media: 'all' %>
-<div id='edit-content'>
-  <button id='edit-content-btn' class="btn btn-default" style='margin-bottom: 10px' data-origin-text="<span class='fa fa-pencil'></span> ویرایش اطلاعات">
+<div class='edit-content'>
+  <button class="btn btn-default btn-edit-content" style='margin-bottom: 10px' data-origin-text="<span class='fa fa-pencil'></span> ویرایش اطلاعات">
     <span class='fa fa-pencil'></span>
     ویرایش اطلاعات
   </button>
-  <small class='text-muted hidden'>توجه شود که تمامی اطلاعات به محض ویرایش در پایگاه داده ثبت می‌شود و «<b>قفل اطلاعات</b>» صرفا جهت اطمینان از عدم رخ‌داد هرگونه ویرایش ناخواسته بروی اطلاعات می‌باشد.</small>
+  <br />
+  <small class='text-muted invisible'>توجه شود که تمامی اطلاعات به محض ویرایش در پایگاه داده ثبت می‌شود و «<b>قفل اطلاعات</b>» صرفا جهت اطمینان از عدم رخ‌داد هرگونه ویرایش ناخواسته بروی اطلاعات می‌باشد.</small>
 </div>

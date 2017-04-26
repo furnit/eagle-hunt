@@ -1,7 +1,10 @@
 <% specs = Admin::FurnitureSpec.where('name IN (?)', ['پارچه', 'ابر']) %>
 <% sections = Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']) %>
 <% klass_counter = 0 %>
+<% value_counter = 0 %>
 <% next_klass = Proc.new { klass_counter += 1; "kid=#{klass_counter}"  }%>
+<% next_value = Proc.new { value_counter += 1; "v#{value_counter}"  }%>
+
 <% 
 	def build_section **args
 		render_thead = Proc.new { |thead| thead.each { |h| concat raw "<th>#{h}</th>" } }
@@ -44,7 +47,9 @@
 				<% [:wage_rokob, :wage_khayat].each do |label| %>
 					<td>
 						<% outlier_label i[:data][label], collection: collection[label] do %>
-							<%= i[:data][label].to_i %>
+							<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-options='<%= {
+								"admin_furniture[employee_fani][id]": i[:data].id
+							}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-title="<%= i[:data][label].to_i %>"><%= i[:data][label].to_i %></span>
 						<% end %>
 					</td>
 				<% end %>
@@ -63,7 +68,11 @@
 				<td><%= i[:data].user.full_name %></td>
 				<td>
 					<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] } do %>
-						<%= i[:data][:days_to_complete] %>&nbsp;
+						<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-options='<%= {
+									"admin_furniture[employee_fani][id]": i[:data].id,
+									"admin_furniture[employee_fani][days_to_complete_scale]": "days"
+								}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="days_to_complete" data-original-title="<%= i[:data][:days_to_complete] %> روز"><%= i[:data][:days_to_complete] %></span>
+						&nbsp;
 						روز
 					<% end %>
 				</td>
@@ -83,7 +92,11 @@
 				<% [:needs_rang, :needs_kande, :needs_kanaf].each do |label| %>
 					<td>
 						<% outlier_label i[:data][label], collection: intel.map { |i| i[:data][label] }, categorical: true do %>
-							<span class='fa fa-<%= i[:data][label] ? 'check' : 'times' %>'></span>
+							<span class='value' data-type="select" data-pk="<%= next_value.call %>" data-value="<%= i[:data][label] ? 1 : 0 %>" data-source="<%= ['ندارد', 'دارد'].map.with_index { |i, index| {value: index, text: i} }.to_json %>" data-options='<%= {
+								"admin_furniture[employee_fani][id]": i[:data].id
+							}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-title="<%= i[:data][label] ? 'دارد' : 'ندارد' %>">
+								<span class='fa fa-<%= i[:data][label] ? 'check' : 'times' %>'></span>
+							</span>
 						<% end %>
 					</td>
 				<% end %>
@@ -146,33 +159,70 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-	$('.furniture-section').on('mouseover', function(e) {
-		$(this).popover({
-      html: true,
-      trigger: 'hover',
-      placement: 'bottom',
-      content: function(){ return '<img src="'+$(this).attr('src') + '" />';}
-    });
-    $(this).popover('show');
-  });
-  $('.furniture-intel tr td').has('.label').hover(function(){
-  	row    = $(this).closest('tr')
-  	column = $(this).closest('td')
-  	if($('tr[kid="' + row.attr('kid') + '"]').hasClass('divider')) {
-  		if(row.hasClass('divider')) {
-  			console.log('shit')
-  			column.find('.label').addClass('kid-effect')
-		  	$('tr[kid="' + row.attr('kid') + '"]').not(row).find('td:nth-child(' + (column.index()) + ') .label').addClass('kid-effect');
-			} else {	
-		  	$('tr[kid="' + row.attr('kid') + '"]').not('.divider').find('td:nth-child(' + (column.index() + 1) + ') .label').addClass('kid-effect');
-		  	$('tr.divider[kid="' + row.attr('kid') + '"]').find('td:nth-child(' + (column.index() + 2) + ') .label').addClass('kid-effect');
-			}
-  	} else {
-  		$('tr[kid="' + row.attr('kid') + '"] td:nth-child(' + (column.index() + 1) + ') .label').addClass('kid-effect');
-  	}
-  	$('.furniture-intel tr .label:not(.kid-effect)').css('opacity', 0.1);
-  }, function(){
-  	$('.furniture-intel tr .label').css('opacity', 1).removeClass('kid-effect')
+	$(function () {
+		$('.furniture-section').on('mouseover', function(e) {
+			$(this).popover({
+	      html: true,
+	      trigger: 'hover',
+	      placement: 'bottom',
+	      content: function(){ return '<img src="'+$(this).attr('src') + '" />';}
+	    });
+	    $(this).popover('show');
+	  });
+	  $('.furniture-intel .btn-edit-content').click(function() {
+	  	$(this).data('enabled', $(this).data('enabled') ? false : true);
+	  	enable = $(this).data('enabled')
+	  	if(enable) {
+		  	$(this).closest('.furniture-intel').find('.label').each(function() {
+		  		if($(this).find('.value').length) {
+			  		$(this).hide();
+			  		value = $(this).find('.value').get(0);
+			  		data_attr = [].filter.call(value.attributes, function(at) { return /^data-/.test(at.name); })
+			  		link = "<a href='#' class='editable' data-url='<%= employee_fani_path(id: @furniture.id, format: :json) %>' ";
+			  		for(var i=0,j=data_attr.length; i<j; i++) { link += data_attr[i].name + "='" + data_attr[i].value + "' "; };
+						link += " onclick='return false'>" + $(value).text() + '</a>';
+			  		$(this).closest('td').append(link);
+	  			}
+		  	})
+		  	$('.furniture-intel .editable').editable({
+		  		params: function(params){
+		  			params["id"] = <%= @furniture.id %>
+		  			params["admin_furniture[id]"] = <%= @furniture.id %>
+		  			params["admin_furniture[hd]"] = '<%= Digest::SHA256.new << (@furniture.id.to_s + Rails.application.config.secret_key_base) %>'  	
+		  			console.log($.extend(params, $(".value[data-pk='"+params.pk+"']").data('options')))
+		  			return $.extend(params, $(".value[data-pk='"+params.pk+"']").data('options'));
+		  		}
+				})
+				$('.furniture-intel .editable[data-type="select"]').each(function(){
+					$(this).editable({
+						source: $(this).data('source') 
+					})
+				})
+				$('.furniture-intel .editable').editable('toggleDisabled')
+	  	} else {
+	  		$('.furniture-intel .editable').remove();
+	  		$(this).closest('.furniture-intel').find('.label').show();
+	  	} 
+	  });
+	  $('.furniture-intel tr td').has('.label').hover(function(){
+	  	row    = $(this).closest('tr')
+	  	column = $(this).closest('td')
+	  	if($('tr[kid="' + row.attr('kid') + '"]').hasClass('divider')) {
+	  		if(row.hasClass('divider')) {
+	  			console.log('shit')
+	  			column.find('.label').addClass('kid-effect')
+			  	$('tr[kid="' + row.attr('kid') + '"]').not(row).find('td:nth-child(' + (column.index()) + ') .label').addClass('kid-effect');
+				} else {	
+			  	$('tr[kid="' + row.attr('kid') + '"]').not('.divider').find('td:nth-child(' + (column.index() + 1) + ') .label').addClass('kid-effect');
+			  	$('tr.divider[kid="' + row.attr('kid') + '"]').find('td:nth-child(' + (column.index() + 2) + ') .label').addClass('kid-effect');
+				}
+	  	} else {
+	  		$('tr[kid="' + row.attr('kid') + '"] td:nth-child(' + (column.index() + 1) + ') .label').addClass('kid-effect');
+	  	}
+	  	$('.furniture-intel tr .label:not(.kid-effect)').css('opacity', 0.1);
+	  }, function(){
+	  	$('.furniture-intel tr .label').css('opacity', 1).removeClass('kid-effect')
+	  });
   });
 </script>
 

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
 
     [:admins, :fanis, :nagashes, :najars].each do |emply|
-      resources emply, only: [:index, :edit, :create]
+      resources emply, only: [:index, :edit, :create, :update]
     end
 
   end

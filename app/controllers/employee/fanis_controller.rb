@@ -68,6 +68,14 @@ class Employee::FanisController < Employee::EmployeebaseController
     end 
   end
   
+  def update
+    byebug
+    respond_to do |format|
+      format.html { head :no_content, status: :ok }
+      format.json { head :no_content, status: :ok }
+    end
+  end
+  
   private
   
   def set_forms_instance
@@ -91,21 +99,21 @@ class Employee::FanisController < Employee::EmployeebaseController
     params.require(:admin_furniture).require(:employee_fani).require(:furniture_build_detail)
   end
   
-  def fanis_params
+  def fanis_params inject: true
     # purify the params
     par = params.require(:admin_furniture).require(:employee_fani).permit(:wage_rokob, :wage_khayat, :days_to_complete, :days_to_complete_scale, :needs_kande, :needs_kanaf, :needs_rang)
     # have to convert it to hash to process
     par = par.to_h
     # convert to days, based on defined scale
-    par[:days_to_complete] = convert_to_days par[:days_to_complete], par[:days_to_complete_scale]
+    par[:days_to_complete] = convert_to_days par[:days_to_complete], par[:days_to_complete_scale] if par[:days_to_complete]
     # purge out un-necessary
     par.delete :days_to_complete_scale
     # add the furniture-id to the collection
-    par[:furniture_id] = furniture_params[:id]
+    par[:furniture_id] = furniture_params[:id] if inject
     # add the user-id to the collection
-    par[:user_id] = current_user.id
+    par[:user_id] = current_user.id if inject
     # convert to thousand tomans
-    [:wage_rokob, :wage_khayat].each { |i| par[i] = par[i].to_i.thousand_tomans }
+    [:wage_rokob, :wage_khayat].each { |i| par[i] = par[i].to_i.thousand_tomans if par[i] }
     # return the processed params
     par
   end
