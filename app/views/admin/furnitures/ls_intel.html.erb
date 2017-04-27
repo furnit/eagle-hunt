@@ -8,6 +8,8 @@
 
 <%= render 'admin/furnitures/ls_intel/shared/build_section' %>
 
+<input type="hidden" name="flink" value="<%= admin_furniture_path @furniture, format: :json %>" class='furniture-intel'>
+
 <div class="row">
   <section>
     <div class="wizard-tabs">

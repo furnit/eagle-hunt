@@ -139,6 +139,9 @@ $(document).ready(function(){
 	$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
 		if($(e.target).attr('aria-controls') === "confirm-tab-content") {
 			$("#confirmation-content").html('');
+			if($('#confirmation-content-confirm-action').data('origin-html') === undefined)
+				$('#confirmation-content-confirm-action').data('origin-html', $('#confirmation-content-confirm-action').html());
+			$('#confirmation-content-confirm-action').html($('#confirmation-content-confirm-action').data('origin-html'));
 			setTimeout(function() { fetch_edited_items(); }, 500);
 		}
 	});
@@ -146,13 +149,12 @@ $(document).ready(function(){
 		$('a[data-toggle="tab"]:last').click();
 	}, 500);
 });
+
 function fetch_edited_items() {
-	console.clear();
 	sections = new Set();
 	subsections = new Set();
 	edited_class = ".label-warning";
-	if($(edited_class).length === 0)
-		$('.label-success:first').removeClass('label-success').addClass(edited_class.substr(1));
+	confirmed_class = ".label-success";
 	$(edited_class + ' .value').each(function() {
 		sec = $(this).closest('.furniture-intel').find('legend').wrap('<p/>').parent().html();
 		var c = $(this).closest('.panel').clone();
@@ -170,19 +172,20 @@ function fetch_edited_items() {
 	});
 	if($(edited_class + ' .value').length == 0 && !$("#confirmation-content").has(".empty-collection").length) {
 		$('#confirmation-content').prepend('<div class="empty-collection">تغییری در داده‌ها صورت نگرفته است و تایید داده‌ها بلامانع است.</div>');
-		$("#confirmation-content-confirm-action").addClass('hidden');
 	}
 	$('#confirmation-content-confirm-action').off('click.submit').on('click.submit', function(){
 		if($(this).hasClass('disabled')) return;
 		$(this).addClass('disabled');
-		$(this).removeClass('btn-success').addClass('btn-warning');
 		create_editable($('#confirmation-content ' + edited_class));
 		$('#confirmation-content .editable').hide();
 		// cover select types
 		$('#confirmation-content .editable[data-type="select"]').each(function(){
 			$(this).data('value', $(this).find('.fa-check').length);
 		});
-		$('#confirmation-content .editable').each(function(){
+		error_flag = false;
+		$('#confirmation-content .editable').each(function(index){
+			if(error_flag) return;
+			$('#confirmation-content-confirm-action').html('<span class=\'fa fa-spinner fa-spin\'></span> در حال ثبت اطلاعات (داده‌ی باقی‌مانده: ' + ($('#confirmation-content .editable').length - (index + 1)) + ')');
 			// a workaround for issue [github: vitalets/x-editable/issues/997]
 			$(this).editable({
 				savenochange: true,
@@ -194,8 +197,41 @@ function fetch_edited_items() {
 	  			hash[$el.data('resource') + "[" + params.name + "]"] = params.value;
 	  			return $.extend(hash, $el.data('options'));
 	  		},
-  		}).editable('submit').remove();
+	  		success: function() {
+	  			var $el = $(this);
+	  			$el.addClass('confirmed');
+	  			var $parent = $el.closest('td');
+	  			// flag the edited item in `current tab` to `confirmed` 
+	  			$parent.find(edited_class).removeClass(edited_class.substr(1)).addClass(confirmed_class.substr(1));
+	  			// notify with a check
+	  			$parent.append("<span class='fa fa-check text-success'></span>");
+	  			// flag the item in its origin tab as `confirmed`
+	  			$('.furniture-intel ' + edited_class).has('[data-pk="'+$(this).data('pk')+'"]').removeClass(edited_class.substr(1)).addClass(confirmed_class.substr(1));
+	  		},
+	  		error: function() { error_flag |= true; $('#confirmation-content .editable').addClass('confirmed'); }
+  		}).editable('submit');
 		});
+		wait2confirm_all = setInterval(function($this) {
+			if($('#confirmation-content .editable:not(.confirmed)').length > 0) return;
+			$('#confirmation-content .editable').remove();
+			if(error_flag) {
+				$this.html("<span class='fa fa-times'></span> خطا در ثبت اطلاعات!");
+				$this.attr('class', 'btn btn-danger');
+			} else {
+				$this.html("<span class='fa fa-spinner fa-spin'></span> در حال نهایی‌سازی تایید اطلاعات.");
+				$this.attr('class', 'btn btn-success');
+				$.ajax({
+					url: $('input.furniture-intel[type="hidden"][name="flink"]').val(),
+					type: 'PUT',
+					data: { admin_furniture: { 'has_unconfirmed_data': 0 } },
+					success: function() {
+						$this.html("<span class='fa fa-check'></span> اطلاعات با موفقیت تایید و در سامانه ثبت شد.");
+						setTimeout(function() { $this.closest('.modal').modal('hide'); setTimeout(function(){ window.location.reload(); }, 500); }, 1000);
+					}
+				});
+			}
+			clearInterval(wait2confirm_all);
+		}, 300, $(this));
 		$(this).removeClass('disabled');
-	}).click();
+	});
 };
