@@ -69,10 +69,9 @@ class Employee::FanisController < Employee::EmployeebaseController
   end
   
   def update
-    set_forms_instance
     respond_to do |format|
       format.html { head :no_content, status: :ok }
-      format.json { render json: @form[:fani], status: :ok }
+      format.json { render json: { }, status: :ok }
     end
   end
   

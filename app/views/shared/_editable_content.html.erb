@@ -1,7 +1,7 @@
 <%= javascript_include_tag 'shared/editable-content' %>
 <%= stylesheet_link_tag    'shared/editable-content', media: 'all' %>
 <div class='edit-content'>
-  <button class="btn btn-default btn-edit-content" style='margin-bottom: 10px' data-origin-text="<span class='fa fa-pencil'></span> ویرایش اطلاعات">
+  <button class="btn btn-default btn-edit-content" <%= defined?(for_tag) ? "for=#{for_tag}" : "" %> style='margin-bottom: 10px' data-origin-text="<span class='fa fa-pencil'></span> ویرایش اطلاعات">
     <span class='fa fa-pencil'></span>
     ویرایش اطلاعات
   </button>

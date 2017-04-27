@@ -30,11 +30,11 @@
 
 
 <div class='furniture-intel'>
-	<%= acu_as :admin { render 'shared/editable_content' }%>
+	<%= acu_as :admin { render 'shared/editable_content', for_tag: '.furniture-intel'  }%>
 	<% # DAST MOZD HA %>
 	<% build_section panel_type: 'success',
 				pangel_heading: "<span class='fa fa-money'></span> دست‌مزد",
-				thead: ['کارمند', 'دست‌مزد روکوب', 'دست‌مزد خیاط'] do %>
+				thead: ['کارمند', 'دست‌مزد روکوب (تومان)', 'دست‌مزد خیاط (تومان)'] do %>
 		<% 
 			collection = { }
 			[:wage_rokob, :wage_khayat].each do |label|
@@ -48,9 +48,9 @@
 				<% [:wage_rokob, :wage_khayat].each do |label| %>
 					<td>
 						<% outlier_label i[:data][label], collection: collection[label] do %>
-							<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-options='<%= {
+							<span class='value currency' data-type="text" data-pk="<%= next_value.call %>" data-options='<%= {
 								"admin_furniture[employee_fani][id]": i[:data].id
-							}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-title="<%= i[:data][label].to_i %>"><%= i[:data][label].to_i %></span>
+							}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-title="مقدار اولیه: <%= i[:data][label].to_i %>"><%= i[:data][label].to_i %></span>
 						<% end %>
 					</td>
 				<% end %>
@@ -72,7 +72,7 @@
 						<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-options='<%= {
 									"admin_furniture[employee_fani][id]": i[:data].id,
 									"admin_furniture[employee_fani][days_to_complete_scale]": "days"
-								}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="days_to_complete" data-original-title="<%= i[:data][:days_to_complete] %> روز"><%= i[:data][:days_to_complete] %></span>
+								}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="days_to_complete" data-original-title="مقدار اولیه: <%= i[:data][:days_to_complete] %> روز"><%= i[:data][:days_to_complete] %></span>
 						&nbsp;
 						روز
 					<% end %>
@@ -95,7 +95,7 @@
 						<% outlier_label i[:data][label], collection: intel.map { |i| i[:data][label] }, categorical: true do %>
 							<span class='value' data-type="select" data-pk="<%= next_value.call %>" data-value="<%= i[:data][label] ? 1 : 0 %>" data-source="<%= ['ندارد', 'دارد'].map.with_index { |i, index| {value: index, text: i} }.to_json %>" data-options='<%= {
 								"admin_furniture[employee_fani][id]": i[:data].id
-							}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-title="<%= i[:data][label] ? 'دارد' : 'ندارد' %>">
+							}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-title="مقدار اولیه: <%= i[:data][label] ? 'دارد' : 'ندارد' %>">
 								<span class='fa fa-<%= i[:data][label] ? 'check' : 'times' %>'></span>
 							</span>
 						<% end %>
@@ -138,7 +138,7 @@
 								<% abr = stuff_abr.select { |a| a.id == detail.options["admin_furniture_stuff_abrs"]["id"].to_i }.first %>
 								<span class='value' data-type="select" data-pk="<%= next_value.call %>" data-value="<%= abr.id %>" data-source="<%= stuff_abr.map { |i| {value: i.id, text: i.name} }.to_json %>" data-options='<%= {
 									"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
-								}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="options[admin_furniture_stuff_abrs][id]" data-original-title="<%= abr.name %>">
+								}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="options[admin_furniture_stuff_abrs][id]" data-original-title="مقدار اولیه: <%= abr.name %>">
 									<%= abr.name %>
 								</span>
 							<% end %>
@@ -148,7 +148,7 @@
 							<% outlier_label detail.value, collection: details_value do%>
 								<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-options='<%= {
 									"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
-								}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="value" data-original-title="<%= detail.value %>"><%= detail.value %></span>
+								}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="value" data-original-title="مقدار اولیه: <%= detail.value %>"><%= detail.value %></span>
 								&nbsp;
 								<%= spec.unit %>
 							<% end %>
@@ -162,14 +162,23 @@
 	<div class='clearfix'></div>
 </div>
 
-<div class="alert alert-warning" role="alert">
-	<span class='fa fa-info-circle fa-2x'></span>
-	اطلاعاتی که با <span class='label label-danger'>رنگ پس‌زمینه‌ی فرمز</span> مشخص شده‌اند داده‌هایی هستند که سیستم با در نظر گرفتن دیگر داده‌ها، <b>«مشکوک» به اشتباه بودن آن‌ها</b> است؛ این بستگی به مدیریت سیستم دارد که این داده‌ها را <b>تایید</b> یا <b>ویرایش</b> نماید.
-</div>
+<table class='table'>
+	<tbody>
+		<tr>
+			<td><span class='label label-danger'>رنگ پس‌زمینه‌ی فرمز</span></td>
+			<td>داده‌هایی هستند که سیستم با در نظر گرفتن دیگر داده‌ها، <b>«مشکوک» به اشتباه بودن آن‌ها</b> است؛ این بستگی به مدیریت سیستم دارد که این داده‌ها را <b>تایید</b> یا <b>ویرایش</b> نماید.</td>
+		</tr>
+		<tr>
+			<td><span class='label label-warning'>رنگ پس‌زمینه‌ی زرد</span></td>
+			<td>داده‌هایی هستند که مدیریت آن‌ها را تغییر داده است.</td>
+		</tr>
+	</tbody>
+</table>
 
 <script type="text/javascript" charset="utf-8">
-	$(function () {
-		$('.furniture-section').on('mouseover', function(e) {
+	$(document).ready(function () {
+		// popover furniture section
+		$('img.furniture-section').on('mouseover', function(e) {
 			$(this).popover({
 	      html: true,
 	      trigger: 'hover',
@@ -178,41 +187,82 @@
 	    });
 	    $(this).popover('show');
 	  });
+	  // prettify data
+	  var editable_pretty_data = function(update) {
+	  	if(update === undefined) update = false
+		  $('.value[data-type="text"]:not(.currency)').each(function(){
+		  	$(this).text(parseFloat($(this).text()))
+		  })
+		  $('.value.currency').each(function(){
+		  	$(this).text(parseInt($(this).text().replace(/,/g, "")).toLocaleString())
+		  	if(!update) $(this).attr('data-original-title', "مقدار اولیه: " + $(this).text())
+		  	$(this).addClass('currencified')
+		  })
+	  }
+	  // initialy make them pretty
+	  editable_pretty_data();
+	  // inline editable
 	  $('.furniture-intel .btn-edit-content').click(function() {
 	  	$(this).data('enabled', $(this).data('enabled') ? false : true);
 	  	enable = $(this).data('enabled')
+	  	// check if enabling
 	  	if(enable) {
+	  		// create `.editable`s on fly
 		  	$(this).closest('.furniture-intel').find('.label').each(function() {
 		  		if($(this).find('.value').length) {
 			  		$(this).hide();
 			  		value = $(this).find('.value').get(0);
 			  		data_attr = [].filter.call(value.attributes, function(at) { return /^data-/.test(at.name); })
 			  		link = "<a href='#' class='editable' data-url='<%= employee_fani_path(id: @furniture.id, format: :json) %>' ";
+			  		// inject `data` attributes
 			  		for(var i=0,j=data_attr.length; i<j; i++) { link += data_attr[i].name + "='" + data_attr[i].value + "' "; };
-						link += " onclick='return false'>" + $(value).text() + '</a>';
+						link += " onclick='return false'>" + ($.isNumeric($(value).text().replace(/,/g, "")) ? parseFloat($(value).text().replace(/,/g, "")) : $(value).text()) + '</a>';
 			  		$(this).closest('td').append(link);
 	  			}
 		  	})
+		  	// set arguments for created editables
 		  	$('.furniture-intel .editable').editable({
-		  		params: function(params){
-		  			params["id"] = <%= @furniture.id %>
-		  			params["admin_furniture[id]"] = <%= @furniture.id %>
-		  			params["admin_furniture[hd]"] = '<%= Digest::SHA256.new << (@furniture.id.to_s + Rails.application.config.secret_key_base) %>'  	
-		  			console.log($.extend(params, $(".value[data-pk='"+params.pk+"']").data('options')))
-		  			return $.extend(params, $(".value[data-pk='"+params.pk+"']").data('options'));
+		  		// inject parameters to params sending to server
+		  		params: function(params){	
+		  			params = $.extend(params, $(".value[data-pk='"+params.pk+"']").data('options'));
+		  			delete params.pk
+		  			return params
+		  		},
+		  		// validate inputs
+	        validate: function(value) {
+	            if ($.isNumeric(value) == '') {
+	                return 'داده‌ها باید عدد باشند!';
+	            }
+	        },
+	        // on success submit operation
+		  		success: function (response, newval) {
+		  			// indicate the changes
+		  			var val = $('.furniture-intel .editable.editable-open').siblings('.label').removeClass('label-success label-danger').addClass('label-warning').find('.value')
+		  			if($('.furniture-intel .editable.editable-open').data('type') == "select")
+		  				if(newval == "0")
+		  					val.find(".fa").attr('class', 'fa fa-times')
+	  					else
+	  						val.find(".fa").attr('class', 'fa fa-check')
+		  			else
+		  				val.text(newval)
+	  				editable_pretty_data(true)
+						$('.furniture-intel .editable').editable('toggleDisabled')
 		  		}
 				})
+				// inject the source of `select` editables 
 				$('.furniture-intel .editable[data-type="select"]').each(function(){
 					$(this).editable({
 						source: $(this).data('source') 
 					})
 				})
 				$('.furniture-intel .editable').editable('toggleDisabled')
+			// if disabling the inline `editable`
 	  	} else {
 	  		$('.furniture-intel .editable').remove();
 	  		$(this).closest('.furniture-intel').find('.label').show();
-	  	} 
+	  	}
 	  });
+	  // highlighing
 	  $('.furniture-intel tr td').has('.label').hover(function(){
 	  	row    = $(this).closest('tr')
 	  	column = $(this).closest('td')

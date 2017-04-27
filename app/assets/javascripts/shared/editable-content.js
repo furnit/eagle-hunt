@@ -53,7 +53,10 @@ $(document).ready(function(){
 
     $('.btn-edit-content').off('click.editable-content').on('click.editable-content', function() {
 		  $(this).blur();
-		  $('.editable').editable('toggleDisabled');
+		  if($(this).attr('for') !== undefined)
+		  	$($(this).attr('for')).find('.editable').editable('toggleDisabled');
+  		else
+		  	$('.editable').editable('toggleDisabled');
 		  $(this).toggleClass('btn-danger btn-default');
 		  $(this).closest('.edit-content').find('.text-muted').toggleClass('invisible');
 		  if($(this).hasClass('btn-danger'))
