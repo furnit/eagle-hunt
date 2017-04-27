@@ -25,13 +25,13 @@
 					}%>
 					<% @intel.keys.each.with_index do |k, index| %>
 						<% user_types[k] = Admin::UserType.where(symbol: k.upcase).first %>
-					  <li class="<%= index == 0 ? 'active' : 'disabled' %> pull-right" role="presentation">
+					  <li class="<% index == 0 ? 'active' : 'disabled' %> pull-right" role="presentation">
 	            <a aria-controls="<%= k.to_s %>-tab-content" data-toggle="tab" href="#<%= k.to_s %>-tab-content" role="tab" for="furniture-intels" title="<%= user_types[k].name %>">
 	            	<span class="round-tab"><i class="<%= icons[k] %>"></i></span>
 	          	</a>
           	</li>
 				  <% end %>
-          <li class="disabled" role="presentation">
+          <li class="disabledx" role="presentation">
             <a aria-controls="confirm-tab-content" data-toggle="tab" href="#confirm-tab-content" role="tab" for="furniture-intels" title="تایید">
             	<span class="round-tab"><i class="fa fa-check"></i></span>
           	</a>
@@ -41,9 +41,9 @@
     </div>
   </section>
 </div>
-<div class="tab-content" id="furniture-info-content" style='margin-top: 10px;'>
+<div class="tab-content" id="furniture-info-content">
 	<% @intel.keys.each.with_index do |k, index| %>
-	  <div aria-labelledby="<%= k.to_s %>-tab" class="tab-pane fade <%= index == 0 ? 'active in' : '' %>" id="<%= k.to_s %>-tab-content" role="tabpanel">
+	  <div aria-labelledby="<%= k.to_s %>-tab" class="tab-pane fade <% index == 0 ? 'active in' : '' %>" id="<%= k.to_s %>-tab-content" role="tabpanel" style="margin: 20px;">
   		<% panel_id = "furniture-intel-panel-#{next_value.call}" %>
 			<div class='furniture-intel' id="<%= panel_id %>">
 				<legend>اطلاعات <strong>«<%= user_types[k].name %>»</strong></legend>
@@ -72,7 +72,7 @@
 			<div class='clearfix'></div>
 	  </div>
 	<% end %>
-  <div aria-labelledby="confirm-tab" class="tab-pane fade" id="confirm-tab-content" role="tabpanel">
+  <div aria-labelledby="confirm-tab" class="tab-pane fade" id="confirm-tab-content" role="tabpanel" style="margin: 20px;">
 		<%= render "admin/furnitures/ls_intel/confirm", next_value: next_value, next_klass: next_klass %>
 	</div>
 </div>
