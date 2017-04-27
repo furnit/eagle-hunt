@@ -3,31 +3,48 @@
 <% next_klass = Proc.new { klass_counter += 1; "kid=#{klass_counter}"  }%>
 <% next_value = Proc.new { value_counter += 1; "v#{value_counter}"  }%>
 
+<%= javascript_include_tag 'shared/editable-content' %>
+<%= stylesheet_link_tag    'shared/editable-content', media: 'all' %>
+
 <%= render 'admin/furnitures/ls_intel/shared/build_section' %>
 
-<% if @furniture.has_unconfirmed_data %>
-<div class="panel panel-primary">
-  <div class="panel-heading">
-  	<span class='fa fa-exclamation-triangle'></span> داده‌های تایید نشده!
-  </div>
-  <div class="panel-body">این محصول شامل داده‌های اطلاعاتی تایید نشده می‌باشد؛ تا زمانی که این اطلاعات تایید نشوند این محصول قابل سفارش از سمت مشتری نمی‌باشد.</div>
+<div class="row">
+  <section>
+    <div class="wizard-tabs">
+      <div class="wizard-tabs-inner">
+        <div class="connecting-line"></div>
+        <ul class="nav nav-tabs" role="tablist">
+					<% user_types = { } %>
+					<% icons = {
+						fani: 'fa fa-cogs',
+						nagash: 'fa fa-paint-brush',
+						najar: 'fa fa-tree',
+						kanaf: 'fa fa-arrows-alt',
+					}%>
+					<% @intel.keys.each.with_index do |k, index| %>
+						<% user_types[k] = Admin::UserType.where(symbol: k.upcase).first %>
+					  <li class="<%= index == 0 ? 'active' : 'disabled' %> pull-right" role="presentation">
+	            <a aria-controls="<%= k.to_s %>-tab-content" data-toggle="tab" href="#<%= k.to_s %>-tab-content" role="tab" title="<%= user_types[k].name %>">
+	            	<span class="round-tab"><i class="<%= icons[k] %>"></i></span>
+	          	</a>
+          	</li>
+				  <% end %>
+          <li class="disabled" role="presentation">
+            <a aria-controls="complete" data-toggle="tab" href="#complete" role="tab" title="تایید">
+            	<span class="round-tab"><i class="fa fa-check"></i></span>
+          	</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
 </div>
-<% end %>
-<% user_types = { } %>
-<ul class="nav nav-tabs nav-rtl" id="furniture-info" role="tablist">
-	<% @intel.keys.each.with_index do |k, index| %>
-		<% user_types[k] = Admin::UserType.where(symbol: k.upcase).first %>
-	  <li class="<%= index == 0 ? 'active' : '' %>" role="presentation">
-	    <a aria-controls="<%= user_types[k].name %>" aria-expanded="false" data-toggle="tab" href="#<%= k.to_s %>-tab-content" id="<%= k.to_s %>-tab" role="tab"><%= user_types[k].name %></a>
-	  </li>
-  <% end %>
-</ul>
-<div class="tab-content" id="furniture-info-content">
+<div class="tab-content" id="furniture-info-content" style='margin-top: 10px;'>
 	<% @intel.keys.each.with_index do |k, index| %>
 	  <div aria-labelledby="<%= k.to_s %>-tab" class="tab-pane fade <%= index == 0 ? 'active in' : '' %>" id="<%= k.to_s %>-tab-content" role="tabpanel">
   		<% panel_id = "furniture-intel-panel-#{next_value.call}" %>
 			<div class='furniture-intel' id="<%= panel_id %>">
-				<%= acu_as :admin { render 'shared/editable_content', for_tag: "##{panel_id}"  }%>
+				<legend>اطلاعات <strong>«<%= user_types[k].name %>»</strong></legend>
 				<%= render "admin/furnitures/ls_intel/#{k.to_s}", intel: @intel[k], next_value: next_value, next_klass: next_klass %>
 				<div class='clearfix'></div>
 			</div>
@@ -43,8 +60,15 @@
 					</tr>
 				</tbody>
 			</table>
+			<div class='clearfix'></div>
+      <ul class="list-inline pull-left">
+        <li><button type="button" class="btn btn-primary next-step">بعدی</button></li>
+      </ul>
+			<div class='clearfix'></div>
 	  </div>
 	<% end %>
 </div>
 
-<%= javascript_include_tag 'admin/furniture_confirm_data' %>
+
+<%= javascript_include_tag 'admin/furniture_confirm_data', 'admin/wizard-tabline' %>
+<%= stylesheet_link_tag    'admin/wizard-tabline', media: 'all' %>

@@ -83,7 +83,8 @@
 	<% thead = ['قسمت', 'کارمند', 'جنس<br />(در حالت کلی)', 'مقدار'] if is_abr %>
 	<% build_section panel_type: 'primary',
 				pangel_heading: "<span class='fa fa-balance-scale'></span> جزییات #{spec.name}",
-				thead: thead do %>
+				thead: thead,
+				thead_class: {'0': 'col-md-3', '2': 'col-md-3', '3': 'col-md-3'} do %>
 		<% sections.each do |section| %>
 			<% details = [] %>
 			<% intel.each.with_index do |i, index| %>
@@ -117,7 +118,7 @@
 					<% end %>
 					<td>
 						<% outlier_label detail.value, collection: details_value do%>
-							<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-options='<%= {
+							<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url='<%= employee_fani_path(id: @furniture.id, format: :json) %>' data-options='<%= {
 								"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
 							}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="value" data-original-title="مقدار اولیه: <%= detail.value %>"><%= detail.value %></span>
 							&nbsp;

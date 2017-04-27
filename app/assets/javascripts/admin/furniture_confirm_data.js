@@ -25,13 +25,26 @@ $(document).ready(function () {
   // initialy make them pretty
   editable_pretty_data();
   // inline editable
-  $('.furniture-intel .btn-edit-content').click(function() {
+  $('.furniture-intel .panel-edit').click(function() {
   	$(this).data('enabled', $(this).data('enabled') ? false : true);
   	enable = $(this).data('enabled');
+  	var kill_editable = function() {
+  		$('.furniture-intel .panel-edit').each(function() {
+	  		if($(this).data('origin-html') !== undefined)
+	  			$(this).html($(this).data('origin-html'));
+  		});
+  		$('.furniture-intel .editable').remove();
+  		$('.furniture-intel .label').show();
+		};
+		if($(this).data('origin-html') === undefined)
+			$(this).data('origin-html', $(this).html());
   	// check if enabling
   	if(enable) {
+  		// kill all other editables
+  		kill_editable();
+  		$(this).html('<span class="fa fa-times"></span> پایان ویرایش');
   		// create `.editable`s on fly
-	  	$(this).closest('.furniture-intel').find('.label').each(function() {
+	  	$(this).closest('.panel-body').find('.label').each(function() {
 	  		if($(this).find('.value').length) {
 		  		$(this).hide();
 		  		value = $(this).find('.value').get(0);
@@ -44,7 +57,7 @@ $(document).ready(function () {
   			}
 	  	});
 	  	// set arguments for created editables
-	  	$('.furniture-intel .editable').editable({
+	  	$('.panel-body .editable').editable({
 	  		// inject parameters to params sending to server
 	  		params: function(params){	
 	  			params = $.extend(params, $(".value[data-pk='"+params.pk+"']").data('options'));
@@ -82,11 +95,10 @@ $(document).ready(function () {
 					source: $(this).data('source') 
 				});
 			});
-			$('.furniture-intel .editable').editable('toggleDisabled');
+			// $('.furniture-intel .editable').editable('toggleDisabled');
 		// if disabling the inline `editable`
   	} else {
-  		$('.furniture-intel .editable').remove();
-  		$(this).closest('.furniture-intel').find('.label').show();
+  		kill_editable();
   	}
   });
   // highlighing

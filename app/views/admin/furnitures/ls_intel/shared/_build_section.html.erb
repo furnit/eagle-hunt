@@ -1,16 +1,20 @@
 <% 
 	def build_section **args
-		render_thead = Proc.new { |thead| thead.each { |h| concat raw "<th>#{h}</th>" } }
+		render_thead = Proc.new { |thead| thead.each.with_index { |h, index| concat raw "<th class='#{args[:thead_class][index.to_s.to_sym]}'>#{h}</th>" } }
 		{
 			thead: '',
+			thead_class: { },
 			pangel_heading: '',
 			panel_type: 'default'
 		}.each { |k, v| args[k] ||= v }
 %>
 			<div class="panel panel-<%= raw args[:panel_type] %>">
-			  <div class="panel-heading"><strong><%= raw args[:pangel_heading] %></strong></div>
+			  <div class="panel-heading">
+			  	<strong><%= raw args[:pangel_heading] %></strong>
+		  	</div>
 			  <div class="panel-body">
 			  	<table class="table table-striped">
+			  		<a href="#" class='btn btn-default pull-left panel-edit' onclick="$(this).blur()"><span class='fa fa-pencil'></span> ویرایش</a>
 			  		<thead><tr><% render_thead.call args[:thead] %></tr></thead>
 			  		<tbody><% yield if block_given? %></tbody>
 		  		</table>
