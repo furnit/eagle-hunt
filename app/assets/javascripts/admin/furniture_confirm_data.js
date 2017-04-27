@@ -1,5 +1,7 @@
 
 $(document).ready(function () {
+	// un-blure nav step
+	setTimeout(function() { $('.nav-step').blur().removeClass('disabled'); }, 2500);
 	// popover furniture section
 	$('img.furniture-section').on('mouseover', function(e) {
 		$(this).popover({
@@ -103,8 +105,11 @@ $(document).ready(function () {
   });
   // highlighing
   $('.furniture-intel tr td').has('.label').hover(function(){
+  	// disable this feature
+  	return
   	row    = $(this).closest('tr');
   	column = $(this).closest('td');
+  	if(column.has('.editable').length) return;
   	if($('tr[kid="' + row.attr('kid') + '"]').hasClass('divider')) {
   		if(row.hasClass('divider')) {
   			column.find('.label').addClass('kid-effect');

@@ -62,13 +62,15 @@
 			</table>
 			<div class='clearfix'></div>
       <ul class="list-inline pull-left">
-        <li><button type="button" class="btn btn-primary next-step">بعدی</button></li>
+        <% if index > 0 %>
+        <li><a class="btn btn-default nav-step prev-step disabled" tabindex="-1">قبلی <span class='fa fa-arrow-right'></span></a></li>
+        <% end %>
+        <li><a class="btn btn-primary nav-step next-step disabled" tabindex="-1"><span class='fa fa-arrow-left'></span> بعدی</a></li>
       </ul>
 			<div class='clearfix'></div>
 	  </div>
 	<% end %>
 </div>
 
-
-<%= javascript_include_tag 'admin/furniture_confirm_data', 'admin/wizard-tabline' %>
-<%= stylesheet_link_tag    'admin/wizard-tabline', media: 'all' %>
+<%= javascript_include_tag 'admin/furniture_confirm_data', 'vendors/wizard-tabline' %>
+<%= stylesheet_link_tag    'vendors/wizard-tabline', media: 'all' %>

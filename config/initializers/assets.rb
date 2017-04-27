@@ -13,7 +13,6 @@ Rails.application.config.assets.version = '1.0'
 
 %w(
   photoswipe
-  custom
   users
   filterrific
   employee
