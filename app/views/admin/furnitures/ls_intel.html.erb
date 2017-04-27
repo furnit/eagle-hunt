@@ -1,3 +1,10 @@
+<% klass_counter = 0 %>
+<% value_counter = 0 %>
+<% next_klass = Proc.new { klass_counter += 1; "kid=#{klass_counter}"  }%>
+<% next_value = Proc.new { value_counter += 1; "v#{value_counter}"  }%>
+
+<%= render 'admin/furnitures/ls_intel/shared/build_section' %>
+
 <% if @furniture.has_unconfirmed_data %>
 <div class="panel panel-primary">
   <div class="panel-heading">
@@ -18,17 +25,26 @@
 <div class="tab-content" id="furniture-info-content">
 	<% @intel.keys.each.with_index do |k, index| %>
 	  <div aria-labelledby="<%= k.to_s %>-tab" class="tab-pane fade <%= index == 0 ? 'active in' : '' %>" id="<%= k.to_s %>-tab-content" role="tabpanel">
-			<%= render "admin/furnitures/ls_intel/#{k.to_s}", intel: @intel[k] %>
+  		<% panel_id = "furniture-intel-panel-#{next_value.call}" %>
+			<div class='furniture-intel' id="<%= panel_id %>">
+				<%= acu_as :admin { render 'shared/editable_content', for_tag: "##{panel_id}"  }%>
+				<%= render "admin/furnitures/ls_intel/#{k.to_s}", intel: @intel[k], next_value: next_value, next_klass: next_klass %>
+				<div class='clearfix'></div>
+			</div>
+			<table class='table'>
+				<tbody>
+					<tr>
+						<td><span class='label label-danger'>رنگ پس‌زمینه‌ی فرمز</span></td>
+						<td>داده‌هایی هستند که سیستم با در نظر گرفتن دیگر داده‌ها، <b>«مشکوک» به اشتباه بودن آن‌ها</b> است؛ این بستگی به مدیریت سیستم دارد که این داده‌ها را <b>تایید</b> یا <b>ویرایش</b> نماید.</td>
+					</tr>
+					<tr>
+						<td><span class='label label-warning'>رنگ پس‌زمینه‌ی زرد</span></td>
+						<td>داده‌هایی هستند که مدیریت آن‌ها را تغییر داده است.</td>
+					</tr>
+				</tbody>
+			</table>
 	  </div>
 	<% end %>
 </div>
 
-<style type="text/css" media="screen">
-	#furniture-info-content > div.tab-pane {
-		margin: 10px auto;
-		padding: 20px;
-		bolder: 0;
-		border-right: 1px solid #e6e6e6;
-		border-left: 1px solid #e6e6e6;
-	}
-</style>
+<%= javascript_include_tag 'admin/furniture_confirm_data' %>

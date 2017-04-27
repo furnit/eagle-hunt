@@ -1,294 +1,131 @@
 <% specs = Admin::FurnitureSpec.where('name IN (?)', ['پارچه', 'ابر']) %>
 <% sections = Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']) %>
 <% stuff_abr = Admin::FurnitureStuffAbr.all %>
-<% klass_counter = 0 %>
-<% value_counter = 0 %>
-<% next_klass = Proc.new { klass_counter += 1; "kid=#{klass_counter}"  }%>
-<% next_value = Proc.new { value_counter += 1; "v#{value_counter}"  }%>
 
-<% 
-	def build_section **args
-		render_thead = Proc.new { |thead| thead.each { |h| concat raw "<th>#{h}</th>" } }
-		{
-			thead: '',
-			pangel_heading: '',
-			panel_type: 'default'
-		}.each { |k, v| args[k] ||= v }
-%>
-			<div class="panel panel-<%= raw args[:panel_type] %>">
-			  <div class="panel-heading"><strong><%= raw args[:pangel_heading] %></strong></div>
-			  <div class="panel-body">
-			  	<table class="table table-striped">
-			  		<thead><tr><% render_thead.call args[:thead] %></tr></thead>
-			  		<tbody><% yield if block_given? %></tbody>
-		  		</table>
-			  </div>
-			</div>
-<% 
-	end
-%>
-
-
-<div class='furniture-intel'>
-	<%= acu_as :admin { render 'shared/editable_content', for_tag: '.furniture-intel'  }%>
-	<% # DAST MOZD HA %>
-	<% build_section panel_type: 'success',
-				pangel_heading: "<span class='fa fa-money'></span> دست‌مزد",
-				thead: ['کارمند', 'دست‌مزد روکوب (تومان)', 'دست‌مزد خیاط (تومان)'] do %>
-		<% 
-			collection = { }
-			[:wage_rokob, :wage_khayat].each do |label|
-				collection[label] = intel.map {|i| i[:data][label]}
-			end
-		%>
-		<% klass_id = next_klass.call %>
-		<% intel.each do |i| %>
-			<tr <%= klass_id %>>
-				<td><%= i[:data].user.full_name %></td>
-				<% [:wage_rokob, :wage_khayat].each do |label| %>
-					<td>
-						<% outlier_label i[:data][label], collection: collection[label] do %>
-							<span class='value currency' data-type="text" data-pk="<%= next_value.call %>" data-options='<%= {
-								"admin_furniture[employee_fani][id]": i[:data].id
-							}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-title="مقدار اولیه: <%= i[:data][label].to_i %>"><%= i[:data][label].to_i %></span>
-						<% end %>
-					</td>
-				<% end %>
-			</tr>
-		<% end %>
-	<% end %>
-	
-	<% # ZAMAN BANDI %>
-	<% build_section panel_type: 'info',
-				pangel_heading: "<span class='fa fa-clock-o'></span> زمان‌بندی",
-				thead: ['کارمند', 'مدت‌ زمان پایان «خیاطی» و «روکوبی»'] do %>
-		
-		<% klass_id = next_klass.call %>
-		<% intel.each do |i| %>
-			<tr <%= klass_id %>>
-				<td><%= i[:data].user.full_name %></td>
+<% # DAST MOZD HA %>
+<% build_section panel_type: 'success',
+			pangel_heading: "<span class='fa fa-money'></span> دست‌مزد",
+			thead: ['کارمند', 'دست‌مزد روکوب (تومان)', 'دست‌مزد خیاط (تومان)'] do %>
+	<% 
+		collection = { }
+		[:wage_rokob, :wage_khayat].each do |label|
+			collection[label] = intel.map {|i| i[:data][label]}
+		end
+	%>
+	<% klass_id = next_klass.call %>
+	<% intel.each do |i| %>
+		<tr <%= klass_id %>>
+			<td><%= i[:data].user.full_name %></td>
+			<% [:wage_rokob, :wage_khayat].each do |label| %>
 				<td>
-					<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] } do %>
-						<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-options='<%= {
-									"admin_furniture[employee_fani][id]": i[:data].id,
-									"admin_furniture[employee_fani][days_to_complete_scale]": "days"
-								}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="days_to_complete" data-original-title="مقدار اولیه: <%= i[:data][:days_to_complete] %> روز"><%= i[:data][:days_to_complete] %></span>
-						&nbsp;
-						روز
+					<% outlier_label i[:data][label], collection: collection[label] do %>
+						<span class='value currency' data-type="text" data-pk="<%= next_value.call %>" data-url='<%= employee_fani_path(id: @furniture.id, format: :json) %>' data-options='<%= {
+							"admin_furniture[employee_fani][id]": i[:data].id
+						}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-title="مقدار اولیه: <%= i[:data][label].to_i %>"><%= i[:data][label].to_i %></span>
 					<% end %>
 				</td>
-			</tr>
-		<% end %>
+			<% end %>
+		</tr>
 	<% end %>
+<% end %>
+
+<% # ZAMAN BANDI %>
+<% build_section panel_type: 'info',
+			pangel_heading: "<span class='fa fa-clock-o'></span> زمان‌بندی",
+			thead: ['کارمند', 'مدت‌ زمان پایان «خیاطی» و «روکوبی»'] do %>
 	
-	<% # ETELA'ATE UMUMI %>
+	<% klass_id = next_klass.call %>
+	<% intel.each do |i| %>
+		<tr <%= klass_id %>>
+			<td><%= i[:data].user.full_name %></td>
+			<td>
+				<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] } do %>
+					<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url='<%= employee_fani_path(id: @furniture.id, format: :json) %>' data-options='<%= {
+								"admin_furniture[employee_fani][id]": i[:data].id,
+								"admin_furniture[employee_fani][days_to_complete_scale]": "days"
+							}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="days_to_complete" data-original-title="مقدار اولیه: <%= i[:data][:days_to_complete] %> روز"><%= i[:data][:days_to_complete] %></span>
+					&nbsp;
+					روز
+				<% end %>
+			</td>
+		</tr>
+	<% end %>
+<% end %>
+
+<% # ETELA'ATE UMUMI %>
+<% build_section panel_type: 'primary',
+			pangel_heading: "<span class='fa fa-info'></span> اطلاعات عمومی",
+			thead: ['کارمند', 'رنگ‌آمیزی دارد؟', 'کنده‌کاری دارد؟', 'کناف دارد؟'] do %>
+	
+	<% klass_id = next_klass.call %>
+	<% intel.each do |i| %>
+		<tr <%= klass_id %>>
+			<td><%= i[:data].user.full_name %></td>
+			<% [:needs_rang, :needs_kande, :needs_kanaf].each do |label| %>
+				<td>
+					<% outlier_label i[:data][label], collection: intel.map { |i| i[:data][label] }, categorical: true do %>
+						<span class='value' data-type="select" data-url='<%= employee_fani_path(id: @furniture.id, format: :json) %>' data-pk="<%= next_value.call %>" data-value="<%= i[:data][label] ? 1 : 0 %>" data-source="<%= ['ندارد', 'دارد'].map.with_index { |i, index| {value: index, text: i} }.to_json %>" data-options='<%= {
+							"admin_furniture[employee_fani][id]": i[:data].id
+						}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-title="مقدار اولیه: <%= i[:data][label] ? 'دارد' : 'ندارد' %>">
+							<span class='fa fa-<%= i[:data][label] ? 'check' : 'times' %>'></span>
+						</span>
+					<% end %>
+				</td>
+			<% end %>
+		</tr>
+	<% end %>
+<% end %>
+
+<% # JOZIYAT %>
+<% specs.each do |spec| %>
+	<% is_abr = (spec.name == "ابر") %>
+	<% thead = ['قسمت', 'کارمند', 'مقدار'] %>
+	<% thead = ['قسمت', 'کارمند', 'جنس<br />(در حالت کلی)', 'مقدار'] if is_abr %>
 	<% build_section panel_type: 'primary',
-				pangel_heading: "<span class='fa fa-info'></span> اطلاعات عمومی",
-				thead: ['کارمند', 'رنگ‌آمیزی دارد؟', 'کنده‌کاری دارد؟', 'کناف دارد؟'] do %>
-		
-		<% klass_id = next_klass.call %>
-		<% intel.each do |i| %>
-			<tr <%= klass_id %>>
-				<td><%= i[:data].user.full_name %></td>
-				<% [:needs_rang, :needs_kande, :needs_kanaf].each do |label| %>
+				pangel_heading: "<span class='fa fa-balance-scale'></span> جزییات #{spec.name}",
+				thead: thead do %>
+		<% sections.each do |section| %>
+			<% details = [] %>
+			<% intel.each.with_index do |i, index| %>
+				<% details << i[:data].furniture_build_details.where(admin_furniture_spec_id: spec.id, admin_furniture_section_id: section.id).first %>
+			<% end %>
+			<% details_value = details.map { |d| d.value }%>
+			<% klass_id = next_klass.call %>
+			<% details.each.with_index do |detail, index| %>
+				<% i = intel[index] %>
+				<tr class="<%= index == 0 ? 'divider' : '' %>" <%= klass_id %>>
+      		<% if index == 0 %>
+	      		<td rowspan="<%= intel.length %>">
+							<%= image_tag thumbnail_url(section.images), \
+										class: 'furniture-section img-responsive', \
+										style: 'height: 80px;margin-top: 0px;', \
+										title: section.comment %>
+						</td>
+					<% end %>
+					<td><%= i[:data].user.full_name %></td>
+					<% if is_abr %>
 					<td>
-						<% outlier_label i[:data][label], collection: intel.map { |i| i[:data][label] }, categorical: true do %>
-							<span class='value' data-type="select" data-pk="<%= next_value.call %>" data-value="<%= i[:data][label] ? 1 : 0 %>" data-source="<%= ['ندارد', 'دارد'].map.with_index { |i, index| {value: index, text: i} }.to_json %>" data-options='<%= {
-								"admin_furniture[employee_fani][id]": i[:data].id
-							}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-title="مقدار اولیه: <%= i[:data][label] ? 'دارد' : 'ندارد' %>">
-								<span class='fa fa-<%= i[:data][label] ? 'check' : 'times' %>'></span>
+						<% outlier_label detail.options["admin_furniture_stuff_abrs"]["id"], collection: details.map { |d| d.options["admin_furniture_stuff_abrs"]["id"] }, categorical: true do %>
+							<% abr = stuff_abr.select { |a| a.id == detail.options["admin_furniture_stuff_abrs"]["id"].to_i }.first %>
+							<span class='value' data-type="select" data-pk="<%= next_value.call %>" data-url='<%= employee_fani_path(id: @furniture.id, format: :json) %>' data-value="<%= abr.id %>" data-source="<%= stuff_abr.map { |i| {value: i.id, text: i.name} }.to_json %>" data-options='<%= {
+								"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
+							}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="options[admin_furniture_stuff_abrs][id]" data-original-title="مقدار اولیه: <%= abr.name %>">
+								<%= abr.name %>
 							</span>
 						<% end %>
 					</td>
-				<% end %>
-			</tr>
-		<% end %>
-	<% end %>
-	
-	<% # JOZIYAT %>
-	<% specs.each do |spec| %>
-		<% is_abr = (spec.name == "ابر") %>
-		<% thead = ['قسمت', 'کارمند', 'مقدار'] %>
-		<% thead = ['قسمت', 'کارمند', 'جنس<br />(در حالت کلی)', 'مقدار'] if is_abr %>
-		<% build_section panel_type: 'primary',
-					pangel_heading: "<span class='fa fa-balance-scale'></span> جزییات #{spec.name}",
-					thead: thead do %>
-			<% sections.each do |section| %>
-				<% details = [] %>
-				<% intel.each.with_index do |i, index| %>
-					<% details << i[:data].furniture_build_details.where(admin_furniture_spec_id: spec.id, admin_furniture_section_id: section.id).first %>
-				<% end %>
-				<% details_value = details.map { |d| d.value }%>
-				<% klass_id = next_klass.call %>
-				<% details.each.with_index do |detail, index| %>
-					<% i = intel[index] %>
-					<tr class="<%= index == 0 ? 'divider' : '' %>" <%= klass_id %>>
-	      		<% if index == 0 %>
-		      		<td rowspan="<%= intel.length %>">
-								<%= image_tag thumbnail_url(section.images), \
-											class: 'furniture-section img-responsive', \
-											style: 'height: 80px;margin-top: 0px;', \
-											title: section.comment %>
-							</td>
+					<% end %>
+					<td>
+						<% outlier_label detail.value, collection: details_value do%>
+							<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-options='<%= {
+								"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
+							}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="value" data-original-title="مقدار اولیه: <%= detail.value %>"><%= detail.value %></span>
+							&nbsp;
+							<%= spec.unit %>
 						<% end %>
-						<td><%= i[:data].user.full_name %></td>
-						<% if is_abr %>
-						<td>
-							<% outlier_label detail.options["admin_furniture_stuff_abrs"]["id"], collection: details.map { |d| d.options["admin_furniture_stuff_abrs"]["id"] }, categorical: true do %>
-								<% abr = stuff_abr.select { |a| a.id == detail.options["admin_furniture_stuff_abrs"]["id"].to_i }.first %>
-								<span class='value' data-type="select" data-pk="<%= next_value.call %>" data-value="<%= abr.id %>" data-source="<%= stuff_abr.map { |i| {value: i.id, text: i.name} }.to_json %>" data-options='<%= {
-									"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
-								}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="options[admin_furniture_stuff_abrs][id]" data-original-title="مقدار اولیه: <%= abr.name %>">
-									<%= abr.name %>
-								</span>
-							<% end %>
-						</td>
-						<% end %>
-						<td>
-							<% outlier_label detail.value, collection: details_value do%>
-								<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-options='<%= {
-									"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
-								}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="value" data-original-title="مقدار اولیه: <%= detail.value %>"><%= detail.value %></span>
-								&nbsp;
-								<%= spec.unit %>
-							<% end %>
-						</td>
-					</tr>
-				<% end %>
+					</td>
+				</tr>
 			<% end %>
 		<% end %>
 	<% end %>
-	
-	<div class='clearfix'></div>
-</div>
-
-<table class='table'>
-	<tbody>
-		<tr>
-			<td><span class='label label-danger'>رنگ پس‌زمینه‌ی فرمز</span></td>
-			<td>داده‌هایی هستند که سیستم با در نظر گرفتن دیگر داده‌ها، <b>«مشکوک» به اشتباه بودن آن‌ها</b> است؛ این بستگی به مدیریت سیستم دارد که این داده‌ها را <b>تایید</b> یا <b>ویرایش</b> نماید.</td>
-		</tr>
-		<tr>
-			<td><span class='label label-warning'>رنگ پس‌زمینه‌ی زرد</span></td>
-			<td>داده‌هایی هستند که مدیریت آن‌ها را تغییر داده است.</td>
-		</tr>
-	</tbody>
-</table>
-
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function () {
-		// popover furniture section
-		$('img.furniture-section').on('mouseover', function(e) {
-			$(this).popover({
-	      html: true,
-	      trigger: 'hover',
-	      placement: 'bottom',
-	      content: function(){ return '<img src="'+$(this).attr('src') + '" />';}
-	    });
-	    $(this).popover('show');
-	  });
-	  // prettify data
-	  var editable_pretty_data = function(update) {
-	  	if(update === undefined) update = false
-		  $('.value[data-type="text"]:not(.currency)').each(function(){
-		  	$(this).text(parseFloat($(this).text()))
-		  })
-		  $('.value.currency').each(function(){
-		  	$(this).text(parseInt($(this).text().replace(/,/g, "")).toLocaleString())
-		  	if(!update) $(this).attr('data-original-title', "مقدار اولیه: " + $(this).text())
-		  	$(this).addClass('currencified')
-		  })
-	  }
-	  // initialy make them pretty
-	  editable_pretty_data();
-	  // inline editable
-	  $('.furniture-intel .btn-edit-content').click(function() {
-	  	$(this).data('enabled', $(this).data('enabled') ? false : true);
-	  	enable = $(this).data('enabled')
-	  	// check if enabling
-	  	if(enable) {
-	  		// create `.editable`s on fly
-		  	$(this).closest('.furniture-intel').find('.label').each(function() {
-		  		if($(this).find('.value').length) {
-			  		$(this).hide();
-			  		value = $(this).find('.value').get(0);
-			  		data_attr = [].filter.call(value.attributes, function(at) { return /^data-/.test(at.name); })
-			  		link = "<a href='#' class='editable' data-url='<%= employee_fani_path(id: @furniture.id, format: :json) %>' ";
-			  		// inject `data` attributes
-			  		for(var i=0,j=data_attr.length; i<j; i++) { link += data_attr[i].name + "='" + data_attr[i].value + "' "; };
-						link += " onclick='return false'>" + ($.isNumeric($(value).text().replace(/,/g, "")) ? parseFloat($(value).text().replace(/,/g, "")) : $(value).text()) + '</a>';
-			  		$(this).closest('td').append(link);
-	  			}
-		  	})
-		  	// set arguments for created editables
-		  	$('.furniture-intel .editable').editable({
-		  		// inject parameters to params sending to server
-		  		params: function(params){	
-		  			params = $.extend(params, $(".value[data-pk='"+params.pk+"']").data('options'));
-		  			delete params.pk
-		  			return params
-		  		},
-		  		// validate inputs
-	        validate: function(value) {
-	            if ($.isNumeric(value) == '') {
-	                return 'داده‌ها باید عدد باشند!';
-	            }
-	        },
-	        // on success submit operation
-		  		success: function (response, newval) {
-		  			// indicate the changes
-		  			var val = $('.furniture-intel .editable.editable-open').siblings('.label').removeClass('label-success label-danger').addClass('label-warning').find('.value')
-		  			if($('.furniture-intel .editable.editable-open').data('type') == "select")
-		  				if(newval == "0")
-		  					val.find(".fa").attr('class', 'fa fa-times')
-	  					else
-	  						val.find(".fa").attr('class', 'fa fa-check')
-		  			else
-		  				val.text(newval)
-	  				editable_pretty_data(true)
-						$('.furniture-intel .editable').editable('toggleDisabled')
-		  		}
-				})
-				// inject the source of `select` editables 
-				$('.furniture-intel .editable[data-type="select"]').each(function(){
-					$(this).editable({
-						source: $(this).data('source') 
-					})
-				})
-				$('.furniture-intel .editable').editable('toggleDisabled')
-			// if disabling the inline `editable`
-	  	} else {
-	  		$('.furniture-intel .editable').remove();
-	  		$(this).closest('.furniture-intel').find('.label').show();
-	  	}
-	  });
-	  // highlighing
-	  $('.furniture-intel tr td').has('.label').hover(function(){
-	  	row    = $(this).closest('tr')
-	  	column = $(this).closest('td')
-	  	if($('tr[kid="' + row.attr('kid') + '"]').hasClass('divider')) {
-	  		if(row.hasClass('divider')) {
-	  			console.log('shit')
-	  			column.find('.label').addClass('kid-effect')
-			  	$('tr[kid="' + row.attr('kid') + '"]').not(row).find('td:nth-child(' + (column.index()) + ') .label').addClass('kid-effect');
-				} else {	
-			  	$('tr[kid="' + row.attr('kid') + '"]').not('.divider').find('td:nth-child(' + (column.index() + 1) + ') .label').addClass('kid-effect');
-			  	$('tr.divider[kid="' + row.attr('kid') + '"]').find('td:nth-child(' + (column.index() + 2) + ') .label').addClass('kid-effect');
-				}
-	  	} else {
-	  		$('tr[kid="' + row.attr('kid') + '"] td:nth-child(' + (column.index() + 1) + ') .label').addClass('kid-effect');
-	  	}
-	  	$('.furniture-intel tr .label:not(.kid-effect)').css('opacity', 0.1);
-	  }, function(){
-	  	$('.furniture-intel tr .label').css('opacity', 1).removeClass('kid-effect')
-	  });
-  });
-</script>
-
-<style type="text/css" media="screen">
-	.kid-effect {
-		-webkit-box-shadow:0 0 20px #0088cc; 
-    -moz-box-shadow: 0 0 20px #0088cc; 
-    box-shadow:0 0 20px #0088cc;
-	}
-</style>
+<% end %>

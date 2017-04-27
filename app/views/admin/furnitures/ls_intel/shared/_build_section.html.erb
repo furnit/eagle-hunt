@@ -1,0 +1,21 @@
+<% 
+	def build_section **args
+		render_thead = Proc.new { |thead| thead.each { |h| concat raw "<th>#{h}</th>" } }
+		{
+			thead: '',
+			pangel_heading: '',
+			panel_type: 'default'
+		}.each { |k, v| args[k] ||= v }
+%>
+			<div class="panel panel-<%= raw args[:panel_type] %>">
+			  <div class="panel-heading"><strong><%= raw args[:pangel_heading] %></strong></div>
+			  <div class="panel-body">
+			  	<table class="table table-striped">
+			  		<thead><tr><% render_thead.call args[:thead] %></tr></thead>
+			  		<tbody><% yield if block_given? %></tbody>
+		  		</table>
+			  </div>
+			</div>
+<% 
+	end
+%>

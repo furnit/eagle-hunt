@@ -69,9 +69,22 @@ class Employee::FanisController < Employee::EmployeebaseController
   end
   
   def update
-    respond_to do |format|
-      format.html { head :no_content, status: :ok }
-      format.json { render json: { }, status: :ok }
+    p = params[:admin_furniture]
+    if p
+      p = p[:employee_fani]
+      if p
+        # if we are editing a build detail?
+        if p[:furniture_build_detail]
+          FurnitureBuildDetail.update(p[:furniture_build_detail][:id], build_details_params)
+        # if we are editing a `employee_fanis`
+        else
+          Employee::Fani.update(p[:id], fanis_params(inject: false))
+        end
+      else
+        raise RuntimeError.new("wrong data!")
+      end
+    else
+      raise RuntimeError.new("wrong data!")
     end
   end
   
@@ -95,7 +108,7 @@ class Employee::FanisController < Employee::EmployeebaseController
   end
   
   def build_details_params
-    params.require(:admin_furniture).require(:employee_fani).require(:furniture_build_detail).except(:id)
+    params.require(:admin_furniture).require(:employee_fani).require(:furniture_build_detail).except(:id).select { |k, v| [:value, :options].include? k.to_sym }.permit!
   end
   
   def fanis_params inject: true
@@ -112,7 +125,7 @@ class Employee::FanisController < Employee::EmployeebaseController
     # add the user-id to the collection
     par[:user_id] = current_user.id if inject
     # convert to thousand tomans
-    [:wage_rokob, :wage_khayat].each { |i| par[i] = par[i].to_i.thousand_tomans if par[i] }
+    [:wage_rokob, :wage_khayat].each { |i| par[i] = par[i].to_i.thousand_tomans if par[i] } if inject
     # return the processed params
     par
   end
