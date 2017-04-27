@@ -1,0 +1,149 @@
+//colors
+$white: #fff;
+$color_nav_tabs_border  : #e0e0e0;
+$color_nav_deactive: #555555;
+$color_nav_active: #5bc0de;
+$color_nav_hover: #333;
+
+%wizard_tabs_nav_link {
+  color: $color_nav_deactive;
+  cursor: default;
+  border: 0;
+  border-bottom-color: transparent;
+}
+
+
+.wizard-tabs {
+  margin: 10px auto;
+  background: $white;
+  .nav-tabs {
+    position: relative;
+    margin: 10px auto;
+    margin-bottom: 0;
+    border-bottom-color: $color_nav_tabs_border;
+    > li {
+      width: 20%;
+      a {
+        width: 70px;
+        height: 70px;
+        margin: 20px auto;
+        border-radius: 100%;
+        padding: 0;
+        &:hover {
+          background: transparent;
+        }
+      }
+      &.active > a {
+        @extend %wizard_tabs_nav_link;
+        &:hover {
+          @extend %wizard_tabs_nav_link;
+        }
+        &:focus {
+          @extend %wizard_tabs_nav_link;
+        }
+      }
+      &:not(.disabled):not(.active) {
+        .fa { color: green }
+        .round-tab { border-color: green }
+        
+      }
+    }
+  }
+  li {
+    &.active {
+      &:after {
+        content: " ";
+        position: absolute;
+        left: 46%;
+        opacity: 1;
+        margin: 0 auto;
+        bottom: 0;
+        border: 10px solid transparent;
+        border-bottom-color: $color_nav_active;
+      }
+      span.round-tab {
+        background: $white;
+        border: 2px solid $color_nav_active;
+        i {
+          color: $color_nav_active;
+        }
+      }
+    }
+    &:after {
+      content: " ";
+      position: absolute;
+      left: 46%;
+      opacity: 0;
+      margin: 0 auto;
+      bottom: 0;
+      border: 5px solid transparent;
+      border-bottom-color: $color_nav_active;
+      transition: 0.1s ease-in-out;
+    }
+  }
+  .tab-pane {
+    position: relative;
+    padding-top: 50px;
+  }
+  h3 {
+    margin-top: 0;
+  }
+  > div.wizard-tabs-inner {
+    position: relative;
+  }
+}
+.connecting-line {
+  height: 2px;
+  background: $color_nav_tabs_border;
+  position: absolute;
+  width: 80%;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: 50%;
+  z-index: 1;
+}
+@media(max-width : 585px ) {
+  .wizard-tabs {
+    width: 90%;
+    height: auto !important;
+    .nav-tabs > li a {
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+    }
+    li.active:after {
+      content: " ";
+      position: absolute;
+      left: 35%;
+    }
+  }
+  span.round-tab {
+    font-size: 16px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+  }
+}
+span.round-tab {
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  display: inline-block;
+  border-radius: 100px;
+  background: $white;
+  padding: 3px;
+  border: 2px solid $color_nav_tabs_border;
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  text-align: center;
+  font-size: 25px;
+  i {
+    color: $color_nav_deactive;
+  }
+  &:hover {
+    color: $color_nav_hover;
+    border: 2px solid $color_nav_hover;
+  }
+}
