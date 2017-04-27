@@ -1,7 +1,34 @@
+function kill_editable() {
+	$('.furniture-intel .panel-edit').each(function() {
+		if($(this).data('origin-html') !== undefined)
+			$(this).html($(this).data('origin-html'));
+	});
+	$('.furniture-intel .editable').remove();
+	$('.furniture-intel .label').show();
+};
+function create_editable($this) {
+	$this.find('.value').each(function() {
+		value = $(this).get(0);
+		data_attr = [].filter.call(value.attributes, function(at) { return /^data-/.test(at.name); });
+		link = "<a href='#' class='editable' ";
+		// inject `data` attributes
+		for(var i=0,j=data_attr.length; i<j; i++) { link += data_attr[i].name + "='" + data_attr[i].value + "' "; };
+		link += " onclick='return false'>" + ($.isNumeric($(value).text().replace(/,/g, "")) ? parseFloat($(value).text().replace(/,/g, "")) : $(value).text()) + '</a>';
+		$(this).closest('td').append(link);
+	});
+	return $this;
+}
 
 $(document).ready(function () {
 	// un-blure nav step
 	setTimeout(function() { $('.nav-step').blur().removeClass('disabled'); }, 2500);
+	// on tab changes
+	$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+		// only do for furniture-intels
+		if($(e.target).attr('for') === "furniture-intels")
+			// reset editables and labels
+			kill_editable();
+	});
 	// popover furniture section
 	$('img.furniture-section').on('mouseover', function(e) {
 		$(this).popover({
@@ -30,14 +57,6 @@ $(document).ready(function () {
   $('.furniture-intel .panel-edit').click(function() {
   	$(this).data('enabled', $(this).data('enabled') ? false : true);
   	enable = $(this).data('enabled');
-  	var kill_editable = function() {
-  		$('.furniture-intel .panel-edit').each(function() {
-	  		if($(this).data('origin-html') !== undefined)
-	  			$(this).html($(this).data('origin-html'));
-  		});
-  		$('.furniture-intel .editable').remove();
-  		$('.furniture-intel .label').show();
-		};
 		if($(this).data('origin-html') === undefined)
 			$(this).data('origin-html', $(this).html());
   	// check if enabling
@@ -45,19 +64,8 @@ $(document).ready(function () {
   		// kill all other editables
   		kill_editable();
   		$(this).html('<span class="fa fa-times"></span> پایان ویرایش');
-  		// create `.editable`s on fly
-	  	$(this).closest('.panel-body').find('.label').each(function() {
-	  		if($(this).find('.value').length) {
-		  		$(this).hide();
-		  		value = $(this).find('.value').get(0);
-		  		data_attr = [].filter.call(value.attributes, function(at) { return /^data-/.test(at.name); });
-		  		link = "<a href='#' class='editable' ";
-		  		// inject `data` attributes
-		  		for(var i=0,j=data_attr.length; i<j; i++) { link += data_attr[i].name + "='" + data_attr[i].value + "' "; };
-					link += " onclick='return false'>" + ($.isNumeric($(value).text().replace(/,/g, "")) ? parseFloat($(value).text().replace(/,/g, "")) : $(value).text()) + '</a>';
-		  		$(this).closest('td').append(link);
-  			}
-	  	});
+  		// create `.editable`s on fly and hide all related labels
+			create_editable($(this).closest('.panel-body')).find('.label').hide();
 	  	// set arguments for created editables
 	  	$('.panel-body .editable').editable({
 	  		// inject parameters to params sending to server

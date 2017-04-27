@@ -1,0 +1,59 @@
+<legend>اطلاعات ویرایش شده به شرح زیر است:</legend>
+<div id="confirmation-content">
+	<hr />
+</div>
+<a href="#" id="confirmation-content-confirm-action" class='btn btn-success hidden'><span class='fa fa-check'></span> تایید کلیه‌ی اطلاعات فوق</a>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+			if($(e.target).attr('aria-controls') === "confirm-tab-content") {
+				$("#confirmation-content").html('');
+				setTimeout(function() { fetch_edited_items(); }, 500);
+			}
+		})
+	})
+	function fetch_edited_items() {
+		console.clear()
+		sections = new Set()
+		subsections = new Set()
+		edited_class = ".label-warning"
+		$(edited_class + ' .value').each(function() {
+			sec = $(this).closest('.furniture-intel').find('legend').wrap('<p/>').parent().html();
+			var c = $(this).closest('.panel').clone()
+			if(!sections.has(sec)) {
+				sections.add(sec)
+				$('#confirmation-content').append(sec)
+			}
+			if(!subsections.has(sec + c.find('.panel-heading').text())) {
+				subsections.add(sec + c.find('.panel-heading').text())
+				c.find('.panel-edit').remove()
+				c.find('.label:not(' + edited_class + ')').removeClass('label label-success label-danger')
+				$('#confirmation-content').append(c)
+				$("#confirmation-content-confirm-action").removeClass('hidden')
+			}
+		})
+		if($(edited_class + ' .value').length == 0 && !$("#confirmation-content").has(".empty-collection").length) {
+			$('#confirmation-content').prepend('<div class="empty-collection">تغییری در داده‌ها صورت نگرفته است و تایید داده‌ها بلامانع است.</div>')
+			$("#confirmation-content-confirm-action").addClass('hidden')
+		}
+		$('#confirmation-content-confirm-action').click(function(){
+			$('#confirmation-content-confirm-action').addClass('disabled');
+			create_editable($('#confirmation-content ' + edited_class))
+			$('#confirmation-content .editable').hide();
+			$('#confirmation-content .editable').each(function(){
+				$(this).editable({
+					url: $(this).attr('data-url-x'),
+					savenochange: true,
+					ajaxOptions: { type: 'put' },
+		  		// inject parameters to params sending to server
+		  		params: function(params){	
+		  			params = $.extend(params, $(".value[data-pk='"+params.pk+"']").data('options'));
+		  			delete params.pk;
+		  			return params;
+		  		},
+	  		}).editable('submit')
+			});
+			$('#confirmation-content-confirm-action').removeClass('disabled');
+		});
+	};
+</script>

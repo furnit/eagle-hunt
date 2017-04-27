@@ -16,7 +16,7 @@
 			<% [:wage].each do |label| %>
 				<td>
 					<% outlier_label i[:data][label], collection: collection[label] do %>
-						<span class='value currency' data-type="text" data-pk="<%= next_value.call %>" x-data-url='<%= employee_najar_path(id: @furniture.id, format: :json) %>' data-options='<%= {
+						<span class='value currency' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= employee_najar_path(id: @furniture.id, format: :json) %>' data-options='<%= {
 							"admin_furniture[employee_najar][id]": i[:data].id
 						}.to_json %>' data-resource="admin_furniture[employee_najar]" data-name="<%= label.to_s %>" data-original-value="<%= i[:data][label].to_i %>" data-original-title="مقدار اولیه: <%= i[:data][label].to_i %>"><%= i[:data][label].to_i %></span>
 					<% end %>
@@ -38,7 +38,7 @@
 			<td><%= i[:data].user.full_name %></td>
 			<td>
 				<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] } do %>
-					<span class='value' data-type="text" data-pk="<%= next_value.call %>" x-data-url='<%= employee_najar_path(id: @furniture.id, format: :json) %>' data-options='<%= {
+					<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= employee_najar_path(id: @furniture.id, format: :json) %>' data-options='<%= {
 								"admin_furniture[employee_najar][id]": i[:data].id,
 								"admin_furniture[employee_najar][days_to_complete_scale]": "days"
 							}.to_json %>' data-resource="admin_furniture[employee_najar]" data-name="days_to_complete" data-original-value="<%= i[:data][:days_to_complete] %>" data-original-title="مقدار اولیه: <%= i[:data][:days_to_complete] %> روز"><%= i[:data][:days_to_complete] %></span>
@@ -62,7 +62,7 @@
 			<td><%= i[:data].user.full_name %></td>
 			<td>
 				<% outlier_label i[:data][:choob], collection: intel.map { |i| i[:data][:choob] } do %>
-					<span class='value' data-type="text" data-pk="<%= next_value.call %>" x-data-url='<%= employee_najar_path(id: @furniture.id, format: :json) %>' data-options='<%= {
+					<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= employee_najar_path(id: @furniture.id, format: :json) %>' data-options='<%= {
 						"admin_furniture[employee_najar][id]": i[:data].id
 					}.to_json %>' data-resource="admin_furniture[employee_najar]" data-name="choob" data-original-value="<%= i[:data][:choob].to_i %>" data-original-title="مقدار اولیه: <%= i[:data][:choob].to_i %>"><%= i[:data][:choob].to_i %></span>
 				<% end %>
