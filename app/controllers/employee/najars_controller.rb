@@ -43,6 +43,20 @@ class Employee::NajarsController < Employee::EmployeebaseController
     
   end
   
+  def update_field
+    p = params[:admin_furniture]
+    if p
+      p = p[:employee_najar]
+      if p
+        Employee::Najar.update(p[:id], najar_params(inject: false))
+      else
+        raise RuntimeError.new("wrong data!")
+      end
+    else
+      raise RuntimeError.new("wrong data!")
+    end
+  end
+  
   private
   
   def set_forms_instance
@@ -60,21 +74,21 @@ class Employee::NajarsController < Employee::EmployeebaseController
     params.require(:admin_furniture).permit(:id, :hd)
   end
   
-  def najar_params
+  def najar_params inject: true
     # purify the params
     par = params.require(:admin_furniture).require(:employee_najar).permit(:wage, :choob, :days_to_complete, :days_to_complete_scale)
     # have to convert it to hash to process
     par = par.to_h
     # convert to days, based on defined scale
-    par[:days_to_complete] = convert_to_days par[:days_to_complete], par[:days_to_complete_scale]
+    par[:days_to_complete] = convert_to_days par[:days_to_complete], par[:days_to_complete_scale] if par[:days_to_complete]
     # purge out un-necessary
     par.delete :days_to_complete_scale
     # add the furniture-id to the collection
-    par[:furniture_id] = furniture_params[:id]
+    par[:furniture_id] = furniture_params[:id] if inject
     # add the user-id to the collection
-    par[:user_id] = current_user.id
+    par[:user_id] = current_user.id if inject
     # convert to thousand tomans
-    par[:wage] = par[:wage].to_i.thousand_tomans
+    par[:wage] = par[:wage].to_i.thousand_tomans if par[:wage] and inject
     # return the processed params
     par
   end

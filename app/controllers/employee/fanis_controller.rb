@@ -68,7 +68,7 @@ class Employee::FanisController < Employee::EmployeebaseController
     end 
   end
   
-  def update
+  def update_field
     p = params[:admin_furniture]
     if p
       p = p[:employee_fani]

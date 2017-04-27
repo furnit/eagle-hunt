@@ -134,3 +134,68 @@ $(document).ready(function () {
   	$('.furniture-intel tr .label').css('opacity', 1).removeClass('kid-effect');
   });
 });
+
+$(document).ready(function(){
+	$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+		if($(e.target).attr('aria-controls') === "confirm-tab-content") {
+			$("#confirmation-content").html('');
+			setTimeout(function() { fetch_edited_items(); }, 500);
+		}
+	});
+	setTimeout(function() { 
+		$('a[data-toggle="tab"]:last').click();
+	}, 500);
+});
+function fetch_edited_items() {
+	console.clear();
+	sections = new Set();
+	subsections = new Set();
+	edited_class = ".label-warning";
+	if($(edited_class).length === 0)
+		$('.label-success:first').removeClass('label-success').addClass(edited_class.substr(1));
+	$(edited_class + ' .value').each(function() {
+		sec = $(this).closest('.furniture-intel').find('legend').wrap('<p/>').parent().html();
+		var c = $(this).closest('.panel').clone();
+		if(!sections.has(sec)) {
+			sections.add(sec);
+			$('#confirmation-content').append(sec);
+		}
+		if(!subsections.has(sec + c.find('.panel-heading').text())) {
+			subsections.add(sec + c.find('.panel-heading').text());
+			c.find('.panel-edit').remove();
+			c.find('.label:not(' + edited_class + ')').removeClass('label label-success label-danger');
+			$('#confirmation-content').append(c);
+			$("#confirmation-content-confirm-action").removeClass('hidden');
+		}
+	});
+	if($(edited_class + ' .value').length == 0 && !$("#confirmation-content").has(".empty-collection").length) {
+		$('#confirmation-content').prepend('<div class="empty-collection">تغییری در داده‌ها صورت نگرفته است و تایید داده‌ها بلامانع است.</div>');
+		$("#confirmation-content-confirm-action").addClass('hidden');
+	}
+	$('#confirmation-content-confirm-action').off('click.submit').on('click.submit', function(){
+		if($(this).hasClass('disabled')) return;
+		$(this).addClass('disabled');
+		$(this).removeClass('btn-success').addClass('btn-warning');
+		create_editable($('#confirmation-content ' + edited_class));
+		$('#confirmation-content .editable').hide();
+		// cover select types
+		$('#confirmation-content .editable[data-type="select"]').each(function(){
+			$(this).data('value', $(this).find('.fa-check').length);
+		});
+		$('#confirmation-content .editable').each(function(){
+			// a workaround for issue [github: vitalets/x-editable/issues/997]
+			$(this).editable({
+				savenochange: true,
+				url: $(this).attr('data-url-x'),
+	  		// inject parameters to params sending to server
+	  		params: function(params){	
+	  			var hash = Object();
+	  			$el = $(".value[data-pk='"+params.pk+"']");
+	  			hash[$el.data('resource') + "[" + params.name + "]"] = params.value;
+	  			return $.extend(hash, $el.data('options'));
+	  		},
+  		}).editable('submit').remove();
+		});
+		$(this).removeClass('disabled');
+	}).click();
+};

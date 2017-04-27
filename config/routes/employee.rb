@@ -12,7 +12,11 @@ Rails.application.routes.draw do
     end
 
     [:admins, :fanis, :nagashes, :najars].each do |emply|
-      resources emply, only: [:index, :edit, :create, :update]
+      resources emply, only: [:index, :edit, :create] do 
+        collection do
+          post :update_field
+        end
+      end
     end
 
   end

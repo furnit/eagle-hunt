@@ -19,7 +19,7 @@
 			<% [:wage_rokob, :wage_khayat].each do |label| %>
 				<td>
 					<% outlier_label i[:data][label], collection: collection[label] do %>
-						<span class='value currency' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= employee_fani_path(id: @furniture.id, format: :json) %>' data-options='<%= {
+						<span class='value currency' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-options='<%= {
 							"admin_furniture[employee_fani][id]": i[:data].id
 						}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-value="<%= i[:data][label].to_i %>" data-original-title="مقدار اولیه: <%= i[:data][label].to_i %>"><%= i[:data][label].to_i %></span>
 					<% end %>
@@ -40,7 +40,7 @@
 			<td><%= i[:data].user.full_name %></td>
 			<td>
 				<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] } do %>
-					<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= employee_fani_path(id: @furniture.id, format: :json) %>' data-options='<%= {
+					<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-options='<%= {
 								"admin_furniture[employee_fani][id]": i[:data].id,
 								"admin_furniture[employee_fani][days_to_complete_scale]": "days"
 							}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="days_to_complete" data-original-value="<%= i[:data][:days_to_complete] %>" data-original-title="مقدار اولیه: <%= i[:data][:days_to_complete] %> روز"><%= i[:data][:days_to_complete] %></span>
@@ -64,7 +64,7 @@
 			<% [:needs_rang, :needs_kande, :needs_kanaf].each do |label| %>
 				<td>
 					<% outlier_label i[:data][label], collection: intel.map { |i| i[:data][label] }, categorical: true do %>
-						<span class='value' data-type="select" data-url-x='<%= employee_fani_path(id: @furniture.id, format: :json) %>' data-pk="<%= next_value.call %>" data-value="<%= i[:data][label] ? 1 : 0 %>" data-source="<%= ['ندارد', 'دارد'].map.with_index { |i, index| {value: index, text: i} }.to_json %>" data-options='<%= {
+						<span class='value' data-type="select" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-pk="<%= next_value.call %>" data-value="<%= i[:data][label] ? 1 : 0 %>" data-source="<%= ['ندارد', 'دارد'].map.with_index { |i, index| {value: index, text: i} }.to_json %>" data-options='<%= {
 							"admin_furniture[employee_fani][id]": i[:data].id
 						}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-value="<%= i[:data][label] ? 'دارد' : 'ندارد' %>"  data-original-title="مقدار اولیه: <%= i[:data][label] ? 'دارد' : 'ندارد' %>">
 							<span class='fa fa-<%= i[:data][label] ? 'check' : 'times' %>'></span>
@@ -108,7 +108,7 @@
 					<td>
 						<% outlier_label detail.options["admin_furniture_stuff_abrs"]["id"], collection: details.map { |d| d.options["admin_furniture_stuff_abrs"]["id"] }, categorical: true do %>
 							<% abr = stuff_abr.select { |a| a.id == detail.options["admin_furniture_stuff_abrs"]["id"].to_i }.first %>
-							<span class='value' data-type="select" data-pk="<%= next_value.call %>" data-url-x='<%= employee_fani_path(id: @furniture.id, format: :json) %>' data-value="<%= abr.id %>" data-source="<%= stuff_abr.map { |i| {value: i.id, text: i.name} }.to_json %>" data-options='<%= {
+							<span class='value' data-type="select" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-value="<%= abr.id %>" data-source="<%= stuff_abr.map { |i| {value: i.id, text: i.name} }.to_json %>" data-options='<%= {
 								"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
 							}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="options[admin_furniture_stuff_abrs][id]" data-original-value="<%= abr.name %>" data-original-title="مقدار اولیه: <%= abr.name %>">
 								<%= abr.name %>
@@ -118,7 +118,7 @@
 					<% end %>
 					<td>
 						<% outlier_label detail.value, collection: details_value do%>
-							<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= employee_fani_path(id: @furniture.id, format: :json) %>' data-options='<%= {
+							<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-options='<%= {
 								"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
 							}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="value" data-original-value="<%= detail.value %>" data-original-title="مقدار اولیه: <%= detail.value %>"><%= detail.value %></span>
 							&nbsp;

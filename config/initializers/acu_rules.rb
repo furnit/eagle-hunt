@@ -48,10 +48,10 @@ Acu::Rules.define do
     allow :employee
     # people can only create new stuff in database
     # not updating them
-    deny  :everyone, on: [:destroy, :new, :show]
+    deny  :everyone, on: [:destroy, :new, :show, :update]
     
     # only admin can `update` stuff
-    action :update do
+    action :update_field do
       allow :admin
       deny  :employee
     end
