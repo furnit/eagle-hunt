@@ -62,7 +62,7 @@
 			<td><%= i[:data].user.full_name %></td>
 			<td>
 				<% outlier_label i[:data][:choob], collection: intel.map { |i| i[:data][:choob] } do %>
-					<span class='value currency' data-type="text" data-pk="<%= next_value.call %>" x-data-url='<%= employee_najar_path(id: @furniture.id, format: :json) %>' data-options='<%= {
+					<span class='value' data-type="text" data-pk="<%= next_value.call %>" x-data-url='<%= employee_najar_path(id: @furniture.id, format: :json) %>' data-options='<%= {
 						"admin_furniture[employee_najar][id]": i[:data].id
 					}.to_json %>' data-resource="admin_furniture[employee_najar]" data-name="choob" data-original-value="<%= i[:data][:choob].to_i %>" data-original-title="مقدار اولیه: <%= i[:data][:choob].to_i %>"><%= i[:data][:choob].to_i %></span>
 				<% end %>
