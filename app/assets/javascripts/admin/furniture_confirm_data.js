@@ -84,11 +84,10 @@ $(document).ready(function () {
 	  		success: function (response, newval) {
 	  			// indicate the changes
 	  			var val = $('.furniture-intel .editable.editable-open').siblings('.label').removeClass('label-success label-danger').addClass('label-warning').find('.value');
-	  			if($('.furniture-intel .editable.editable-open').data('type') == "select")
-	  				if(newval == "0")
-	  					val.find(".fa").attr('class', 'fa fa-times');
-  					else
-  						val.find(".fa").attr('class', 'fa fa-check');
+	  			if($('.furniture-intel .editable.editable-open').data('type') == "select") {
+	  				var select = $.grep($(this).data('source'), function(e){ return e.value == newval; });
+						$('.value[data-pk="' + $(this).data('pk') + '"]').attr('data-value', newval).text(select[0]["text"]);
+	  			}
 	  			else
 	  				val.text(newval);
   				editable_pretty_data(true);
@@ -102,7 +101,7 @@ $(document).ready(function () {
 			// inject the source of `select` editables 
 			$('.furniture-intel .editable[data-type="select"]').each(function(){
 				$(this).editable({
-					source: $(this).data('source') 
+					source: $(this).data('source')
 				});
 			});
 			// $('.furniture-intel .editable').editable('toggleDisabled');
@@ -179,9 +178,6 @@ function fetch_edited_items() {
 		create_editable($('#confirmation-content ' + edited_class));
 		$('#confirmation-content .editable').hide();
 		// cover select types
-		$('#confirmation-content .editable[data-type="select"]').each(function(){
-			$(this).data('value', $(this).find('.fa-check').length);
-		});
 		error_flag = false;
 		$('#confirmation-content .editable').each(function(index){
 			if(error_flag) return;

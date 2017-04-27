@@ -67,7 +67,7 @@
 						<span class='value' data-type="select" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-pk="<%= next_value.call %>" data-value="<%= i[:data][label] ? 1 : 0 %>" data-source="<%= ['ندارد', 'دارد'].map.with_index { |i, index| {value: index, text: i} }.to_json %>" data-options='<%= {
 							"admin_furniture[employee_fani][id]": i[:data].id
 						}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-value="<%= i[:data][label] ? 'دارد' : 'ندارد' %>"  data-original-title="مقدار اولیه: <%= i[:data][label] ? 'دارد' : 'ندارد' %>">
-							<span class='fa fa-<%= i[:data][label] ? 'check' : 'times' %>'></span>
+							<%= i[:data][label] ? 'دارد' : 'ندارد' %>
 						</span>
 					<% end %>
 				</td>
