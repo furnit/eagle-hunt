@@ -119,6 +119,21 @@ class Admin::UsersController < Admin::AdminbaseController
     end
   end
 
+  def send_temp_password_token
+    current_user.temp_password_token = Digest::SHA256.hexdigest([Time.now, rand].join)[0..AppConfig.passwords.temp_token_length];
+    current_user.temp_password_token_sent_at = Time.now
+    current_user.save
+    AutoStart::SmsJob.send_urgent current_user.temp_password_token, to: current_user.phone_number
+    
+    debug
+    # todo
+    
+    respond_to do |format|
+      format.html { }
+      format.json { }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

@@ -54,34 +54,7 @@ class ApplicationController < ActionController::Base
   end
   
   protected
-
-  def temp_password_token_sent?
-    return current_user and current_user.temp_password_token_sent_at
-  end
-
-  def protected_with_temp_password_token exception: true 
-    if not current_user.temp_password_token_sent_at
-      return false if not exception
-      raise Acu::Errors::AccessDenied.new('temporary password token has not sent!');
-    elsif not current_user.temp_password_token_confirmed_at
-      if params[:temp_password_token] != current_user.temp_password_token
-        return false if not exception
-        raise Acu::Errors::AccessDenied.new('invalid temporary password!');
-      else
-        current_user.temp_password_token_confirmed_at = Time.now
-        current_user.save
-        return true
-      end
-    else
-      if current_user.temp_password_token_confirmed_at < eval(AppConfig.passwords.temp_token_expiration)
-        return true
-      else
-        return false if not exception
-        raise Acu::Errors::AccessDenied.new('invalid temporary password!');
-      end
-    end
-  end
-
+  
   def prefer_layout lyout = nil
     return 'ajax' if is_ajax_call?
     lyout

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :users do
       collection do
         get :states, RC::json_request_only
+        post :send_temp_password_token, RC::ajax_server
       end
       member do
         delete  :block

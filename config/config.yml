@@ -8,6 +8,7 @@ defaults: &defaults
     reset_expiration: 24.hours.ago
     reset_token_length: 5
     temp_token_expiration: 30.minutes.ago
+    temp_token_length: 6
     
   sms_api:
     sms_ir:
