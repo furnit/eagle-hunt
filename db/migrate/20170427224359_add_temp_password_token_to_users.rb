@@ -1,6 +1,9 @@
 class AddTempPasswordTokenToUsers < ActiveRecord::Migration[5.0]
   def change
-    add_column :users, :temp_password_token, :string
-    add_column :users, :temp_password_token_sent_at, :timestamp
+    change_table :users, bulk: true do |t|
+      t.string :temp_password_token
+      t.timestamp :temp_password_token_sent_at
+      t.timestamp :temp_password_token_confirmed_at
+    end
   end
 end
