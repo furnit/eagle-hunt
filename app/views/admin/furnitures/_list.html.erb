@@ -95,7 +95,7 @@
 	}
 	$(document).ready(function(){
 		function append2gallery() {
-			$('.photo-gallery-collection-incomplete a[data-source]').bind('append2gallery', function(e, data, index, gallery) {
+			$('.photo-gallery-collection-incomplete a[data-source]').unbind('append2gallery').bind('append2gallery', function(e, data, index, gallery) {
 				link = 
 				'<%= link_to "{0}", data: { index: "{1}", thumb: "{2}", cover: "{3}", "cover-url": cover_admin_furniture_path("{4}", format: :json) } do %>\
 					<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\

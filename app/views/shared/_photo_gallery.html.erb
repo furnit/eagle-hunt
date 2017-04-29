@@ -18,9 +18,9 @@
 			});
 			gallery.init();
 		}
-		gallery_item = '[data-type="photo-gallery"]:not(.pswpify)'
+		gallery_item = '[data-type="photo-gallery"]'
 		gallery_parent = '.photo-gallery-collection'
-		$(gallery_item).click(function(e){
+		$(gallery_item).off('click.photogallery').on('click.photogallery', function(e){
 				e.preventDefault();
 				e.stopPropagation();
 				items = $(this).closest(gallery_parent).find(gallery_item).map(
@@ -42,11 +42,11 @@
 						history: false,
 				};
 				openPhotoSwipe(items, options);
-		}).addClass('.pswpify');
+		});
 	};
 	$(document).ready(function(){
 		init_photo_gallery();
-		$('.photo-gallery-collection-incomplete a[data-source]:not(.pswpify)').click(function(e) {
+		$('.photo-gallery-collection-incomplete a[data-source]').off('click.photogallery').on('click.photogallery', function(e) {
 			e.preventDefault();
 			e.stopPropagation();
 			$(this).addClass('active');
@@ -75,7 +75,7 @@
 					$this.find('*').show()
 				}
 			})
-		}).addClass('pswpify');
+		});
 	});
 </script>
 
