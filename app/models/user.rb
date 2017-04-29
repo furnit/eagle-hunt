@@ -38,6 +38,11 @@ class User < ApplicationRecord
     return self
   end
 
+  def reset_two_step_auth
+    [:two_step_auth_token, :two_step_auth_token_sent_at].each { |c| self[c] = nil }
+    return self
+  end
+
   def normalize_phone_number
     self.phone_number = self.phone_number.to_ar2en_i;
     self.phone_number = helper.number_to_phone(self.phone_number.strip, delimiter: "", pattern: /(\d{4})[- ]?(\d{3})[- ]?(\d{4})$/)

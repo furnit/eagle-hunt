@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     [:admins, :fanis, :nagashes, :najars].each do |emply|
       resources emply, only: [:index, :edit, :create] do 
         collection do
-          post :update_field
+          post :update_field, RC::ajax_server.merge(RC::json_request_only)
         end
       end
     end

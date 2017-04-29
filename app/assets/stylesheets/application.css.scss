@@ -87,6 +87,9 @@ body {
   input[type=tel] { text-align: right; direction: ltr }
   
   table {
+    &.table.nolayout > tbody > tr > td {
+      border: 0
+    }
     tr.divider {
       &:not(:first-child) { 
         td { border-top: 3px solid $table-border-color; }
@@ -302,12 +305,17 @@ body {
     /*
      * input group for .ir class
      */
+    .input-group-btn:last-child > .btn,
     .input-group-addon:last-child {
       border-left: 1px solid $input-group-addon-border-color;
       border-right: 0;
       border-radius: 4px;
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
+      &:active,
+      &:hover {
+        border-color: $input-group-addon-border-color;
+      }
     }
     .input-group-addon:first-child {
       border-right: 1px solid $input-group-addon-border-color;

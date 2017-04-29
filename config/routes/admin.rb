@@ -3,12 +3,12 @@ Rails.application.routes.draw do
 
     root to: 'home#index'
     
-    resources :uploaded_files, RC::ajax_server.merge(RC::json_request_only)
+    resources :uploaded_files, RC::ajax_server.merge(RC::json_request_only).merge({only: [:create, :update]})
 
     resources :users do
       collection do
         get :states, RC::json_request_only
-        post :send_temp_password_token, RC::ajax_server
+        post :send_two_step_auth_token, RC::ajax_server
       end
       member do
         delete  :block

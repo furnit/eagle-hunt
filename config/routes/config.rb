@@ -8,8 +8,7 @@ module RC
   
   def self.ajax_server
     {
-      constraints: lambda { |request| request.xhr? },
-      only: [:create, :destroy]
+      constraints: lambda { |request| request.xhr? }
     }
   end
   

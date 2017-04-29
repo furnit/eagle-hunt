@@ -24,13 +24,13 @@ class Users::PasswordsController < Devise::PasswordsController
     end
     # else if user found
     # send the confirmation code
-    @user.reset_password_token = rand.to_s[2..(2 + AppConfig.passwords.reset_token_length - 1)].to_s
+    @user.reset_password_token = rand.to_s[2..(2 + AppConfig.passwords.reset.token_length - 1)].to_s
     @user.reset_password_sent_at = Time.now
     
     require "#{Rails.root}/lib/sms/bootstrap"
     
     message = <<~sms
-      کد #{AppConfig.passwords.reset_token_length} رقمی شما: #{@user.reset_password_token}
+      کد #{AppConfig.passwords.reset.token_length} رقمی شما: #{@user.reset_password_token}
       
       مبل ویرا
       #{AppConfig.domain}
@@ -61,7 +61,7 @@ class Users::PasswordsController < Devise::PasswordsController
   def reset
     @user = User.find(resource_params[:id])
     # check if code expired?
-    if (@user.reset_password_sent_at and @user.reset_password_sent_at < eval(AppConfig.passwords.reset_expiration))
+    if (@user.reset_password_sent_at and @user.reset_password_sent_at < eval(AppConfig.passwords.reset.expiration))
       # the code is expired, have to re-send it
       @user.reset_password_token = nil
       @user.reset_password_sent_at = nil

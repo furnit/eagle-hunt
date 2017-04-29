@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get 'contact/us/:section', to: 'home#contactus', as: 'contact_us'
 
   # only to create/delete shopping carts and only excepts JSON format
-  resources :shopping_carts, RC::ajax_server.merge(RC::json_request_only)
+  resources :shopping_carts, RC::ajax_server.merge(RC::json_request_only).merge({only: [:create, :update]})
 
   resources :profiles
   

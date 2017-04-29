@@ -69,7 +69,7 @@ $(document).ready(function () {
 	  	// set arguments for created editables
 	  	$('.panel-body .editable').editable({
 	  		// inject parameters to params sending to server
-	  		params: function(params){	
+	  		params: function(params){
 	  			params = $.extend(params, $(".value[data-pk='"+params.pk+"']").data('options'));
 	  			delete params.pk;
 	  			return params;
@@ -132,9 +132,6 @@ $(document).ready(function () {
   }, function(){
   	$('.furniture-intel tr .label').css('opacity', 1).removeClass('kid-effect');
   });
-});
-
-$(document).ready(function(){
 	$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
 		if($(e.target).attr('aria-controls') === "confirm-tab-content") {
 			$("#confirmation-content").html('');
@@ -171,17 +168,24 @@ function fetch_edited_items() {
 	});
 	if($(edited_class + ' .value').length == 0 && !$("#confirmation-content").has(".empty-collection").length) {
 		$('#confirmation-content').prepend('<div class="empty-collection">تغییری در داده‌ها صورت نگرفته است و تایید داده‌ها بلامانع است.</div>');
+		// no need for two-step-auth for no-change-confirmation
+		$("#two-step-auth-container").addClass('hidden');
+	} else {
+		// enable two-step-auth if any change applied
+		$("#two-step-auth-container").removeClass('hidden');
 	}
-	$('#confirmation-content-confirm-action').off('click.submit').on('click.submit', function(){
-		if($(this).hasClass('disabled')) return;
+	var confirm_content_action = function() {
+		console.log('SHIT');
+		$('#confirmation-content-confirm-action').off('click.submit');
 		$(this).addClass('disabled');
+		$("#confirm-submit-container .panel-errors ol").html('').closest('.panel-errors').hide().removeClass('hidden');
 		create_editable($('#confirmation-content ' + edited_class));
 		$('#confirmation-content .editable').hide();
 		// cover select types
 		error_flag = false;
 		$('#confirmation-content .editable').each(function(index){
 			if(error_flag) return;
-			$('#confirmation-content-confirm-action').html('<span class=\'fa fa-spinner fa-spin\'></span> در حال ثبت اطلاعات (داده‌ی باقی‌مانده: ' + ($('#confirmation-content .editable').length - (index + 1)) + ')');
+			$('#confirmation-content-confirm-action').attr('class', 'btn btn-default').html('<span class=\'fa fa-spinner fa-spin\'></span> در حال ثبت اطلاعات (داده‌ی باقی‌مانده: ' + ($('#confirmation-content .editable').length - (index + 1)) + ')');
 			// a workaround for issue [github: vitalets/x-editable/issues/997]
 			$(this).editable({
 				savenochange: true,
@@ -189,8 +193,11 @@ function fetch_edited_items() {
 	  		// inject parameters to params sending to server
 	  		params: function(params){	
 	  			var hash = Object();
-	  			$el = $(".value[data-pk='"+params.pk+"']");
+	  			var $el = $(".value[data-pk='"+params.pk+"']");
 	  			hash[$el.data('resource') + "[" + params.name + "]"] = params.value;
+	  			// pass the temp token password
+	  			var $token_input = $('#two-step-auth-container input[name]:first');
+	  			hash[$token_input.attr('name')] = $token_input.val();
 	  			return $.extend(hash, $el.data('options'));
 	  		},
 	  		success: function() {
@@ -204,15 +211,21 @@ function fetch_edited_items() {
 	  			// flag the item in its origin tab as `confirmed`
 	  			$('.furniture-intel ' + edited_class).has('[data-pk="'+$(this).data('pk')+'"]').removeClass(edited_class.substr(1)).addClass(confirmed_class.substr(1));
 	  		},
-	  		error: function() { error_flag |= true; $('#confirmation-content .editable').addClass('confirmed'); }
+	  		error: function(data) {
+	  			try {
+	  				info = JSON.parse(data.responseText);
+	  				$("#confirm-submit-container .panel-errors ol").append("<li class='text-danger'>" + info.message + "</li>").closest('.panel-errors').slideDown();
+	  			} catch (e) { }
+	  			error_flag |= true; $('#confirmation-content .editable').addClass('confirmed');
+  			}
   		}).editable('submit');
 		});
 		wait2confirm_all = setInterval(function($this) {
 			if($('#confirmation-content .editable:not(.confirmed)').length > 0) return;
 			$('#confirmation-content .editable').remove();
 			if(error_flag) {
-				$this.html("<span class='fa fa-times'></span> خطا در ثبت اطلاعات!");
-				$this.attr('class', 'btn btn-danger');
+				$('#confirmation-content-confirm-action').html($('#confirmation-content-confirm-action').data('origin-html'));
+				$this.attr('class', 'btn btn-primary');
 			} else {
 				$this.html("<span class='fa fa-spinner fa-spin'></span> در حال نهایی‌سازی تایید اطلاعات.");
 				$this.attr('class', 'btn btn-success');
@@ -229,5 +242,7 @@ function fetch_edited_items() {
 			clearInterval(wait2confirm_all);
 		}, 300, $(this));
 		$(this).removeClass('disabled');
-	});
+		$('#confirmation-content-confirm-action').on('click.submit', confirm_content_action);
+	};
+	$('#confirmation-content-confirm-action').off('click.submit').on('click.submit', confirm_content_action);
 };

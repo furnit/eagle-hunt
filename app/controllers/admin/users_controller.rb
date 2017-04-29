@@ -119,18 +119,24 @@ class Admin::UsersController < Admin::AdminbaseController
     end
   end
 
-  def send_temp_password_token
-    current_user.temp_password_token = Digest::SHA256.hexdigest([Time.now, rand].join)[0..AppConfig.passwords.temp_token_length];
-    current_user.temp_password_token_sent_at = Time.now
+  def send_two_step_auth_token
+    current_user.two_step_auth_token = "t" + Digest::SHA256.hexdigest([Time.now, rand].join)[0..(AppConfig.passwords.two_step_auth.token_length - 2)];
+    current_user.two_step_auth_token_sent_at = Time.now
     current_user.save
-    AutoStart::SmsJob.send_urgent current_user.temp_password_token, to: current_user.phone_number
     
-    debug
-    # todo
+    message = <<~sms
+      رمز موقت:
+      #{current_user.two_step_auth_token}
+      
+      مبل ویرا
+      #{AppConfig.domain}
+    sms
+    
+    AutoStart::SmsJob.send_urgent message, to: current_user.phone_number
     
     respond_to do |format|
       format.html { }
-      format.json { }
+      format.json { render json: {status: :sent}, status: :ok }
     end
   end
 

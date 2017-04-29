@@ -250,9 +250,9 @@ ActiveRecord::Schema.define(version: 20170427224359) do
     t.boolean  "change_password",                  default: false
     t.boolean  "is_added_to_phonebook",            default: false
     t.boolean  "error_on_add_to_phonebook",        default: false
-    t.string   "temp_password_token"
-    t.datetime "temp_password_token_sent_at"
     t.datetime "temp_password_token_confirmed_at"
+    t.string   "two_step_auth_token"
+    t.datetime "two_step_auth_token_sent_at"
     t.index ["admin_user_type_id"], name: "index_users_on_admin_user_type_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["creator_user_id"], name: "index_users_on_creator_user_id", using: :btree

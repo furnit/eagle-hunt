@@ -16,6 +16,17 @@ class ApplicationController < ActionController::Base
   
   private
 
+  def verify_two_step_auth
+    if not TwoStepAuth.new(current_user).verified? params, exception: false
+      respond_to do |format|
+        format.json { render json: {status: :failed, cause: :two_step_auth, message: 'رمز موقت معتبر نیست، باید دوباره تقاضای دریافت رمز موقت نمایید.'}, status: :unprocessable_entity }
+        yield format if block_given?
+      end
+      return false
+    end
+    return true
+  end
+
   def acquire_profile_if_necessary
     if user_signed_in? and not current_user.profile
       redirect_to new_profile_path

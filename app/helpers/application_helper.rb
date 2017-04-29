@@ -26,6 +26,49 @@ module ApplicationHelper
     return true
   end
   
+  def render_two_step_auth_form name: nil
+    name ||= TwoStepAuth.input_name
+    @temp_password_id ||= 0
+    @temp_password_id +=  1
+    link = link_to send_two_step_auth_token_admin_users_path(format: :json), method: :post, remote: true, class: "btn btn-default", id: "request_temp_pass_token#{@temp_password_id}" do
+        raw "<span class='fa fa-key'></span> ارسال رمز موقت"
+    end
+    raw "<table class='table nolayout' id='#{name}-template'>
+        <tbody>
+          <tr>
+            <td class='ir col-md-5'>
+              <div class='input-group'>
+                <input type='text' name='#{name}' class='form-control' placeholder='رمز موقت'>
+                <span class='input-group-btn'>#{link}</span>
+              </div>
+            </td>
+            <td style='vertical-align: middle'>
+              <div id='request_temp_pass_token_result#{@temp_password_id}' class='col-md-5 pull-right'></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <script type='text/javascript' charset='utf-8'>
+        $(document).ready(function(){
+          $('a#request_temp_pass_token#{@temp_password_id}').on('ajax:beforeSend', function() {
+            if($(this).data('origin-html') === undefined)
+              $(this).data('origin-html', $(this).html());
+            $(this).addClass('disabled').html('<span class=\"fa fa-spinner fa-spin\"></span>');
+          }).on('ajax:success', function(e, data) {
+            if(data.status === 'sent')
+              $('#request_temp_pass_token_result#{@temp_password_id}').html('<span class=\"label label-success\">پیامک حاوی رمز موقت ارسال شد.</span>').removeClass('hidden');
+            else
+              $('#request_temp_pass_token_result#{@temp_password_id}').html('<span class=\"label label-danger\">خطا در ارسال رمز موقت.</span>').removeClass('hidden');
+          }).on('ajax:error', function(){
+            $('#request_temp_pass_token_result#{@temp_password_id}').html('<span class=\"label label-danger\">خطا در ارسال رمز موقت.</span>').removeClass('hidden');
+          }).on('ajax:complete', function(){
+            $(this).blur();
+            $(this).removeClass('disabled').html($(this).data('origin-html'));
+          });
+        });
+      </script>"
+  end
+  
   def get_namespace
     split = params["controller"].split('/')
     return :default if split.length == 1

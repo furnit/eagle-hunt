@@ -2,13 +2,13 @@
 
 <legend><h2>تنظیم مجدد رمز عبور</h2></legend>
 
-<p>لطفا <b>کد <%= AppConfig.passwords.reset_token_length %> رقمی</b> ارسال شده به شماره موبایل‌ <b><%= @user.phone_number %></b> را در زیر وارد کنید تا رمز عبور شما تنظیم مجدد گردد.</p>
+<p>لطفا <b>کد <%= AppConfig.passwords.reset.token_length %> رقمی</b> ارسال شده به شماره موبایل‌ <b><%= @user.phone_number %></b> را در زیر وارد کنید تا رمز عبور شما تنظیم مجدد گردد.</p>
 
 <% if @user.reset_password_token %>
 	<%= redirect_form(resource, as: resource_name, url: users_password_reset_path, html: { method: :post }) do |f| %>
 	  <%= f.hidden_field :id %>
 	  <div class="field">
-	    <%= f.text_field :reset_token, value: nil,hide_label: true, placeholder: "کد #{AppConfig.passwords.reset_token_length} رقمی", autofocus: true, maxlength: AppConfig.passwords.reset_token_length, required: true %>
+	    <%= f.text_field :reset_token, value: nil,hide_label: true, placeholder: "کد #{AppConfig.passwords.reset.token_length} رقمی", autofocus: true, maxlength: AppConfig.passwords.reset_token_length, required: true %>
 	  </div>
   
 	  <div class="field">
@@ -25,7 +25,7 @@
 	    <h3 class="panel-title">کد منقضی شده است!</h3>
 	  </div>
 	  <div class="panel-body">
-	    از آنجایی که مدت زمان ارسال کد <b>بیشتر از <%= AppConfig.passwords.reset_expiration.to_i %> ساعت</b> گذشته است، لذا باید دوباره درخواست تنظیم مجدد رمزعبور فرمایید.
+	    از آنجایی که مدت زمان ارسال کد <b>بیشتر از <%= AppConfig.passwords.reset.expiration.to_i %> ساعت</b> گذشته است، لذا باید دوباره درخواست تنظیم مجدد رمزعبور فرمایید.
 	 		<br />
 	 		<%= link_to 'درخواست مجدد کد', new_password_path(resource_name), class: 'btn btn-success pull-left' %>
 	 		<div class='clearfix'></div>

@@ -5,10 +5,12 @@ defaults: &defaults
   currency: تومان
   
   passwords:
-    reset_expiration: 24.hours.ago
-    reset_token_length: 5
-    temp_token_expiration: 30.minutes.ago
-    temp_token_length: 6
+    reset:
+      expiration: 24.hours.ago
+      token_length: 5
+    two_step_auth:
+      token_length: 6
+      expiration: 30.minutes.ago
     
   sms_api:
     sms_ir:

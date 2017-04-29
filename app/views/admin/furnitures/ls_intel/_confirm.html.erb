@@ -3,17 +3,17 @@
 	<div id="confirmation-content">
 		<hr />
 	</div>
-	<br />
-	<fieldset>
-		<hr />
-		<div class="row">
-			<div class="col-md-5 pull-right">
-	      <label for="temp-pass">رمز موقت خود را وارد کنید:</label>
-	      <input type="text" name="temp-pass" class="form-control" placeholder="رمز موقت">
-	    </div>
-			<div class="pull-right" style="padding-top: 30px;">
-				<a href="#" id="confirmation-content-confirm-action" class='btn btn-primary'><span class='fa fa-check'></span> تایید کلیه‌ی اطلاعات</a>
-			</div>
+	<hr />
+	<div id="two-step-auth-container" class="hidden">
+		<%= render_two_step_auth_form %>
+	</div>
+	<div id="confirm-submit-container">
+		<a href="#" id="confirmation-content-confirm-action" class='btn btn-primary'><span class='fa fa-check'></span> تایید کلیه‌ی اطلاعات</a>
+		<div class="panel panel-danger panel-errors hidden" style='margin-top: 20px;'>
+			<div class="panel-heading">خطای اجرای عملیات!</div>
+		  <div class="panel-body">
+		  	<ol></ol>
+		  </div>
 		</div>
-	</fieldset>
+	</div>
 </div>
