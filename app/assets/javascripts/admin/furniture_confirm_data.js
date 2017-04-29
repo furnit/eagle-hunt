@@ -172,10 +172,9 @@ function fetch_edited_items() {
 		$("#two-step-auth-container").addClass('hidden');
 	} else {
 		// enable two-step-auth if any change applied
-		$("#two-step-auth-container").removeClass('hidden');
+		$("#two-step-auth-container:not([ignore-at-initial])").removeClass('hidden');
 	}
 	var confirm_content_action = function() {
-		console.log('SHIT');
 		$('#confirmation-content-confirm-action').off('click.submit');
 		$(this).addClass('disabled');
 		$("#confirm-submit-container .panel-errors ol").html('').closest('.panel-errors').hide().removeClass('hidden');
@@ -214,6 +213,8 @@ function fetch_edited_items() {
 	  		error: function(data) {
 	  			try {
 	  				info = JSON.parse(data.responseText);
+	  				if(info.cause === "two_step_auth")
+	  					$("#two-step-auth-container").removeClass('hidden').find('.input-group').addClass('has-error');
 	  				$("#confirm-submit-container .panel-errors ol").append("<li class='text-danger'>" + info.message + "</li>").closest('.panel-errors').slideDown();
 	  			} catch (e) { }
 	  			error_flag |= true; $('#confirmation-content .editable').addClass('confirmed');

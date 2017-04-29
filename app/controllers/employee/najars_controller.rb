@@ -44,6 +44,7 @@ class Employee::NajarsController < Employee::EmployeebaseController
   end
   
   def update_field
+    return unless verify_two_step_auth
     p = params[:admin_furniture]
     if p
       p = p[:employee_najar]

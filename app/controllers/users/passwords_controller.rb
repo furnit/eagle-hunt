@@ -61,7 +61,7 @@ class Users::PasswordsController < Devise::PasswordsController
   def reset
     @user = User.find(resource_params[:id])
     # check if code expired?
-    if (@user.reset_password_sent_at and @user.reset_password_sent_at < eval(AppConfig.passwords.reset.expiration))
+    if (@user.reset_password_sent_at and (@user.reset_password_sent_at + eval(AppConfig.passwords.reset.expiration) < Time.now)
       # the code is expired, have to re-send it
       @user.reset_password_token = nil
       @user.reset_password_sent_at = nil

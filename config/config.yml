@@ -6,11 +6,12 @@ defaults: &defaults
   
   passwords:
     reset:
-      expiration: 24.hours.ago
+      expiration: 24.hours
       token_length: 5
     two_step_auth:
       token_length: 6
-      expiration: 30.minutes.ago
+      send_expiration: 10.minutes
+      confirmed_expiration: 30.minutes
     
   sms_api:
     sms_ir:

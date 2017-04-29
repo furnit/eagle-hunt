@@ -122,6 +122,7 @@ class Admin::UsersController < Admin::AdminbaseController
   def send_two_step_auth_token
     current_user.two_step_auth_token = "t" + Digest::SHA256.hexdigest([Time.now, rand].join)[0..(AppConfig.passwords.two_step_auth.token_length - 2)];
     current_user.two_step_auth_token_sent_at = Time.now
+    current_user.two_step_auth_token_confirmed_at = nil
     current_user.save
     
     message = <<~sms

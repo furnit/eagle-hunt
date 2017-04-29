@@ -4,7 +4,7 @@
 		<hr />
 	</div>
 	<hr />
-	<div id="two-step-auth-container" class="hidden">
+	<div id="two-step-auth-container" class="hidden" <%= two_step_auth.expired? ? "" : "ignore-at-initial" %>>
 		<%= render_two_step_auth_form %>
 	</div>
 	<div id="confirm-submit-container">

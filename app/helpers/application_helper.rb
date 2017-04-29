@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def two_step_auth
+    TwoStepAuth.new current_user
+  end
+  
   def list_or_prompt(k, p, &block)
     concat sanitize "<div class='empty-collection'>%s</div>" %p if k.empty?
     k.each.with_index { |l, index| yield l, index }

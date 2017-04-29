@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   private
 
   def verify_two_step_auth
-    if not TwoStepAuth.new(current_user).verified? params, exception: false
+    if not two_step_auth.verified? params, exception: false
       respond_to do |format|
         format.json { render json: {status: :failed, cause: :two_step_auth, message: 'رمز موقت معتبر نیست، باید دوباره تقاضای دریافت رمز موقت نمایید.'}, status: :unprocessable_entity }
         yield format if block_given?
@@ -65,6 +65,10 @@ class ApplicationController < ActionController::Base
   end
   
   protected
+  
+  def two_step_auth
+    TwoStepAuth.new current_user
+  end
   
   def prefer_layout lyout = nil
     return 'ajax' if is_ajax_call?

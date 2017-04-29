@@ -39,7 +39,7 @@ class User < ApplicationRecord
   end
 
   def reset_two_step_auth
-    [:two_step_auth_token, :two_step_auth_token_sent_at].each { |c| self[c] = nil }
+    [:two_step_auth_token, :two_step_auth_token_sent_at, :two_step_auth_token_confirmed_at].each { |c| self[c] = nil }
     return self
   end
 
