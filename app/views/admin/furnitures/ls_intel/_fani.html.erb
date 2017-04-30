@@ -14,7 +14,7 @@
 	%>
 	<% klass_id = next_klass.call %>
 	<% intel.each do |i| %>
-		<tr <%= klass_id %>>
+		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
 			<td><%= i[:data].user.full_name %></td>
 			<% [:wage_rokob, :wage_khayat].each do |label| %>
 				<td>
@@ -36,7 +36,7 @@
 	
 	<% klass_id = next_klass.call %>
 	<% intel.each do |i| %>
-		<tr <%= klass_id %>>
+		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
 			<td><%= i[:data].user.full_name %></td>
 			<td>
 				<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] } do %>
@@ -59,7 +59,7 @@
 	
 	<% klass_id = next_klass.call %>
 	<% intel.each do |i| %>
-		<tr <%= klass_id %>>
+		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
 			<td><%= i[:data].user.full_name %></td>
 			<% [:needs_rang, :needs_kande, :needs_kanaf].each do |label| %>
 				<td>
@@ -94,7 +94,7 @@
 			<% klass_id = next_klass.call %>
 			<% details.each.with_index do |detail, index| %>
 				<% i = intel[index] %>
-				<tr class="<%= index == 0 ? 'divider' : '' %>" <%= klass_id %>>
+				<tr class="<%= index == 0 ? 'divider' : '' %> <%= i[:data].confirmed? ? "" : "warning" %>" <%= klass_id %>>
       		<% if index == 0 %>
 	      		<td rowspan="<%= intel.length %>">
 							<%= image_tag thumbnail_url(section.images), \

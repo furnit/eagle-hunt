@@ -28,7 +28,7 @@
 						<% user_types[k] = Admin::UserType.where(symbol: k.upcase).first %>
 					  <li class="<%= index == 0 ? 'active' : 'disabled' %> pull-right" role="presentation">
 	            <a aria-controls="<%= k.to_s %>-tab-content" data-toggle="tab" href="#<%= k.to_s %>-tab-content" role="tab" for="furniture-intels" title="<%= user_types[k].name %>">
-	            	<span class="round-tab"><i class="<%= icons[k] %>"></i></span>
+	            	<span class="round-tab <%= @intel[k].map { |i| i[:data].confirmed }.all? ? "" : "edited" %>"><i class="<%= icons[k] %>"></i></span>
 	          	</a>
           	</li>
 				  <% end %>

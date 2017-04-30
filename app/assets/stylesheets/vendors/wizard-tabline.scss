@@ -142,6 +142,9 @@ span.round-tab {
   i {
     color: $color_nav_deactive;
   }
+  &.edited {
+    border-color: #D5D82F
+  }
   &:hover {
     color: $color_nav_hover;
     border: 2px solid $color_nav_hover;

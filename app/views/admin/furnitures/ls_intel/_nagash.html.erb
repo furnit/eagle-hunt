@@ -11,7 +11,7 @@
 	%>
 	<% klass_id = next_klass.call %>
 	<% intel.each do |i| %>
-		<tr <%= klass_id %>>
+		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
 			<td><%= i[:data].user.full_name %></td>
 			<% [:wage].each do |label| %>
 				<td>
@@ -34,7 +34,7 @@
 	
 	<% klass_id = next_klass.call %>
 	<% intel.each do |i| %>
-		<tr <%= klass_id %>>
+		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
 			<td><%= i[:data].user.full_name %></td>
 			<td>
 				<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] } do %>
@@ -58,7 +58,7 @@
 			
 	<% klass_id = next_klass.call %>
 	<% intel.each do |i| %>
-		<tr <%= klass_id %>>
+		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
 			<td><%= i[:data].user.full_name %></td>
 			<% [:astare_avaliye, :astare_asli].each do |label| %>
 				<td>
@@ -81,7 +81,7 @@
 			
 	<% klass_id = next_klass.call %>
 	<% intel.each do |i| %>
-		<tr <%= klass_id %>>
+		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
 			<td><%= i[:data].user.full_name %></td>
 			<% [:range_asli, :rouye].each do |label| %>
 				<td>
