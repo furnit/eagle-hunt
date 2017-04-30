@@ -232,11 +232,20 @@ function fetch_edited_items() {
 				$this.attr('class', 'btn btn-success');
 				$.ajax({
 					url: $('input.furniture-intel[type="hidden"][name="flink"]').val(),
-					type: 'PUT',
-					data: { admin_furniture: { 'has_unconfirmed_data': 0 } },
-					success: function() {
-						$this.html("<span class='fa fa-check'></span> اطلاعات با موفقیت تایید و در سامانه ثبت شد.");
-						setTimeout(function() { $this.closest('.modal').modal('hide'); setTimeout(function(){ window.location.reload(); }, 500); }, 1000);
+					type: 'POST',
+					success: function(data) {
+						if(data.status === "success") {
+							$this.html("<span class='fa fa-check'></span> اطلاعات با موفقیت تایید و در سامانه ثبت شد.");
+							setTimeout(function() { $this.closest('.modal').modal('hide'); setTimeout(function(){ window.location.reload(); }, 500); }, 1000);
+						}
+						else {
+							$this.html("<span class='fa fa-times'></span> خطا در تایید نهایی محصول.");
+							$("#confirm-submit-container .panel-errors ol").append("خطا در تایید نهایی محصول.").closest('.panel-errors').slideDown();;
+						}
+					},
+					error: function() {
+						$this.html("<span class='fa fa-times'></span> خطا در تایید نهایی محصول.").attr('class', 'btn btn-danger');
+						$("#confirm-submit-container .panel-errors ol").append("خطا در تایید نهایی محصول.").closest('.panel-errors').slideDown();;
 					}
 				});
 			}

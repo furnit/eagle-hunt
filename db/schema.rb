@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170427224359) do
+ActiveRecord::Schema.define(version: 20170430110150) do
 
   create_table "admin_furniture_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -129,6 +129,19 @@ ActiveRecord::Schema.define(version: 20170427224359) do
     t.datetime "updated_at",                null: false
     t.index ["employee_fani_id"], name: "index_employee_fani", using: :btree
     t.index ["furniture_build_detail_id"], name: "index_furniture_build_detail", using: :btree
+  end
+
+  create_table "employee_kanafs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "furniture_id"
+    t.integer  "user_id"
+    t.float    "wage",             limit: 24
+    t.float    "choob",            limit: 24
+    t.integer  "days_to_complete"
+    t.integer  "confirmed",        limit: 1
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["furniture_id"], name: "index_employee_kanafs_on_furniture_id", using: :btree
+    t.index ["user_id"], name: "index_employee_kanafs_on_user_id", using: :btree
   end
 
   create_table "employee_nagashes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

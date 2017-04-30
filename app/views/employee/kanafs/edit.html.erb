@@ -1,0 +1,168 @@
+<% unit = Admin::FurnitureSpec.where(name: 'چوب').first.unit %>
+<%= render 'employee/shared/input_for7' %>
+<%= remote_form @form[:furniture], url: employee_kanafs_path(format: :json), method: :post do |f| %>
+	<%= f.hidden_field :id, value: @form[:furniture].id %>
+	<%= f.hidden_field :hd, value: Digest::SHA256.new << (@form[:furniture].id.to_s + Rails.application.config.secret_key_base) %>
+	<div class='ir'>
+		<%= f.fields_for @form[:kanaf] do |ff| %>
+			<div class="panel panel-success">
+			  <div class="panel-heading"><strong><span class='fa fa-money'></span> دست‌مزد</strong></div>
+			  <div class="panel-body">
+					<div class='row'>
+						<%= ff.number_field :wage, step: 1, min: 0, append: "تومان", prepend: '000 , ', wrapper: { class: 'col-xs-12' }, class: 'currency' %>
+					</div>
+			  </div>
+			</div>
+			<div class="panel panel-info">
+			  <div class="panel-heading"><strong><span class='fa fa-clock-o'></span> زمان‌بندی</strong></div>
+			  <div class="panel-body">
+					<div class='row'>
+			      <%= ff.number_field :days_to_complete, step: 1, min: 0, wrapper: { class: 'col-md-6 pull-right' }  %>
+			      <%= ff.select :days_to_complete_scale, [['روز', 'days'], ['هفته', 'weeks'], ['ماه', 'month']], {}, wrapper: { class: 'col-md-offset-3 col-md-3' } %>
+					</div>
+			  </div>
+			</div>
+			<div class="panel panel-primary">
+			  <div class="panel-heading"><strong><span class='fa fa-balance-scale'></span> جزییات</strong></div>
+			  <div class="panel-body">
+			  	<%= ff.number_field :choob, append: raw("بر حسب <b>#{unit}</b>") %>
+			  </div>
+			</div>
+			<div class="panel panel-danger" style='margin-bottom: 150px'>
+			  <div class="panel-heading"><strong><span class='fa fa-pencil-square-o'></span> ثبت اطلاعات</strong></div>
+			  <div class="panel-body">
+			  	<p>
+			  		<strong><%= current_user.profile.first_name %> جان!</strong>
+			  		در صورتی که از اطلاعات وارده‌ی فوق اطمینان حاصل دارید گزینه‌ی ثبت را بزنید. لطفا در نظر داشته باشید که این اطلاعات پایه‌ی اصلی قیمت‌گذاری محصولات خواهند بود.<br />
+			  		هرگونه عواقب ناشی از <strong>«عدم صحت»</strong> یا <strong>«عدم مطابقت با واقعیت»</strong> اطلاعات وارد شده، مستقیما متوجه شما خواهد شد.
+						<br />
+						<small class="text-muted pull-left">
+							باتشکر از توجه شما<br />
+							تیم مدیریت «مبل ویرا»
+						</small>
+						<div class='clearfix'></div>
+			  	</p>
+			  	<%= f.submit 'ثبت اطلاعات', data: { disable_with: "درحال ثبت اطلاعات..."} %>
+			  </div>
+			</div>
+		<% end %>
+	</div>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+	function on_employee_form_submit(callback) {
+		var message_header = 
+		'<%= escape_javascript(render 'employee/shared/input_for7') %>' +
+		'<table class="table">\
+			<thead>\
+				<tr>\
+					<th>عنوان</th>\
+					<th>مقدار</th>\
+					<th>توضیحات</th>\
+				</tr>\
+			</thead>\
+			<tbody>'
+		var message_footer = '</tbody></table>';
+		
+		var message_body = ''
+		
+		var days_scale_locale = {
+			days: 'روز',
+			weeks: 'هفته',
+			months: 'ماه'
+		}
+		
+		var get_val = function(e) { return $(e).val().length ? $(e).val() : '؟'  }
+		var get_checked = function(e) { return $(e + ':checked').length ? 'بله' : 'خیر' }
+		var get_currency = function(e) {
+			if(get_val(e) === '؟') return get_val(e);
+			return parseInt(get_val(e) + ($(e).siblings('.input-group-addon').length ? $(e).siblings('.input-group-addon').html() : '')).toLocaleString();
+		};
+		
+		var k = [
+			{
+				icon: 'fa-money',
+				spec: 'دستمزد‌',
+				list: [
+					{
+						valid: get_val('[name="admin_furniture[employee_kanaf][wage]"]') !== '؟', 
+						val: get_currency('[name="admin_furniture[employee_kanaf][wage]"]'),
+						append: 'تومان',
+						title: 'دست‌مزد روکوب'
+					}
+				]
+			},
+			{
+				icon: 'fa-clock-o',
+				spec: 'زمان', 
+				list: [
+					{
+						valid: get_val('[name="admin_furniture[employee_kanaf][days_to_complete]"]') > 0,
+						val: get_val('[name="admin_furniture[employee_kanaf][days_to_complete]"]'),
+						append: days_scale_locale[$('[name="admin_furniture[employee_kanaf][days_to_complete_scale]"]').val()],
+						title: 'مدت زمان پایان «نقاشی»'
+					}
+				]
+			},
+			{
+				icon: 'fa-balance-scale',
+				spec: 'جزییات',
+				list: [
+					{
+						valid: get_val('[name="admin_furniture[employee_kanaf][choob]"]') !== '؟', 
+						val: get_currency('[name="admin_furniture[employee_kanaf][choob]"]'),
+						append: "<%= unit %>",
+						title: 'آستر اولیه'
+					}
+				]
+			}
+		]
+		
+		var all_valid = true;
+		
+		for (var j = 0; j < k.length; j++) {
+			message_body += '<tr class="active"><td colspan="3"><span class="fa ' + k[j].icon + '"></span> <b>'+k[j].spec+'</b></td><tr/>';
+			var l = k[j].list;
+			
+			for (var i = 0; i < l.length; i++) {
+				all_valid &= l[i].valid;
+				append = l[i].append ? ' ' + l[i].append : ''
+				prepend = l[i].prepend ? l[i].prepend : ''
+				message_body += 
+					'<tr ' + (l[i].valid ? '' : 'class="danger" data-toggle="tooltip" title=""') + '>' + 
+						'<td>' + l[i].title + '</td>' +
+						'<td>' + prepend + l[i].val + append + '</td>' +
+						'<td>' + (l[i].valid ? '' : '<b>خطا!</b> داده‌ای وارد نشده است.') + '</td>'
+					'</tr>'
+			}
+		}
+		var func = 'bootbox.confirm'
+		var buttons = {
+      confirm: {
+          label: '<i class="fa fa-check"></i> تایید',
+          className: 'btn-success pull-right'
+      },
+      cancel: {
+          label: '<i class="fa fa-times"></i> لغو',
+          className: 'btn-danger'
+      }
+   	};
+   	
+   	if(!all_valid) {
+   		func = 'bootbox.alert'
+			buttons = {
+	      ok: {
+	          label: '<i class="fa fa-pencil"></i> اصلاح',
+	          className: 'btn-default'
+	      }
+	   	};
+   	}
+   	
+		eval(func)({
+			title: 'آیا اطلاعات زیر مورد تایید می‌باشد؟', 
+			message: message_header + message_body + message_footer,
+			callback: callback,
+	    buttons: buttons
+		})
+	}
+</script>

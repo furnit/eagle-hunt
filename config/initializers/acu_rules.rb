@@ -10,7 +10,7 @@ Acu::Rules.define do
   [
     :ADMIN, :GRAPHIC, :FANI,
     :MARKETER, :MARKLINE, :NAGASH,
-    :NAJAR, :PR, :CLIENT, :KANDE
+    :NAJAR, :PR, :CLIENT, :KANAF
   ].each do |symbol|
     whois symbol.downcase.to_sym, args: [:user] { |user| user and user.user_type && user.user_type.symbol == symbol.to_s }
   end

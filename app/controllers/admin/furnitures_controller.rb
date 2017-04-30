@@ -1,5 +1,5 @@
 class Admin::FurnituresController < Admin::UploaderController
-  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :cover, :edit_description, :update_description, :list_images, :ls_intel]
+  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :cover, :edit_description, :update_description, :list_images, :ls_intel, :confirm]
 
   # GET /furnitures
   # GET /furnitures.json
@@ -150,6 +150,30 @@ class Admin::FurnituresController < Admin::UploaderController
         data: "Employee::#{proc.as_symbol.to_s.downcase.classify}".constantize.where(furniture_id: @furniture.id, user_id: proc.user_id).last
       }
     end
+    @intel
+  end
+  
+  def confirm
+    results = []
+    ls_intel.each do |_, employees|
+      employees.each do |intel|
+        intel[:data].confirmed = 1
+        results << intel[:data].save
+      end
+    end
+    
+    @furniture.has_unconfirmed_data = false
+    results << @furniture.save
+    
+    respond_to do |format|
+      if results.all?
+        format.html { redirect_to admin_furnitures_path, notice: 'محصول اطلاعات «<b>%s</b>» با موفقیت تایید شد.' %@furniture.name }
+        format.json { render json: {status: :success, operation: :confirm}, status: :ok }
+      else
+        format.html { redirect_to admin_furnitures_path, error: 'خطا در تایید اطلاعات محصول «<b>%s</b>»!' %@furniture.name }
+        format.json { render json: {status: :failed, operation: :confirm}, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
@@ -161,6 +185,6 @@ class Admin::FurnituresController < Admin::UploaderController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def furniture_params
-      params.require(:admin_furniture).permit(:id, :name, :comment, :furniture_type_id, :description, :has_unconfirmed_data)
+      params.require(:admin_furniture).permit(:id, :name, :comment, :furniture_type_id, :description)
     end
 end

@@ -1,0 +1,20 @@
+fa:
+  activerecord:
+    models:
+      employee/kanaf: 'کناف'
+    attributes:
+      employee/kanaf:
+        wage: 'دست‌مزد'
+        days_to_complete: مدت زمان پایان ساخت «کناف»
+        days_to_complete_scale: معیار زمان
+        choob: در حالت کلی میزان چوب مصرفی برای ساخت کناف مبل
+    errors:
+      models:
+        employee/kanaf:
+          attributes:
+            wage:
+              blank: 'نمی‌تواند خالی باشد.'
+            choob:
+              blank: 'نمی‌تواند خالی باشد.'
+            days_to_complete:
+              greater_than: 'غیر قابل قبول است.'
