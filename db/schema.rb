@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20170430110150) do
     t.datetime "deleted_at"
     t.json     "cover_details"
     t.string   "description_html"
-    t.boolean  "has_unconfirmed_data",               default: true
+    t.boolean  "has_unconfirmed_data",               default: false
     t.datetime "data_locked_at"
     t.index ["deleted_at"], name: "index_admin_furnitures_on_deleted_at", using: :btree
     t.index ["furniture_type_id"], name: "index_admin_furnitures_on_furniture_type_id", using: :btree

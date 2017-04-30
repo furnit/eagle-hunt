@@ -109,7 +109,7 @@ class Employee::FanisController < Employee::EmployeebaseController
   end
   
   def build_details_params
-    params.require(:admin_furniture).require(:employee_fani).require(:furniture_build_detail).except(:id).select { |k, v| [:value, :options].include? k.to_sym }.permit!
+    params.require(:admin_furniture).require(:employee_fani).require(:furniture_build_detail).except(:id).select { |k, v| [:value, :options, :spec].include? k.to_sym }.permit!
   end
   
   def fanis_params inject: true

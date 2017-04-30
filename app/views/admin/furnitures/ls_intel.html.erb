@@ -10,6 +10,7 @@
 
 <input type="hidden" name="flink" value="<%= confirm_admin_furniture_path @furniture, format: :json %>" class='furniture-intel'>
 
+<% if not @intel.empty? %>
 <div class="row">
   <section>
     <div class="wizard-tabs">
@@ -76,6 +77,11 @@
 		<%= render "admin/furnitures/ls_intel/confirm", next_value: next_value, next_klass: next_klass %>
 	</div>
 </div>
+<% else %>
+<div class='empty-collection'>
+	هیچ اطلاعاتی برای این محصول ثبت نشده است!
+</div>
+<% end %>
 
 <%= javascript_include_tag 'admin/furniture_confirm_data', 'vendors/wizard-tabline' %>
 <%= stylesheet_link_tag    'vendors/wizard-tabline', media: 'all' %>
