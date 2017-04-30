@@ -47,7 +47,7 @@ class TwoStepAuth
       raise Acu::Errors::AccessDenied.new('token has been expired!');
     end
     # if not expired and no token provided and non-strict-mode? take it easy and let it pass through
-    return true if params[name].blank? and not strict
+    return true if not @current_user.two_step_auth_token_confirmed_at.nil? and params[name].blank? and not strict
     # compare (param's value if exists or nil if otherwise) with stored token 
     if params[name] != @current_user.two_step_auth_token
       # if no match?
