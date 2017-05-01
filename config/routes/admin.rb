@@ -59,5 +59,7 @@ Rails.application.routes.draw do
     resources :systems, RC::non_restful do
     end
     
+    resources :fabric_types
+    
   end
 end
