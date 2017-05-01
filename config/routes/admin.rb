@@ -61,5 +61,7 @@ Rails.application.routes.draw do
     
     resources :fabric_types
     
+    resources :fabric_brands
+    
   end
 end

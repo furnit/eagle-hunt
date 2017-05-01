@@ -1,0 +1,16 @@
+fa:
+  activerecord:
+    models:
+      admin/fabric_brand: 'برند پارچه'
+    attributes:
+      admin/fabric_brand:
+        name: 'نام'
+        comment: 'توضیحات'
+    errors:
+      models:
+        admin/fabric_brand:
+          attributes:
+            name:
+              blank: 'نمی‌تواند خالی باشد.'
+            comment:
+              blank: 'نمی‌تواند خالی باشد.'
