@@ -63,5 +63,13 @@ Rails.application.routes.draw do
     
     resources :fabric_brands
     
+    resources :fabrics do
+      member do
+        delete :archive
+        patch  :recover
+        get    :list_images, RC::json_request_only 
+      end
+    end
+    
   end
 end

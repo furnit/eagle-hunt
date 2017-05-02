@@ -1,0 +1,146 @@
+<div class='col-md-12 col-lg-10 col-lg-offset-1'>
+  <legend>
+    <h1 class='pull-right'>طرح پارچه‌ها</h1>
+    <small class='pull-left' style='font-size: 16px; margin-top: 40px;'>
+      <%= link_to new_admin_fabric_path(admin: :check), class: 'inline-html-call' do %>
+        <span class='fa fa-plus'></span>
+        ایجاد طرح جدید
+      <% end %>
+    </small>
+    <div class='clearfix'></div>
+  </legend>
+	<small style='font-size: 16px;' class='text-muted pull-left'><%= page_entries_info @admin_fabrics %></small>
+	<%= acu_as :admin { render 'shared/editable_content' }%>
+	<table class='table <%= @admin_fabrics.empty? ? "" : "table-striped table-hover" %>'>
+	  <thead>
+	    <tr>
+	      <th style='width: 30px'>ردیف</th>
+	      <th style='width: 10%;'>برند</th>
+	      <th style='width: 10%;'>نوع</th>
+      	<th style='width: 100px;'>گالری</th>
+	      <th>توضیحات</th>
+	      <th style='width: 130px'>آخرین بروزرسانی</th>
+	      <th style='width: 50px;'>عملیات</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <% @admin_fabrics.each do |ft| %>
+	      <%
+	        title  = ''
+	        title  = 'نوع‌ دسته‌بندی آرشیو شده است!' if ft.deleted_at
+	        _class = ''
+	        _class += 'blocked' if ft.deleted_at
+	      %>
+	      <tr class='<%= _class %>' <%= raw title.empty? ? '' : "title='#{title}' data-toggle='tooltip'"%> >
+	        <td><%= ft.id %></td>
+	        <td>
+	        	<% if not ft.deleted_at %>
+	        		<a href="#" class='editable' data-type="select" data-resource="admin_fabric" data-name="admin_fabric_brand_id" data-value="<%= ft.admin_fabric_brand_id %>" data-source="<%= admin_fabric_brands_path %>" data-url="<%= admin_fabric_path(ft) %>" data-original-title="<%= ft.brand.name %>">
+		            <%= ft.brand.name %>
+		          </a>
+	          <% else %>
+		            <%= ft.brand.name %>
+	          <% end %>
+	        </td>
+	        <td>
+	        	<% if not ft.deleted_at %>
+	        		<a href="#" class='editable' data-type="select" data-resource="admin_fabric" data-name="admin_fabric_type_id" data-value="<%= ft.admin_fabric_type_id %>" data-source="<%= admin_fabric_types_path %>" data-url="<%= admin_fabric_path(ft) %>" data-original-title="<%= ft.type.name %>">
+		            <%= ft.type.name %>
+		          </a>
+	          <% else %>
+		            <%= ft.type.name %>
+	          <% end %>
+	        </td>
+	        <td class='photo-gallery-collection-incomplete'>
+	        	<% i = ft.images.first %>
+	        	<% if not ft.deleted_at %>
+							<%= link_to image_url(i), data: { id: ft.id, source: list_images_admin_fabric_path(ft) } do %>
+								<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
+							<% end %>
+						<% else %>
+							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
+						<% end %>
+	        </td>
+	        <td>
+	        	<% if not ft.deleted_at %>
+		          <a href="#" class='editable' data-type="textarea" data-resource="admin_fabric" data-name="comment" data-url="<%= admin_fabric_path(ft) %>" data-original-title="<%= ft.comment %>"><%= ft.comment %></a>
+	          <% else %>
+		            <%= ft.comment %>
+	          <% end %>
+	        </td>
+	        	<td class='datetime' data-date='<%= ft.updated_at %>'></td>
+	        <td>
+	          <% acu_as :admin do %>
+	            <div class="btn-group">
+	              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                <span class='fa fa-superpowers'></span> <span class="caret"></span>
+	              </button>
+	              <ul class="dropdown-menu">
+	              	<li>
+	              		<%= link_to home_category_path(ft), target: :_blank do %>
+	              			<span class='fa fa-eye'></span> مشاهده
+	              		<% end %>
+	              	</li>
+                	<% if not ft.deleted_at %>
+		              	<li class='divider'></li>
+		              	<li>
+						          <%= link_to edit_admin_fabric_path(ft, admin: :check), :class => 'inline-html-call' do %>
+						            <span class='fa fa-pencil'></span> ویرایش
+						          <% end %>
+	              		</li>
+              		<% end %>
+	              	<li class='divider'></li>
+	                <li>
+	                	<% if ft.deleted_at %>
+		                  <%= link_to recover_admin_fabric_path(ft), method: :patch  do %>
+	                      <span class='fa fa-check'></span> خارچ کردن از آرشیو
+	                   	<% end %>
+	                  <% else %>
+		                  <%= link_to archive_admin_fabric_path(ft), method: :delete, data: { :confirm => { title: 'این دسته‌بندی آرشیو شود؟', message: 'تا زمانی که این دسته‌بندی در آرشیو می‌باشد امکان <b>مشاهده</b> و <b>اعمال تغییرات</b> برای این دسته‌بندی وجود ندارد.' } } do %>
+	                      <span class='fa fa-archive'></span> آرشیو کردن
+	                   	<% end %>                 	
+	                	<% end %>
+	                </li>
+	                <li>
+	                	<%= link_to admin_fabric_path(ft), method: :delete, data: { confirm: { title: "آیا از حذف این دسته‌بندی اطمینان دارید؟", message: "توجه فرمایید که حذف طرح پارچه غیر قابل بازگشت خواهد بود!" } } do %>
+	                		<span class='fa fa-trash'></span> حذف
+	                	<% end %>
+                	</li>
+	              </ul>
+	            </div>
+	          <% end %>
+	        </td>
+	      </tr>
+	    <% end %>
+	    <% if @admin_fabrics.empty? %>
+	      <tr>
+	        <td colspan="8"><div class="empty-collection">عضوی پیدا نشد!</div></td>
+	      </tr>
+	    <% end %>
+	  </tbody>
+	</table>
+	<div class="text-center" style='vertical-align: middle'>
+	  <%= will_paginate @admin_fabrics, renderer: BootstrapPagination::Rails %>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){		
+		function append2gallery() {
+			$('.photo-gallery-collection-incomplete a[data-source]').unbind('append2gallery').bind('append2gallery', function(e, data, index, gallery) {
+				link = 
+				'<%= link_to "{0}", data: { index: "{1}", thumb: "{2}" } do %>\
+					<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
+				<% end %>'
+				.replace('%7B', '{').replace('%7D', '}')
+				.replace('src="/images/{2}"', 'src="{2}"')
+				.format(data.images[index].url, index, data.images[index].thumb.url)
+				$(gallery).append(link);
+			});
+		};
+		append2gallery();
+		$(document).ajaxSuccess(append2gallery);
+	})
+</script>
+
+<%= render 'shared/photo_gallery', collection: @admin_fabrics %>

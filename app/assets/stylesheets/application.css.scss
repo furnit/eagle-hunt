@@ -141,9 +141,11 @@ body {
     min-height: 50px;
     font-size: 15px
   }
-
+  
+  div.div-form-group.has-error {
+    * { color: $state-danger-text }   
+  }
   .field_with_errors {
-    @extend .has-error;
   }
 
   div {

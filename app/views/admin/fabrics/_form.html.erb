@@ -1,0 +1,24 @@
+<% form_id = '' %>
+<%= redirect_form admin_fabric, format: :json, remote: true do |f| %>
+	<% form_id = f.options[:html][:id] %>
+	<%= params[:admin] ? f.hidden_field(:admin, value: params[:admin]): '' %>
+	<div  class='block'>
+		<div class='row field'>
+		  <div class="col-md-6 col-sm-6 col-xs-12">
+		    <%= f.select :admin_fabric_type_id, options_for_select(Admin::FabricType.all.map{ |s| [s.name, s.id] }), prompt: 'انتخاب کنید.', :class => 'form-control', :autofocus => true, :required => true %>
+		  </div>
+		
+		  <div class="col-md-6 col-sm-6 col-xs-12">
+		    <%= f.select :admin_fabric_brand_id, options_for_select(Admin::FabricBrand.all.map{ |s| [s.name, s.id] }), prompt: 'انتخاب کنید.', :class => 'form-control', :required => true %>
+		  </div>
+	  </div>
+  </div>
+  
+	<%= render 'shared/related_images', collection: admin_fabric %>
+
+  <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
+    <%= f.submit submit_text, :class => 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<%= render 'shared/update_images', collection: admin_fabric, form_id: form_id, multiple: true %>

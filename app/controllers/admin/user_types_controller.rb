@@ -10,7 +10,6 @@ class Admin::UserTypesController < Admin::AdminbaseController
       format.html
       format.json { render json: @admin_user_types.map {|i| {value: i.id, text: i.name}}, status: :ok }
     end
-
   end
 
   # GET /admin/user_types/1

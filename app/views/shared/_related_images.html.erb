@@ -1,15 +1,20 @@
-<legend>عکس‌های مربوطه <small class='text-muted' style='font-size: 75%'>برای حذف عکس‌ها ابتدا آن‌ها را انتخاب کنید و سپس گزینه‌ی «<b>بروز‌رسانی</b>» را کلیک نمایید.</small> <small class='pull-left' style='font-size: 80%'>انتخاب <a href='#' class='text-default f-img-select' data-op='none'>هیچ‌یک</a> . <a href='#' class='text-danger f-img-select' data-op='all'>همه</a></small></legend>
-<div class='field row' id='img-collection'>
-<% list_or_prompt collection.images, 'برای این محصول عکسی ثبت نشده است.'  do |i, index| %>
-	<span class="img-wrap" style='margin: 10px;'>
-	    <%= link_to i.url, :target => :__blank do %>
-				<%= image_tag i.thumb.url, :class => 'img img-responsive img-thumbnail', :style => 'height: 100px!important;'  %>
-			<% end %>
-			<div class='text-center' style='margin: 10px 3px auto;'>
-			  <%= check_awesome 'کاور؟', '', name: "#{collection.model_name.param_key}[images_to_delete][]", value: index, prefix: 'cover-', box_title: 'حذف؟' %>
-			</div>
-	</span>
-<% end %>
+<div class="form-group div-form-group">
+	<div name="<%= "#{collection.model_name.param_key}[images]" %>">
+		<legend>عکس‌های مربوطه <small class='text-muted' style='font-size: 75%'>برای حذف عکس‌ها ابتدا آن‌ها را انتخاب کنید و سپس گزینه‌ی «<b>بروز‌رسانی</b>» را کلیک نمایید.</small> <small class='pull-left' style='font-size: 80%'>انتخاب <a href='#' class='text-default f-img-select' data-op='none'>هیچ‌یک</a> . <a href='#' class='text-danger f-img-select' data-op='all'>همه</a></small></legend>
+		<div class='field row' id='img-collection'>
+		<% list_or_prompt collection.images, 'برای این محصول عکسی ثبت نشده است.'  do |i, index| %>
+			<span class="img-wrap" style='margin: 10px;'>
+			    <%= link_to i.url, :target => :__blank do %>
+						<%= image_tag i.thumb.url, :class => 'img img-responsive img-thumbnail', :style => 'height: 100px!important;'  %>
+					<% end %>
+					<div class='text-center' style='margin: 10px 3px auto;'>
+					  <%= check_awesome 'کاور؟', '', name: "#{collection.model_name.param_key}[images_to_delete][]", value: index, prefix: 'cover-', box_title: 'حذف؟' %>
+					</div>
+			</span>
+		<% end %>
+		</div>
+	</div>
+	<span class="help-block"></span>
 </div>
 <script type="text/javascript" charset="utf-8">
 	(function(){

@@ -44,13 +44,14 @@ $(document).on('ready turbolinks:load', function(){
   // things should be applied to documents
   var apply_to_documents = function(){
     // make remote form validatable
-    $('form[data-remote]').not('.ajaxified').on('ajax:error', function(e, data, status, xhr) {
-      if($(this).has('input[type!=hidden]').length + $(this).has('select').length + $(this).has('textarea') > 0) {
+    $('form[data-remote]:not(.ajaxified)').on('ajax:error', function(e, data, status, xhr) {
+      if(($(this).has('input[type!=hidden]').length + $(this).has('select').length + $(this).has('textarea').length) > 0) {
         form = $(this);
         errors = data.responseJSON;
         model_name = form.attr('name') || '';
+        form.find('.has-error').removeClass('has-error');
         $.each(errors, function(field, messages) {
-          input = form.find('input, select, textarea').filter(function() {
+          input = form.find('input, select, textarea, div[name]').filter(function() {
             name = $(this).attr('name');
             if(name)
               return name.match(new RegExp(model_name + '\\[' + field + '\\(?'));

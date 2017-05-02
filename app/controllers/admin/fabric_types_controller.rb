@@ -5,6 +5,11 @@ class Admin::FabricTypesController < Admin::AdminbaseController
   # GET /admin/fabric_types.json
   def index
     @admin_fabric_types = Admin::FabricType.paginate(page: params[:page])
+    
+    respond_to do |format|
+      format.html
+      format.json { render json: @admin_fabric_types.map {|i| {value: i.id, text: i.name}}, status: :ok }
+    end
   end
 
   # GET /admin/fabric_types/1

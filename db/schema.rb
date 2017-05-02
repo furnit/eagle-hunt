@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170501163404) do
+ActiveRecord::Schema.define(version: 20170502045928) do
 
   create_table "admin_fabric_brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -24,6 +24,19 @@ ActiveRecord::Schema.define(version: 20170501163404) do
     t.text     "comment",    limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+  end
+
+  create_table "admin_fabrics", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "admin_fabric_type_id"
+    t.integer  "admin_fabric_brand_id"
+    t.text     "comment",               limit: 65535
+    t.json     "images"
+    t.json     "images_detail"
+    t.datetime "deleted_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["admin_fabric_brand_id"], name: "index_admin_fabrics_on_admin_fabric_brand_id", using: :btree
+    t.index ["admin_fabric_type_id"], name: "index_admin_fabrics_on_admin_fabric_type_id", using: :btree
   end
 
   create_table "admin_furniture_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -289,6 +302,8 @@ ActiveRecord::Schema.define(version: 20170501163404) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
   end
 
+  add_foreign_key "admin_fabrics", "admin_fabric_brands"
+  add_foreign_key "admin_fabrics", "admin_fabric_types"
   add_foreign_key "admin_furnitures", "admin_furniture_types", column: "furniture_type_id"
   add_foreign_key "employee_fanis_furniture_build_details", "employee_fanis", on_update: :cascade, on_delete: :cascade
   add_foreign_key "employee_fanis_furniture_build_details", "furniture_build_details", on_update: :cascade, on_delete: :cascade

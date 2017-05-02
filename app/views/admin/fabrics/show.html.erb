@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Admin fabric type:</strong>
+  <%= @admin_fabric.admin_fabric_type %>
+</p>
+
+<p>
+  <strong>Admin fabric brand:</strong>
+  <%= @admin_fabric.admin_fabric_brand %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @admin_fabric.comment %>
+</p>
+
+<p>
+  <strong>Images:</strong>
+  <%= @admin_fabric.images %>
+</p>
+
+<p>
+  <strong>Images detail:</strong>
+  <%= @admin_fabric.images_detail %>
+</p>
+
+<%= link_to 'Edit', edit_admin_fabric_path(@admin_fabric) %> |
+<%= link_to 'Back', admin_fabrics_path %>
