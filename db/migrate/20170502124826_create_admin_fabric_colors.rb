@@ -4,6 +4,7 @@ class CreateAdminFabricColors < ActiveRecord::Migration[5.0]
       t.string :name
       t.string :value, null: false
       t.text :comment
+      t.json :model
 
       t.index :value, unique: true
 

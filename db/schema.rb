@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502124826) do
+ActiveRecord::Schema.define(version: 20170502205323) do
 
   create_table "admin_fabric_brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -19,10 +19,21 @@ ActiveRecord::Schema.define(version: 20170502124826) do
     t.datetime "updated_at",               null: false
   end
 
+  create_table "admin_fabric_color_indices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "admin_fabric_id"
+    t.integer  "admin_fabric_image"
+    t.integer  "admin_fabric_color_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["admin_fabric_color_id"], name: "index_admin_fabric_color_indices_on_admin_fabric_color_id", using: :btree
+    t.index ["admin_fabric_id"], name: "index_admin_fabric_color_indices_on_admin_fabric_id", using: :btree
+  end
+
   create_table "admin_fabric_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "value",                    null: false
     t.text     "comment",    limit: 65535
+    t.json     "model"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.index ["value"], name: "index_admin_fabric_colors_on_value", unique: true, using: :btree
@@ -311,6 +322,8 @@ ActiveRecord::Schema.define(version: 20170502124826) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
   end
 
+  add_foreign_key "admin_fabric_color_indices", "admin_fabric_colors"
+  add_foreign_key "admin_fabric_color_indices", "admin_fabrics"
   add_foreign_key "admin_fabrics", "admin_fabric_brands"
   add_foreign_key "admin_fabrics", "admin_fabric_types"
   add_foreign_key "admin_furnitures", "admin_furniture_types", column: "furniture_type_id"

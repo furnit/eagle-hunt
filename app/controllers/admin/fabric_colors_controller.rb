@@ -37,20 +37,24 @@ class Admin::FabricColorsController < Admin::AdminbaseController
       centers = []
       k = params[:k].to_i || AppConfig.fabric.colours.cluster.k
       k = AppConfig.fabric.colours.cluster.k if k <= 0
-      KMeansClusterer.run(k, colours, runs: AppConfig.fabric.colours.cluster.runs).clusters.each { |cluster| centers << cluster.centroid.data.to_a.each_slice(3).to_a }
       
-      # delete all records
+      kmeans = KMeansClusterer.run(k, colours, runs: AppConfig.fabric.colours.cluster.runs)
+      
+      kmeans.clusters.each { |cluster| centers << cluster.centroid.data.to_a.each_slice(3).to_a }
+      
+      # delete all indexed records
+      Admin::FabricColorIndex.delete_all
+      # delete all color cluster records
       Admin::FabricColor.delete_all
       
       centers.each.with_index do |c, cindex|
         color = "#" + c.flatten.map { |i| i.to_i.to_s(16) }.map { |i| i.length == 1 ? "0#{i}" : i }.join
-        Admin::FabricColor.create(id: cindex + 1, value: color)
+        Admin::FabricColor.create(id: cindex + 1, value: color, model: {k: k, init: centers.map { |i| i.flatten }, runs: AppConfig.fabric.colours.cluster.runs})
       end
       
       #
       # => TODO: categorize every fabric's color based on clusters
       #
-      
       
       message = <<~sms
         دسته‌بندی رنگ‌ها با موفقیت به پایان رسید.
