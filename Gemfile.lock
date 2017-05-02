@@ -158,6 +158,8 @@ GEM
       railties (>= 3.2.16)
     json (2.0.4)
     jwt (1.5.6)
+    kmeans-clusterer (0.11.4)
+      narray (~> 0.6)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -175,6 +177,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     mysql2 (0.4.5)
+    narray (0.6.1.2)
     nio4r (2.0.0)
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
@@ -324,6 +327,7 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   jquery-ui-rails
+  kmeans-clusterer
   listen (~> 3.0.5)
   mysql2 (>= 0.3.18, < 0.5)
   nprogress-rails

@@ -28,7 +28,7 @@ $(document).ready(function(){
     });
 		if($.isFunction($.fn.editable)) {
 	    $('.editable:not(.editabled)').editable({
-	     validate: function(value) { if($.trim(value) == '') return 'نمی‌تواند خالی باشد!'; },
+	     validate: function(value) { if($(this).attr('data-allow-empty') === undefined && $.trim(value) == '') return 'نمی‌تواند خالی باشد!'; },
 	     error: function(response, newValue) {
 	        if(response.status === 500) {
 	            return 'سرور با خطا مواجه شده است!';

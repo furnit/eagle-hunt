@@ -27,6 +27,13 @@ defaults: &defaults
   preference:
     timing:
       sms: [9, 21]
+      
+  fabric:
+    colours:
+      cluster:
+        k: 24
+        runs: 50
+        colour_sampling: [3, 3]  
 
 development:
   <<: *defaults

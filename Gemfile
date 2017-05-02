@@ -96,6 +96,8 @@ gem 'statistics2', github: 'noise2/statistics2'
 gem 'descriptive_statistics', '~> 2.4.0', :require => 'descriptive_statistics/safe'
 # for outlier detection
 gem 'savanna-outliers'
+# for clustering purposes
+gem 'kmeans-clusterer'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

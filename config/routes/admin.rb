@@ -71,5 +71,11 @@ Rails.application.routes.draw do
       end
     end
     
+    resources :fabric_colors, except: [:show, :create] do
+      collection do 
+        post :compute
+      end
+    end
+    
   end
 end
