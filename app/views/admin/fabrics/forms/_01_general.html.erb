@@ -1,5 +1,5 @@
 <% form_id = '' %>
-<%= redirect_form admin_fabric, format: :json, remote: true do |f| %>
+<%= redirect_form @admin_fabric, format: :json, remote: true do |f| %>
 	<% form_id = f.options[:html][:id] %>
 	<%= params[:admin] ? f.hidden_field(:admin, value: params[:admin]): '' %>
 	<div  class='block'>
@@ -15,16 +15,16 @@
 	  </div>
   </div>
   
-	<%= render 'shared/related_images', collection: admin_fabric %>
+	<%= render 'shared/related_images', collection: @admin_fabric %>
 
   <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
-    <%= f.button type: 'submit', class: 'btn btn-primary' do %>
+    <%= f.button type: 'submit', class: 'btn btn-primary', data: { disable_with: "درحال ثبت اطلاعات..."} do %>
     	<span class='fa fa-arrow-left'></span> بعدی
     <% end %>
   </div>
 <% end %>
 
-<%= render 'shared/update_images', collection: admin_fabric, form_id: form_id, multiple: true %>
+<%= render 'shared/update_images', collection: @admin_fabric, form_id: form_id, multiple: true %>
 
 <script type="text/javascript" charset="utf-8">
 	$('form#<%= form_id %>').on('ajax:success', wizard_tabline_next_step);

@@ -1,22 +1,23 @@
-<legend>اطلاعات طرح‌های مربوط به برند «<b><%= admin_fabric.brand.name %></b>»</legend>
+<legend>اطلاعات طرح‌های مربوط به برند «<b><%= @admin_fabric.brand.name %></b>»</legend>
 <div class='row' id="images-detail">
-	<%= remote_form admin_fabric do |f| %>
-		<% list_or_prompt admin_fabric.images, 'عکسی برای این محصول ثبت نشده است.' do |image| %>
+	<%= remote_form @admin_fabric do |f| %>
+		<% list_or_prompt @admin_fabric.images, 'عکسی برای این محصول ثبت نشده است.' do |image, index| %>
 		  <% col_scales = [4, 4, 4, 6] %>
 			<div class="fabric-item pull-right col-lg-<%= col_scales[0] %> col-md-<%= col_scales[1] %> col-sm-<%= col_scales[2] %> col-xs-<%= col_scales[3] %>" style='margin-bottom: 30px'>
 		    <div class='fabric-content'>
 		      <div class="thumbnail">
 		        <%= image_tag(image_url(image, thumb: true), :class => 'img img-thumbnail img-responsive', :style => 'width: 100%; height: 200px') %>
 		        <div class="caption" style='padding: 20px'>
-		        	<%= f.text_field :images_detail, multiple: true, placeholder: 'نام طرح' %>
+		        	<%= f.text_field :images_detail, value: @admin_fabric.images_detail[index], multiple: true, placeholder: 'نام طرح', required: true %>
 		        </div>
 		      </div>
 		    </div>
 		  </div>
 		<% end %>
+		<div class='clearfix'></div>
 	  <div class="actions field pull-left" xstyle='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
-	    <a class="btn btn-default nav-step prev-step" tabindex="-1">قبلی <span class='fa fa-arrow-right'></span></a>
-	    <%= f.button type: 'submit', class: 'btn btn-primary' do %>
+	    <a class="btn btn-default nav-step prev-step" tabindex="-1" onclick="wizard_tabline_prev_step()">قبلی <span class='fa fa-arrow-right'></span></a>
+	    <%= f.button type: 'submit', class: 'btn btn-primary', data: { disable_with: "درحال ثبت اطلاعات..."} do %>
 	    	<span class='fa fa-arrow-left'></span> بعدی
 	    <% end %>
 	  </div>
