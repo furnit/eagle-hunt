@@ -75,7 +75,7 @@ gem 'rails-acu'
 # for filtered search
 gem 'filterrific', github: 'ayaman/filterrific'
 # for inline editing
-gem 'bootstrap-editable-rails', github: 'noise2/bootstrap-editable-rails'
+gem 'bootstrap-editable-rails' #, github: 'noise2/bootstrap-editable-rails'
 # for pretty bootstrap selects
 gem 'bootstrap-select-rails'
 # for reCAPTCHA

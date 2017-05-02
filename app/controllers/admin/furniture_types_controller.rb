@@ -84,8 +84,6 @@ class Admin::FurnitureTypesController < Admin::UploaderController
     end
   end
   
-  # DELETE /furniture_types/1
-  # DELETE /furniture_types/1.json
   def archive
     # archive current type
     @furniture_type.destroy

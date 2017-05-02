@@ -1,4 +1,4 @@
-class Admin::Fabric < ApplicationRecord
+class Admin::Fabric < ParanoiaRecord
   belongs_to :type, foreign_key: :admin_fabric_type_id, class_name: '::Admin::FabricType'
   belongs_to :brand, foreign_key: :admin_fabric_brand_id, class_name: '::Admin::FabricBrand'
   

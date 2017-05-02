@@ -1,10 +1,10 @@
 class Admin::FabricsController < Admin::UploaderController
-  before_action :set_admin_fabric, only: [:show, :edit, :update, :destroy, :list_images]
+  before_action :set_admin_fabric, only: [:show, :edit, :update, :destroy, :list_images, :archive]
 
   # GET /admin/fabrics
   # GET /admin/fabrics.json
   def index
-    @admin_fabrics = Admin::Fabric.paginate(page: params[:page])
+    @admin_fabrics = Admin::Fabric.with_deleted.paginate(page: params[:page])
   end
 
   # GET /admin/fabrics/1
@@ -63,6 +63,33 @@ class Admin::FabricsController < Admin::UploaderController
     @admin_fabric.destroy
     respond_to do |format|
       format.html { redirect_to admin_fabrics_url, notice: 'Fabric was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+  
+  def archive
+    # archive current type
+    @admin_fabric.destroy
+    # make an undo link to un-acrhiving
+    undo_url = view_context.link_to view_context.raw('<span class="fa fa-recycle"></span> بازیافت'), recover_admin_fabric_path, :method => :patch
+    # respond to format
+    respond_to do |format|
+      format.html { redirect_to admin_fabrics_path, notice: "طرح «<b>#{@admin_fabric.id}</b>» با موفقیت آرشیو شد. [ #{undo_url} ] " }
+      format.json { head :no_content }
+    end
+  end
+  
+  def recover no_redirect: false
+    # un-archive the fabric type
+    @admin_fabric = Admin::Fabric.only_deleted.where("id = ?", params[:id]).first
+    @admin_fabric.recover
+    # make an undo link to un-acrhiving
+    undo_url = view_context.link_to view_context.raw('<span class="fa fa-archive"></span> آرشیو') , archive_admin_fabric_path, :method => :delete
+    # return if this is an internal call
+    return if no_redirect
+    # respond to format
+    respond_to do |format|
+      format.html { redirect_to admin_fabrics_path, notice: "طرح «<b>##{@admin_fabric.id}</b>» با موفقیت از آرشیو خارج شد. [ #{undo_url} ] " }
       format.json { head :no_content }
     end
   end
