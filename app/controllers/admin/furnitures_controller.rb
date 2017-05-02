@@ -1,5 +1,5 @@
 class Admin::FurnituresController < Admin::UploaderController
-  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :cover, :edit_description, :update_description, :list_images, :ls_intel, :confirm]
+  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :cover, :edit_description, :update_description, :ls_intel, :confirm]
 
   # GET /furnitures
   # GET /furnitures.json
@@ -135,7 +135,7 @@ class Admin::FurnituresController < Admin::UploaderController
   end
   
   def list_images
-    ls_images @furniture do |obj|
+    ls_images Admin::Furniture.with_deleted.find(params[:id]) do |obj|
       obj[:cover] = @furniture.cover_details["index"]
     end
   end

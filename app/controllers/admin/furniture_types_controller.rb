@@ -1,5 +1,5 @@
 class Admin::FurnitureTypesController < Admin::UploaderController
-  before_action :set_furniture_type, only: [:show, :edit, :update, :delete_image, :archive, :list_images]
+  before_action :set_furniture_type, only: [:show, :edit, :update, :delete_image, :archive]
 
   # GET /furniture_types
   # GET /furniture_types.json
@@ -117,7 +117,7 @@ class Admin::FurnitureTypesController < Admin::UploaderController
   end
   
   def list_images
-    ls_images @furniture_type
+    ls_images Admin::FurnitureType.with_deleted.find(params[:id])
   end
 
   private

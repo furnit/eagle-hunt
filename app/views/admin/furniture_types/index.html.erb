@@ -43,11 +43,7 @@
 	        </td>
 	        <td class='photo-gallery-collection-incomplete'>
 	        	<% i = ft.images.first %>
-	        	<% if not ft.deleted_at %>
-							<%= link_to image_url(i), data: { id: ft.id, source: list_images_admin_furniture_type_path(ft) } do %>
-								<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
-							<% end %>
-						<% else %>
+						<%= link_to image_url(i), data: { id: ft.id, source: list_images_admin_furniture_type_path(ft) } do %>
 							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
 						<% end %>
 	        </td>
@@ -68,20 +64,20 @@
 	                <span class='fa fa-superpowers'></span> <span class="caret"></span>
 	              </button>
 	              <ul class="dropdown-menu">
-	              	<li>
-	              		<%= link_to home_category_path(ft), target: :_blank do %>
-	              			<span class='fa fa-eye'></span> مشاهده
-	              		<% end %>
-	              	</li>
                 	<% if not ft.deleted_at %>
+		              	<li>
+		              		<%= link_to home_category_path(ft), target: :_blank do %>
+		              			<span class='fa fa-eye'></span> مشاهده
+		              		<% end %>
+		              	</li>
 		              	<li class='divider'></li>
 		              	<li>
 						          <%= link_to edit_admin_furniture_type_path(ft, admin: :check), :class => 'inline-html-call' do %>
 						            <span class='fa fa-pencil'></span> ویرایش
 						          <% end %>
 	              		</li>
+		              	<li class='divider'></li>
               		<% end %>
-	              	<li class='divider'></li>
 	                <li>
 	                	<% if ft.deleted_at %>
 		                  <%= link_to recover_admin_furniture_type_path(ft), method: :patch  do %>
