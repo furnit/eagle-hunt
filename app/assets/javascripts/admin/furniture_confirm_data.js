@@ -141,9 +141,6 @@ $(document).ready(function () {
 			setTimeout(function() { fetch_edited_items(); }, 500);
 		}
 	});
-	setTimeout(function() { 
-		$('a[data-toggle="tab"]:last').click();
-	}, 500);
 });
 
 function fetch_edited_items() {

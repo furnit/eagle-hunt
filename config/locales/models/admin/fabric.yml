@@ -4,6 +4,7 @@ fa:
       admin/fabric: 'طرح پارچه'
     attributes:
       admin/fabric:
+        images_detail: 'جزییات طرح'
         admin_fabric_type_id: 'نوع پارچه'
         admin_fabric_brand_id: 'برند پارچه'
     errors:

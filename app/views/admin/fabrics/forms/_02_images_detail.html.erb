@@ -1,0 +1,34 @@
+<legend>اطلاعات طرح‌های مربوط به برند «<b><%= admin_fabric.brand.name %></b>»</legend>
+<div class='row' id="images-detail">
+	<%= remote_form admin_fabric do |f| %>
+		<% list_or_prompt admin_fabric.images, 'عکسی برای این محصول ثبت نشده است.' do |image| %>
+		  <% col_scales = [4, 4, 4, 6] %>
+			<div class="fabric-item pull-right col-lg-<%= col_scales[0] %> col-md-<%= col_scales[1] %> col-sm-<%= col_scales[2] %> col-xs-<%= col_scales[3] %>" style='margin-bottom: 30px'>
+		    <div class='fabric-content'>
+		      <div class="thumbnail">
+		        <%= image_tag(image_url(image, thumb: true), :class => 'img img-thumbnail img-responsive', :style => 'width: 100%; height: 200px') %>
+		        <div class="caption" style='padding: 20px'>
+		        	<%= f.text_field :images_detail, multiple: true, placeholder: 'نام طرح' %>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		<% end %>
+	  <div class="actions field pull-left" xstyle='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
+	    <a class="btn btn-default nav-step prev-step" tabindex="-1">قبلی <span class='fa fa-arrow-right'></span></a>
+	    <%= f.button type: 'submit', class: 'btn btn-primary' do %>
+	    	<span class='fa fa-arrow-left'></span> بعدی
+	    <% end %>
+	  </div>
+	<% end %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+			if($(e.target).attr('aria-controls') === "design-form-tab-content") {
+				setTimeout(function(){ $('#images-detail input').first().focus() }, 1300);
+			}
+		});
+	});
+</script>

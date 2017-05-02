@@ -1,24 +1,40 @@
-<% form_id = '' %>
-<%= redirect_form admin_fabric, format: :json, remote: true do |f| %>
-	<% form_id = f.options[:html][:id] %>
-	<%= params[:admin] ? f.hidden_field(:admin, value: params[:admin]): '' %>
-	<div  class='block'>
-		<div class='row field'>
-		  <div class="col-md-6 col-sm-6 col-xs-12">
-		    <%= f.select :admin_fabric_type_id, options_for_select(Admin::FabricType.all.map{ |s| [s.name, s.id] }), prompt: 'انتخاب کنید.', :class => 'form-control', :autofocus => true, :required => true %>
-		  </div>
-		
-		  <div class="col-md-6 col-sm-6 col-xs-12">
-		    <%= f.select :admin_fabric_brand_id, options_for_select(Admin::FabricBrand.all.map{ |s| [s.name, s.id] }), prompt: 'انتخاب کنید.', :class => 'form-control', :required => true %>
-		  </div>
+<%= javascript_include_tag 'vendors/wizard-tabline' %>
+<%= stylesheet_link_tag    'vendors/wizard-tabline', media: 'all' %>
+<div class="row">
+  <section>
+    <div class="wizard-tabs">
+      <div class="wizard-tabs-inner">
+        <div class="connecting-line"></div>
+        <ul class="nav nav-tabs" role="tablist">
+				  <li class="active pull-right" role="presentation">
+            <a aria-controls="general-form-tab-content" data-toggle="tab" href="#general-form-tab-content" role="tab" title="اطلاعات کلی">
+            	<span class="round-tab"><i class="fa fa-database"></i></span>
+          	</a>
+        	</li>
+				  <li class="disabled pull-right" role="presentation">
+            <a aria-controls="design-form-tab-content" data-toggle="tab" href="#design-form-tab-content" role="tab" title="اطلاعات طرح‌ها">
+            	<span class="round-tab"><i class="fa fa-th-large"></i></span>
+          	</a>
+        	</li>
+          <li class="disabled" role="presentation">
+            <a aria-controls="final-tab-content" data-toggle="tab" href="#final-tab-content" role="tab" title="نتیجه">
+            	<span class="round-tab"><i class="fa fa-check"></i></span>
+          	</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="tab-content" id="fabric-info-content">
+	<% details = {
+		"general-form": "01_general",
+		"design-form": "02_images_detail"
+	} %>
+	<% details.keys.each.with_index do |k, index| %>
+	  <div aria-labelledby="<%= k %>-tab" class="tab-pane fade <%= index == 0 ? 'active in' : '' %>" id="<%= k %>-tab-content" role="tabpanel" style="margin: 20px;">
+  		<%= render "admin/fabrics/forms/#{details[k]}", admin_fabric: admin_fabric, submit_text: submit_text  %>
+			<div class='clearfix'></div>
 	  </div>
-  </div>
-  
-	<%= render 'shared/related_images', collection: admin_fabric %>
-
-  <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
-    <%= f.submit submit_text, :class => 'btn btn-primary' %>
-  </div>
-<% end %>
-
-<%= render 'shared/update_images', collection: admin_fabric, form_id: form_id, multiple: true %>
+	<% end %>
+</div>
