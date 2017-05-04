@@ -1,20 +1,16 @@
 require 'descriptive_statistics'
 
 module Admin::FurnituresHelper
-  def is_outlier? item, collection: [], categorical: false
+  def is_outlier? item, collection: [], categorical: false, diff_level: 5, use_savanna: false
     return false if collection.length <= 2
     return true if not collection.include? item
     # if processing a categorical collection
     if not categorical
       o = false
       # the outlier detection method
-      o |= Savanna::Outliers.get_outliers(collection, :all).include? item
-      # duplicate collection
-      sub_collection = collection.dup
-      # delete the item from duplicated collection
-      (index = sub_collection.find_index(item)) && sub_collection.delete_at(index) 
-      # if we remove an outlier from the set, the new set's variance is expected to decline
-      o |= sub_collection.variance < collection.variance if not sub_collection.empty?
+      o |= Savanna::Outliers.get_outliers(collection, :all).include? item if use_savanna
+      # we indicate item as outlier if it has 50+ offset from the median element 
+      o |= (item - collection.median).abs > diff_level
       # return the flag
       return o
     else
@@ -26,8 +22,8 @@ module Admin::FurnituresHelper
       
   end
   
-  def outlier_label item, collection: [], categorical: false
-    make_label color: not(is_outlier?(item, collection: collection, categorical: categorical)) do
+  def outlier_label item, collection: [], categorical: false, diff_level: 5
+    make_label color: not(is_outlier?(item, collection: collection, categorical: categorical, diff_level: diff_level)) do
       yield
     end
   end

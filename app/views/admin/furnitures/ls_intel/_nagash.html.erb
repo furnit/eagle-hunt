@@ -15,7 +15,7 @@
 			<td><%= i[:data].user.full_name %></td>
 			<% [:wage].each do |label| %>
 				<td>
-					<% outlier_label i[:data][label], collection: collection[label] do %>
+					<% outlier_label i[:data][label], collection: collection[label], diff_level: 30 do %>
 						<span class='value currency' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_nagashes_path(format: :json) %>' data-options='<%= {
 							"admin_furniture[employee_nagash][id]": i[:data].id
 						}.to_json %>' data-resource="admin_furniture[employee_nagash]" data-name="<%= label.to_s %>" data-original-value="<%= i[:data][label].to_i %>" data-original-title="مقدار اولیه: <%= i[:data][label].to_i %>"><%= i[:data][label].to_i %></span>
@@ -37,7 +37,7 @@
 		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
 			<td><%= i[:data].user.full_name %></td>
 			<td>
-				<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] } do %>
+				<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] }, diff_level: 2 do %>
 					<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_nagashes_path(format: :json) %>' data-options='<%= {
 								"admin_furniture[employee_nagash][id]": i[:data].id,
 								"admin_furniture[employee_nagash][days_to_complete_scale]": "days"
@@ -62,7 +62,7 @@
 			<td><%= i[:data].user.full_name %></td>
 			<% [:astare_avaliye, :astare_asli].each do |label| %>
 				<td>
-					<% outlier_label i[:data][label], collection: intel.map { |i| i[:data][label] } do %>
+					<% outlier_label i[:data][label], collection: intel.map { |i| i[:data][label] }, diff_level: 3 do %>
 						<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_nagashes_path(format: :json) %>' data-options='<%= {
 							"admin_furniture[employee_nagash][id]": i[:data].id
 						}.to_json %>' data-resource="admin_furniture[employee_nagash]" data-name="<%= label.to_s %>" data-original-value="<%= i[:data][label].to_i %>" data-original-title="مقدار اولیه: <%= i[:data][label].to_i %>"><%= i[:data][label].to_i %></span>
@@ -85,7 +85,7 @@
 			<td><%= i[:data].user.full_name %></td>
 			<% [:range_asli, :rouye].each do |label| %>
 				<td>
-					<% outlier_label i[:data][label], collection: intel.map { |i| i[:data][label] } do %>
+					<% outlier_label i[:data][label], collection: intel.map { |i| i[:data][label] }, diff_level: 3 do %>
 						<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_nagashes_path(format: :json) %>' data-options='<%= {
 							"admin_furniture[employee_nagash][id]": i[:data].id
 						}.to_json %>' data-resource="admin_furniture[employee_nagash]" data-name="<%= label.to_s %>" data-original-value="<%= i[:data][label].to_i %>" data-original-title="مقدار اولیه: <%= i[:data][label].to_i %>"><%= i[:data][label].to_i %></span>

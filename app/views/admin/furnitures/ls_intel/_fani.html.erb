@@ -18,7 +18,7 @@
 			<td><%= i[:data].user.full_name %></td>
 			<% [:wage_rokob, :wage_khayat].each do |label| %>
 				<td>
-					<% outlier_label i[:data][label], collection: collection[label] do %>
+					<% outlier_label i[:data][label], collection: collection[label], diff_level: 30 do %>
 						<span class='value currency' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-options='<%= {
 							"admin_furniture[employee_fani][id]": i[:data].id
 						}.to_json %>' data-resource="admin_furniture[employee_fani]" data-name="<%= label.to_s %>" data-original-value="<%= i[:data][label].to_i %>" data-original-title="مقدار اولیه: <%= i[:data][label].to_i %>"><%= i[:data][label].to_i %></span>
@@ -39,7 +39,7 @@
 		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
 			<td><%= i[:data].user.full_name %></td>
 			<td>
-				<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] } do %>
+				<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] }, diff_level: 2 do %>
 					<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-options='<%= {
 								"admin_furniture[employee_fani][id]": i[:data].id,
 								"admin_furniture[employee_fani][days_to_complete_scale]": "days"
@@ -117,7 +117,7 @@
 					</td>
 					<% end %>
 					<td>
-						<% outlier_label detail.value, collection: details_value do%>
+						<% outlier_label detail.value, collection: details_value, diff_level: 5 do%>
 							<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-options='<%= {
 								"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
 							}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="value" data-original-value="<%= detail.value %>" data-original-title="مقدار اولیه: <%= detail.value %>"><%= detail.value %></span>
