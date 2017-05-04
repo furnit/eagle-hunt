@@ -25,36 +25,14 @@ class Admin::FabricColorsController < Admin::AdminbaseController
   end
   
   def compute
-    Thread.new do 
-      colours = [];
-      colour_sampling = AppConfig.fabric.colours.cluster.colour_sampling
-      # collect all image data to cluster
-      Admin::Fabric.all.map { |f| f.images.map { |i| i.file.file } }.flatten.each do |file|
-        img = Magick::Image.read(file).first
-        img.scale(colour_sampling[0], colour_sampling[1]).each_pixel { |pixel| colours << [pixel.red, pixel.green, pixel.blue].map { |p| p/= 256 } }
-      end
+    Thread.new do
       
-      centers = []
       k = params[:k].to_i || AppConfig.fabric.colours.cluster.k
       k = AppConfig.fabric.colours.cluster.k if k <= 0
+           
+      Admin::FabricColor.cluster k, runs: AppConfig.fabric.colours.cluster.runs
       
-      kmeans = KMeansClusterer.run(k, colours, runs: AppConfig.fabric.colours.cluster.runs)
-      
-      kmeans.clusters.each { |cluster| centers << cluster.centroid.data.to_a.each_slice(3).to_a }
-      
-      # delete all indexed records
-      Admin::FabricColorIndex.delete_all
-      # delete all color cluster records
-      Admin::FabricColor.delete_all
-      
-      centers.each.with_index do |c, cindex|
-        color = "#" + c.flatten.map { |i| i.to_i.to_s(16) }.map { |i| i.length == 1 ? "0#{i}" : i }.join
-        Admin::FabricColor.create(id: cindex + 1, value: color, model: {k: k, init: centers.map { |i| i.flatten }, runs: AppConfig.fabric.colours.cluster.runs})
-      end
-      
-      #
-      # => TODO: categorize every fabric's color based on clusters
-      #
+      Admin::Fabric.all.each { |f| f.determine_colour }
       
       message = <<~sms
         دسته‌بندی رنگ‌ها با موفقیت به پایان رسید.
