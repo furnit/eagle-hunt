@@ -135,7 +135,8 @@ class Admin::FurnituresController < Admin::UploaderController
   end
   
   def list_images
-    ls_images Admin::Furniture.with_deleted.find(params[:id]) do |obj|
+    @furniture = Admin::Furniture.with_deleted.find(params[:id])
+    ls_images @furniture do |obj|
       obj[:cover] = @furniture.cover_details["index"]
     end
   end
