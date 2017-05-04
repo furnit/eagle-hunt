@@ -1,0 +1,16 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture_fabric_type: 'نوع پارچه'
+    attributes:
+      admin/furniture_fabric_type:
+        name: 'نام'
+        comment: 'توضیحات'
+    errors:
+      models:
+        admin/furniture_fabric_type:
+          attributes:
+            name:
+              blank: 'نمی‌تواند خالی باشد.'
+            comment:
+              blank: 'نمی‌تواند خالی باشد.'

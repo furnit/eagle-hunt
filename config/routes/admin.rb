@@ -59,11 +59,11 @@ Rails.application.routes.draw do
     resources :systems, RC::non_restful do
     end
     
-    resources :fabric_types
+    resources :furniture_fabric_types
     
-    resources :fabric_brands
+    resources :furniture_fabric_brands
     
-    resources :fabrics do
+    resources :furniture_fabrics do
       member do
         delete :archive
         patch  :recover
@@ -71,7 +71,7 @@ Rails.application.routes.draw do
       end
     end
     
-    resources :fabric_colors, except: [:show, :create] do
+    resources :furniture_fabric_colors, except: [:show, :create] do
       collection do 
         post :compute
       end
