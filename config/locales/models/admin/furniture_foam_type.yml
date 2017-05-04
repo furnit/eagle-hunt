@@ -1,15 +1,15 @@
 fa:
   activerecord:
     models:
-      admin/furniture_stuff_abr: نوع ابر
+      admin/furniture_foam_type: نوع ابر
     attributes:
-      admin/furniture_stuff_abr:
+      admin/furniture_foam_type:
         name: 'عنوان'
         comment: 'توضیحات'
         value: مبلغ
     errors:
       models:
-        admin/furniture_stuff_abr:
+        admin/furniture_foam_type:
           attributes:
             name:
               blank: 'نمی‌تواند خالی باشد.'

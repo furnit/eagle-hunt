@@ -1,0 +1,51 @@
+<div class='col-md-offset-2 col-md-8'>
+  <legend>
+    <h1 class='pull-right'>لیست انواع ابر</h1>
+    <small class='pull-left' style='font-size: 16px; margin-top: 40px;'>
+      <%= link_to new_admin_furniture_foam_type_path, class: 'inline-html-call' do %>
+        <span class='fa fa-plus'></span>
+        ایجاد نوع جدید
+      <% end %>
+    </small>
+    <div class='clearfix'></div>
+  </legend>
+
+<%= acu_as :admin { render 'shared/editable_content' }%>
+
+  <table class='table table-striped table-hover'>
+    <thead>
+      <tr>
+	      <th style='width: 30px'>ردیف</th>
+	      <th style='width: 12%;'>عنوان</th>
+        <th>توضیحات</th>
+        <th style='width: 80px;'>عملیات</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @admin_furniture_foam_types.each do |admin_furniture_foam_type| %>
+        <tr>
+          <td><%= admin_furniture_foam_type.id %></td>
+          <td>
+            <a href="#" class='editable' data-type="text" data-resource="admin_furniture_foam_type" data-name="name" data-url="<%= admin_furniture_foam_type_path(admin_furniture_foam_type) %>" data-original-title="<%= admin_furniture_foam_type.name %>">
+              <%= admin_furniture_foam_type.name %>
+            </a>
+          </td>
+          <td>
+            <a href="#" class='editable' data-type="textarea" data-placement="bottom" data-resource="admin_furniture_foam_type" data-name="comment" data-url="<%= admin_furniture_foam_type_path(admin_furniture_foam_type) %>" data-original-title="<%= admin_furniture_foam_type.comment %>"><%= admin_furniture_foam_type.comment %></a>
+          </td>
+          <td>
+            <%= link_to admin_furniture_foam_type, method: :delete, data: { confirm: 'آیا از انجام این عمل مطمئن هستید؟' }, class: 'text-danger' do %>
+              <span class='fa fa-trash'></span> حذف
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      <% if @admin_furniture_foam_types.empty? %>
+      	<tr class='text-center' style='background-color: transparent!important; border: 1px solid #e7e7e7; height: 60px;'>
+      		<td colspan="5" style='padding-top: 20px;'>داده‌ای ثبت نشده‌ است!</td>
+    		</tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

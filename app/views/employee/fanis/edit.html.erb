@@ -60,7 +60,7 @@
 											</td>
 											<% if is_abr %>
 											<td>
-												<%= fff.select :admin_furniture_stuff_abr_id,  Admin::FurnitureStuffAbr.all.collect {|i| [i.name, i.id]}, { label: raw("&nbsp;"), selected: [2, 1, 3][index] }, name: "#{fff.object_name}[spec][#{spec.id}][section][#{section.id}][options][#{Admin::FurnitureStuffAbr.table_name}][id]" %>
+												<%= fff.select :admin_furniture_foam_type_id,  Admin::FurnitureFoamType.all.collect {|i| [i.name, i.id]}, { label: raw("&nbsp;"), selected: [2, 1, 3][index] }, name: "#{fff.object_name}[spec][#{spec.id}][section][#{section.id}][options][#{Admin::FurnitureFoamType.table_name}][id]" %>
 											</td>
 											<% end %>
 						      		<td>
@@ -181,7 +181,7 @@
 						val: get_val('[name="admin_furniture[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]'), 
 						append: $('[name="admin_furniture[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]')
 											.siblings('.input-group-addon').html() <% if is_abr %>
-											 + $('[name="admin_furniture[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][options][admin_furniture_stuff_abrs][id]"] [selected]').text()
+											 + $('[name="admin_furniture[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][options][admin_furniture_foam_types][id]"] [selected]').text()
 											 <% end %>
 										,
 					 	title: 'برای <%= section.comment %>',

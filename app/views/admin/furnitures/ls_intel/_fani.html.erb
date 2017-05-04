@@ -1,6 +1,6 @@
 <% specs = Admin::FurnitureSpec.where('name IN (?)', ['پارچه', 'ابر']) %>
 <% sections = Admin::FurnitureSection.where('name IN (?)', ['زیری', 'پشتی', 'دسته']) %>
-<% stuff_abr = Admin::FurnitureStuffAbr.all %>
+<% stuff_abr = Admin::FurnitureFoamType.all %>
 
 <% # DAST MOZD HA %>
 <% build_section panel_type: 'success',
@@ -90,7 +90,7 @@
 			<% intel.each.with_index do |i, index| %>
 				<% details << i[:data].furniture_build_details.where(admin_furniture_spec_id: spec.id, admin_furniture_section_id: section.id).first %>
 			<% end %>
-			<% details_value = details.map { |d| d.value }%>
+			<% details_value = details.map { |d| d.value } %>
 			<% klass_id = next_klass.call %>
 			<% details.each.with_index do |detail, index| %>
 				<% i = intel[index] %>
@@ -106,18 +106,18 @@
 					<td><%= i[:data].user.full_name %></td>
 					<% if is_abr %>
 					<td>
-						<% outlier_label detail.options["admin_furniture_stuff_abrs"]["id"], collection: details.map { |d| d.options["admin_furniture_stuff_abrs"]["id"] }, categorical: true do %>
-							<% abr = stuff_abr.select { |a| a.id == detail.options["admin_furniture_stuff_abrs"]["id"].to_i }.first %>
+						<% outlier_label detail.options["admin_furniture_foam_types"]["id"], collection: details.map { |d| d.options["admin_furniture_foam_types"]["id"] }, categorical: true do %>
+							<% abr = stuff_abr.select { |a| a.id == detail.options["admin_furniture_foam_types"]["id"].to_i }.first %>
 							<span class='value' data-type="select" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-value="<%= abr.id %>" data-source="<%= stuff_abr.map { |i| {value: i.id, text: i.name} }.to_json %>" data-options='<%= {
 								"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
-							}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="options[admin_furniture_stuff_abrs][id]" data-original-value="<%= abr.name %>" data-original-title="مقدار اولیه: <%= abr.name %>">
+							}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="options[admin_furniture_foam_types][id]" data-original-value="<%= abr.name %>" data-original-title="مقدار اولیه: <%= abr.name %>">
 								<%= abr.name %>
 							</span>
 						<% end %>
 					</td>
 					<% end %>
 					<td>
-						<% outlier_label detail.value, collection: details_value, diff_level: 5 do%>
+						<% outlier_label detail.value, collection: details_value, diff_level: 5 do %>
 							<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-options='<%= {
 								"admin_furniture[employee_fani][furniture_build_detail][id]": detail.id
 							}.to_json %>' data-resource="admin_furniture[employee_fani][furniture_build_detail]" data-name="value" data-original-value="<%= detail.value %>" data-original-title="مقدار اولیه: <%= detail.value %>"><%= detail.value %></span>

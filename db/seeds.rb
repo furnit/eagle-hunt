@@ -88,8 +88,8 @@ end
   '۲۰ کیلویی',
   '۱۰ کیلویی',
 ]
-.each.with_index do |name, index|
-  Admin::FurnitureStuffAbr.create!(name: name, value: 3 - index)
+.each do |name|
+  Admin::FurnitureFoamType.create!(name: name)
 end
 
 [

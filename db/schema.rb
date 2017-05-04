@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502205323) do
+ActiveRecord::Schema.define(version: 20170504192621) do
 
   create_table "admin_fabric_brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -59,6 +59,13 @@ ActiveRecord::Schema.define(version: 20170502205323) do
     t.index ["admin_fabric_type_id"], name: "index_admin_fabrics_on_admin_fabric_type_id", using: :btree
   end
 
+  create_table "admin_furniture_foam_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "admin_furniture_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "comment"
@@ -73,14 +80,6 @@ ActiveRecord::Schema.define(version: 20170502205323) do
     t.string   "unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "admin_furniture_stuff_abrs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.float    "value",      limit: 24
-    t.string   "comment"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
   end
 
   create_table "admin_furniture_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
