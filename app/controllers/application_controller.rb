@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
   protected
   
   def two_step_auth
-    TwoStepAuth.new current_user
+    ::TwoStepAuth.new current_user
   end
   
   def prefer_layout lyout = nil

@@ -1,6 +1,6 @@
 module ApplicationHelper
   def two_step_auth
-    TwoStepAuth.new current_user
+    ::TwoStepAuth.new current_user
   end
   
   def list_or_prompt(k, p, &block)
@@ -31,7 +31,7 @@ module ApplicationHelper
   end
   
   def render_two_step_auth_form name: nil
-    name ||= TwoStepAuth.input_name
+    name ||= ::TwoStepAuth.input_name
     @temp_password_id ||= 0
     @temp_password_id +=  1
     link = link_to send_two_step_auth_token_admin_users_path(format: :json), method: :post, remote: true, class: "btn btn-default", id: "request_temp_pass_token#{@temp_password_id}" do
