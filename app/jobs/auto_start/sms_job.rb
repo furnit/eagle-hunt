@@ -1,5 +1,3 @@
-require Rails.root.join('lib/sms/bootstrap')
-
 class AutoStart::SmsJob < ApplicationJob
   queue_as :urgent
   
