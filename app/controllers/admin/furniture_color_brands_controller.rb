@@ -1,4 +1,4 @@
-class Admin::FurnitureColorBrandsController < ApplicationController
+class Admin::FurnitureColorBrandsController < Admin::AdminbaseController
   before_action :set_admin_furniture_color_brand, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/furniture_color_brands
@@ -28,8 +28,8 @@ class Admin::FurnitureColorBrandsController < ApplicationController
 
     respond_to do |format|
       if @admin_furniture_color_brand.save
-        format.html { redirect_to @admin_furniture_color_brand, notice: 'Furniture color brand was successfully created.' }
-        format.json { render :show, status: :created, location: @admin_furniture_color_brand }
+        format.html { redirect_to admin_furniture_color_brands_path, notice: "کیفیت رنگ «<b>#{@admin_furniture_color_brand.name}</b>» با موفقیت ایجاد شد."}
+        format.json { render json: @admin_furniture_color_brand, status: :created, location: admin_furniture_color_brands_path }
       else
         format.html { render :new }
         format.json { render json: @admin_furniture_color_brand.errors, status: :unprocessable_entity }
@@ -42,7 +42,7 @@ class Admin::FurnitureColorBrandsController < ApplicationController
   def update
     respond_to do |format|
       if @admin_furniture_color_brand.update(admin_furniture_color_brand_params)
-        format.html { redirect_to @admin_furniture_color_brand, notice: 'Furniture color brand was successfully updated.' }
+        format.html { redirect_to admin_furniture_color_brands_path, notice: "کیفیت رنگ «<b>#{@admin_furniture_color_brand.name}</b>» با موفقیت ویرایش شد." }
         format.json { render :show, status: :ok, location: @admin_furniture_color_brand }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class Admin::FurnitureColorBrandsController < ApplicationController
   def destroy
     @admin_furniture_color_brand.destroy
     respond_to do |format|
-      format.html { redirect_to admin_furniture_color_brands_url, notice: 'Furniture color brand was successfully destroyed.' }
+      format.html { redirect_to admin_furniture_color_brands_path, notice: "کیفیت رنگ «<b>#{@admin_furniture_color_brand.name}</b>» با موفقیت حذف شد."}
       format.json { head :no_content }
     end
   end
