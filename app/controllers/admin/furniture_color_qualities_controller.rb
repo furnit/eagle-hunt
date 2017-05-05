@@ -1,4 +1,4 @@
-class Admin::FurnitureColorQualitiesController < ApplicationController
+class Admin::FurnitureColorQualitiesController < Admin::AdminbaseController
   before_action :set_admin_furniture_color_quality, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/furniture_color_qualities
@@ -28,8 +28,8 @@ class Admin::FurnitureColorQualitiesController < ApplicationController
 
     respond_to do |format|
       if @admin_furniture_color_quality.save
-        format.html { redirect_to @admin_furniture_color_quality, notice: 'Furniture color quality was successfully created.' }
-        format.json { render :show, status: :created, location: @admin_furniture_color_quality }
+        format.html { redirect_to admin_furniture_color_qualities_path, notice: "کیفیت رنگ «<b>#{@admin_furniture_color_quality.name}</b>» با موفقیت ایجاد شد."  }
+        format.json { render json: @admin_furniture_color_quality, status: :created, location: admin_furniture_color_qualities_path }
       else
         format.html { render :new }
         format.json { render json: @admin_furniture_color_quality.errors, status: :unprocessable_entity }
@@ -42,8 +42,8 @@ class Admin::FurnitureColorQualitiesController < ApplicationController
   def update
     respond_to do |format|
       if @admin_furniture_color_quality.update(admin_furniture_color_quality_params)
-        format.html { redirect_to @admin_furniture_color_quality, notice: 'Furniture color quality was successfully updated.' }
-        format.json { render :show, status: :ok, location: @admin_furniture_color_quality }
+        format.html { redirect_to admin_furniture_color_qualities_path, notice: "کیفیت رنگ «<b>#{@admin_furniture_color_quality.name}</b>» با موفقیت ویرایش شد."  }
+        format.json { render json: @admin_furniture_color_quality, status: :ok, location: admin_furniture_color_qualities_path }
       else
         format.html { render :edit }
         format.json { render json: @admin_furniture_color_quality.errors, status: :unprocessable_entity }
@@ -56,7 +56,7 @@ class Admin::FurnitureColorQualitiesController < ApplicationController
   def destroy
     @admin_furniture_color_quality.destroy
     respond_to do |format|
-      format.html { redirect_to admin_furniture_color_qualities_url, notice: 'Furniture color quality was successfully destroyed.' }
+      format.html { redirect_to admin_furniture_color_qualities_path, notice: "کیفیت رنگ «<b>#{@admin_furniture_color_quality.name}</b>» با موفقیت حذف شد."  }
       format.json { head :no_content }
     end
   end
