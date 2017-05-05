@@ -1,6 +1,7 @@
 class Admin::FurnitureFabric < ParanoiaRecord
   belongs_to :type, foreign_key: :admin_furniture_fabric_type_id, class_name: '::Admin::FurnitureFabricType'
   belongs_to :brand, foreign_key: :admin_furniture_fabric_brand_id, class_name: '::Admin::FurnitureFabricBrand'
+  has_many :admin_furniture_fabric_color_indices, class_name: '::Admin::FurnitureFabricColorIndex', foreign_key: :admin_furniture_fabric_id, dependent: :destroy
   
   mount_uploaders :images, ImageUploader
   # don't delete the images on soft delete

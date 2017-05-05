@@ -28,10 +28,6 @@
 			<span class="btn btn-success fileinput-button"> <i class="glyphicon glyphicon-plus"></i> <span>اضافه کردن عکس</span>
 				<input type="file" name="uploaded_files[images][]" <%= (local_assigns.has_key?(:multiple) and multiple) ? 'multiple' : '' %>>
 			</span>
-			<button type="submit" class="btn btn-primary start">
-				<i class="glyphicon glyphicon-upload"></i>
-				<span>آپلود</span>
-			</button>
 			<button type="reset" class="btn btn-warning cancel">
 				<i class="glyphicon glyphicon-ban-circle"></i>
 				<span>لغو کن!</span>

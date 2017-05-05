@@ -133,8 +133,8 @@ $(document).on('ready turbolinks:load', function(){
     $(this).parents('.alert').fadeOut(300, function() { $(this).remove(); });
   });
 }).ajaxError(function(e, xhr){
-  // i.e users sent wrong data to the server!!
-  if(xhr.status === 422) return;
+  // i.e users sent wrong data to the server OR abort!!
+  if(xhr.status === 422 || xhr.status === 0 || xhr.statusText === "abort") return;
   bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام اجرای عملیات رخ داده‌ است؛ لطفا دوباره تلاش کنید و در صورت رخداد مجدد این خطا به تیم توسعه‌ی سایت اطلاع دهید و <b>بن تخفیف بگیرید</b>!'});
 });
 
