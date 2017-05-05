@@ -1,4 +1,4 @@
-class Admin::FurnitureWoodTypesController < ApplicationController
+class Admin::FurnitureWoodTypesController < Admin::AdminbaseController
   before_action :set_admin_furniture_wood_type, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/furniture_wood_types
@@ -28,8 +28,8 @@ class Admin::FurnitureWoodTypesController < ApplicationController
 
     respond_to do |format|
       if @admin_furniture_wood_type.save
-        format.html { redirect_to @admin_furniture_wood_type, notice: 'Furniture wood type was successfully created.' }
-        format.json { render :show, status: :created, location: @admin_furniture_wood_type }
+        format.html { redirect_to admin_furniture_wood_types_path, notice: "چوب «<b>#{@admin_furniture_wood_type.name}</b>» با موفقیت ایجاد شد." }
+        format.json { render json: @admin_furniture_wood_type, status: :created, location: admin_furniture_wood_types_path }
       else
         format.html { render :new }
         format.json { render json: @admin_furniture_wood_type.errors, status: :unprocessable_entity }
@@ -42,8 +42,8 @@ class Admin::FurnitureWoodTypesController < ApplicationController
   def update
     respond_to do |format|
       if @admin_furniture_wood_type.update(admin_furniture_wood_type_params)
-        format.html { redirect_to @admin_furniture_wood_type, notice: 'Furniture wood type was successfully updated.' }
-        format.json { render :show, status: :ok, location: @admin_furniture_wood_type }
+        format.html { redirect_to admin_furniture_wood_types_path, notice: "چوب «<b>#{@admin_furniture_wood_type.name}</b>» با موفقیت ویرایش شد." }
+        format.json { render json: @admin_furniture_wood_type, status: :ok, location: admin_furniture_wood_types_path }
       else
         format.html { render :edit }
         format.json { render json: @admin_furniture_wood_type.errors, status: :unprocessable_entity }
@@ -56,7 +56,7 @@ class Admin::FurnitureWoodTypesController < ApplicationController
   def destroy
     @admin_furniture_wood_type.destroy
     respond_to do |format|
-      format.html { redirect_to admin_furniture_wood_types_url, notice: 'Furniture wood type was successfully destroyed.' }
+      format.html { redirect_to admin_furniture_wood_types_path, notice: "چوب «<b>#{@admin_furniture_wood_type.name}</b>» با موفقیت حذف شد." }
       format.json { head :no_content }
     end
   end

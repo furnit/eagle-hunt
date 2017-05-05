@@ -1,27 +1,18 @@
-<%= form_for(admin_furniture_wood_type) do |f| %>
-  <% if admin_furniture_wood_type.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(admin_furniture_wood_type.errors.count, "error") %> prohibited this admin_furniture_wood_type from being saved:</h2>
-
-      <ul>
-      <% admin_furniture_wood_type.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<% form_id = '' %>
+<%= redirect_form(admin_furniture_wood_type) do |f| %>
+	<% form_id = f.options[:html][:id] %>
+	<div  class='block'>
+	  <div class="row ir">
+	    <%= f.text_field :name, :autofocus => true, :required => true, wrapper: {class: 'col-md-6 pull-right'} %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+	
+	  <div class="row">
+	    <%= f.text_area :comment, wrapper: {class: 'col-md-12'} %>
+	  </div>
+	  <div class='clearfix'></div>
   </div>
 
-  <div class="field">
-    <%= f.label :comment %>
-    <%= f.text_area :comment %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
+  <div class="actions field pull-left">
+    <%= f.submit submit_text, :class => 'btn btn-primary' %>
   </div>
 <% end %>
