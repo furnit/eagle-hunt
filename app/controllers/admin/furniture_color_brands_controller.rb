@@ -5,6 +5,11 @@ class Admin::FurnitureColorBrandsController < Admin::AdminbaseController
   # GET /admin/furniture_color_brands.json
   def index
     @admin_furniture_color_brands = Admin::FurnitureColorBrand.all
+    
+    respond_to do |format|
+      format.html { }
+      format.json { render json: @admin_furniture_color_brands.map {|i| {value: i.id, text: i.name}}, status: :ok }
+    end
   end
 
   # GET /admin/furniture_color_brands/1
@@ -28,7 +33,7 @@ class Admin::FurnitureColorBrandsController < Admin::AdminbaseController
 
     respond_to do |format|
       if @admin_furniture_color_brand.save
-        format.html { redirect_to admin_furniture_color_brands_path, notice: "کیفیت رنگ «<b>#{@admin_furniture_color_brand.name}</b>» با موفقیت ایجاد شد."}
+        format.html { redirect_to admin_furniture_color_brands_path, notice: "کیفیت رنگ «<b>#{@admin_furniture_color_brand.name}</b>» با موفقیت ایجاد شد." }
         format.json { render json: @admin_furniture_color_brand, status: :created, location: admin_furniture_color_brands_path }
       else
         format.html { render :new }
@@ -56,7 +61,7 @@ class Admin::FurnitureColorBrandsController < Admin::AdminbaseController
   def destroy
     @admin_furniture_color_brand.destroy
     respond_to do |format|
-      format.html { redirect_to admin_furniture_color_brands_path, notice: "کیفیت رنگ «<b>#{@admin_furniture_color_brand.name}</b>» با موفقیت حذف شد."}
+      format.html { redirect_to admin_furniture_color_brands_path, notice: "کیفیت رنگ «<b>#{@admin_furniture_color_brand.name}</b>» با موفقیت حذف شد." }
       format.json { head :no_content }
     end
   end

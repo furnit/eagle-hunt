@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20170505110618) do
   end
 
   create_table "admin_furniture_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
     t.integer  "admin_furniture_color_qualities_id"
     t.integer  "admin_furniture_color_brands_id"
     t.text     "comment",                            limit: 65535

@@ -5,6 +5,11 @@ class Admin::FurnitureColorQualitiesController < Admin::AdminbaseController
   # GET /admin/furniture_color_qualities.json
   def index
     @admin_furniture_color_qualities = Admin::FurnitureColorQuality.all
+    
+    respond_to do |format|
+      format.html { }
+      format.json { render json: @admin_furniture_color_qualities.map {|i| {value: i.id, text: i.name}}, status: :ok }
+    end
   end
 
   # GET /admin/furniture_color_qualities/1
