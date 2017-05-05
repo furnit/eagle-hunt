@@ -7,7 +7,7 @@ class Admin::FurnitureFabricColorsController < Admin::AdminbaseController
     color = Admin::FurnitureFabricColor.update(params[:id], params.require(:admin_furniture_fabric_color).permit(:name, :comment))
     respond_to do |format|
       if color.errors.empty?
-        format.html { redirect_to admin_furniture_fabric_colors_path, notice: "دسته‌بندی رنگ پارچه «<b>#{params[:id]}</b>» با موفقت ویرایش شد."  }
+        format.html { redirect_to admin_furniture_fabric_colors_path, notice: "دسته‌بندی رنگ پارچه «<b>#{params[:id]}</b>» با موفقیت ویرایش شد."  }
         format.json { render json: color, status: :ok, location: admin_furniture_fabric_colors_path }
       else
         format.html { render :edit }
@@ -36,7 +36,7 @@ class Admin::FurnitureFabricColorsController < Admin::AdminbaseController
     Admin::FurnitureFabric.where(id: color_dep_ids).each { |ci| ci.determine_colour }
     
     respond_to do |format|
-      format.html { redirect_to admin_furniture_fabric_colors_path, notice: "دسته‌بندی رنگ پارچه «<b>#{params[:id]}</b>» با موفقت حذف شد." }
+      format.html { redirect_to admin_furniture_fabric_colors_path, notice: "دسته‌بندی رنگ پارچه «<b>#{params[:id]}</b>» با موفقیت حذف شد." }
       format.json { head :no_content }
     end
   end

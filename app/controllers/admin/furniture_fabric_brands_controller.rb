@@ -33,7 +33,7 @@ class Admin::FurnitureFabricBrandsController < Admin::AdminbaseController
 
     respond_to do |format|
       if @admin_furniture_fabric_brand.save
-        format.html { redirect_to admin_furniture_fabric_brands_path, notice: "برند پارچه «<b>#{@admin_furniture_fabric_brand.name}</b>» با موفقت ایجاد شد."  }
+        format.html { redirect_to admin_furniture_fabric_brands_path, notice: "برند پارچه «<b>#{@admin_furniture_fabric_brand.name}</b>» با موفقیت ایجاد شد."  }
         format.json { render json: @admin_furniture_fabric_brand, status: :created, location: @admin_furniture_fabric_brand }
       else
         format.html { render :new }
@@ -47,7 +47,7 @@ class Admin::FurnitureFabricBrandsController < Admin::AdminbaseController
   def update
     respond_to do |format|
       if @admin_furniture_fabric_brand.update(admin_furniture_fabric_brand_params)
-        format.html { redirect_to admin_furniture_fabric_brands_path, notice: "برند پارچه «<b>#{@admin_furniture_fabric_brand.name}</b>» با موفقت ویرایش شد."  }
+        format.html { redirect_to admin_furniture_fabric_brands_path, notice: "برند پارچه «<b>#{@admin_furniture_fabric_brand.name}</b>» با موفقیت ویرایش شد."  }
         format.json { render json: @admin_furniture_fabric_brand, status: :ok, location: @admin_furniture_fabric_brand }
       else
         format.html { render :edit }
@@ -61,7 +61,7 @@ class Admin::FurnitureFabricBrandsController < Admin::AdminbaseController
   def destroy
     @admin_furniture_fabric_brand.destroy
     respond_to do |format|
-      format.html { redirect_to admin_furniture_fabric_brands_url, notice: "برند پارچه «<b>#{@admin_furniture_fabric_brand.name}</b>» با موفقت حذف شد."  }
+      format.html { redirect_to admin_furniture_fabric_brands_url, notice: "برند پارچه «<b>#{@admin_furniture_fabric_brand.name}</b>» با موفقیت حذف شد."  }
       format.json { head :no_content }
     end
   end
