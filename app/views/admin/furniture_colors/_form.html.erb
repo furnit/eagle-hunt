@@ -1,0 +1,42 @@
+<%= form_for(admin_furniture_color) do |f| %>
+  <% if admin_furniture_color.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(admin_furniture_color.errors.count, "error") %> prohibited this admin_furniture_color from being saved:</h2>
+
+      <ul>
+      <% admin_furniture_color.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :admin_furniture_color_qualities_id %>
+    <%= f.text_field :admin_furniture_color_qualities_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :admin_furniture_color_brand_id %>
+    <%= f.text_field :admin_furniture_color_brand_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :comment %>
+    <%= f.text_area :comment %>
+  </div>
+
+  <div class="field">
+    <%= f.label :color_value %>
+    <%= f.text_field :color_value %>
+  </div>
+
+  <div class="field">
+    <%= f.label :color_details %>
+    <%= f.text_field :color_details %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

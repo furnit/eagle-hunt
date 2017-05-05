@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Admin Furniture Color Qualities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Comment</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_furniture_color_qualities.each do |admin_furniture_color_quality| %>
+      <tr>
+        <td><%= admin_furniture_color_quality.name %></td>
+        <td><%= admin_furniture_color_quality.comment %></td>
+        <td><%= link_to 'Show', admin_furniture_color_quality %></td>
+        <td><%= link_to 'Edit', edit_admin_furniture_color_quality_path(admin_furniture_color_quality) %></td>
+        <td><%= link_to 'Destroy', admin_furniture_color_quality, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Admin Furniture Color Quality', new_admin_furniture_color_quality_path %>

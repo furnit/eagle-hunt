@@ -1,0 +1,1 @@
+json.partial! "admin_furniture_color_qualities/admin_furniture_color_quality", admin_furniture_color_quality: @admin_furniture_color_quality
