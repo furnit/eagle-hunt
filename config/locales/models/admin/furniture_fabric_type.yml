@@ -1,7 +1,7 @@
 fa:
   activerecord:
     models:
-      admin/furniture_fabric_type: 'نوع پارچه'
+      admin/furniture_fabric_type: 'کیفیت پارچه'
     attributes:
       admin/furniture_fabric_type:
         name: 'نام'

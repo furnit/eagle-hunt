@@ -1,1 +1,0 @@
-json.partial! "admin_furniture_wood_types/admin_furniture_wood_type", admin_furniture_wood_type: @admin_furniture_wood_type

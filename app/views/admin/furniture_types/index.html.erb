@@ -1,116 +1,104 @@
-<div class='col-md-12 col-lg-10 col-lg-offset-1'>
-  <legend>
-    <h1 class='pull-right'>دسته‌بندی‌ها</h1>
-    <small class='pull-left' style='font-size: 16px; margin-top: 40px;'>
-      <%= link_to new_admin_furniture_type_path(admin: :check), class: 'inline-html-call' do %>
-        <span class='fa fa-plus'></span>
-        ایجاد دسته‌بندی جدید
-      <% end %>
-    </small>
-    <div class='clearfix'></div>
-  </legend>
-	<small style='font-size: 16px;' class='text-muted pull-left'><%= page_entries_info @furniture_types %></small>
-	<%= acu_as :admin { render 'shared/editable_content' }%>
-	<table class='table <%= @furniture_types.empty? ? "" : "table-striped table-hover" %>'>
-	  <thead>
-	    <tr>
-	      <th style='width: 30px'>ردیف</th>
-	      <th style='width: 12%;'>نام‌دسته‌بندی</th>
-      	<th style='width: 100px;'>گالری</th>
-	      <th>توضیحات</th>
-	      <th style='width: 130px'>آخرین بروزرسانی</th>
-	      <th style='width: 50px;'>عملیات</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <% @furniture_types.each do |ft| %>
-	      <%
-	        title  = ''
-	        title  = 'نوع‌ دسته‌بندی آرشیو شده است!' if ft.deleted_at
-	        _class = ''
-	        _class += 'blocked' if ft.deleted_at
-	      %>
-	      <tr class='<%= _class %>' <%= raw title.empty? ? '' : "title='#{title}' data-toggle='tooltip'"%> >
-	        <td><%= ft.id %></td>
-	        <td>
-	        	<% if not ft.deleted_at %>
-		          <a href="#" class='editable' data-type="text" data-resource="admin_furniture_type" data-name="name" data-url="<%= admin_furniture_type_path(ft) %>" data-original-title="<%= ft.name %>">
-		            <%= ft.name %>
-		          </a>
-	          <% else %>
-		            <%= ft.name %>
-	          <% end %>
-	        </td>
-	        <td class='photo-gallery-collection-incomplete'>
-	        	<% i = ft.images.first %>
-						<%= link_to image_url(i), data: { id: ft.id, source: list_images_admin_furniture_type_path(ft) } do %>
-							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
-						<% end %>
-	        </td>
-	        <td>
-	        	<% if not ft.deleted_at %>
-		          <a href="#" class='editable' data-type="text" data-resource="admin_furniture_type" data-name="comment" data-url="<%= admin_furniture_type_path(ft) %>" data-original-title="<%= ft.comment %>">
-		            <%= ft.comment %>
-		          </a>
-	          <% else %>
-		            <%= ft.comment %>
-	          <% end %>
-	        </td>
-	        	<td class='datetime' data-date='<%= ft.updated_at %>'></td>
-	        <td>
-	          <% acu_as :admin do %>
-	            <div class="btn-group">
-	              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                <span class='fa fa-superpowers'></span> <span class="caret"></span>
-	              </button>
-	              <ul class="dropdown-menu">
-                	<% if not ft.deleted_at %>
-		              	<li>
-		              		<%= link_to home_category_path(ft), target: :_blank do %>
-		              			<span class='fa fa-eye'></span> مشاهده
-		              		<% end %>
-		              	</li>
-		              	<li class='divider'></li>
-		              	<li>
-						          <%= link_to edit_admin_furniture_type_path(ft, admin: :check), :class => 'inline-html-call' do %>
-						            <span class='fa fa-pencil'></span> ویرایش
-						          <% end %>
-	              		</li>
-		              	<li class='divider'></li>
+<%= 
+	render 'admin/shared/index',
+	  title: 'لیست دسته‌بندی‌ها', 
+		title_right: lambda {
+			link_to new_admin_furniture_section_path, class: 'inline-html-call' do
+				raw "<span class='fa fa-plus'></span> ایجاد دسته‌بندی جدید"
+			end
+		},
+		before_table: lambda {
+			raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @furniture_types}</small>"
+		},
+		after_table: lambda {
+			raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @furniture_types, renderer: BootstrapPagination::Rails}</div>"
+		},
+		table_head: {
+			'ردیف': { style: 'width: 30px' },
+			'نام دسته‌بندی': { style: 'width: 12%' },
+			'گالری': { style: 'width: 100px' },
+			'توضیحات': { },
+			'آخرین بروزرسانی': { style: 'width: 130px' },
+			'عملیات': { style: 'width: 100px' }
+		},
+		table_body: lambda {
+%>
+  <% @furniture_types.each do |ft| %>
+    <%
+      title  = ''
+      title  = 'نوع‌ دسته‌بندی آرشیو شده است!' if ft.deleted_at
+      _class = ''
+      _class += 'blocked' if ft.deleted_at
+    %>
+    <tr class='<%= _class %>' <%= raw title.empty? ? '' : "title='#{title}' data-toggle='tooltip'"%> >
+      <td><%= ft.id %></td>
+      <td>
+      	<% if not ft.deleted_at %>
+          <a href="#" class='editable' data-type="text" data-resource="admin_furniture_type" data-name="name" data-url="<%= admin_furniture_type_path(ft) %>" data-original-title="<%= ft.name %>">
+            <%= ft.name %>
+          </a>
+        <% else %>
+            <%= ft.name %>
+        <% end %>
+      </td>
+      <td class='photo-gallery-collection-incomplete'>
+      	<% i = ft.images.first %>
+				<%= link_to image_url(i), data: { id: ft.id, source: list_images_admin_furniture_type_path(ft) } do %>
+					<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
+				<% end %>
+      </td>
+      <td>
+      	<% if not ft.deleted_at %>
+          <a href="#" class='editable' data-type="textarea" data-placement="bottom" data-resource="admin_furniture_type" data-name="comment" data-url="<%= admin_furniture_type_path(ft) %>" data-original-title="<%= ft.comment %>"><%= ft.comment %></a>
+        <% else %>
+            <%= ft.comment %>
+        <% end %>
+      </td>
+      	<td class='datetime' data-date='<%= ft.updated_at %>'></td>
+      <td>
+        <% acu_as :admin do %>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class='fa fa-superpowers'></span> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+            	<% if not ft.deleted_at %>
+              	<li>
+              		<%= link_to home_category_path(ft), target: :_blank do %>
+              			<span class='fa fa-eye'></span> مشاهده
               		<% end %>
-	                <li>
-	                	<% if ft.deleted_at %>
-		                  <%= link_to recover_admin_furniture_type_path(ft), method: :patch  do %>
-	                      <span class='fa fa-check'></span> خارچ کردن از آرشیو
-	                   	<% end %>
-	                  <% else %>
-		                  <%= link_to archive_admin_furniture_type_path(ft), method: :delete, data: { :confirm => { title: 'این دسته‌بندی آرشیو شود؟', message: 'تا زمانی که این دسته‌بندی در آرشیو می‌باشد امکان <b>مشاهده</b> و <b>اعمال تغییرات</b> برای این دسته‌بندی وجود ندارد.' } } do %>
-	                      <span class='fa fa-archive'></span> آرشیو کردن
-	                   	<% end %>                 	
-	                	<% end %>
-	                </li>
-	                <li>
-	                	<%= link_to admin_furniture_type_path(ft), method: :delete, data: { confirm: { title: "آیا از حذف این دسته‌بندی اطمینان دارید؟", message: "توجه فرمایید که حذف دسته‌بندی «<b>#{ft.name}</b>» غیر قابل بازگشت خواهد بود!" } } do %>
-	                		<span class='fa fa-trash'></span> حذف
-	                	<% end %>
-                	</li>
-	              </ul>
-	            </div>
-	          <% end %>
-	        </td>
-	      </tr>
-	    <% end %>
-	    <% if @furniture_types.empty? %>
-	      <tr>
-	        <td colspan="8"><div class="empty-collection">عضوی پیدا نشد!</div></td>
-	      </tr>
-	    <% end %>
-	  </tbody>
-	</table>
-	<div class="text-center" style='vertical-align: middle'>
-	  <%= will_paginate @furniture_types, renderer: BootstrapPagination::Rails %>
-	</div>
-</div>
+              	</li>
+              	<li class='divider'></li>
+              	<li>
+				          <%= link_to edit_admin_furniture_type_path(ft, admin: :check), :class => 'inline-html-call' do %>
+				            <span class='fa fa-pencil'></span> ویرایش
+				          <% end %>
+            		</li>
+              	<li class='divider'></li>
+          		<% end %>
+              <li>
+              	<% if ft.deleted_at %>
+                  <%= link_to recover_admin_furniture_type_path(ft), method: :patch  do %>
+                    <span class='fa fa-check'></span> خارچ کردن از آرشیو
+                 	<% end %>
+                <% else %>
+                  <%= link_to archive_admin_furniture_type_path(ft), method: :delete, data: { :confirm => { title: 'این دسته‌بندی آرشیو شود؟', message: 'تا زمانی که این دسته‌بندی در آرشیو می‌باشد امکان <b>مشاهده</b> و <b>اعمال تغییرات</b> برای این دسته‌بندی وجود ندارد.' } } do %>
+                    <span class='fa fa-archive'></span> آرشیو کردن
+                 	<% end %>                 	
+              	<% end %>
+              </li>
+              <li>
+              	<%= link_to admin_furniture_type_path(ft), method: :delete, data: { confirm: { title: "آیا از حذف این دسته‌بندی اطمینان دارید؟", message: "توجه فرمایید که حذف دسته‌بندی «<b>#{ft.name}</b>» غیر قابل بازگشت خواهد بود!" } } do %>
+              		<span class='fa fa-trash'></span> حذف
+              	<% end %>
+            	</li>
+            </ul>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+
+<% } %>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){		
@@ -128,7 +116,6 @@
 		};
 		append2gallery();
 		$(document).ajaxSuccess(append2gallery);
-		$('.editable[data-type="textarea"]').editable({ tpl: '<textarea maxlength="140"></textarea>' });
 	})
 </script>
 

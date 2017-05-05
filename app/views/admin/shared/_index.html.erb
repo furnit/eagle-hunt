@@ -1,0 +1,56 @@
+<div class='col-md-12 col-lg-10 col-lg-offset-1'>
+	<% if defined?(title) %>
+	  <legend>
+	    <h1 class='pull-right'><%= raw title %></h1>
+	    <% if defined?(title_right) %>
+		    <small class='pull-left' style='font-size: 16px; margin-top: 40px;'>
+		    	<%= raw title_right.call() %>
+		    </small>
+	    <% end %>
+	    <div class='clearfix'></div>
+	  </legend>
+  <% end %>
+
+	<% if defined?(before_table) %>
+		<%= raw before_table.call() %>
+	<% end %>
+	
+	<% if defined? table_head or defined? table_body %>
+	
+		<% if not defined? editable_content or editable_content %>
+			<%= acu_as :admin { render 'shared/editable_content' } %>	
+		<% end %>
+		
+	  <table class='table table-striped table-hover table-index-file'>
+	    <thead>
+	      <tr>
+	      	<% if defined? table_head %>
+		      	<% table_head.each do |html, attribs| %>
+		      		<th <%= raw attribs.map{ |a| a.join('="') + '"' }.join(' ') %>><%= raw html %></th>
+		      	<% end %>
+	      	<% end %>
+	      </tr>
+	    </thead>
+	    <tbody>
+	    	<%= raw table_body.call() %>
+	    </tbody>
+	  </table>
+	  
+  <% end %>
+  
+	<% if defined?(after_table) %>
+		<%= raw after_table.call() %>
+	<% end %>
+	
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$('.table-index-file').each(function(){
+			if($(this).find('tbody > tr').length === 0) {
+				$(this).append('<tr><td colspan="'+($(this).find('thead > tr > th').length)+'"><div class="empty-collection">داده‌ای ثبت نشده است!</div></td></tr>')
+				$(this).removeClass('table-striped table-hover')
+			}
+		})
+	});
+</script>

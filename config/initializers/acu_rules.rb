@@ -35,9 +35,15 @@ Acu::Rules.define do
 
   namespace :admin do
     # define the none-destroyable controllers
-    controller [:users, :user_types, :furniture_specs] do
+    controller [:users, :user_types, :furniture_specs, :furniture_sections] do
       deny :everyone, on: [:destroy]
     end
+    
+    # we only can view user types, nothing else!
+    controller :user_types, except: [:index] do
+      deny :everyone
+    end
+    
     # allowing employees to see the list images for a furniture
     controller :furnitures do
       allow :employee, on: [:list_images]

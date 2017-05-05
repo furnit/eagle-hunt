@@ -53,7 +53,7 @@ class Admin::FurnitureSectionsController < Admin::UploaderController
   # DELETE /admin/furniture_sections/1
   # DELETE /admin/furniture_sections/1.json
   def destroy
-    @admin_furniture_section.destroy
+    # @admin_furniture_section.destroy
     respond_to do |format|
       format.html { redirect_to admin_furniture_sections_url, notice: "قسمت «<b>#{@admin_furniture_section.name}</b>» با موفقیت حذف شد."}
       format.json { head :no_content }
@@ -72,6 +72,7 @@ class Admin::FurnitureSectionsController < Admin::UploaderController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_furniture_section_params
-      params.require(:admin_furniture_section).permit(:name, :comment)
+      # ignore the name change
+      params.require(:admin_furniture_section).permit(:comment)
     end
 end

@@ -157,6 +157,7 @@ module ApplicationHelper
   end
   def remote_form(instance, **args)
     args[:remote] = true
+    args[:format] = :json
     redirect_form(instance, args) { |f| yield f }
   end
 end
