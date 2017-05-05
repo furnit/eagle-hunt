@@ -62,6 +62,10 @@ $(document).on('ready turbolinks:load', function(){
 
         });
       }
+    }).on('ajax:success', function(e, data, status, xhr){
+    	// redirect if any redirection header specified
+    	if(xhr.getResponseHeader('Location'))
+    		window.location = xhr.getResponseHeader('Location');
     }).addClass('ajaxified');
 	  // load inline html from links
 	  $('.inline-html-call:not(.active)').click(function(e) {
