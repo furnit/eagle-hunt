@@ -77,5 +77,7 @@ Rails.application.routes.draw do
       end
     end
     
+    resources :furniture_wood_types
+    
   end
 end

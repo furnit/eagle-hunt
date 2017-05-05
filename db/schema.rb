@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504201544) do
+ActiveRecord::Schema.define(version: 20170505064612) do
 
   create_table "admin_furniture_fabric_brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -92,6 +92,13 @@ ActiveRecord::Schema.define(version: 20170504201544) do
     t.boolean  "is_outside_type",               default: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_admin_furniture_types_on_deleted_at", using: :btree
+  end
+
+  create_table "admin_furniture_wood_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.text     "comment",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "admin_furnitures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
