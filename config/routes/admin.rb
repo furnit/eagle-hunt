@@ -79,11 +79,11 @@ Rails.application.routes.draw do
     
     resources :furniture_wood_types
     
-    resources :furniture_color_qualities
+    resources :furniture_paint_color_qualities
     
-    resources :furniture_color_brands
+    resources :furniture_paint_color_brands
 
-    resources :furniture_colors    
+    resources :furniture_paint_colors    
 
   end
 end

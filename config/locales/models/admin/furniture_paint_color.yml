@@ -1,0 +1,26 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture_paint_color: 'رنگ'
+    attributes:
+      admin/furniture_paint_color:
+        name: 'نام'
+        comment: 'توضیحات'
+        color_value: 'کد HEX-RGB'
+        admin_furniture_paint_color_qualities_id: کیفیت
+        admin_furniture_paint_color_brands_id: برند
+    errors:
+      models:
+        admin/furniture_paint_color:
+          attributes:
+            name:
+              blank: 'نمی‌تواند خالی باشد.'
+              taken: 'قبلا وارد شده است'
+            comment:
+              blank: 'نمی‌تواند خالی باشد.'
+            color_value:
+              invalid: 'کد HEX-RGB نامعتبر است.'
+            admin_furniture_paint_color_qualities_id:
+              blank: 'نمی‌تواند خالی باشد.'
+            admin_furniture_paint_color_brands_id:
+              blank: 'نمی‌تواند خالی باشد.'

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Admin furniture color qualities:</strong>
+  <%= @admin_furniture_paint_color.admin_furniture_paint_color_qualities %>
+</p>
+
+<p>
+  <strong>Admin furniture color brand:</strong>
+  <%= @admin_furniture_paint_color.admin_furniture_paint_color_brand %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @admin_furniture_paint_color.comment %>
+</p>
+
+<p>
+  <strong>Color value:</strong>
+  <%= @admin_furniture_paint_color.color_value %>
+</p>
+
+<p>
+  <strong>Color details:</strong>
+  <%= @admin_furniture_paint_color.color_details %>
+</p>
+
+<%= link_to 'Edit', edit_admin_furniture_paint_color_path(@admin_furniture_paint_color) %> |
+<%= link_to 'Back', admin_furniture_paint_colors_path %>

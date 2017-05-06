@@ -10,34 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505110618) do
-
-  create_table "admin_furniture_color_brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.text     "comment",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  create_table "admin_furniture_color_qualities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.text     "comment",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  create_table "admin_furniture_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.integer  "admin_furniture_color_qualities_id"
-    t.integer  "admin_furniture_color_brands_id"
-    t.text     "comment",                            limit: 65535
-    t.string   "color_value"
-    t.json     "color_details"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.index ["admin_furniture_color_brands_id"], name: "index_color_brand", using: :btree
-    t.index ["admin_furniture_color_qualities_id"], name: "index_color_quality", using: :btree
-  end
+ActiveRecord::Schema.define(version: 20170506050409) do
 
   create_table "admin_furniture_fabric_brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -91,6 +64,33 @@ ActiveRecord::Schema.define(version: 20170505110618) do
     t.string   "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "admin_furniture_paint_color_brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.text     "comment",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  create_table "admin_furniture_paint_color_qualities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.text     "comment",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  create_table "admin_furniture_paint_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.integer  "admin_furniture_paint_color_qualities_id"
+    t.integer  "admin_furniture_paint_color_brands_id"
+    t.text     "comment",                                  limit: 65535
+    t.string   "color_value"
+    t.json     "color_details"
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+    t.index ["admin_furniture_paint_color_brands_id"], name: "index_color_brand", using: :btree
+    t.index ["admin_furniture_paint_color_qualities_id"], name: "index_color_quality", using: :btree
   end
 
   create_table "admin_furniture_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -355,12 +355,12 @@ ActiveRecord::Schema.define(version: 20170505110618) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
   end
 
-  add_foreign_key "admin_furniture_colors", "admin_furniture_color_brands", column: "admin_furniture_color_brands_id"
-  add_foreign_key "admin_furniture_colors", "admin_furniture_color_qualities", column: "admin_furniture_color_qualities_id"
   add_foreign_key "admin_furniture_fabric_color_indices", "admin_furniture_fabric_colors"
   add_foreign_key "admin_furniture_fabric_color_indices", "admin_furniture_fabrics"
   add_foreign_key "admin_furniture_fabrics", "admin_furniture_fabric_brands"
   add_foreign_key "admin_furniture_fabrics", "admin_furniture_fabric_types"
+  add_foreign_key "admin_furniture_paint_colors", "admin_furniture_paint_color_brands", column: "admin_furniture_paint_color_brands_id"
+  add_foreign_key "admin_furniture_paint_colors", "admin_furniture_paint_color_qualities", column: "admin_furniture_paint_color_qualities_id"
   add_foreign_key "admin_furnitures", "admin_furniture_types", column: "furniture_type_id"
   add_foreign_key "employee_fanis_furniture_build_details", "employee_fanis", on_update: :cascade, on_delete: :cascade
   add_foreign_key "employee_fanis_furniture_build_details", "furniture_build_details", on_update: :cascade, on_delete: :cascade
