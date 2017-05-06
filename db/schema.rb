@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170506104722) do
+ActiveRecord::Schema.define(version: 20170506130814) do
 
   create_table "admin_furniture_fabric_brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -171,7 +171,7 @@ ActiveRecord::Schema.define(version: 20170506104722) do
     t.index ["symbol"], name: "index_admin_user_types_on_symbol", unique: true, using: :btree
   end
 
-  create_table "admin_workshops", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "admin_workshop_workshops", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.integer  "state_id"
     t.text     "address",      limit: 65535
@@ -180,8 +180,8 @@ ActiveRecord::Schema.define(version: 20170506104722) do
     t.text     "comment",      limit: 65535
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.index ["state_id"], name: "index_admin_workshops_on_state_id", using: :btree
-    t.index ["user_id"], name: "index_admin_workshops_on_user_id", using: :btree
+    t.index ["state_id"], name: "index_admin_workshop_workshops_on_state_id", using: :btree
+    t.index ["user_id"], name: "index_admin_workshop_workshops_on_user_id", using: :btree
   end
 
   create_table "const_consts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -375,8 +375,8 @@ ActiveRecord::Schema.define(version: 20170506104722) do
   add_foreign_key "admin_furniture_furnitures", "admin_furniture_types", column: "furniture_type_id"
   add_foreign_key "admin_furniture_paint_colors", "admin_furniture_paint_color_brands", column: "admin_furniture_paint_color_brands_id"
   add_foreign_key "admin_furniture_paint_colors", "admin_furniture_paint_color_qualities", column: "admin_furniture_paint_color_qualities_id"
-  add_foreign_key "admin_workshops", "states"
-  add_foreign_key "admin_workshops", "users"
+  add_foreign_key "admin_workshop_workshops", "states"
+  add_foreign_key "admin_workshop_workshops", "users"
   add_foreign_key "employee_fanis_furniture_build_details", "employee_fanis", on_update: :cascade, on_delete: :cascade
   add_foreign_key "employee_fanis_furniture_build_details", "furniture_build_details", on_update: :cascade, on_delete: :cascade
   add_foreign_key "employee_processeds", "admin_furniture_furnitures", column: "admin_furniture_id"

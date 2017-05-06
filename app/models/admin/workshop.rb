@@ -1,4 +1,5 @@
-class Admin::Workshop < ApplicationRecord
-  belongs_to :state
-  belongs_to :user
+module Admin::Workshop
+  def self.table_name_prefix
+    'admin_workshop_'
+  end
 end

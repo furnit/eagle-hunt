@@ -88,7 +88,9 @@ Rails.application.routes.draw do
       resources :paint_colors   
     end
     
-    resources :workshops 
+    namespace :workshop do
+      resource :workshops
+    end 
 
   end
 end

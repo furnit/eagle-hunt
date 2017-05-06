@@ -1,10 +1,10 @@
-<%= form_for(admin_workshop) do |f| %>
-  <% if admin_workshop.errors.any? %>
+<%= form_for(admin_workshop_workshop) do |f| %>
+  <% if admin_workshop_workshop.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(admin_workshop.errors.count, "error") %> prohibited this admin_workshop from being saved:</h2>
+      <h2><%= pluralize(admin_workshop_workshop.errors.count, "error") %> prohibited this admin_workshop_workshop from being saved:</h2>
 
       <ul>
-      <% admin_workshop.errors.full_messages.each do |message| %>
+      <% admin_workshop_workshop.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>

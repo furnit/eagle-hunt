@@ -1,6 +1,6 @@
-class CreateAdminWorkshops < ActiveRecord::Migration[5.0]
+class CreateAdminWorkshopWorkshops < ActiveRecord::Migration[5.0]
   def change
-    create_table :admin_workshops do |t|
+    create_table :admin_workshop_workshops do |t|
       t.string :name
       t.references :state, foreign_key: true
       t.text :address
