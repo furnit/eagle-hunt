@@ -83,7 +83,9 @@ Rails.application.routes.draw do
     
     resources :furniture_paint_color_brands
 
-    resources :furniture_paint_colors    
+    resources :furniture_paint_colors   
+    
+    resources :workshops 
 
   end
 end

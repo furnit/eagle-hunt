@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @admin_workshop.name %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @admin_workshop.state %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @admin_workshop.address %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @admin_workshop.user %>
+</p>
+
+<p>
+  <strong>Phone number:</strong>
+  <%= @admin_workshop.phone_number %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @admin_workshop.comment %>
+</p>
+
+<%= link_to 'Edit', edit_admin_workshop_path(@admin_workshop) %> |
+<%= link_to 'Back', admin_workshops_path %>
