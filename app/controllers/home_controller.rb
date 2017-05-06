@@ -1,10 +1,10 @@
 class HomeController < ApplicationController
 	def index
-  	@categories = Admin::FurnitureType.all
+  	@categories = Admin::Furniture::Type.all
 	end
 	
 	def category
-    @furniture_type = Admin::FurnitureType.find(params[:id])
+    @furniture_type = Admin::Furniture::Type.find(params[:id])
     # if image list is nill? make it an empty array
     @furniture_type.images ||= []
     # fetch from database
@@ -12,7 +12,7 @@ class HomeController < ApplicationController
 	end
 	
 	def furniture
-	  @furniture = Admin::Furniture.find(params[:id]) 
+	  @furniture = Admin::Furniture::Furniture.find(params[:id]) 
 	end
 	
 	def furniture_notify

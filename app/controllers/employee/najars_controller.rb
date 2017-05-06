@@ -45,7 +45,7 @@ class Employee::NajarsController < Employee::EmployeebaseController
   
   def update_field
     return unless verify_two_step_auth
-    p = params[:admin_furniture]
+    p = params[:admin_furniture_furniture]
     if p
       p = p[:employee_najar]
       if p
@@ -62,7 +62,7 @@ class Employee::NajarsController < Employee::EmployeebaseController
   
   def set_forms_instance
     @form = {
-      furniture: Admin::Furniture.find(params[:id] || furniture_params[:id]).freeze,
+      furniture: Admin::Furniture::Furniture.find(params[:id] || furniture_params[:id]).freeze,
       najar: Employee::Najar.new
     }
   end
@@ -72,12 +72,12 @@ class Employee::NajarsController < Employee::EmployeebaseController
   end
   
   def furniture_params
-    params.require(:admin_furniture).permit(:id, :hd)
+    params.require(:admin_furniture_furniture).permit(:id, :hd)
   end
   
   def najar_params inject: true
     # purify the params
-    par = params.require(:admin_furniture).require(:employee_najar).permit(:wage, :choob, :days_to_complete, :days_to_complete_scale)
+    par = params.require(:admin_furniture_furniture).require(:employee_najar).permit(:wage, :choob, :days_to_complete, :days_to_complete_scale)
     # have to convert it to hash to process
     par = par.to_h
     # convert to days, based on defined scale

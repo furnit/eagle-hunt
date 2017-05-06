@@ -15,28 +15,6 @@ Rails.application.routes.draw do
         put     :reset_password
       end
     end
-
-    resources :furniture_types, :path => "category" do
-      member do
-        delete :archive
-        patch  :recover
-        get    :list_images, RC::json_request_only 
-      end
-    end
-    
-    resources :furnitures do
-      member do
-        post   :cover, RC::json_request_only
-        get    :edit_description, RC::ajax_server
-        patch  :update_description
-        get    :list_images, RC::json_request_only 
-        get    :ls_intel, RC::ajax_server
-        post   :confirm, RC::ajax_server.merge(RC::json_request_only)
-      end
-      collection do
-        post   :markup, RC::json_request_only
-      end
-    end
     
     resources :user_types
 
@@ -46,44 +24,69 @@ Rails.application.routes.draw do
       end
     end
     
-    resources :furniture_sections, except: [:show] do
-      member do
-        get :list_images, RC::json_request_only
-      end
-    end
-    
-    [:furniture_foam_types, :furniture_specs].each do |rsrc|
-      resources rsrc, except: [:show]
-    end
-    
     resources :systems, RC::non_restful do
     end
     
-    resources :furniture_fabric_types
-    
-    resources :furniture_fabric_brands
-    
-    resources :furniture_fabrics do
-      member do
-        delete :archive
-        patch  :recover
-        get    :list_images, RC::json_request_only 
+    namespace :furniture do 
+      
+      resources :furnitures do
+        member do
+          post   :cover, RC::json_request_only
+          get    :edit_description, RC::ajax_server
+          patch  :update_description
+          get    :list_images, RC::json_request_only 
+          get    :ls_intel, RC::ajax_server
+          post   :confirm, RC::ajax_server.merge(RC::json_request_only)
+        end
+        collection do
+          post   :markup, RC::json_request_only
+        end
       end
-    end
-    
-    resources :furniture_fabric_colors, except: [:show, :create] do
-      collection do 
-        post :compute
+      
+      resources :sections, except: [:show] do
+        member do
+          get :list_images, RC::json_request_only
+        end
       end
+      
+      [:foam_types, :specs].each do |rsrc|
+        resources rsrc, except: [:show]
+      end
+      
+      resources :types, :path => "category" do
+        member do
+          delete :archive
+          patch  :recover
+          get    :list_images, RC::json_request_only 
+        end
+      end
+    
+      resources :fabric_types
+      
+      resources :fabric_brands
+      
+      resources :fabrics do
+        member do
+          delete :archive
+          patch  :recover
+          get    :list_images, RC::json_request_only 
+        end
+      end
+      
+      resources :fabric_colors, except: [:show, :create] do
+        collection do 
+          post :compute
+        end
+      end
+      
+      resources :wood_types
+      
+      resources :paint_color_qualities
+      
+      resources :paint_color_brands
+  
+      resources :paint_colors   
     end
-    
-    resources :furniture_wood_types
-    
-    resources :furniture_paint_color_qualities
-    
-    resources :furniture_paint_color_brands
-
-    resources :furniture_paint_colors   
     
     resources :workshops 
 

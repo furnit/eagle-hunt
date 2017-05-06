@@ -1,0 +1,17 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture/furniture: 'محصول'
+    attributes:
+      admin/furniture/furniture:
+        name: 'نام'
+        furniture/type_id: 'دسته‌بندی محصول'
+        comment: 'درباره‌ی محصول'
+    errors:
+      models:
+        admin/furniture/furniture:
+          attributes:
+            name:
+              blank: 'نمی‌تواند خالی باشد.'
+            furniture_type_id:
+              blank: 'نمی‌تواند خالی باشد.'

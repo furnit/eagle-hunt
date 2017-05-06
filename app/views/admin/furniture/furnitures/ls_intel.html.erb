@@ -1,0 +1,87 @@
+<% klass_counter = 0 %>
+<% value_counter = 0 %>
+<% next_klass = Proc.new { klass_counter += 1; "kid=#{klass_counter}"  }%>
+<% next_value = Proc.new { value_counter += 1; "v#{value_counter}"  }%>
+
+<%= javascript_include_tag 'shared/editable-content' %>
+<%= stylesheet_link_tag    'shared/editable-content', media: 'all' %>
+
+<%= render 'admin/furniture/furnitures/ls_intel/shared/build_section' %>
+
+<input type="hidden" name="flink" value="<%= confirm_admin_furniture_furniture_path @furniture, format: :json %>" class='furniture-intel'>
+
+<% if not @intel.empty? %>
+<div class="row">
+  <section>
+    <div class="wizard-tabs">
+      <div class="wizard-tabs-inner">
+        <div class="connecting-line"></div>
+        <ul class="nav nav-tabs" role="tablist">
+					<% user_types = { } %>
+					<% icons = {
+						fani: 'fa fa-cogs',
+						nagash: 'fa fa-paint-brush',
+						najar: 'fa fa-tree',
+						kanaf: 'fa fa-arrows-alt',
+					}%>
+					<% @intel.keys.each.with_index do |k, index| %>
+						<% user_types[k] = Admin::UserType.where(symbol: k.upcase).first %>
+					  <li class="<%= index == 0 ? 'active' : 'disabled' %> pull-right" role="presentation">
+	            <a aria-controls="<%= k.to_s %>-tab-content" data-toggle="tab" href="#<%= k.to_s %>-tab-content" role="tab" for="furniture-intels" title="<%= user_types[k].name %>">
+	            	<span class="round-tab <%= @intel[k].map { |i| i[:data].confirmed }.all? ? "" : "edited" %>"><i class="<%= icons[k] %>"></i></span>
+	          	</a>
+          	</li>
+				  <% end %>
+          <li class="disabled" role="presentation">
+            <a aria-controls="confirm-tab-content" data-toggle="tab" href="#confirm-tab-content" role="tab" for="furniture-intels" title="تایید">
+            	<span class="round-tab"><i class="fa fa-check"></i></span>
+          	</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="tab-content" id="furniture-info-content">
+	<% @intel.keys.each.with_index do |k, index| %>
+	  <div aria-labelledby="<%= k.to_s %>-tab" class="tab-pane fade <%= index == 0 ? 'active in' : '' %>" id="<%= k.to_s %>-tab-content" role="tabpanel" style="margin: 20px;">
+  		<% panel_id = "furniture-intel-panel-#{next_value.call}" %>
+			<div class='furniture-intel' id="<%= panel_id %>">
+				<legend>اطلاعات <strong>«<%= user_types[k].name %>»</strong></legend>
+				<%= render "admin/furniture/furnitures/ls_intel/#{k.to_s}", intel: @intel[k], next_value: next_value, next_klass: next_klass %>
+				<div class='clearfix'></div>
+			</div>
+			<table class='table'>
+				<tbody>
+					<tr>
+						<td><span class='label label-danger'>رنگ پس‌زمینه‌ی فرمز</span></td>
+						<td>داده‌هایی هستند که سیستم با در نظر گرفتن دیگر داده‌ها، <b>«مشکوک» به اشتباه بودن آن‌ها</b> است؛ این بستگی به مدیریت سیستم دارد که این داده‌ها را <b>تایید</b> یا <b>ویرایش</b> نماید.</td>
+					</tr>
+					<tr>
+						<td><span class='label label-warning'>رنگ پس‌زمینه‌ی زرد</span></td>
+						<td>داده‌هایی هستند که مدیریت آن‌ها را تغییر داده است.</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class='clearfix'></div>
+      <ul class="list-inline pull-left">
+        <% if index > 0 %>
+        <li><a class="btn btn-default nav-step prev-step disabled" tabindex="-1">قبلی <span class='fa fa-arrow-right'></span></a></li>
+        <% end %>
+        <li><a class="btn btn-primary nav-step next-step disabled" tabindex="-1"><span class='fa fa-arrow-left'></span> بعدی</a></li>
+      </ul>
+			<div class='clearfix'></div>
+	  </div>
+	<% end %>
+  <div aria-labelledby="confirm-tab" class="tab-pane fade" id="confirm-tab-content" role="tabpanel" style="margin: 20px;">
+		<%= render "admin/furniture/furnitures/ls_intel/confirm", next_value: next_value, next_klass: next_klass %>
+	</div>
+</div>
+<% else %>
+<div class='empty-collection'>
+	هیچ اطلاعاتی برای این محصول ثبت نشده است!
+</div>
+<% end %>
+
+<%= javascript_include_tag 'admin/furniture/confirm_data', 'vendors/wizard-tabline' %>
+<%= stylesheet_link_tag    'vendors/wizard-tabline', media: 'all' %>

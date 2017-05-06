@@ -22,7 +22,7 @@
 				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1 disabled' data='left'><span class='fa fa-chevron-left'></span></div>
 				<div id='cover-collection' class='photo-gallery-collection col-lg-10 col-md-10 col-sm-10 col-xs-10'>
 					<% @furniture.images.each.with_index do |i, index| %>
-						<%= link_to image_url(i), 'data-type' => 'photo-gallery', data: { index: index, thumb: thumbnail_url(i), cover: @furniture.cover_details["index"].to_i == index, 'cover-url': cover_admin_furniture_path(@furniture, format: :json)  }  do %>
+						<%= link_to image_url(i), 'data-type' => 'photo-gallery', data: { index: index, thumb: thumbnail_url(i), cover: @furniture.cover_details["index"].to_i == index, 'cover-url': cover_admin_furniture_furniture_path(@furniture, format: :json)  }  do %>
 							<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 150px;' %>
 						<% end %>
 					<% end %>
@@ -107,7 +107,7 @@
 		});
 	</script>
 	
-  <%= form_tag cover_admin_furniture_path(format: :json), name: 'cover-config', method: :post, :remote => true do %>
+  <%= form_tag cover_admin_furniture_furniture_path(format: :json), name: 'cover-config', method: :post, :remote => true do %>
     <% hidden_field_tag 'admin_furniture[cover]' %>
   <% end %>
 	

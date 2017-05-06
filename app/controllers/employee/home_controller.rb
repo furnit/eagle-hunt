@@ -55,7 +55,7 @@ class Employee::HomeController < ApplicationController
       raise RuntimeError.new("invalid symbol `#{symbol}`")
     end
     
-    Admin::Furniture.where(query)    
+    Admin::Furniture::Furniture.where(query)    
     
   end
 end

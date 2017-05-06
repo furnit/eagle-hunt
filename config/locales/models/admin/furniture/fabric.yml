@@ -1,0 +1,19 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture/fabric: 'طرح پارچه'
+    attributes:
+      admin/furniture/fabric:
+        images_detail: 'جزییات طرح'
+        admin_furniture_fabric_type_id: 'نوع پارچه'
+        admin_furniture_fabric_brand_id: 'برند پارچه'
+    errors:
+      models:
+        admin/furniture/fabric:
+          attributes:
+            images:
+              blank: 'نمی‌تواند خالی باشد.'
+            admin_furniture_fabric_type_id:
+              blank: 'نمی‌تواند خالی باشد.'
+            admin_furniture_fabric_brand_id:
+              blank: 'نمی‌تواند خالی باشد.'

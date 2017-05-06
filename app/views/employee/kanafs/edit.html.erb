@@ -1,4 +1,4 @@
-<% unit = Admin::FurnitureSpec.where(name: 'چوب').first.unit %>
+<% unit = Admin::Furniture::Spec.where(name: 'چوب').first.unit %>
 <%= render 'employee/shared/input_for7' %>
 <%= remote_form @form[:furniture], url: employee_kanafs_path(format: :json), method: :post do |f| %>
 	<%= f.hidden_field :id, value: @form[:furniture].id %>

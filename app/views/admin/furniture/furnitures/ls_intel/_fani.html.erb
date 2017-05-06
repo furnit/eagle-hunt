@@ -1,0 +1,133 @@
+<% specs = Admin::Furniture::Spec.where('name IN (?)', ['پارچه', 'ابر']) %>
+<% sections = Admin::Furniture::Section.where('name IN (?)', ['زیری', 'پشتی', 'دسته']) %>
+<% stuff_abr = Admin::Furniture::FoamType.all %>
+<% admin_furniture_param_key = Admin::Furniture::Furniture.model_name.param_key %>
+
+<% # DAST MOZD HA %>
+<% build_section panel_type: 'success',
+			pangel_heading: "<span class='fa fa-money'></span> دست‌مزد",
+			thead: ['کارمند', 'دست‌مزد روکوب (تومان)', 'دست‌مزد خیاط (تومان)'] do %>
+	<% 
+		collection = { }
+		[:wage_rokob, :wage_khayat].each do |label|
+			collection[label] = intel.map {|i| i[:data][label]}
+		end
+	%>
+	<% klass_id = next_klass.call %>
+	<% intel.each do |i| %>
+		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
+			<td><%= i[:data].user.full_name %></td>
+			<% [:wage_rokob, :wage_khayat].each do |label| %>
+				<td>
+					<% outlier_label i[:data][label], collection: collection[label], diff_level: 30 do %>
+						<span class='value currency' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-options='<%= {
+							"#{admin_furniture_param_key}[employee_fani][id]": i[:data].id
+						}.to_json %>' data-resource="<%= admin_furniture_param_key %>[employee_fani]" data-name="<%= label.to_s %>" data-original-value="<%= i[:data][label].to_i %>" data-original-title="مقدار اولیه: <%= i[:data][label].to_i %>"><%= i[:data][label].to_i %></span>
+					<% end %>
+				</td>
+			<% end %>
+		</tr>
+	<% end %>
+<% end %>
+
+<% # ZAMAN BANDI %>
+<% build_section panel_type: 'info',
+			pangel_heading: "<span class='fa fa-clock-o'></span> زمان‌بندی",
+			thead: ['کارمند', 'مدت‌ زمان پایان «خیاطی» و «روکوبی»'] do %>
+	
+	<% klass_id = next_klass.call %>
+	<% intel.each do |i| %>
+		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
+			<td><%= i[:data].user.full_name %></td>
+			<td>
+				<% outlier_label i[:data][:days_to_complete], collection: intel.map { |i| i[:data][:days_to_complete] }, diff_level: 2 do %>
+					<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-options='<%= {
+								"#{admin_furniture_param_key}[employee_fani][id]": i[:data].id,
+								"#{admin_furniture_param_key}[employee_fani][days_to_complete_scale]": "days"
+							}.to_json %>' data-resource="<%= admin_furniture_param_key %>[employee_fani]" data-name="days_to_complete" data-original-value="<%= i[:data][:days_to_complete] %>" data-original-title="مقدار اولیه: <%= i[:data][:days_to_complete] %> روز"><%= i[:data][:days_to_complete] %></span>
+					&nbsp;
+					روز
+				<% end %>
+			</td>
+		</tr>
+	<% end %>
+<% end %>
+
+<% # ETELA'ATE UMUMI %>
+<% build_section panel_type: 'primary',
+			pangel_heading: "<span class='fa fa-info'></span> اطلاعات عمومی",
+			thead: ['کارمند', 'رنگ‌آمیزی دارد؟', 'کنده‌کاری دارد؟', 'کناف دارد؟'] do %>
+	
+	<% klass_id = next_klass.call %>
+	<% intel.each do |i| %>
+		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
+			<td><%= i[:data].user.full_name %></td>
+			<% [:needs_rang, :needs_kande, :needs_kanaf].each do |label| %>
+				<td>
+					<% outlier_label i[:data][label], collection: intel.map { |i| i[:data][label] }, categorical: true do %>
+						<span class='value' data-type="select" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-pk="<%= next_value.call %>" data-value="<%= i[:data][label] ? 1 : 0 %>" data-source="<%= ['ندارد', 'دارد'].map.with_index { |i, index| {value: index, text: i} }.to_json %>" data-options='<%= {
+							"#{admin_furniture_param_key}[employee_fani][id]": i[:data].id
+						}.to_json %>' data-resource="<%= admin_furniture_param_key %>[employee_fani]" data-name="<%= label.to_s %>" data-original-value="<%= i[:data][label] ? 'دارد' : 'ندارد' %>"  data-original-title="مقدار اولیه: <%= i[:data][label] ? 'دارد' : 'ندارد' %>">
+							<%= i[:data][label] ? 'دارد' : 'ندارد' %>
+						</span>
+					<% end %>
+				</td>
+			<% end %>
+		</tr>
+	<% end %>
+<% end %>
+
+<% # JOZIYAT %>
+<% specs.each do |spec| %>
+	<% is_abr = (spec.name == "ابر") %>
+	<% thead = ['قسمت', 'کارمند', 'مقدار'] %>
+	<% thead = ['قسمت', 'کارمند', 'جنس<br />(در حالت کلی)', 'مقدار'] if is_abr %>
+	<% build_section panel_type: 'primary',
+				pangel_heading: "<span class='fa fa-balance-scale'></span> جزییات #{spec.name}",
+				thead: thead,
+				thead_class: {'0': 'col-md-3', '2': 'col-md-3', '3': 'col-md-3'} do %>
+		<% sections.each do |section| %>
+			<% details = [] %>
+			<% intel.each.with_index do |i, index| %>
+				<% details << i[:data].furniture_build_details.where(admin_furniture_spec_id: spec.id, admin_furniture_section_id: section.id).first %>
+			<% end %>
+			<% details_value = details.map { |d| d.value } %>
+			<% klass_id = next_klass.call %>
+			<% details.each.with_index do |detail, index| %>
+				<% i = intel[index] %>
+				<tr class="<%= index == 0 ? 'divider' : '' %> <%= i[:data].confirmed? ? "" : "warning" %>" <%= klass_id %>>
+      		<% if index == 0 %>
+	      		<td rowspan="<%= intel.length %>">
+							<%= image_tag thumbnail_url(section.images), \
+										class: 'furniture-section img-responsive', \
+										style: 'height: 80px;margin-top: 0px;', \
+										title: section.comment %>
+						</td>
+					<% end %>
+					<td><%= i[:data].user.full_name %></td>
+					<% if is_abr %>
+					<td>
+						<% outlier_label detail.options["admin_furniture_foam_types"]["id"], collection: details.map { |d| d.options["admin_furniture_foam_types"]["id"] }, categorical: true do %>
+							<% abr = stuff_abr.select { |a| a.id == detail.options["admin_furniture_foam_types"]["id"].to_i }.first %>
+							<span class='value' data-type="select" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-value="<%= abr.id %>" data-source="<%= stuff_abr.map { |i| {value: i.id, text: i.name} }.to_json %>" data-options='<%= {
+								"#{admin_furniture_param_key}[employee_fani][furniture_build_detail][id]": detail.id
+							}.to_json %>' data-resource="<%= admin_furniture_param_key %>[employee_fani][furniture_build_detail]" data-name="options[admin_furniture_foam_types][id]" data-original-value="<%= abr.name %>" data-original-title="مقدار اولیه: <%= abr.name %>">
+								<%= abr.name %>
+							</span>
+						<% end %>
+					</td>
+					<% end %>
+					<td>
+						<% outlier_label detail.value, collection: details_value, diff_level: 5 do %>
+							<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-options='<%= {
+								"#[employee_fani][furniture_build_detail][id]": detail.id
+							}.to_json %>' data-resource="<%= admin_furniture_param_key %>[employee_fani][furniture_build_detail]" data-name="value" data-original-value="<%= detail.value %>" data-original-title="مقدار اولیه: <%= detail.value %>"><%= detail.value %></span>
+							&nbsp;
+							<%= spec.unit %>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+		<% end %>
+	<% end %>
+<% end %>

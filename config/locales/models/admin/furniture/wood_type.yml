@@ -1,0 +1,17 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture/wood_type: نوع چوب
+    attributes:
+      admin/furniture/wood_type:
+        name: 'عنوان'
+        comment: 'توضیحات'
+        value: مبلغ
+    errors:
+      models:
+        admin/furniture_wood/type:
+          attributes:
+            name:
+              blank: 'نمی‌تواند خالی باشد.'
+            comment:
+              blank: 'نمی‌تواند خالی باشد.'

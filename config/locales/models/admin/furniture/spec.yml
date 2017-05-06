@@ -1,0 +1,19 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture/spec: 'قسمت‌های پارچه'
+    attributes:
+      admin/furniture/spec:
+        name: 'عنوان'
+        comment: 'توضیحات'
+        unit: واحد
+    errors:
+      models:
+        admin/furniture/spec:
+          attributes:
+            name:
+              blank: 'نمی‌تواند خالی باشد.'
+            comment:
+              blank: 'نمی‌تواند خالی باشد.'
+            unit:
+              blank: 'نمی‌تواند خالی باشد.'

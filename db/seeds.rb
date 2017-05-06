@@ -75,7 +75,7 @@ end
   ['کوسن', 'بالشتک‌ها', "data/images/sofa/kosan.png"]
 ]
 .each do |name, comment, image|
-  section = Admin::FurnitureSection.create!(name: name, comment: comment)
+  section = Admin::Furniture::Section.create!(name: name, comment: comment)
   section.images = [Rails.root.join(image).open]
   section.save!
 end
@@ -89,7 +89,7 @@ end
   '۱۰ کیلویی',
 ]
 .each do |name|
-  Admin::FurnitureFoamType.create!(name: name)
+  Admin::Furniture::FoamType.create!(name: name)
 end
 
 [
@@ -99,7 +99,7 @@ end
   ['چوب', 'متر']
 ]
 .each do |name, unit|
-  Admin::FurnitureSpec.create!(name: name, unit: unit, comment: name)
+  Admin::Furniture::Spec.create!(name: name, unit: unit, comment: name)
 end
 
 target_asset = Rails.root.join( 'db', 'seeds', "#{Rails.env.downcase}.rb")
