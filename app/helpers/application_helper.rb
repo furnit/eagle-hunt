@@ -4,13 +4,16 @@ module ApplicationHelper
   end
   
   def editable_tag instance, field, **kwargs
-    text = kwargs[:text] || eval("instance.#{field.to_s}")
+    text = (kwargs[:text] || eval("instance.#{field.to_s}")).to_s
     kwargs.delete :text
-    link_to text, "#", class: 'editable', data: { 
+    klass = "editable #{kwargs[:class]}"
+    kwargs.delete :class
+    
+    link_to text, "#", class: klass, data: { 
       type: 'text',
       resource: "#{instance.model_name.param_key}", 
       name: field.to_s.downcase, 
-      url: path_exists?("#{instance.model_name.singular_route_key}_path") ? send("#{instance.model_name.singular_route_key}_path", instance) : nil,
+      url: path_exists?("#{instance.model_name.singular_route_key}_path(id: -1)") ? send("#{instance.model_name.singular_route_key}_path", instance) : nil,
       "original-title": kwargs[:"original-title"] || text
     }.merge(kwargs)
     

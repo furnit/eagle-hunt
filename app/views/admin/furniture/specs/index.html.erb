@@ -14,17 +14,15 @@
 		},
 		table_body: lambda {
 %>
-  <% @admin_furniture_specs.each do |admin_furniture_spec| %>
+  <% @admin_furniture_specs.each do |fs| %>
     <tr>
-      <td><%= admin_furniture_spec.id %></td>
-      <td><%= admin_furniture_spec.name %></td>
+      <td><%= fs.id %></td>
+      <td><%= fs.name %></td>
       <td>
-        <a href="#" class='editable' data-type="text" data-resource="admin_furniture_spec" data-name="unit" data-url="<%= admin_furniture_spec_path(admin_furniture_spec) %>" data-original-title="<%= admin_furniture_spec.unit %>">
-          <%= admin_furniture_spec.unit %>
-        </a>
+        <%= editable_tag fs, :unit %>
       </td>
       <td>
-        <a href="#" class='editable' data-type="textarea" data-placement="bottom" data-resource="admin_furniture_spec" data-name="comment" data-url="<%= admin_furniture_spec_path(admin_furniture_spec) %>" data-original-title="<%= admin_furniture_spec.comment %>"><%= admin_furniture_spec.comment %></a>
+        <%= editable_tag fs, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %>
       </td>
     </tr>
   <% end %>

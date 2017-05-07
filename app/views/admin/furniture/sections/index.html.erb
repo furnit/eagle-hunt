@@ -15,23 +15,23 @@
 		},
 		table_body: lambda {
 %>
-  <% @admin_furniture_sections.each do |admin_furniture_section| %>
+  <% @admin_furniture_sections.each do |fs| %>
     <tr>
-      <td><%= admin_furniture_section.id %></td>
+      <td><%= fs.id %></td>
       <td>
-        <%= admin_furniture_section.name %>
+        <%= fs.name %>
       </td>
       <td class='photo-gallery-collection-incomplete'>
-      	<% i = admin_furniture_section.images.first %>
-				<%= link_to image_url(i), data: { id: admin_furniture_section.id, source: list_images_admin_furniture_section_path(admin_furniture_section) } do %>
+      	<% i = fs.images.first %>
+				<%= link_to image_url(i), data: { id: fs.id, source: list_images_admin_furniture_section_path(fs) } do %>
 					<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
 				<% end %>
       </td>
       <td>
-        <a href="#" class='editable' data-type="textarea" data-placement="bottom" data-resource="admin_furniture_section" data-name="comment" data-url="<%= admin_furniture_section_path(admin_furniture_section) %>" data-original-title="<%= admin_furniture_section.comment %>"><%= admin_furniture_section.comment %></a>
+        <%= editable_tag fs, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %>
       </td>
       <td>
-        <%= link_to edit_admin_furniture_section_path(admin_furniture_section), class: 'inline-html-call' do %>
+        <%= link_to edit_admin_furniture_section_path(fs), class: 'inline-html-call' do %>
           <span class='fa fa-pencil'></span> ویرایش
         <% end %>
       </td>

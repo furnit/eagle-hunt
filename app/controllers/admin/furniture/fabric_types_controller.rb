@@ -34,7 +34,7 @@ class Admin::Furniture::FabricTypesController < Admin::AdminbaseController
     respond_to do |format|
       if @admin_furniture_fabric_type.save
         format.html { redirect_to admin_furniture_fabric_types_path, notice: "نوع پارچه «<b>#{@admin_furniture_fabric_type.name}</b>» با موفقیت ایجاد شد." }
-        format.json { render json: @admin_furniture_fabric_type, status: :created, location: @admin_furniture_fabric_type }
+        format.json { render json: @admin_furniture_fabric_type, status: :created, location: admin_furniture_fabric_types_path }
       else
         format.html { render :new }
         format.json { render json: @admin_furniture_fabric_type.errors, status: :unprocessable_entity }
@@ -48,7 +48,7 @@ class Admin::Furniture::FabricTypesController < Admin::AdminbaseController
     respond_to do |format|
       if @admin_furniture_fabric_type.update(admin_furniture_fabric_type_params)
         format.html { redirect_to admin_furniture_fabric_types_path, notice: "نوع پارچه «<b>#{@admin_furniture_fabric_type.name}</b>» با موفقیت ویرایش شد." }
-        format.json { render json: @admin_furniture_fabric_type, status: :ok, location: @admin_furniture_fabric_type }
+        format.json { render json: @admin_furniture_fabric_type, status: :ok, location: admin_furniture_fabric_types_path }
       else
         format.html { render :edit }
         format.json { render json: @admin_furniture_fabric_type.errors, status: :unprocessable_entity }

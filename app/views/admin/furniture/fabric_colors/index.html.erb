@@ -20,19 +20,17 @@
     <tr>
       <td><%= fc.id %></td>
       <td>
-        <a href="#" class='editable' data-type="text" data-allow-empty data-resource="admin_furniture_fabric_color" data-name="name" data-url="<%= admin_furniture_fabric_color_path(fc) %>" data-original-title="<%= fc.name.blank? ? "«بدون نام»" : fc.name %>">
-          <%= fc.name.blank? ? "«بدون نام»" : fc.name %>
-        </a>
+        <%= editable_tag fc, :name, 'allow-empty': true, text: fc.name.blank? ? "«بدون نام»" : fc.name %>
       </td>
       <td>
       	<div style='height: 50px; width: 50px; background-color: <%= fc.value %>'></div>
       </td>
       <td>
-        <a href="#" class='editable' data-type="textarea" data-allow-empty data-resource="admin_furniture_fabric_color" data-placement="bottom" data-name="comment" data-url="<%= admin_furniture_fabric_color_path(fc) %>" data-original-title="<%= fc.comment %>"><%= fc.comment %></a>
+        <%= editable_tag fc, :comment, type: :textarea, 'allow-empty': true, placement: :bottom %>
       </td>
     	<td class='datetime' data-date='<%= fc.updated_at %>'></td>
     	<td>
-      	<%= link_to admin_furniture_fabric_color_path(fc), method: :delete, class: 'text-danger', data: { confirm: { title: "آیا از حذف این رنگ اطمینان دارید؟", message: "توجه فرمایید که حذف رنگ پارچه غیر قابل بازگشت خواهد بود!" } } do %>
+      	<%= link_to fc, method: :delete, class: 'text-danger', data: { confirm: { title: "آیا از حذف این رنگ اطمینان دارید؟", message: "توجه فرمایید که حذف رنگ پارچه غیر قابل بازگشت خواهد بود!" } } do %>
       		<span class='fa fa-trash'></span> حذف
       	<% end %>
     	</td>

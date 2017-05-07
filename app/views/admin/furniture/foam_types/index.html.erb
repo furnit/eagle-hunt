@@ -14,19 +14,17 @@
 		},
 		table_body: lambda {
 %>
-  <% @admin_furniture_foam_types.each do |admin_furniture_foam_type| %>
+  <% @admin_furniture_foam_types.each do |ft| %>
     <tr>
-      <td><%= admin_furniture_foam_type.id %></td>
+      <td><%= ft.id %></td>
       <td>
-        <a href="#" class='editable' data-type="text" data-resource="admin_furniture_foam_type" data-name="name" data-url="<%= admin_furniture_foam_type_path(admin_furniture_foam_type) %>" data-original-title="<%= admin_furniture_foam_type.name %>">
-          <%= admin_furniture_foam_type.name %>
-        </a>
+        <%= editable_tag ft, :name %>
       </td>
       <td>
-        <a href="#" class='editable' data-type="textarea" data-placement="bottom" data-resource="admin_furniture_foam_type" data-name="comment" data-url="<%= admin_furniture_foam_type_path(admin_furniture_foam_type) %>" data-original-title="<%= admin_furniture_foam_type.comment %>"><%= admin_furniture_foam_type.comment %></a>
+        <%= editable_tag ft, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %>
       </td>
       <td>
-        <%= link_to admin_furniture_foam_type, method: :delete, data: { confirm: 'آیا از انجام این عمل مطمئن هستید؟' }, class: 'text-danger' do %>
+        <%= link_to ft, method: :delete, data: { confirm: 'آیا از انجام این عمل مطمئن هستید؟' }, class: 'text-danger' do %>
           <span class='fa fa-trash'></span> حذف
         <% end %>
       </td>

@@ -22,32 +22,24 @@
     <tr>
       <td><%= fc.id %></td>
       <td>
-	  		<a href="#" class='editable' data-type="select" data-resource="admin_furniture_paint_color" data-name="admin_furniture_paint_color_qualities_id" data-value="<%= fc.admin_furniture_paint_color_qualities_id %>" data-source="<%= admin_furniture_paint_color_qualities_path %>" data-url="<%= admin_furniture_paint_color_path(fc) %>" data-original-title="<%= fc.quality.name %>">
-	        <%= fc.quality.name %>
-	      </a>
+        <%= editable_tag fc, :admin_furniture_paint_color_brands_id, type: :select, value: fc.admin_furniture_paint_color_brands_id, source: admin_furniture_paint_color_brands_path, text: fc.brand.name %>
     	</td>
       <td>
-	  		<a href="#" class='editable' data-type="select" data-resource="admin_furniture_paint_color" data-name="admin_furniture_paint_color_brands_id" data-value="<%= fc.admin_furniture_paint_color_brands_id %>" data-source="<%= admin_furniture_paint_color_brands_path %>" data-url="<%= admin_furniture_paint_color_path(fc) %>" data-original-title="<%= fc.brand.name %>">
-	        <%= fc.brand.name %>
-	      </a>
+        <%= editable_tag fc, :admin_furniture_paint_color_qualities_id, type: :select, value: fc.admin_furniture_paint_color_qualities_id, source: admin_furniture_paint_color_qualities_path, text: fc.quality.name %>
     	</td>
       <td>
-        <a href="#" class='editable' data-type="text" data-allow-empty data-resource="admin_furniture_paint_color" data-name="name" data-url="<%= admin_furniture_paint_color_path(fc) %>" data-original-title="<%= fc.name %>">
-          <%= fc.name %>
-        </a>
+        <%= editable_tag fc, :name %>
       </td>
       <td>
-    		<div style='height: 50px; width: 50px; background-color: <%= fc.color_value %>; margin-bottom: 10px' class="color-presentor"></div>
-      	<a href="#" class='editable en en-font hidden' data-type="text" data-placement="bottom" data-resource="admin_furniture_paint_color" data-name="color_value" data-url="<%= admin_furniture_paint_color_path(fc) %>" data-original-title="<%= fc.color_value %>">
-      		<%= fc.color_value %>
-      	</a>
+        <div style='height: 50px; width: 50px; background-color: <%= fc.color_value %>; margin-bottom: 10px' class="color-presentor"></div>
+        <%= editable_tag fc, :color_value, class: 'en en-font hidden' %>
       </td>
       <td>
-        <a href="#" class='editable' data-type="textarea" data-allow-empty data-resource="admin_furniture_paint_color" data-placement="bottom" data-name="comment" data-url="<%= admin_furniture_paint_color_path(fc) %>" data-original-title="<%= fc.comment %>"><%= fc.comment %></a>
+        <%= editable_tag fc, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %>
       </td>
     	<td class='datetime' data-date='<%= fc.updated_at %>'></td>
     	<td>
-      	<%= link_to admin_furniture_paint_color_path(fc), method: :delete, class: 'text-danger', data: { confirm: { title: "آیا از حذف این رنگ اطمینان دارید؟", message: "توجه فرمایید که حذف رنگ غیر قابل بازگشت خواهد بود!" } } do %>
+      	<%= link_to fc, method: :delete, class: 'text-danger', data: { confirm: { title: "آیا از حذف این رنگ اطمینان دارید؟", message: "توجه فرمایید که حذف رنگ غیر قابل بازگشت خواهد بود!" } } do %>
       		<span class='fa fa-trash'></span> حذف
       	<% end %>
     	</td>

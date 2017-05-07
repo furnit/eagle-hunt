@@ -24,14 +24,10 @@
       <tr class='<%= klass %>' data-toggle='<%= title.length > 0 ? 'tooltip' : '' %>' title='<%= title %>'>
         <td><%= f.id %></td>
         <td>
-          <a href="#" class='editable' data-type="select" data-resource="admin_furniture" data-name="furniture_type_id" data-value="<%= f.furniture_type_id %>" data-source="<%= admin_furniture_types_path(format: :json) %>" data-url="<%= admin_furniture_furniture_path(f) %>" data-original-title="<%= type_name %>">
-            <%= type_name %>
-          </a>
+          <%= editable_tag f, :furniture_type_id, type: :select, value: f.furniture_type_id, source: admin_furniture_types_path, text: type_name %>
         </td>
-        <td>
-          <a href="#" class='editable' data-type="text" data-resource="admin_furniture" data-name="name" data-url="<%= admin_furniture_furniture_path(f) %>" data-original-title="<%= f.name %>">
-            <%= f.name %>
-          </a>
+        <td>22
+          <%= editable_tag f, :name %>
         </td>
         <td class='photo-gallery-collection-incomplete'>
         	<% i = f.images[f.cover_details["index"].to_i] %>
@@ -40,7 +36,7 @@
 					<% end %>
         </td>
         <td>
-          <a href="#" class='editable' data-type="textarea" data-max-length='11' data-placement="bottom" data-resource="admin_furniture" data-name="comment" data-url="<%= admin_furniture_furniture_path(f) %>" data-original-title="درباره‌ی مدل:"><%= f.comment.empty? ? "«توضیحی ثبت نشده است.»" : f.comment %></a>
+          <%= editable_tag f, :comment, type: :textarea, placement: :bottom, 'allow-empty': true, text: f.comment.blank? ? "«توضیحی ثبت نشده است.»" : f.comment %>
         </td>
         <td class='datetime' data-date='<%= f.updated_at %>'></td>
         <td>
@@ -108,7 +104,6 @@
 		};
 		append2gallery();
 		$(document).ajaxSuccess(append2gallery);
-		$('.editable[data-type="textarea"]').editable({ tpl: '<textarea maxlength="140"></textarea>' });
 	})
 </script>
 

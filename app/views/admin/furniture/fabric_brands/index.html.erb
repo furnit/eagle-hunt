@@ -25,19 +25,15 @@
     <tr>
       <td><%= ft.id %></td>
       <td>
-        <a href="#" class='editable' data-type="text" data-resource="admin_furniture_fabric_brand" data-name="name" data-url="<%= admin_furniture_fabric_brand_path(ft) %>" data-original-title="<%= ft.name %>">
-          <%= ft.name %>
-        </a>
+        <%= editable_tag ft, :name %>
       </td>
       <td>
-        <a href="#" class='editable' data-type="text" data-resource="admin_furniture_fabric_brand" data-name="comment" data-url="<%= admin_furniture_fabric_brand_path(ft) %>" data-original-title="<%= ft.comment %>">
-          <%= ft.comment %>
-        </a>
+        <%= editable_tag ft, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %>
       </td>
       	<td class='datetime' data-date='<%= ft.updated_at %>'></td>
       <td>
         <% acu_as :admin do %>
-        	<%= link_to admin_furniture_fabric_brand_path(ft), class: 'text-danger', method: :delete, data: { confirm: { title: "آیا از حذف این دسته‌بندی اطمینان دارید؟", message: "توجه فرمایید که حذف دسته‌بندی «<b>#{ft.name}</b>» غیر قابل بازگشت خواهد بود!" } } do %>
+        	<%= link_to ft, class: 'text-danger', method: :delete, data: { confirm: { title: "آیا از حذف این دسته‌بندی اطمینان دارید؟", message: "توجه فرمایید که حذف دسته‌بندی «<b>#{ft.name}</b>» غیر قابل بازگشت خواهد بود!" } } do %>
         		<span class='fa fa-trash'></span> حذف
         	<% end %>
         <% end %>
