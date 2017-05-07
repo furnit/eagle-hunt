@@ -1,0 +1,29 @@
+fa:
+  activerecord:
+    models:
+      admin/workshop/workshop: 'کارگاه'
+    attributes:
+      admin/workshop/workshop:
+        name: 'نام کارگاه'
+        state_id: 'استان'
+        address: 'آدرس'
+        user_id: 'مدیر‌کارگاه'
+        phone_number: 'تلفن کارگاه'
+        comment: 'توضیحات'
+    errors:
+      models:
+        admin/workshop/workshop:
+          attributes:
+            name:
+              blank: 'نمیتواند خالی باشد.'
+              taken: 'نمیتواند تکراری باشد.'
+            state_id:
+              blank: 'نمیتواند خالی باشد.'
+            address:
+              blank: 'نمیتواند خالی باشد.'
+            user_id:
+              blank: 'نمیتواند خالی باشد.'
+            phone_number:
+              blank: 'نمیتواند خالی باشد.'
+            comment:
+              blank: 'نمیتواند خالی باشد.'

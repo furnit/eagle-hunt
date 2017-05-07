@@ -1,47 +1,35 @@
-<%= form_for(admin_workshop_workshop) do |f| %>
-  <% if admin_workshop_workshop.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(admin_workshop_workshop.errors.count, "error") %> prohibited this admin_workshop_workshop from being saved:</h2>
-
-      <ul>
-      <% admin_workshop_workshop.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+<%= remote_form(admin_workshop_workshop) do |f| %>
+  <div class="block">
+  	<legend>اطلاعات عمومی</legend>
+  	<div class='row'>
+		  <div class="col-md-6">
+		    <%= f.collection_select :user_id, User.where(admin_user_type_id: Admin::UserType.select(:id).where(symbol: [:WORKSHOP_MANAGER, :ADMIN]).map { |t| t.id }), :id, :full_name, prompt: 'انتخاب کنید.' %>
+		  </div>
+		  <div class="col-md-6">
+		    <%= f.text_field :name %>
+		  </div>
+	  </div>
+  	<div class='row'>
+		  <div class="col-md-6">
+		    <%= f.text_area :comment %>
+		  </div>
+		  <div class="col-md-6">
+		    <%= f.text_field :phone_number %>
+		  </div>
+	  </div>
+  </div>
+	<div class='block'>
+  	<legend>آدرس</legend>
+	  <div class="field">
+	    <%= f.collection_select :state_id, State.all, :id, :name, prompt: 'انتخاب کنید.' %>
+	  </div>
+	
+	  <div class="field">
+	    <%= f.text_area :address %>
+	  </div>
   </div>
 
-  <div class="field">
-    <%= f.label :state_id %>
-    <%= f.text_field :state_id %>
-  </div>
-
-  <div class="field">
-    <%= f.label :address %>
-    <%= f.text_area :address %>
-  </div>
-
-  <div class="field">
-    <%= f.label :user_id %>
-    <%= f.text_field :user_id %>
-  </div>
-
-  <div class="field">
-    <%= f.label :phone_number %>
-    <%= f.text_field :phone_number %>
-  </div>
-
-  <div class="field">
-    <%= f.label :comment %>
-    <%= f.text_area :comment %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
+  <div class="actions field pull-left">
+    <%= f.submit submit_text, class: 'btn btn-primary' %>
   </div>
 <% end %>

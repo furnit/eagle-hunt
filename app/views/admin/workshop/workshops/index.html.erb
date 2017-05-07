@@ -1,37 +1,43 @@
-<p id="notice"><%= notice %></p>
+<%= 
+	render 'admin/shared/index',
+	  title: 'لیست کارگاه‌ها', 
+		title_right: lambda {
+			link_to new_admin_workshop_workshop_path, class: 'inline-html-call' do
+				raw "<span class='fa fa-plus'></span> ایجاد کارگاه جدید"
+			end
+		},
+		before_table: lambda {
+			raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_workshop_workshops}</small>"
+		},
+		after_table: lambda {
+			raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_workshop_workshops, renderer: BootstrapPagination::Rails}</div>"
+		},
+		table_head: {
+			'ردیف': { style: 'width: 30px' },
+			'نام کارگاه': { },
+			'استان': { style: 'width: 120px'},
+			'آدرس': { style: 'width: 300px'},
+			'مدیرکارگاه': { style: 'width: 150px'},
+			'تلفن تماس': { style: 'width: 100px' },
+			'توضیحات': { },
+			'آخرین بروزرسانی': { style: 'width: 130px' },
+			'عملیات': { style: 'width: 80px' }
+		},
+		table_body: lambda {
+%>
+	<% @admin_workshop_workshops.each do |ws| %>
+		<tr>
+			<td><%= ws.id %></td>
+			<td><%= editable_tag ws, :name %></td>
+			<td><%= editable_tag ws, :state, text: ws.state.name, type: 'select', name: 'state_id', value: ws.state_id, source: states_admin_users_path %></td>
+			<td><%= editable_tag ws, :address, type: 'textarea', placement: 'bottom' %></td>
+			<td><%= editable_tag ws, :user, text: ws.manager.full_name, type: 'select', name: 'user_id', value: ws.user_id, source: User.where(admin_user_type_id: Admin::UserType.select(:id).where(symbol: [:WORKSHOP_MANAGER, :ADMIN]).map { |t| t.id }).map { |u| {value: u.id, text: u.full_name}} %></td>
+			<td><%= editable_tag ws, :phone_number, "original-title": number_to_phone(ws.phone_number) %></td>
+			<td><%= editable_tag ws, :comment, type: 'textarea', placement: 'bottom', "allow-empty": true %></td>
+			<td class='datetime' data-date='<%= ws.updated_at %>'></td>
+			<td></td>
+		</tr>
+	<% end %>
+		
+<% } %>
 
-<h1>Admin Workshop Workshops</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>State</th>
-      <th>Address</th>
-      <th>User</th>
-      <th>Phone number</th>
-      <th>Comment</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @admin_workshop_workshops.each do |admin_workshop_workshop| %>
-      <tr>
-        <td><%= admin_workshop_workshop.name %></td>
-        <td><%= admin_workshop_workshop.state %></td>
-        <td><%= admin_workshop_workshop.address %></td>
-        <td><%= admin_workshop_workshop.user %></td>
-        <td><%= admin_workshop_workshop.phone_number %></td>
-        <td><%= admin_workshop_workshop.comment %></td>
-        <td><%= link_to 'Show', admin_workshop_workshop %></td>
-        <td><%= link_to 'Edit', edit_admin_workshop_workshop_path(admin_workshop_workshop) %></td>
-        <td><%= link_to 'Destroy', admin_workshop_workshop, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Admin Workshop Workshop', new_admin_workshop_workshop_path %>

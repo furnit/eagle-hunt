@@ -3,6 +3,19 @@ module ApplicationHelper
     ::TwoStepAuth.new current_user
   end
   
+  def editable_tag instance, field, **kwargs
+    text = kwargs[:text] || instance[field]
+    kwargs.delete :text
+    link_to text, "#", class: 'editable', data: { 
+      type: 'text',
+      resource: "#{instance.model_name.param_key}", 
+      name: field.to_s.downcase, 
+      url: send("#{instance.model_name.singular_route_key}_path", instance),
+      "original-title": kwargs[:"original-title"] || instance[field]
+    }.merge(kwargs)
+    
+  end
+  
   def list_or_prompt(k, p, &block)
     concat sanitize "<div class='empty-collection'>%s</div>" %p if k.empty?
     k.each.with_index { |l, index| yield l, index }

@@ -49,7 +49,7 @@ $(document).on('ready turbolinks:load', function(){
         form = $(this);
         errors = data.responseJSON;
         model_name = form.attr('name') || '';
-        form.find('.has-error').removeClass('has-error');
+        form.find('.has-error').removeClass('has-error').find('.help-block').remove();
         $.each(errors, function(field, messages) {
           input = form.find('input, select, textarea, div[name]').filter(function() {
             name = $(this).attr('name');

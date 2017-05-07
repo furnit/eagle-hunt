@@ -1,10 +1,10 @@
-class Admin::Workshop::WorkshopsController < ApplicationController
+class Admin::Workshop::WorkshopsController < Admin::AdminbaseController
   before_action :set_admin_workshop_workshop, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/workshop/workshops
   # GET /admin/workshop/workshops.json
   def index
-    @admin_workshop_workshops = Admin::Workshop::Workshop.all
+    @admin_workshop_workshops = Admin::Workshop::Workshop.paginate(page: params[:page])
   end
 
   # GET /admin/workshop/workshops/1
@@ -29,7 +29,7 @@ class Admin::Workshop::WorkshopsController < ApplicationController
     respond_to do |format|
       if @admin_workshop_workshop.save
         format.html { redirect_to @admin_workshop_workshop, notice: 'Workshop was successfully created.' }
-        format.json { render :show, status: :created, location: @admin_workshop_workshop }
+        format.json { render json: @admin_workshop_workshop, status: :created, location: admin_workshop_workshops_path }
       else
         format.html { render :new }
         format.json { render json: @admin_workshop_workshop.errors, status: :unprocessable_entity }
@@ -43,7 +43,7 @@ class Admin::Workshop::WorkshopsController < ApplicationController
     respond_to do |format|
       if @admin_workshop_workshop.update(admin_workshop_workshop_params)
         format.html { redirect_to @admin_workshop_workshop, notice: 'Workshop was successfully updated.' }
-        format.json { render :show, status: :ok, location: @admin_workshop_workshop }
+        format.json { render json: @admin_workshop_workshop, status: :ok, location: admin_workshop_workshops_path }
       else
         format.html { render :edit }
         format.json { render json: @admin_workshop_workshop.errors, status: :unprocessable_entity }
@@ -56,7 +56,7 @@ class Admin::Workshop::WorkshopsController < ApplicationController
   def destroy
     @admin_workshop_workshop.destroy
     respond_to do |format|
-      format.html { redirect_to admin_workshop_workshops_url, notice: 'Workshop was successfully destroyed.' }
+      format.html { redirect_to admin_workshop_workshops_path, notice: 'Workshop was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

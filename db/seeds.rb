@@ -19,7 +19,8 @@
   ['کارشناس گرافیک', 'GRAPHIC','بررسی گرافیکی و سلیقه‌ای محصولات و ثبت پیشنهادات مرتبط',2],
   ['بازاریاب', 'MARKETER','بازاریاب‌ محصولات',2],
   ['بازرس', 'PR','بازرسی کیفی فعالیت‌های بازاریاب‌ها، روابط عمومی مشتری‌ها',3],
-  ['بازارسنج', 'MARKLINE','مسئول بروز رسانی قیمت‌های کالاها و لوازم پیش‌نیاز محصولات خدماتی',2]
+  ['بازارسنج', 'MARKLINE','مسئول بروز رسانی قیمت‌های کالاها و لوازم پیش‌نیاز محصولات خدماتی',2],
+  ['مدیر‌کارگاه', 'WORKSHOP_MANAGER', 'مسئول مدیریت کارگاه', 100]
 ]
 .each do |name, symbol, comment, auth_level|
   Admin::UserType.create(name: name, symbol: symbol, comment: comment, auth_level: auth_level)
@@ -42,6 +43,7 @@ end
 #
 [
   '09120686119',
+  '09120535348'
 ]
 .each do |phone_number|
   User.create!(
@@ -58,7 +60,8 @@ end
 # => adding admins' profile
 #
 [
-  ['داریوش', 'حسن‌پور', 'اصفهان']
+  ['داریوش', 'حسن‌پور', 'اصفهان'],
+  ['سیاوش', 'حسن‌پور', 'آذربایجان غربی']
 ]
 .each.with_index do |data, index|
   Profile.create!(first_name: data[0], last_name: data[1], state_id: State.where('name = ?', data[2]).first.id, address: data[2], user_id: index + 1)

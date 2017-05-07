@@ -1,6 +1,4 @@
-<h1>Editing Admin Workshop Workshop</h1>
-
-<%= render 'form', admin_workshop_workshop: @admin_workshop_workshop %>
-
-<%= link_to 'Show', @admin_workshop_workshop %> |
-<%= link_to 'Back', admin_workshop_workshops_path %>
+<div class='' style="width: 100%">
+	<legend>ویرایش کارگاه «<%= @admin_workshop_workshop.name %>»</legend>
+	<%= render 'form', admin_workshop_workshop: @admin_workshop_workshop, :submit_text => 'ویرایش'  %>
+</div>
