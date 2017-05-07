@@ -31,7 +31,7 @@ class Employee::HomeController < ApplicationController
   private 
   
   def ls_furnitures_scop
-    symbol = current_user.user_type.symbol;
+    symbol = current_user.type.symbol;
     acu_as :admin { symbol = session[:admin_as_employee]["sym"] }
     
     not_archived = "NOT"

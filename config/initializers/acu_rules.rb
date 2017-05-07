@@ -12,11 +12,11 @@ Acu::Rules.define do
     :MARKETER, :MARKLINE, :NAGASH,
     :NAJAR, :PR, :CLIENT, :KANAF
   ].each do |symbol|
-    whois symbol.downcase.to_sym, args: [:user] { |user| user and user.user_type && user.user_type.symbol == symbol.to_s }
+    whois symbol.downcase.to_sym, args: [:user] { |user| user and user.type && user.type.symbol == symbol.to_s }
   end
   
   # employees are those who are members and not (:ADMIN or :CLIENT) 
-  whois :employee, args: [:user] { |user| user and user.user_type && not([:ADMIN, :CLIENT].include? user.user_type.symbol.to_sym) }
+  whois :employee, args: [:user] { |user| user and user.type && not([:ADMIN, :CLIENT].include? user.type.symbol.to_sym) }
 
   # by default admin can go everywhere
   allow :admin
