@@ -1,0 +1,38 @@
+<% form_id = '' %>
+<%= remote_form(admin_pricing_const) do |f| -%>
+  <% form_id = f.options[:html][:id] %>
+  <div  class='block ir'>
+  	<div class='alert alert-warning'><strong>توجه:</strong> واحد ارزی به «<b>تومان</b>» می‌باشد.</div>
+  	<div class="row">
+      <div class="col-sm-4 pull-right">
+        <%= f.text_field :guni, autofocus: true %>
+      </div>
+
+      <div class="col-sm-4 pull-right">
+        <%= f.text_field :chasb %>
+      </div>
+
+      <div class="col-sm-4 pull-right">
+        <%= f.text_field :payemobl %>
+      </div>
+
+      <div class="col-sm-4 pull-right">
+        <%= f.text_field :sage %>
+      </div>
+
+      <div class="col-sm-4 pull-right">
+        <%= f.text_field :mikh %>
+      </div>
+
+      <div class="col-sm-4 pull-right">
+        <%= f.text_field :extra %>
+      </div>
+		</div>
+		<div class='clearfix'></div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%= f.submit submit_text, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+<% end %>

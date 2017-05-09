@@ -95,6 +95,10 @@ Rails.application.routes.draw do
         end
       end
     end 
+    
+    namespace :pricing do
+      resources :consts
+    end
 
   end
 end

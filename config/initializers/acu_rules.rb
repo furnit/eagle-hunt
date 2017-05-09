@@ -48,6 +48,11 @@ Acu::Rules.define do
     controller :furnitures do
       allow :employee, on: [:list_images]
     end
+    
+    # no-one can update/destroy anything in `pricing` namespace
+    namespace :pricing do
+      deny :everyone, on: [:destroy, :update]
+    end
   end
   
   namespace :employee do

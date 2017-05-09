@@ -1,0 +1,26 @@
+<%% form_id = '' %>
+<%%= remote_form(<%= singular_table_name %>) do |f| -%>
+  <%% form_id = f.options[:html][:id] %>
+  <div  class='block'>
+  <% attributes.each.with_index do |attribute, index| -%>
+    <div class="field">
+  <% if attribute.password_digest? -%>
+      <%%= f.password_field :password %>
+    </div>
+
+    <div class="field">
+      <%%= f.password_field :password_confirmation %>
+  <% else -%>
+      <%%= f.<%= attribute.field_type %> :<%= attribute.column_name %> %>
+  <% end -%>
+    </div>
+
+  <% end -%>
+    <div class='clearfix'></div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+<%% end %>

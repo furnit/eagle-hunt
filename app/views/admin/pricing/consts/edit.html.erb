@@ -1,0 +1,4 @@
+<div style="width: 100%">
+  <legend>ویرایش <%= t "activerecord.models.#{Admin::Pricing::Const.model_name.i18n_key}" %>: «<strong><%= @admin_pricing_const.id %></strong>»</legend>
+  <%= render 'form', admin_pricing_const: @admin_pricing_const, :submit_text => 'ویرایش' %>
+</div>

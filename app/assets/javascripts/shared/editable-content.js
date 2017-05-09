@@ -1,31 +1,8 @@
-//= require moment.min
-//= require jalali.min
 //= require bootstrap-editable
 //= require bootstrap-editable-rails
 
 $(document).ready(function(){
-  function jalali2str(date) {
-    m = [
-      'فروردین',
-      'ادریبهشت',
-      'خرداد',
-      'تیر',
-      'مرداد',
-      'شهریور',
-      'مهر',
-      'آبان',
-      'آذر',
-      'دی',
-      'بهمن',
-      'اسفند'
-    ];
-    return date.jd.toString() + ' ' + m[date.jm-1] + (date.jy == toJalaali(new Date()).jy ? '' : ' ' + date.jy.toString());
-  }
-  
   function on_ajax_success() {
-    $('.datetime:not(.jalali)').each(function() {
-      try { $(this).html(jalali2str(toJalaali(moment($(this).attr('data-date'), 'YYYY-MM-DD HH:mm:ss ZZ').toDate()))).addClass('jalali'); } catch(e) { }
-    });
 		if($.isFunction($.fn.editable)) {
 	    $('.editable:not(.editabled)').editable({
 	     validate: function(value) { if($(this).attr('data-allow-empty') === undefined && $.trim(value) == '') return 'نمی‌تواند خالی باشد!'; },
@@ -65,8 +42,6 @@ $(document).ready(function(){
 		    $(this).html($(this).attr('data-origin-text'));
     });
   }
-
   on_ajax_success();
-  
   $(document).ajaxSuccess(on_ajax_success);
 });

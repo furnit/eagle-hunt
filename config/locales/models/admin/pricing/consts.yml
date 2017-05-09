@@ -1,0 +1,34 @@
+fa:
+  activerecord:
+    models:
+      admin/pricing/const: 'قیمت‌های ثابت'
+    attributes:
+      admin/pricing/const:
+        guni: 'گونی'
+        chasb: 'چسب'
+        payemobl: 'پایه‌ مبل'
+        sage: 'سقه'
+        mikh: 'میخ'
+        extra: اضافی
+    errors:
+      models:
+        admin/pricing/const:
+          attributes:
+            guni:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            chasb:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            payemobl:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            sage:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            mikh:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            extra:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'

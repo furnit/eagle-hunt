@@ -23,6 +23,7 @@
 //= require filterrific/filterrific-jquery
 //= require bootstrap-select
 //= require common
+//= require shared/datetime.js
 
 
 //= require nprogress
