@@ -2,21 +2,24 @@
   <div class="block">
   	<legend>اطلاعات عمومی</legend>
   	<div class='row'>
-		  <div class="col-md-6">
+		  <div class="col-md-6 pull-right">
+		    <%= f.text_field :name, autofocus: true %>
+		  </div>
+		  <div class="col-md-6 pull-right">
 		    <%= f.collection_select :user_id, User.where(admin_user_type_id: Admin::UserType.select(:id).where(symbol: [:WORKSHOP_MANAGER, :ADMIN]).map { |t| t.id }), :id, :full_name, prompt: 'انتخاب کنید.' %>
 		  </div>
-		  <div class="col-md-6">
-		    <%= f.text_field :name %>
-		  </div>
+		  <div class='clearfix'></div>
 	  </div>
   	<div class='row'>
-		  <div class="col-md-6">
+		  <div class="col-md-6 pull-right">
+		    <%= f.text_field :phone_number, maxlength: 11 %>
+		  </div>
+		  <div class="col-md-6 pull-right">
 		    <%= f.text_area :comment %>
 		  </div>
-		  <div class="col-md-6">
-		    <%= f.text_field :phone_number %>
-		  </div>
+		  <div class='clearfix'></div>
 	  </div>
+	  <div class='clearfix'></div>
   </div>
 	<div class='block'>
   	<legend>آدرس</legend>

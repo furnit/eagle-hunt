@@ -40,6 +40,15 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def mk_notice instance, field, label, op
+    op = {
+      create: 'ایجاد',
+      update: 'ویرایش',
+      delete: 'حذف'
+    }[op.to_sym]
+    "#{label} «<b>#{eval("instance.#{field.to_s}")}</b>» با موفقیت #{op} شد." 
+  end
+  
   def add_to_phonebook_if_necessary
     if user_signed_in? and current_user.profile and not(current_user.is_added_to_phonebook or current_user.error_on_add_to_phonebook)
       require "#{Rails.root}/lib/sms/bootstrap"

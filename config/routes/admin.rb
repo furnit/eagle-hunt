@@ -89,7 +89,11 @@ Rails.application.routes.draw do
     end
     
     namespace :workshop do
-      resources :workshops
+      resources :workshops do
+        member do
+          put :toggle_cease
+        end
+      end
     end 
 
   end

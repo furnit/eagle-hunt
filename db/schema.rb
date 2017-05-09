@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170506130814) do
+ActiveRecord::Schema.define(version: 20170509062443) do
 
   create_table "admin_furniture_fabric_brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 20170506130814) do
     t.text     "comment",      limit: 65535
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.datetime "ceased_at"
     t.index ["state_id"], name: "index_admin_workshop_workshops_on_state_id", using: :btree
     t.index ["user_id"], name: "index_admin_workshop_workshops_on_user_id", using: :btree
   end
