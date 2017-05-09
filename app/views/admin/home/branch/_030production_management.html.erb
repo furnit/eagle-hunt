@@ -1,117 +1,70 @@
 <legend><span class='fa fa-industry'></span> مدیریت تولید</legend>
 <div class="panel-group accordion" role="tablist">
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab">
-      <h4 class="panel-title">
-      	<span class="collapsed" role="button" data-toggle="collapse" data-parent=".accordion" href="#collapse_sofa" aria-expanded="false" aria-controls="collapseThree">
-	      	<span class='fa fa-th-large'></span> مبل
-      	</span>
-      </h4>
-    </div>
-    <div id="collapse_sofa" class="panel-collapse collapse" role="tabpanel">
-      <div class="list-group">
-        <a href="<%= admin_furniture_sections_path %>" class="list-group-item" target='panel-frame'>
-        	تعریف قسمت‌ها
-        </a>
-        <a href="<%= admin_furniture_specs_path %>" class="list-group-item" target='panel-frame'>
-        	تعریف اجزای ساخت
-        </a>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-	  <div class="panel-heading" role="tab">
-	    <h4 class="panel-title">
-	    	<span class="collapsed" role="button" data-toggle="collapse" data-parent=".accordion" href="#collapse_parche" aria-expanded="false" aria-controls="collapseThree">
-	      	<span class='fa fa-th-large'></span> پارچه
-	    	</span>
-	    </h4>
-	  </div>
-	  <div id="collapse_parche" class="panel-collapse collapse" role="tabpanel">
-	    <div class="list-group">
-	      <a href="<%= admin_furniture_fabric_types_path %>" class="list-group-item" target='panel-frame'>
-	        کیفیت
-	      </a>
-	      <a href="<%= admin_furniture_fabric_brands_path %>" class="list-group-item" target='panel-frame'>
-	        برندها
-	      </a>
-	      <a href="<%= admin_furniture_fabrics_path %>" class="list-group-item" target='panel-frame'>
-	        طرح‌ها
-	      </a>
-	      <a href="<%= admin_furniture_fabric_colors_path %>" class="list-group-item" target='panel-frame'>
-	        دسته‌بندی رنگ‌ها
-	      </a>
+	<%
+		[
+			{
+				title: 'مبل',
+				subtitles: [
+      		{ label: 'تعریف قسمت‌ها', link: admin_furniture_sections_path },
+      		{ label: 'تعریف اجزای ساخت', link: admin_furniture_specs_path },
+      	]
+			},
+			{
+				title: 'پارچه',
+				subtitles: [
+      		{ label: 'کیفیت', link: admin_furniture_fabric_types_path },
+      		{ label: 'برندها', link: admin_furniture_fabric_brands_path },
+      		{ label: 'طرح‌ها', link: admin_furniture_fabrics_path },
+      		{ label: 'دسته‌بندی رنگ‌ها', link: admin_furniture_fabric_colors_path },
+      		{ label: 'اندازه‌های کوسن‌ها؟؟؟؟', link: '#' }
+      	]
+			},
+			{
+				title: 'رنگ',
+				subtitles: [
+      		{ label: 'کیفیت', link: admin_furniture_paint_color_qualities_path },
+      		{ label: 'برندها', link: admin_furniture_paint_color_brands_path },
+      		{ label: 'رنگ‌ها', link: admin_furniture_paint_colors_path },
+      	]
+			},
+			{
+				title: 'چوب',
+				subtitles: [
+      		{ label: 'انواع', link: admin_furniture_wood_types_path },
+      	]
+			},
+			{
+				title: 'ابر',
+				subtitles: [
+      		{ label: 'انواع', link: admin_furniture_foam_types_path },
+      	]
+			},
+			{
+				title: 'کارگاه',
+				subtitles: [
+      		{ label: 'کارگاه‌ها', link: admin_workshop_workshops_path },
+      	]
+			},
+		].each do |section|
+			tag = Time.now.to_i + rand.to_s[2..-1].to_i
+	%>
+	  <div class="panel panel-default">
+	    <div class="panel-heading" role="tab">
+	      <h4 class="panel-title">
+	      	<span class="collapsed" role="button" data-toggle="collapse" data-parent=".accordion" href="#collapse_<%= tag %>" aria-expanded="false" aria-controls="collapseThree">
+		      	<span class='fa fa-th-large'></span> <%= section[:title] %>
+	      	</span>
+	      </h4>
+	    </div>
+	    <div id="collapse_<%= tag %>" class="panel-collapse collapse" role="tabpanel">
+	      <div class="list-group">
+	        <% section[:subtitles].each do |subsec| %>
+		        <a href="<%= subsec[:link] %>" class="list-group-item" target='panel-frame'>
+		        	<%= subsec[:label] %>
+		        </a>
+	        <% end %>
+	      </div>
 	    </div>
 	  </div>
-	</div>
-  <div class="panel panel-default">
-	  <div class="panel-heading" role="tab">
-	    <h4 class="panel-title">
-	    	<span class="collapsed" role="button" data-toggle="collapse" data-parent=".accordion" href="#collapse_rang" aria-expanded="false" aria-controls="collapseThree">
-	      	<span class='fa fa-th-large'></span> رنگ
-	    	</span>
-	    </h4>
-	  </div>
-	  <div id="collapse_rang" class="panel-collapse collapse" role="tabpanel">
-	    <div class="list-group">
-	      <a href="<%= admin_furniture_paint_color_qualities_path %>" class="list-group-item" target='panel-frame'>
-	        کیفیت
-	      </a>
-	      <a href="<%= admin_furniture_paint_color_brands_path %>" class="list-group-item" target='panel-frame'>
-	        برندها
-	      </a>
-	      <a href="<%= admin_furniture_paint_colors_path %>" class="list-group-item" target='panel-frame'>
-	        رنگ‌ها
-	      </a>
-	    </div>
-	  </div>
-	</div>
-	<div class="panel panel-default">
-	  <div class="panel-heading" role="tab">
-	    <h4 class="panel-title">
-	    	<span class="collapsed" role="button" data-toggle="collapse" data-parent=".accordion" href="#collapse_wood" aria-expanded="false" aria-controls="collapseThree">
-	      	<span class='fa fa-th-large'></span> چوب
-	    	</span>
-	    </h4>
-	  </div>
-	  <div id="collapse_wood" class="panel-collapse collapse" role="tabpanel">
-	    <div class="list-group">
-	      <a href="<%= admin_furniture_wood_types_path %>" class="list-group-item" target='panel-frame'>
-	        انواع چوب
-	      </a>
-	    </div>
-	  </div>
-	</div>
-	<div class="panel panel-default">
-	  <div class="panel-heading" role="tab">
-	    <h4 class="panel-title">
-	    	<span class="collapsed" role="button" data-toggle="collapse" data-parent=".accordion" href="#collapse_foam" aria-expanded="false" aria-controls="collapseThree">
-	      	<span class='fa fa-th-large'></span> ابر
-	    	</span>
-	    </h4>
-	  </div>
-	  <div id="collapse_foam" class="panel-collapse collapse" role="tabpanel">
-	    <div class="list-group">
-	      <a href="<%= admin_furniture_foam_types_path %>" class="list-group-item" target='panel-frame'>
-	        انواع ابر
-	      </a>
-	    </div>
-	  </div>
-	</div>
-	<div class="panel panel-default">
-	  <div class="panel-heading" role="tab">
-	    <h4 class="panel-title">
-	    	<span class="collapsed" role="button" data-toggle="collapse" data-parent=".accordion" href="#collapse_workshop" aria-expanded="false" aria-controls="collapseThree">
-	      	<span class='fa fa-th-large'></span> کارگاه‌
-	    	</span>
-	    </h4>
-	  </div>
-	  <div id="collapse_workshop" class="panel-collapse collapse" role="tabpanel">
-	    <div class="list-group">
-	      <a href="<%= admin_workshop_workshops_path %>" class="list-group-item" target='panel-frame'>
-	        کارگاه‌ها
-	      </a>
-	    </div>
-	  </div>
-	</div>
+  <% end %>
 </div>

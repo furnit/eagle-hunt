@@ -1,0 +1,34 @@
+<legend><span class='fa fa-diamond'></span> مدیریت فروش</legend>
+<div class="panel-group accordion" role="tablist">
+	<%
+		[
+			{
+				title: 'تنظیمات فروش',
+				subtitles: [
+      		{ label: 'سوددهی', link: '#' },
+      		{ label: 'تعداد کوسن‌ها', link: '#' },
+      	]
+			}
+		].each do |section|
+			tag = Time.now.to_i + rand.to_s[2..-1].to_i
+	%>
+	  <div class="panel panel-default">
+	    <div class="panel-heading" role="tab">
+	      <h4 class="panel-title">
+	      	<span class="collapsed" role="button" data-toggle="collapse" data-parent=".accordion" href="#collapse_<%= tag %>" aria-expanded="false" aria-controls="collapseThree">
+		      	<span class='fa fa-th-large'></span> <%= section[:title] %>
+	      	</span>
+	      </h4>
+	    </div>
+	    <div id="collapse_<%= tag %>" class="panel-collapse collapse" role="tabpanel">
+	      <div class="list-group">
+	        <% section[:subtitles].each do |subsec| %>
+		        <a href="<%= subsec[:link] %>" class="list-group-item" target='panel-frame'>
+		        	<%= subsec[:label] %>
+		        </a>
+	        <% end %>
+	      </div>
+	    </div>
+	  </div>
+  <% end %>
+</div>
