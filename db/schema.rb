@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509110701) do
+ActiveRecord::Schema.define(version: 20170509192415) do
 
   create_table "admin_furniture_fabric_brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -39,14 +39,16 @@ ActiveRecord::Schema.define(version: 20170509110701) do
     t.index ["value"], name: "index_admin_furniture_fabric_colors_on_value", unique: true, using: :btree
   end
 
-  create_table "admin_furniture_fabric_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
+  create_table "admin_furniture_fabric_cushions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "label"
+    t.integer  "width"
+    t.integer  "height"
     t.text     "comment",    limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
 
-  create_table "admin_furniture_fabrics", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "admin_furniture_fabric_fabrics", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "admin_furniture_fabric_type_id"
     t.integer  "admin_furniture_fabric_brand_id"
     t.text     "comment",                         limit: 65535
@@ -55,8 +57,15 @@ ActiveRecord::Schema.define(version: 20170509110701) do
     t.datetime "deleted_at"
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
-    t.index ["admin_furniture_fabric_brand_id"], name: "index_admin_furniture_fabrics_on_admin_furniture_fabric_brand_id", using: :btree
-    t.index ["admin_furniture_fabric_type_id"], name: "index_admin_furniture_fabrics_on_admin_furniture_fabric_type_id", using: :btree
+    t.index ["admin_furniture_fabric_brand_id"], name: "index_fabric_brand", using: :btree
+    t.index ["admin_furniture_fabric_type_id"], name: "index_fabric_type", using: :btree
+  end
+
+  create_table "admin_furniture_fabric_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.text     "comment",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "admin_furniture_foam_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -139,36 +148,11 @@ ActiveRecord::Schema.define(version: 20170509110701) do
     t.index ["deleted_at"], name: "index_admin_furniture_types_on_deleted_at", using: :btree
   end
 
-  create_table "admin_furniture_wood_qualities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.text     "comment",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
   create_table "admin_furniture_wood_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.text     "comment",    limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
-  end
-
-  create_table "admin_furniture_wood_usages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.text     "comment",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  create_table "admin_furniture_wood_woods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "admin_furniture_wood_usage_id"
-    t.integer  "admin_furniture_wood_quality_id"
-    t.string   "name"
-    t.text     "comment",                         limit: 65535
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.index ["admin_furniture_wood_quality_id"], name: "index_wood_quality", using: :btree
-    t.index ["admin_furniture_wood_usage_id"], name: "index_wood_usage", using: :btree
   end
 
   create_table "admin_pricing_consts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -406,14 +390,12 @@ ActiveRecord::Schema.define(version: 20170509110701) do
   end
 
   add_foreign_key "admin_furniture_fabric_color_indices", "admin_furniture_fabric_colors"
-  add_foreign_key "admin_furniture_fabric_color_indices", "admin_furniture_fabrics"
-  add_foreign_key "admin_furniture_fabrics", "admin_furniture_fabric_brands"
-  add_foreign_key "admin_furniture_fabrics", "admin_furniture_fabric_types"
+  add_foreign_key "admin_furniture_fabric_color_indices", "admin_furniture_fabric_fabrics", column: "admin_furniture_fabric_id"
+  add_foreign_key "admin_furniture_fabric_fabrics", "admin_furniture_fabric_brands"
+  add_foreign_key "admin_furniture_fabric_fabrics", "admin_furniture_fabric_types"
   add_foreign_key "admin_furniture_furnitures", "admin_furniture_types", column: "furniture_type_id"
   add_foreign_key "admin_furniture_paint_colors", "admin_furniture_paint_color_brands", column: "admin_furniture_paint_color_brands_id"
   add_foreign_key "admin_furniture_paint_colors", "admin_furniture_paint_color_qualities", column: "admin_furniture_paint_color_qualities_id"
-  add_foreign_key "admin_furniture_wood_woods", "admin_furniture_wood_qualities"
-  add_foreign_key "admin_furniture_wood_woods", "admin_furniture_wood_usages"
   add_foreign_key "admin_workshop_workshops", "states"
   add_foreign_key "admin_workshop_workshops", "users"
   add_foreign_key "employee_fanis_furniture_build_details", "employee_fanis", on_update: :cascade, on_delete: :cascade

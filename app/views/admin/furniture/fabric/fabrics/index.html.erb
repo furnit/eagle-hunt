@@ -2,7 +2,7 @@
 	render 'admin/shared/index',
 	  title: 'طرح پارچه‌ها', 
 		title_right: lambda {
-			link_to new_admin_furniture_fabric_path, class: 'inline-html-call' do
+			link_to new_admin_furniture_fabric_fabric_path, class: 'inline-html-call' do
 				raw "<span class='fa fa-plus'></span> ایجاد برند جدید"
 			end
 		},
@@ -48,7 +48,7 @@
       </td>
       <td class='photo-gallery-collection-incomplete'>
       	<% i = ft.images.first %>
-				<%= link_to image_url(i), data: { id: ft.id, source: list_images_admin_furniture_fabric_path(ft) } do %>
+				<%= link_to image_url(i), data: { id: ft.id, source: list_images_admin_furniture_fabric_fabric_path(ft) } do %>
 					<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
 				<% end %>
       </td>
@@ -69,7 +69,7 @@
             <ul class="dropdown-menu">
      					<% if not ft.deleted_at %>
             	<li>
-			          <%= link_to edit_admin_furniture_fabric_path(ft, admin: :check), :class => 'inline-html-call' do %>
+			          <%= link_to edit_admin_furniture_fabric_fabric_path(ft, admin: :check), :class => 'inline-html-call' do %>
 			            <span class='fa fa-pencil'></span> مشاهده / ویرایش
 			          <% end %>
           		</li>
@@ -77,11 +77,11 @@
           		<% end %>
               <li>
               	<% if ft.deleted_at %>
-                  <%= link_to recover_admin_furniture_fabric_path(ft), method: :patch  do %>
+                  <%= link_to recover_admin_furniture_fabric_fabric_path(ft), method: :patch  do %>
                     <span class='fa fa-check'></span> خارچ کردن از آرشیو
                  	<% end %>
                 <% else %>
-                  <%= link_to archive_admin_furniture_fabric_path(ft), method: :delete, data: { :confirm => { title: 'این دسته‌بندی آرشیو شود؟', message: 'تا زمانی که این دسته‌بندی در آرشیو می‌باشد امکان <b>مشاهده</b> و <b>اعمال تغییرات</b> برای این دسته‌بندی وجود ندارد.' } } do %>
+                  <%= link_to archive_admin_furniture_fabric_fabric_path(ft), method: :delete, data: { :confirm => { title: 'این دسته‌بندی آرشیو شود؟', message: 'تا زمانی که این دسته‌بندی در آرشیو می‌باشد امکان <b>مشاهده</b> و <b>اعمال تغییرات</b> برای این دسته‌بندی وجود ندارد.' } } do %>
                     <span class='fa fa-archive'></span> آرشیو کردن
                  	<% end %>                 	
               	<% end %>

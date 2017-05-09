@@ -27,7 +27,19 @@ Rails.application.routes.draw do
     resources :systems, RC::non_restful do
     end
     
+    # <furniture>
     namespace :furniture do 
+      namespace :fabric do
+        resources :cushions
+      
+        resources :fabrics do
+          member do
+            delete :archive
+            patch  :recover
+            get    :list_images, RC::json_request_only 
+          end
+        end
+      end
       
       resources :furnitures do
         member do
@@ -65,14 +77,6 @@ Rails.application.routes.draw do
       
       resources :fabric_brands
       
-      resources :fabrics do
-        member do
-          delete :archive
-          patch  :recover
-          get    :list_images, RC::json_request_only 
-        end
-      end
-      
       resources :fabric_colors, except: [:show, :create] do
         collection do 
           post :compute
@@ -87,7 +91,9 @@ Rails.application.routes.draw do
   
       resources :paint_colors   
     end
+    # </furniture>
     
+    # <workshop>
     namespace :workshop do
       resources :workshops do
         member do
@@ -95,10 +101,13 @@ Rails.application.routes.draw do
         end
       end
     end 
+    # </workshop>
     
+    # <pricing>
     namespace :pricing do
       resources :consts
     end
-
+    # </pricing>
+    
   end
 end

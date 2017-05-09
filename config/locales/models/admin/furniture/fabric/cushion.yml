@@ -1,0 +1,24 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture/fabric/cushion: 'اندازه‌های استاندارد کوسن‌ها'
+    attributes:
+      admin/furniture/fabric/cushion:
+        label: برچسب
+        width: عرض (سانتی‌متر)
+        height: ارتفاع (سانتی‌متر)
+        comment: توضیحات
+    errors:
+      models:
+        admin/furniture/fabric/cushion:
+          attributes:
+            label:
+              blank: 'نمی‌تواند خالی باشد.'
+            width:
+              blank: 'نمی‌تواند خالی باشد.'
+              invalid: 'نامعتبر است.'
+            height:
+              blank: 'نمی‌تواند خالی باشد.'
+              invalid: 'نامعتبر است.'
+            comment:
+              blank: 'نمی‌تواند خالی باشد.'

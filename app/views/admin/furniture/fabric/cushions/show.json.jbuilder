@@ -1,0 +1,1 @@
+json.partial! "admin_furniture_fabric_cushions/admin_furniture_fabric_cushion", admin_furniture_fabric_cushion: @admin_furniture_fabric_cushion

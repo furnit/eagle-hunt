@@ -32,7 +32,7 @@
 	} %>
 	<% details.keys.each.with_index do |k, index| %>
 	  <div aria-labelledby="<%= k %>-tab" class="tab-pane fade <%= index == 0 ? 'active in' : '' %>" id="<%= k %>-tab-content" role="tabpanel" style="margin: 20px;">
-  		<%= render "admin/furniture/fabrics/forms/#{details[k]}", admin_furniture_fabric: admin_furniture_fabric, submit_text: submit_text  %>
+  		<%= render "admin/furniture/fabric/fabrics/forms/#{details[k]}", admin_furniture_fabric: admin_furniture_fabric, submit_text: submit_text  %>
 			<div class='clearfix'></div>
 	  </div>
 	<% end %>
@@ -52,7 +52,7 @@
 		};
 		$('#general-form-tab-content form').on('ajax:success', function(e, data) {
 			$('#fabrics-form [data-toggle="tab"]').each(function(index){
-				$(this).attr('data-href', '<%= edit_admin_furniture_fabric_path(id: "--0--", pv: "--1--") %>'.replace('--0--', data.id).replace('--1--', index));
+				$(this).attr('data-href', '<%= edit_admin_furniture_fabric_fabric_path(id: "--0--", pv: "--1--") %>'.replace('--0--', data.id).replace('--1--', index));
 			});
 			update_nav_data_href();
 		});

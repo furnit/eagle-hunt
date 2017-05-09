@@ -9,12 +9,27 @@ class ApplicationController < ActionController::Base
   before_action :change_user_password_if_necessary
   # add to phonebook if necessary
   before_action :add_to_phonebook_if_necessary
+  # translates every params' entity from arabic to english 
+  before_action :param_convert_ar2en_i
 
   before_action { Acu::Monitor.gaurd by: { user: current_user } }
 
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
   
   private
+
+  def param_convert_ar2en_i h = nil, l = []
+    return
+    h ||= params
+    h.each_pair do |k, v|
+      if v.respond_to?(:key?)
+        param_convert_ar2en_i v, [l, k].flatten
+      else
+        ap [[l, k].flatten, v]
+        v = v.to_s + " 2222";
+      end
+    end
+  end
 
   def verify_two_step_auth
     if not two_step_auth.verified? params, exception: false
