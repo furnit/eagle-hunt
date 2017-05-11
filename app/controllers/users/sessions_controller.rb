@@ -29,18 +29,6 @@ class Users::SessionsController < Devise::SessionsController
         flash[:alert] = 'حساب کاربری شما فعال شد!'
       end
       
-      if user.type.symbol == :ADMIN.to_s
-        message = <<~sms
-          مدیر‌گرامی
-          هم‌اکنون حساب کاربری شما مورد دسترسی واقع شده است.
-          
-          مبل ویرا
-          #{AppConfig.domain}
-        sms
-        
-        AutoStart::SmsJob.send_urgent message, to: user.phone_number
-      end
-      
       # user is authenticated, sign in the good boy
       sign_in_and_redirect(:user, user)
       return
