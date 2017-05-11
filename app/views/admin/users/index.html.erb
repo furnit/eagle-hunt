@@ -1,14 +1,14 @@
-<div class='col-md-12 col-lg-10 col-lg-offset-1'>
-  <legend>
-    <h1 class='pull-right'>لیست کاربران</h1>
-    <small class='pull-left' style='font-size: 16px; margin-top: 40px;'>
-      <%= link_to new_admin_user_path, class: 'inline-html-call' do %>
-        <span class='fa fa-plus'></span>
-        ایجاد کاربر جدید
-      <% end %>
-    </small>
-    <div class='clearfix'></div>
-  </legend>
+<%= 
+  render 'admin/shared/index',
+    title: "لیست #{t("activerecord.models.#{User.model_name.i18n_key}")}", 
+    title_right: lambda {
+      link_to new_admin_user_path, class: 'inline-html-call' do
+        raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
+      end
+    },
+    before_table: lambda {
+%>
+
   <div class='block' style='padding: 20px'>
     <%= form_for_filterrific @filterrific do |f| %>
       <div class='row'>
@@ -45,7 +45,6 @@
     <% end %>
   </div>
 
-  <div id="filterrific_results">
-    <%= render partial: 'list', locals: { users: @users } %>
-  </div>
-</div>
+<% } %>
+
+<%= render 'admin/shared/list' %>

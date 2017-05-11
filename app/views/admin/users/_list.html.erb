@@ -1,85 +1,81 @@
-<small style='font-size: 16px;' class='text-muted pull-left'><%= render_filterrific_spinner %> <%= page_entries_info @users %></small>
-<%= acu_as :admin { render 'shared/editable_content' }%>
-<table class='table <%= @users.empty? ? "" : "table-striped table-hover" %>'>
-  <thead>
-    <tr>
-      <th style='width: 30px'>ردیف</th>
-      <th style='width: 12%;'>نام و نام‌خانوادگی</th>
-      <th style='width: 120px;'>شماره تماس</th>
-      <th style='width: 100px'>استان</th>
-      <th>آدرس</th>
-      <th style='width: 80px'>نوع کاربر</th>
-      <th style='width: 7%;'>آخرین ورود</th>
-      <th style='width: 50px;'>عملیات</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
-      <%
-        next if not user.profile
-        title  = ''
-        title  = 'کاربر مسدود شده است!' if user.blocked_at
-        title  = 'حساب کاربر معلق شده است!' if user.deleted_at
-        title  = 'حساب کاربر معلق و مسدود شده است!' if user.blocked_at and user.deleted_at
-        _class = ''
-        _class += 'blocked' if user.blocked_at
-        _class += ' strikeout' if user.deleted_at
+<%=
+  render 'admin/shared/index',
+		before_table: lambda {
+			raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @users}</small>"
+		},
+		after_table: lambda {
+			raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @users, renderer: BootstrapPagination::Rails}</div>"
+		},
+    table_head: {
+      'ردیف': { style: 'width: 30px' },
+      'نام و نام‌خانوادگی': { style: 'width: 12%' },
+      'شماره‌تماس': { style: 'width: 120px' },
+      'استان': { style: 'width: 100px' },
+      'آدرس': { },
+      'نوع‌کاربر': { style: 'width: 80px' },
+      'آخرین ورود': { style: 'width: 7%' },
+      'عملیات': { style: 'width: 80px' }
+    },
+    table_body: lambda {
+%>
+  <% @users.each do |user| %>
+    <%
+      next if not user.profile
+      title  = ''
+      title  = 'کاربر مسدود شده است!' if user.blocked_at
+      title  = 'حساب کاربر معلق شده است!' if user.deleted_at
+      title  = 'حساب کاربر معلق و مسدود شده است!' if user.blocked_at and user.deleted_at
+      _class = ''
+      _class += 'blocked' if user.blocked_at
+      _class += ' strikeout' if user.deleted_at
 
-      %>
-      <tr class='<%= _class %>' <%= raw title.empty? ? '' : "title='#{title}' data-toggle='tooltip'"%> >
-        <td><%= user.id %></td>
-        <td>
-        	<%= editable_tag user, :full_name, resource: :profile, url: profile_path(user.profile) %>
-        </td>
-        <td>
-        	<%= editable_tag user, :phone_number, url: admin_user_path(user), "max-length": 11, text: number_to_phone(user.phone_number) %>
-        </td>
-        <td>
-        	<%= editable_tag user, :state_id, type: :select, resource: :profile, value: user.profile.state_id, source: states_admin_users_path, url: profile_path(user.profile), text: user.profile.state ? user.profile.state.name : "«نامشخص»" %>
-        </td>
-        <td>
-        	<%= editable_tag user, :address, type: :textarea, placement: :bottom, resource: :profile, url: profile_path(user.profile), text: user.profile.address ? user.profile.address : "«آدرسی ثبت نشده است.»" %>
-        </td>
-        <td>
-        	<%= editable_tag user, :admin_user_type_id, type: :select, value: user.admin_user_type_id, source: admin_user_types_path, url: admin_user_path(user), text: user.type.name %>
-        </td>
-        <td class='datetime' data-date='<%= user.current_sign_in_at %>'></td>
-        <td>
-          <% acu_as :admin do %>
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class='fa fa-superpowers'></span> <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li>
-                  <% if not (user.id == 1 and current_user.id == user.id) %>
-                    <%= link_to block_admin_user_path(user), method: :delete  do %>
-                     <% if user.blocked_at %>
-                        <span class='fa fa-unlock-alt'></span> باز کردن
-                     <% else %>
-                        <span class='fa fa-lock'></span> مسدود کردن
-                     <% end %>
-                    <% end %>
+    %>
+    <tr class='<%= _class %>' <%= raw title.empty? ? '' : "title='#{title}' data-toggle='tooltip'"%> >
+      <td><%= user.id %></td>
+      <td>
+      	<%= editable_tag user, :full_name, resource: :profile, url: profile_path(user.profile) %>
+      </td>
+      <td>
+      	<%= editable_tag user, :phone_number, url: admin_user_path(user), "max-length": 11, text: number_to_phone(user.phone_number) %>
+      </td>
+      <td>
+      	<%= editable_tag user, :state_id, type: :select, resource: :profile, value: user.profile.state_id, source: states_admin_users_path, url: profile_path(user.profile), text: user.profile.state ? user.profile.state.name : "«نامشخص»" %>
+      </td>
+      <td>
+      	<%= editable_tag user, :address, type: :textarea, placement: :bottom, resource: :profile, url: profile_path(user.profile), text: user.profile.address ? user.profile.address : "«آدرسی ثبت نشده است.»" %>
+      </td>
+      <td>
+      	<%= editable_tag user, :admin_user_type_id, type: :select, value: user.admin_user_type_id, source: admin_user_types_path, url: admin_user_path(user), text: user.type.name %>
+      </td>
+      <td class='datetime' data-date='<%= user.current_sign_in_at %>'></td>
+      <td>
+        <% acu_as :admin do %>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class='fa fa-superpowers'></span> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <% if not (user.id == 1 and current_user.id == user.id) %>
+                  <%= link_to block_admin_user_path(user), method: :delete  do %>
+                   <% if user.blocked_at %>
+                      <span class='fa fa-unlock-alt'></span> باز کردن
+                   <% else %>
+                      <span class='fa fa-lock'></span> مسدود کردن
+                   <% end %>
                   <% end %>
-                </li>
-                <li>
-                  <%= link_to reset_password_admin_user_path(user), method: :put do %>
-                    <span class='fa fa-key'></span> تنظیم مجدد رمزعبور
-                  <% end %>
-                </li>
-              </ul>
-            </div>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-    <% if @users.empty? %>
-      <tr>
-        <td colspan="8"><div class="empty-collection">عضوی پیدا نشد!</div></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<div class="text-center" style='vertical-align: middle'>
-  <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
-</div>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to reset_password_admin_user_path(user), method: :put do %>
+                  <span class='fa fa-key'></span> تنظیم مجدد رمزعبور
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  
+<% } %>

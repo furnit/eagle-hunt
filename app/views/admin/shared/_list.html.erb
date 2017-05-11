@@ -1,0 +1,13 @@
+<%= javascript_include_tag 'vendors/jquery.highlight' %>
+
+<div id="filterrific_results">
+  <%= render "#{params[:controller]}/list" %>
+</div>
+
+<% if @filterrific.instance_variable_defined?(:@search_query) and not @filterrific.search_query.to_s.empty? %>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$("#filterrific_results table > tbody > tr > td").highlight("<%= escape_javascript(@filterrific.search_query.to_s) %>")
+	})
+</script>
+<% end %>

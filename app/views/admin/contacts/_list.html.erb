@@ -1,5 +1,11 @@
 <%=
   render 'admin/shared/index',
+		before_table: lambda {
+			raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_contacts}</small>"
+		},
+		after_table: lambda {
+			raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_contacts, renderer: BootstrapPagination::Rails}</div>"
+		},
     table_head: {
       'ردیف': { style: 'width: 30px' },
       'نام': { class: 'col-md-1' },

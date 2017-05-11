@@ -1,83 +1,79 @@
-<small style='font-size: 16px;' class='text-muted pull-left'><%= render_filterrific_spinner %> <%= page_entries_info @furnitures %></small>
-<%= acu_as :admin { render 'shared/editable_content' } %>
-<table class='table <%= @furnitures.empty? ? "" : "table-striped table-hover" %>'>
-  <thead>
-    <tr>
-      <th style='width: 30px'>ردیف</th>
-      <th style='width: 100px;'>دسته‌بندی</th>
-      <th style='width: 120px;'>نام مدل</th>
-      <th style='width: 100px;'>گالری</th>
-      <th style=''>درباره‌ی مدل</th>
-      <th style='width: 150px;'>آخرین بروزرسانی</th>
-      <th style='width: 50px;'>عملیات</th>
+<%=
+  render 'admin/shared/index',
+		before_table: lambda {
+			raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @furnitures}</small>"
+		},
+		after_table: lambda {
+			raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @furnitures, renderer: BootstrapPagination::Rails}</div>"
+		},
+    table_head: {
+      'ردیف': { style: 'width: 30px' },
+      'دسته‌بندی': { style: 'width: 100px' },
+      'نام مدل': { style: 'width: 120px' },
+      'گالری': { style: 'width: 100px' },
+      'درباره‌ی مدل': { },
+      'آخرین بروزرسانی': { style: 'width: 130px' },
+      'عملیات': { style: 'width: 80px' }
+    },
+    table_body: lambda {
+%>
+  <% @furnitures.each do |f| %>
+    <%
+    	next if f.deleted_at
+      type_name = Admin::Furniture::Type.with_deleted.find(f.furniture_type_id).name;
+      klass, title = "", ""
+      klass, title = "warning", "این محصول قابل سفارش نیست!" if not f.available
+      klass, title = "danger", "اطلاعات مربوط به این محصول تایید نشده است!"  if f.has_unconfirmed_data
+    %>
+    <tr class='<%= klass %>' data-toggle='<%= title.length > 0 ? 'tooltip' : '' %>' title='<%= title %>'>
+      <td><%= f.id %></td>
+      <td>
+        <%= editable_tag f, :furniture_type_id, type: :select, value: f.furniture_type_id, source: admin_furniture_types_path, text: type_name %>
+      </td>
+      <td>
+        <%= editable_tag f, :name %>
+      </td>
+      <td class='photo-gallery-collection-incomplete'>
+      	<% i = f.images[f.cover_details["index"].to_i] %>
+				<%= link_to image_url(i), data: { id: f.id, source: list_images_admin_furniture_furniture_path(f) } do %>
+					<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
+				<% end %>
+      </td>
+      <td>
+        <%= editable_tag f, :comment, type: :textarea, placement: :bottom, 'allow-empty': true, text: f.comment.blank? ? "«توضیحی ثبت نشده است.»" : f.comment %>
+      </td>
+      <td class='datetime' data-date='<%= f.updated_at %>'></td>
+      <td>
+        <% acu_as :admin do %>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class='fa fa-superpowers'></span> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+            	<li>
+            		<%= link_to home_furniture_path(f), target: :_blank do %>
+            			<span class='fa fa-eye'></span> مشاهده
+            		<% end %>
+            	</li>
+            	<li>
+            		<%= link_to ls_intel_admin_furniture_furniture_path(f), class: 'inline-html-call' do %>
+            			<span class='fa fa-book'></span> اطلاعات مرتبط
+            		<% end %>
+          		</li>
+            	<li class='divider'></li>
+            	<li>
+			          <%= link_to edit_admin_furniture_furniture_path(f, admin: :check), :class => 'inline-html-call' do %>
+			            <span class='fa fa-pencil'></span> ویرایش
+			          <% end %>
+            	</li>
+            </ul>
+          </div>
+        <% end %>
+      </td>
     </tr>
-  </thead>
-  <tbody>
-    <% @furnitures.each do |f| %>
-      <%
-      	next if f.deleted_at
-        type_name = Admin::Furniture::Type.with_deleted.find(f.furniture_type_id).name;
-        klass, title = "", ""
-        klass, title = "warning", "این محصول قابل سفارش نیست!" if not f.available
-        klass, title = "danger", "اطلاعات مربوط به این محصول تایید نشده است!"  if f.has_unconfirmed_data
-      %>
-      <tr class='<%= klass %>' data-toggle='<%= title.length > 0 ? 'tooltip' : '' %>' title='<%= title %>'>
-        <td><%= f.id %></td>
-        <td>
-          <%= editable_tag f, :furniture_type_id, type: :select, value: f.furniture_type_id, source: admin_furniture_types_path, text: type_name %>
-        </td>
-        <td>
-          <%= editable_tag f, :name %>
-        </td>
-        <td class='photo-gallery-collection-incomplete'>
-        	<% i = f.images[f.cover_details["index"].to_i] %>
-					<%= link_to image_url(i), data: { id: f.id, source: list_images_admin_furniture_furniture_path(f) } do %>
-						<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
-					<% end %>
-        </td>
-        <td>
-          <%= editable_tag f, :comment, type: :textarea, placement: :bottom, 'allow-empty': true, text: f.comment.blank? ? "«توضیحی ثبت نشده است.»" : f.comment %>
-        </td>
-        <td class='datetime' data-date='<%= f.updated_at %>'></td>
-        <td>
-          <% acu_as :admin do %>
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class='fa fa-superpowers'></span> <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-              	<li>
-              		<%= link_to home_furniture_path(f), target: :_blank do %>
-              			<span class='fa fa-eye'></span> مشاهده
-              		<% end %>
-              	</li>
-              	<li>
-              		<%= link_to ls_intel_admin_furniture_furniture_path(f), class: 'inline-html-call' do %>
-              			<span class='fa fa-book'></span> اطلاعات مرتبط
-              		<% end %>
-            		</li>
-              	<li class='divider'></li>
-              	<li>
-				          <%= link_to edit_admin_furniture_furniture_path(f, admin: :check), :class => 'inline-html-call' do %>
-				            <span class='fa fa-pencil'></span> ویرایش
-				          <% end %>
-              	</li>
-              </ul>
-            </div>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-    <% if @furnitures.empty? %>
-      <tr>
-        <td colspan="8"><div class="empty-collection">عضوی پیدا نشد!</div></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<div class="text-center" style='vertical-align: middle'>
-  <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
-</div>
+  <% end %>
+
+<% } %>
 
 <script type="text/javascript" charset="utf-8">
 	function update_cover_thumb(idx) {
