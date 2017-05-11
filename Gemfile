@@ -98,6 +98,8 @@ gem 'descriptive_statistics', '~> 2.4.0', :require => 'descriptive_statistics/sa
 gem 'savanna-outliers'
 # for clustering purposes
 gem 'kmeans-clusterer'
+# for meta tagging the pages
+gem 'meta-tags'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
