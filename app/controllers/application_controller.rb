@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::Base
   # no forgery!
   protect_from_forgery with: :exception
+  # gaurd the project by Access Controll Unit
+  before_action { Acu::Monitor.gaurd by: { user: current_user } }
+  # signout's the account if admin becomde inactivate for some time
+  before_action :guard_admin_with_last_access_expiration
   # set prefered layout
   layout :prefer_layout
   # if user's profile not set, acquire it!
@@ -11,10 +15,6 @@ class ApplicationController < ActionController::Base
   before_action :add_to_phonebook_if_necessary
   # translates every params' entity from arabic to english 
   before_action :param_convert_ar2en_i
-  # gaurd the project by Access Controll Unit
-  before_action { Acu::Monitor.gaurd by: { user: current_user } }
-  # signout's the account if admin becomde inactivate for some time
-  before_action :guard_admin_with_last_access_expiration
   
   private
 
@@ -88,7 +88,8 @@ class ApplicationController < ActionController::Base
   end
 
   def change_user_password_if_necessary
-    if user_signed_in? and current_user.change_password and not(params["controller"] == "users/registrations" or (params["controller"] == "users/sessions" and params["action"] == "destroy"))
+    return if performed?
+    if user_signed_in? and current_user.change_password and not(["users/sessions", "users/registrations"].include? params["controller"] or (params["controller"] == "users/sessions" and params["action"] == "destroy"))
       flash[:alert] = "شما باید رمز عبور خود را بروز رسانی کنید."
       redirect_to edit_user_registration_path
     end
