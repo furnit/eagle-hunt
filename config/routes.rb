@@ -25,7 +25,10 @@ Rails.application.routes.draw do
   }
     
   devise_scope :user do
+    get "users/sign_in/verify"   => "users/sessions#verify"
+    patch "users/sign_in/confirm"  => "users/sessions#confirm"
+    
     get "users/password/confirm" => "users/passwords#confirm"
-    patch "users/password/reset"  => "users/passwords#reset"
+    patch "users/password/reset" => "users/passwords#reset"
   end
 end

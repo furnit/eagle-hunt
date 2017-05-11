@@ -15,8 +15,10 @@ class AutoStart::SmsJob < ApplicationJob
   end
   
   def self.send_urgent message, to:
-    # store into database and send the sms
-    AutoStart::SmsJob.perform_now Admin::Sms.create(message: message, to: to, is_urgent: true)
+    Thread.new do
+      # store into database and send the sms
+      AutoStart::SmsJob.perform_now Admin::Sms.create(message: message, to: to, is_urgent: true)
+    end
   end
 
   def self.send_proper message, to:

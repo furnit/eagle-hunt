@@ -8,7 +8,7 @@
 	<%= redirect_form(resource, as: resource_name, url: users_password_reset_path, html: { method: :post }) do |f| %>
 	  <%= f.hidden_field :id %>
 	  <div class="field">
-	    <%= f.text_field :reset_token, value: nil,hide_label: true, placeholder: "کد #{AppConfig.passwords.reset.token_length} رقمی", autofocus: true, maxlength: AppConfig.passwords.reset_token_length, required: true %>
+	    <%= f.text_field :reset_token, value: nil,hide_label: true, placeholder: "کد #{AppConfig.passwords.reset.token_length} رقمی", autofocus: true, maxlength: AppConfig.passwords.reset.token_length, required: true %>
 	  </div>
   
 	  <div class="field">

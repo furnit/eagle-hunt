@@ -11,12 +11,44 @@ class ApplicationController < ActionController::Base
   before_action :add_to_phonebook_if_necessary
   # translates every params' entity from arabic to english 
   before_action :param_convert_ar2en_i
-
+  # gaurd the project by Access Controll Unit
   before_action { Acu::Monitor.gaurd by: { user: current_user } }
-
-  rescue_from ActiveRecord::RecordNotFound, :with => :render_404
+  # signout's the account if admin becomde inactivate for some time
+  before_action :guard_admin_with_last_access_expiration
   
   private
+
+  def guard_admin_with_last_access_expiration
+    # for admin users ONLY
+    acu_as :admin do
+      # fetch session details from db
+      isession = session_data
+      # init `last_accessed_at` expired?
+      if isession.last_accessed_at and (isession.last_accessed_at + eval(AppConfig.session.admin.expiration) < Time.now)
+        # signout the user
+        sign_out_and_redirect(current_user)
+        # delete session from db
+        isession.destroy
+        # indicate the error message
+        flash[:error] = "مهلت زمانی استفاده‌ی حساب شما منقضی شده است، لطفا دوباره وارد شوید."
+        return
+      end
+      # if session was not expired?
+      # update the last access time
+      isession.last_accessed_at = Time.now
+      # store into db
+      isession.save
+      # check if session verified since this is an admin?
+      if isession.verified_at.nil?
+        return if params["controller"] == "users/sessions" and [:verify, :confirm, :destroy].include? params["action"].to_sym
+        session[:request_for_signin_verification] = true
+        redirect_to users_sign_in_verify_path
+        return
+      else
+        session.delete :request_for_signin_verification
+      end
+    end
+  end
 
   def param_convert_ar2en_i h = nil, l = [], depth: 0
     h ||= params
@@ -42,6 +74,11 @@ class ApplicationController < ActionController::Base
       return false
     end
     return true
+  end
+  
+  def session_data
+    raise RuntimeError.new("invalid cookie") if cookies[SESSION_KEY].blank?
+    SessionStore.find_by_session_id cookies[SESSION_KEY]
   end
 
   def acquire_profile_if_necessary
@@ -78,11 +115,10 @@ class ApplicationController < ActionController::Base
           #{AppConfig.domain}
         sms
         # if we sent the warning to ALL admins registered in database
-        if AutoStart::SmsJob.send_proper message, to: Admin::UserType.where(symbol: :ADMIN).first.users.map { |u| u.phone_number }.join(',')
-          # suppress the following trials of adding the user to the phonebook
-          # it had to be the admin's job to try to put or leave it!
-          current_user.error_on_add_to_phonebook = true
-        end
+        AutoStart::SmsJob.send_proper message, to: Admin::UserType.where(symbol: :ADMIN).first.users.map { |u| u.phone_number }.join(',')
+        # suppress the following trials of adding the user to the phonebook
+        # it had to be the admin's job to try to put or leave it!
+        current_user.error_on_add_to_phonebook = true
       else
         current_user.is_added_to_phonebook = true
       end

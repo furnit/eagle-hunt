@@ -87,7 +87,7 @@ class Users::PasswordsController < Devise::PasswordsController
     respond_to do |format|
       @user.errors[:reset_token] = 'کد وارد شده اشتباه است!'
       format.html { render :confirm }
-      format.json { render json: @user.errors, status: :ok, location: admin_users_path }
+      format.json { render json: @user.errors, status: :unprocessable_entity }
     end
   end
 

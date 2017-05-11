@@ -75,5 +75,8 @@ Acu::Rules.define do
   # devise login namespace
   namespace :devise, :users do
     allow :everyone
+    controller :sessions do
+      deny :guest, on: [:verify, :confirm]
+    end
   end
 end

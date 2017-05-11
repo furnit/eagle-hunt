@@ -100,6 +100,8 @@ gem 'savanna-outliers'
 gem 'kmeans-clusterer'
 # for meta tagging the pages
 gem 'meta-tags'
+# for db:session storage
+gem 'activerecord-session_store'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

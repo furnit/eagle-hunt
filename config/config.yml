@@ -23,6 +23,10 @@ defaults: &defaults
     keys:
       site: <%= ENV['RECAPTCHA_SITE_KEY'] || '' %>
       secret: <%= ENV['RECAPTCHA_SECRET_KEY'] || '' %>
+
+  session:
+    admin:
+      expiration: 30.minutes
       
   preference:
     timing:

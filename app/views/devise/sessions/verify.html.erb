@@ -1,0 +1,35 @@
+<%= render 'devise/registrations/header' %>
+
+<legend><h2>رمز موقت</h2></legend>
+
+
+<p>لطفا <b>کد <%= AppConfig.passwords.two_step_auth.token_length %> رقمی</b> ارسال شده به شماره موبایل‌ <b><%= current_user.phone_number[-3..-1] + ('*' * current_user.phone_number[0..-4].length) %></b> را در زیر وارد کنید.</p>
+<% if @isession.verification_token %>
+	<%= redirect_form(@isession, url: users_sign_in_confirm_path) do |f| %>
+	  <div class="field">
+	    <%= f.text_field :verification_token, value: nil, hide_label: true, placeholder: "کد #{AppConfig.passwords.two_step_auth.token_length} رقمی", autofocus: true, maxlength: AppConfig.passwords.two_step_auth.token_length, required: true %>
+	  </div>
+  
+	  <div class="field">
+			<%= recaptcha_tag has_error: flash[:recaptcha_error] %>
+		</div>
+		
+	  <div class="actions field">
+	    <%= f.submit 'تایید' %>
+	  </div>
+	<% end %>
+<% else %>
+	<div class="panel panel-danger">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">کد منقضی شده است!</h3>
+	  </div>
+	  <div class="panel-body">
+	    از آنجایی که مدت زمان ارسال کد <b>بیشتر از <%= AppConfig.passwords.two_step_auth.send_expiration.to_i %> دقیقه</b> گذشته است، لذا باید دوباره درخواست رمزموقت فرمایید.
+	 		<br />
+	 		<%= link_to 'درخواست مجدد رمزموقت', users_sign_in_verify_path, class: 'btn btn-success pull-left' %>
+	 		<div class='clearfix'></div>
+	  </div>
+	</div>
+<% end %>
+
+<%= render 'devise/registrations/footer' %>
