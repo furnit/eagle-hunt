@@ -51,7 +51,6 @@ class User < ApplicationRecord
 
   def normalize_phone_number
     return self.phone_number if self.phone_number.nil?
-    self.phone_number = self.phone_number.to_ar2en_i;
     self.phone_number = helper.number_to_phone(self.phone_number.strip, delimiter: "", pattern: /(\d{4})[- ]?(\d{3})[- ]?(\d{4})$/)
   end
 

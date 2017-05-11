@@ -73,7 +73,7 @@ class Users::PasswordsController < Devise::PasswordsController
       return
     end
     # check if code match?
-    if @user.reset_password_token == resource_params[:reset_token].to_ar2en_i
+    if @user.reset_password_token == resource_params[:reset_token]
       @user.reset_password
       @user.save
       
