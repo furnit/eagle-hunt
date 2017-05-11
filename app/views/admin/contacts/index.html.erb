@@ -43,7 +43,7 @@
 <% if @filterrific.instance_variable_defined?(:@search_query) and not @filterrific.search_query.to_s.empty? %>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
-		$("#filterrific_results").highlight("<%= escape_javascript(@filterrific.search_query.to_s) %>", {className: "kid-effect-text"})
+		$("#filterrific_results").highlight("<%= escape_javascript(@filterrific.search_query.to_s) %>")
 	})
 </script>
 <% end %>
