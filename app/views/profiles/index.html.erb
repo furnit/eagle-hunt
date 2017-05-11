@@ -3,22 +3,63 @@
 	<div class='col-xs-12 col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10 block'>
 		<div class='row'>
 			<div class='col-xs-12 col-sm-8 col-md-4 col-lg-8'>
-				<legend>مشخصات کاربری <span class="pull-left small"><%= link_to '[ویرایش]', edit_user_registration_path %></span></legend>
-				<dl class="dl-horizontal ir">
-				  <dt>شماره موبایل:</dt>
-				  <dd><%= number_to_phone(current_user.phone_number) %></dd>
-				  <dt>گذرواژه:</dt>
-				  <dd><%= raw '<span class=\'fa fa-times\'></span>' * 3 %></dd>
-				</dl>
-				<legend>مشخصات پروفایل <span class="pull-left small"><%= link_to '[ویرایش]', edit_profile_path(current_user.profile) %></span></legend>
-				<dl class="dl-horizontal ir">
-				  <dt>نام و نام خانوادگی:</dt>
-				  <dd><%= current_user.full_name %></dd>
-				  <dt>آدرس:</dt>
-				  <dd class='text-justify'><%= current_user.profile.address %></dd>
-				  <dt>کدپستی:</dt>
-				  <dd><%= current_user.profile.postal_code %></dd>
-				</dl>
+				<%= render 'shared/editable_content', style: "float: left;" %>
+				<table class='table'>
+					<thead class="no-layout">
+						<tr>
+							<th class='col-md-3'></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+					<%
+						[
+							{
+								heading: 'مشخصات کاربری',
+								sections: [
+									{
+										title: 'شماره‌ موبایل',
+										tag: link_to(current_user.phone_number, "#", data: { href: edit_user_registration_path }, class: 'outline-editable editable-click editable-disabled disabled')
+									},
+									{
+										title: 'گذرواژه',
+										tag: link_to(raw("&times;" * 8), "#", data: { href: edit_user_registration_path }, class: 'outline-editable editable-click editable-disabled disabled')
+									}
+								]
+							},
+							{
+								heading: 'مشخصات پروفایل',
+								sections: [
+									{
+										title: 'نام و نام‌خانوادگی', 
+										tag: editable_tag(current_user.profile, :full_name)
+									},
+									{
+										title: 'استان',      
+										tag: editable_tag(current_user.profile, :state_id, type: :select, resource: :profile, value: current_user.profile.state_id, source: states_admin_users_path, text: current_user.profile.state.name)
+									},
+									{
+										title: 'آدرس',
+										tag: editable_tag(current_user.profile, :address, type: :textarea, placement: :bottom)
+									},
+									{
+										title: 'کدپستی',
+										tag: editable_tag(current_user.profile, :postal_code)
+									}
+								]
+							}
+						].each.with_index do |args, index|
+					%>
+						<tr style='font-weight: bold; <%= index > 0 ? "height: 80px;" : "" %>'><td colspan="2" style="vertical-align: bottom"><%= args[:heading] %></td></tr>
+						<% args[:sections].each do |arg| %>
+							<tr>
+								<td><%= arg[:title] %></td>
+								<td><%= raw (arg[:tag].to_s + " ") * 1 %></td>
+							</tr>
+						<% end %>
+					<% end %>
+					</tbody>
+				</table>
 			</div>
 			<div class='hidden-xs col-sm-4 sm col-md-4 col-lg-4 pull-right text-center' style='margin-top: 3%;'>
 				<%= image_tag 'logo'%>
@@ -26,3 +67,16 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$('.btn-edit-content').click(function(){
+			$('.outline-editable').each(function() {
+				$(this).toggleClass('editable-disabled');
+			});
+			$('.outline-editable:not(.editable-disabled)').click(function(){
+				window.location = $(this).data('href');
+			})
+		});
+	});
+</script>

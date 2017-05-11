@@ -1,10 +1,13 @@
 <%= javascript_include_tag 'shared/editable-content' %>
 <%= stylesheet_link_tag    'shared/editable-content', media: 'all' %>
 <div class='edit-content'>
-  <button class="btn btn-default btn-edit-content" <%= defined?(for_tag) ? "for=#{for_tag}" : "" %> style='margin-bottom: 10px' data-origin-text="<span class='fa fa-pencil'></span> ویرایش اطلاعات">
+  <button class="btn btn-default btn-edit-content" <%= defined?(for_tag) ? "for=#{for_tag}" : "" %> style='margin-bottom: 10px; <%= raw defined?(style) ? style : "" %>' data-origin-text="<span class='fa fa-pencil'></span> ویرایش اطلاعات">
     <span class='fa fa-pencil'></span>
     ویرایش اطلاعات
   </button>
-  <br />
-  <small class='text-muted invisible'>توجه شود که تمامی اطلاعات به محض ویرایش در پایگاه داده ثبت می‌شود و «<b>قفل اطلاعات</b>» صرفا جهت اطمینان از عدم رخ‌داد هرگونه ویرایش ناخواسته بروی اطلاعات می‌باشد.</small>
+  <div class='clearfix'></div>
+  <% if not defined? no_subtitle %>
+  <small class='text-muted invisible' style="<%= raw defined?(style) ? style : "" %>">توجه شود که تمامی اطلاعات به محض ویرایش در سیستم ثبت می‌شوند و «<b>قفل اطلاعات</b>» صرفا جهت اطمینان از عدم رخ‌داد هرگونه ویرایش ناخواسته بروی اطلاعات می‌باشد.</small>
+  <% end %>
+  <div class='clearfix'></div>
 </div>

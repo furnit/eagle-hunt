@@ -1,7 +1,10 @@
 //= require bootstrap-editable
 //= require bootstrap-editable-rails
 
-$(document).ready(function(){
+$.fn.editable.defaults.disabled = true;
+$.fn.editable.defaults.emptytext = "خالی";
+
+$(document).ready(function() {
   function on_ajax_success() {
 		if($.isFunction($.fn.editable)) {
 	    $('.editable:not(.editabled)').editable({
@@ -25,7 +28,7 @@ $(document).ready(function(){
 	          }
 	        }
 	      }
-	    }).editable('toggleDisabled').addClass('editabled');
+	    }).addClass('editabled');
     }
 
     $('.btn-edit-content').off('click.editable-content').on('click.editable-content', function() {

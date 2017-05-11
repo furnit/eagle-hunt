@@ -87,8 +87,12 @@ body {
   input[type=tel] { text-align: right; direction: ltr }
   
   table {
-    &.table.nolayout > tbody > tr > td {
-      border: 0
+    tbody.no-layout > tr > td {
+      border: 0!important
+    }
+    thead.no-layout > tr > th,
+    thead.no-layout ~ tbody > tr:first-child > td {
+      border: 0!important
     }
     tr.divider {
       &:not(:first-child) { 

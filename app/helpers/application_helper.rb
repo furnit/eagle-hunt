@@ -7,6 +7,11 @@ module ApplicationHelper
     text = (kwargs[:text] || eval("instance.#{field.to_s}")).to_s
     kwargs.delete :text
     klass = "editable #{kwargs[:class]}"
+    if not kwargs[:enabled]
+      klass += " editable-click editable-disabled"
+    else
+      kwargs.delete :enabled
+    end
     kwargs.delete :class
     
     link_to text, "#", class: klass, data: { 
