@@ -50,8 +50,8 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
         # the model need to be created at first then the update happen
         update_uploaded_images @furniture, :admin_furniture_furniture, auto_save: true
         # make_cover no_respond: true
-        format.html { redirect_to (params[:admin_furniture_furniture][:admin] ? admin_furniture_furnitures_path : home_furniture_path(@furniture)), notice: 'دسته‌بندی جدید «<b>%s</b>» با موفقیت ایجاد شد.' %@furniture.name }
-        format.json { render json: @furniture, status: :created, location: @furniture }
+        format.html { redirect_to redirection_url, notice: 'دسته‌بندی جدید «<b>%s</b>» با موفقیت ایجاد شد.' %@furniture.name }
+        format.json { render json: @furniture, status: :created, location: redirection_url }
       else
         format.html { render :new }
         format.json { render json: @furniture.errors, status: :unprocessable_entity }
@@ -70,8 +70,8 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
 
     respond_to do |format|
       if @furniture.update(furniture_params)
-        format.html { redirect_to (params[:admin_furniture_furniture][:admin] ? admin_furniture_furnitures_path : home_furniture_path(@furniture)), notice: 'محصول «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture.name }
-        format.json { render json: @furniture, status: :ok, location: @furniture }
+        format.html { redirect_to redirection_url, notice: 'محصول «<b>%s</b>» با موفقیت ویرایش شد.' %@furniture.name }
+        format.json { render json: @furniture, status: :ok, location: redirection_url }
       else
         format.html { render :edit }
         format.json { render json: @furniture.errors, status: :unprocessable_entity }
@@ -186,6 +186,14 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def furniture_params
-      params.require(:admin_furniture_furniture).permit(:id, :name, :comment, :furniture_type_id, :description)
+      params.require(:admin_furniture_furniture).permit(:id, :name, :comment, :furniture_type_id, :description, :free_cushions)
+    end
+    
+    def redirection_url
+      if not params.require(:admin_furniture_furniture)[:admin].nil?
+        admin_furniture_furnitures_path
+      else
+        home_furniture_path @furniture
+      end
     end
 end

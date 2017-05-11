@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170511083957) do
+ActiveRecord::Schema.define(version: 20170511114332) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 20170511083957) do
     t.string   "description_html"
     t.boolean  "has_unconfirmed_data",               default: false
     t.datetime "data_locked_at"
+    t.integer  "free_cushions",                      default: 0
     t.index ["deleted_at"], name: "index_admin_furniture_furnitures_on_deleted_at", using: :btree
     t.index ["furniture_type_id"], name: "index_admin_furniture_furnitures_on_furniture_type_id", using: :btree
   end

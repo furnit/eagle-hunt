@@ -1,15 +1,18 @@
 <% form_id = 0 %>
-<%= redirect_form furniture  do |f| %>
+<%= remote_form furniture  do |f| %>
 	<% form_id = f.options[:html][:id] %>
-	<%= params[:admin] ? f.hidden_field(:admin, value: params[:admin]): '' %>
+	<%= f.hidden_field(:admin, value: params[:admin]) if params[:admin] %>
 	<div class='row'>
 		<div class="col-xs-12">
 			<div class='block'>
-			  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right">
-			  	<%= f.text_field :name, class: "form-control", placeholder: "نام مدل", :label => 'نام مدل', :autofocus => true, :required => true %>
+			  <div class="col-md-5 col-sm-6 col-xs-12 pull-right">
+			  	<%= f.text_field :name, placeholder: "نام مدل", label: 'نام مدل', autofocus: true, required: true %>
 				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 pull-right">
-					<%= f.collection_select :furniture_type_id, Admin::Furniture::Type.all, :id, :name, { :prompt => 'لطفا نوع مبل را انتخاب کنید.' }, :required => true, :class=>'form-control' %>
+				<div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+					<%= f.collection_select :furniture_type_id, Admin::Furniture::Type.all, :id, :name, { prompt: 'انتخاب کنید.' }, required: true %>
+				</div>
+				<div class="col-md-4 col-sm-6 col-xs-12 pull-right">
+					<%= f.number_field :free_cushions, min: 0, step: 1 %>
 				</div>
 			  <div class="clearfix"></div>
 				<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
@@ -21,7 +24,7 @@
 		</div>
 
 	  <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>
-	    <%= f.submit submit_text, :class => 'btn btn-primary' %>
+	    <%= f.submit submit_text, class: 'btn btn-primary' %>
 	  </div>
 	</div>
 <% end %>

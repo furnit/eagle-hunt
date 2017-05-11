@@ -5,7 +5,8 @@ fa:
     attributes:
       admin/furniture/furniture:
         name: 'نام'
-        furniture/type_id: 'دسته‌بندی محصول'
+        free_cushions: تعداد کوسن‌های رایگان همراه مبل
+        furniture_type_id: 'دسته‌بندی محصول'
         comment: 'درباره‌ی محصول'
     errors:
       models:
@@ -15,3 +16,7 @@ fa:
               blank: 'نمی‌تواند خالی باشد.'
             furniture_type_id:
               blank: 'نمی‌تواند خالی باشد.'
+            free_cushions:
+              not_a_number: نامعتبر می‌باشد.
+              greater_than_or_equal_to: تعداد کوسن‌های رایگان کمتر از حد مجاز می‌باشد.
+              less_than_or_equal_to: تعداد کوسن‌های رایگان بیش از حد مجاز می‌باشد.

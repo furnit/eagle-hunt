@@ -6,6 +6,8 @@ class Admin::Furniture::Furniture < ParanoiaRecord
 
   validates_presence_of :furniture_type_id, :name
   
+  validates :free_cushions, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 20 } 
+  
   mount_uploaders :images,        ImageUploader
 
   # don't delete the images on soft delete
