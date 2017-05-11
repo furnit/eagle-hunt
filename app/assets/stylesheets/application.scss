@@ -165,6 +165,17 @@ body {
       dd { margin-left: 10%; }
     }
   }
+  
+  .kid-effect {
+    -webkit-box-shadow:0 0 20px #0088cc; 
+    -moz-box-shadow: 0 0 20px #0088cc; 
+    box-shadow:0 0 20px #0088cc;
+  }
+  .kid-effect-text {
+    padding: 3px;
+    background-color: yellow;
+    color: red;
+  }
 
   .magnifiable
   {

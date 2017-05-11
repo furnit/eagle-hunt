@@ -1,36 +1,40 @@
 <legend><span class='fa fa-users'></span> مدیریت انسانی</legend>
 <div class="panel-group accordion" role="tablist">
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab">
-      <h4 class="panel-title">
-      	<span class="collapsed" role="button" data-toggle="collapse" data-parent=".accordion" href="#collapse_users" aria-expanded="false" aria-controls="collapseThree">
-	      	<span class='fa fa-th-large'></span> کاربران
-      	</span>
-      </h4>
-    </div>
-    <div id="collapse_users" class="panel-collapse collapse" role="tabpanel">
-      <div class="list-group">
-        <a href="<%= admin_user_types_path %>" class="list-group-item" target='panel-frame'>
-          انواع کاربران
-        </a>
-        <a href="<%= admin_users_path %>" class="list-group-item" target='panel-frame'>
-          کاربران
-        </a>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab">
-      <h4 class="panel-title">
-      	<span class="collapsed" role="button" data-toggle="collapse" data-parent=".accordion" href="#collapse_employees" aria-expanded="false" aria-controls="collapseThree">
-	      	<span class='fa fa-th-large'></span> کارکنان
-      	</span>
-      </h4>
-    </div>
-    <div id="collapse_employees" class="panel-collapse collapse" role="tabpanel">
-      <div class="list-group">
-      	<a href="#">؟؟؟</a>
-      </div>
-    </div>
-  </div>
- </div>
+	<%
+		[
+			{
+				title: 'کاربران',
+				subtitles: [
+      		{ label: 'انواع کاربران', link: admin_user_types_path },
+      		{ label: 'کاربران', link: admin_users_path },
+      	]
+			},
+			{
+				title: 'ارتباطات',
+				subtitles: [
+      		{ label: 'لینک‌های ارتباطی', link: admin_contacts_path },
+      	]
+			},
+		].each do |section|
+			tag = Time.now.to_i + rand.to_s[2..-1].to_i
+	%>
+	  <div class="panel panel-default">
+	    <div class="panel-heading" role="tab">
+	      <h4 class="panel-title">
+	      	<span class="collapsed" role="button" data-toggle="collapse" data-parent=".accordion" href="#collapse_<%= tag %>" aria-expanded="false" aria-controls="collapseThree">
+		      	<span class='fa fa-th-large'></span> <%= section[:title] %>
+	      	</span>
+	      </h4>
+	    </div>
+	    <div id="collapse_<%= tag %>" class="panel-collapse collapse" role="tabpanel">
+	      <div class="list-group">
+	        <% section[:subtitles].each do |subsec| %>
+		        <a href="<%= subsec[:link] %>" class="list-group-item" target='panel-frame'>
+		        	<%= subsec[:label] %>
+		        </a>
+	        <% end %>
+	      </div>
+	    </div>
+	  </div>
+  <% end %>
+</div>

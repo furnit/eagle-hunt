@@ -1,0 +1,4 @@
+<div style="width: 100%">
+  <legend>ویرایش <%= t "activerecord.models.#{Admin::Contact.model_name.i18n_key}" %>: «<strong><%= @admin_contact.id %></strong>»</legend>
+  <%= render 'form', admin_contact: @admin_contact, :submit_text => 'ویرایش' %>
+</div>

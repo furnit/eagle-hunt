@@ -1,0 +1,49 @@
+<%= javascript_include_tag 'vendors/jquery.highlight' %>
+<%= 
+  render 'admin/shared/index',
+    title: "لیست #{t("activerecord.models.#{Admin::Contact.model_name.i18n_key}")}", 
+    title_right: lambda {
+      link_to new_admin_contact_url, class: 'inline-html-call' do
+        raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
+      end
+    },
+    before_table: lambda {
+%>
+
+  <div class='block' style='padding: 20px'>
+    <%= form_for_filterrific @filterrific do |f| %>
+      <div class='row'>
+        <div class="col-md-3 pull-right">
+          <label for="filterrific[search_query]"><span class='fa fa-filter'></span> جستجو</label>
+          <%= f.search_field :search_query, class: 'filterrific-periodically-observed form-control' %>
+        </div>
+        <div class='col-md-3 pull-right'>
+          <label for="filterrific[sorted_by]"><span class='fa fa-filter'></span> مرتب‌سازی</label>
+          <%= f.select(:sorted_by, Admin::Contact.options_for_sorted_by, {}, { :class => 'form-control' }) %>
+        </div>
+      </div>
+      <div class='row' style='margin-top: 10px;'>
+        <div class='col-md-3 pull-right'>
+          <span class='fa fa-refresh'></span>
+          <%= link_to reset_filterrific_url do %>
+            حذف فیلتر‌ها
+          <% end %>
+        </div>
+        <div class='clearfix'></div>
+      </div>
+    <% end %>
+  </div>
+      
+<% } %>
+
+<div id="filterrific_results">
+  <%= render partial: 'list', locals: { users: @users } %>
+</div>
+
+<% if @filterrific.instance_variable_defined?(:@search_query) and not @filterrific.search_query.to_s.empty? %>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$("#filterrific_results").highlight("<%= escape_javascript(@filterrific.search_query.to_s) %>", {className: "kid-effect-text"})
+	})
+</script>
+<% end %>

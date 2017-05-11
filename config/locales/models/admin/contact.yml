@@ -1,0 +1,22 @@
+fa:
+  activerecord:
+    models:
+      admin/contact: 'لینک‌های ارتباطی'
+    attributes:
+      admin/contact:
+        name: 'نام'
+        address: 'آدرس'
+        comment: 'توضیحات'
+        phone_numbers: 'شماره‌های تماس'
+    errors:
+      models:
+        admin/contact:
+          attributes:
+            name:
+              blank: 'نمیتواند خالی باشد.'
+            address:
+              blank: 'نمیتواند خالی باشد.'
+            comment:
+              blank: 'نمیتواند خالی باشد.'
+            phone_numbers:
+              blank: 'نمیتواند خالی باشد.'

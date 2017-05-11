@@ -1,0 +1,30 @@
+<%=
+  render 'admin/shared/index',
+    table_head: {
+      'ردیف': { style: 'width: 30px' },
+      'نام': { class: 'col-md-1' },
+      'شماره‌های تماس': { },
+      'آدرس': { },
+      'توضیحات': { },
+      'آخرین بروزرسانی': { style: 'width: 130px' },
+      'عملیات': { style: 'width: 80px' }
+    },
+    table_body: lambda {
+%>
+  <% @admin_contacts.each do |ins| %>
+    <tr>
+      <td><%= ins.id %></td>
+      <td><%= editable_tag ins, :name %></td>
+      <% [:phone_numbers, :address, :comment].each do |column| %>
+      <td><%= editable_tag ins, column, type: :textarea, placement: :bottom, 'allow-empty': true %></td>
+      <% end %>
+      <td class='datetime' data-date='<%= ins.updated_at %>'></td>
+      <td>
+        <%= link_to ins, method: :delete, data: { confirm: { title: "آیا از حذف این مورد اطمینان دارید؟", message: "توجه فرمایید که حذف این مورد غیر قابل بازگشت خواهد بود!" } }, class: 'text-danger' do %>
+          <span class='fa fa-trash'></span> حذف
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+      
+<% } %>

@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
     root to: 'home#index'
     
+    resources :contacts
+    
     resources :uploaded_files, RC::ajax_server.merge(RC::json_request_only).merge({only: [:create, :update]})
 
     resources :users do
