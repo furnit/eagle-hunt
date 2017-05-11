@@ -13,9 +13,19 @@
 	  <div class="field">
 			<%= recaptcha_tag has_error: flash[:recaptcha_error] %>
 		</div>
-		
-	  <div class="actions field">
-	    <%= f.submit 'تایید' %>
+		<hr />
+		<div class='field row'>
+		  <div class="pull-right actions">
+	    	<%= f.submit 'تایید' %>
+		  </div>
+		  <div class="pull-left actions">
+				<div class='shared-links'>
+					<%= link_to users_sign_in_verify_path do %>
+					<span class="fa fa-retweet"></span> ارسال مجدد رمز موقت
+					<% end %>
+				</div>
+		  </div>
+	  	<div class='clearfix'></div>
 	  </div>
 	<% end %>
 <% else %>
