@@ -1,0 +1,7 @@
+#!/bin/bash
+
+bin/env-check
+
+source tmp/env.bash
+
+rails db:sessions:clear
