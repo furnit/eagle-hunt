@@ -31,7 +31,7 @@ module SMS
     
     is_success? Net::HTTP.get_response(init_uri params)
     
-  rescue Net::OpenTimeout
+  rescue
     return false   
   end
   

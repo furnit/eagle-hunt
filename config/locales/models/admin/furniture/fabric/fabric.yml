@@ -5,7 +5,7 @@ fa:
     attributes:
       admin/furniture/fabric/fabric:
         images_detail: 'جزییات طرح'
-        admin_furniture_fabric_type_id: 'نوع پارچه'
+        admin_furniture_fabric_type_id: 'کیفیت پارچه'
         admin_furniture_fabric_brand_id: 'برند پارچه'
     errors:
       models:

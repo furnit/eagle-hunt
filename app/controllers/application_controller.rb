@@ -18,15 +18,17 @@ class ApplicationController < ActionController::Base
   
   private
 
-  def param_convert_ar2en_i h = nil, l = []
-    return
+  def param_convert_ar2en_i h = nil, l = [], depth: 0
     h ||= params
     h.each_pair do |k, v|
-      if v.respond_to?(:key?)
-        param_convert_ar2en_i v, [l, k].flatten
+      if v.respond_to? :key?
+        param_convert_ar2en_i v, [l, k].flatten, depth: depth + 1
       else
-        ap [[l, k].flatten, v]
-        v = v.to_s + " 2222";
+        if h[k].respond_to? :each
+          h[k].each { |i| i.to_ar2en_i if i.respond_to? :to_ar2en_i }
+        else
+          h[k].to_ar2en_i if h[k].respond_to? :to_ar2en_i 
+        end
       end
     end
   end

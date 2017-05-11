@@ -28,6 +28,7 @@ module Viramobl
 
     # translation directories
     config.i18n.default_locale = :fa
+    config.i18n.available_locales = [:fa]
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     # add lib to auto-loading path
