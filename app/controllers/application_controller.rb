@@ -19,12 +19,12 @@ class ApplicationController < ActionController::Base
   private
 
   def guard_admin_with_last_access_expiration
-    # for admin users ONLY
-    acu_as :admin do
+    # except `quest`s and `client`s
+    acu_as [:employee, :admin] do
       # fetch session details from db
       isession = session_data
       # init `last_accessed_at` expired?
-      if isession.last_accessed_at and (isession.last_accessed_at + eval(AppConfig.session.admin.expiration) < Time.now)
+      if isession.last_accessed_at and (isession.last_accessed_at + eval(AppConfig.session.expiration) < Time.now)
         # signout the user
         sign_out_and_redirect(current_user)
         # delete session from db
