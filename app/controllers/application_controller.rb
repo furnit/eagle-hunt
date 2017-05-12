@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
       # if session was not expired?
       # update access time every 3 minutes to reduce call for database 
       # since loading a page may require many requests.
-      if isession.last_accessed_at + 3.minutes < Time.now
+      if isession.last_accessed_at.nil? or (isession.last_accessed_at + 3.minutes < Time.now)
         # update the last access time
         isession.last_accessed_at = Time.now
         # store into db
