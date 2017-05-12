@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Admin workshop workshop:</strong>
+  <%= @admin_pricing_transit.admin_workshop_workshop %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @admin_pricing_transit.state %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @admin_pricing_transit.price %>
+</p>
+
+<%= link_to 'Edit', edit_admin_pricing_transit_path(@admin_pricing_transit) %> |
+<%= link_to 'Back', admin_pricing_transits_path %>

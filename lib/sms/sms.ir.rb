@@ -17,8 +17,8 @@ module SMS
     
     is_success? Net::HTTP.get_response(init_uri params)
     
-  rescue Net::OpenTimeout
-    return false   
+  rescue
+    return false
   end
   
   def add_to_phonebook first_name:, last_name:, mobile:

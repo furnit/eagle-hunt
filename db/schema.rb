@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170511153401) do
+ActiveRecord::Schema.define(version: 20170512081458) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -174,6 +174,16 @@ ActiveRecord::Schema.define(version: 20170511153401) do
     t.integer  "extra"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "admin_pricing_transits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "admin_workshop_workshop_id"
+    t.integer  "state_id"
+    t.bigint   "price"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["admin_workshop_workshop_id"], name: "index_admin_pricing_transits_on_admin_workshop_workshop_id", using: :btree
+    t.index ["state_id"], name: "index_admin_pricing_transits_on_state_id", using: :btree
   end
 
   create_table "admin_sms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -419,6 +429,8 @@ ActiveRecord::Schema.define(version: 20170511153401) do
   add_foreign_key "admin_furniture_furnitures", "admin_furniture_types", column: "furniture_type_id"
   add_foreign_key "admin_furniture_paint_colors", "admin_furniture_paint_color_brands", column: "admin_furniture_paint_color_brands_id"
   add_foreign_key "admin_furniture_paint_colors", "admin_furniture_paint_color_qualities", column: "admin_furniture_paint_color_qualities_id"
+  add_foreign_key "admin_pricing_transits", "admin_workshop_workshops"
+  add_foreign_key "admin_pricing_transits", "states"
   add_foreign_key "admin_workshop_workshops", "states"
   add_foreign_key "admin_workshop_workshops", "users"
   add_foreign_key "employee_fanis_furniture_build_details", "employee_fanis", on_update: :cascade, on_delete: :cascade

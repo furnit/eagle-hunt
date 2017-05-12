@@ -101,8 +101,10 @@ $(document).on('ready turbolinks:load', function(){
 	        onEscape: function() { $('.inline-html-call-modal').remove(); $this.removeClass('active'); },
 	        size: 'large'
 	      }).on('shown.bs.modal',function(){
+	      	$(this).find(".btn").blur();
 	        $(this).find('[autofocus]').focus();
-	      });
+			    $(this).scrollTop(0);
+				});
 	      $(this).remove();
 	      // if any remote link clicked, make the progress bar bound to the model
 	      $('.bootbox.modal .modal-body a[data-remote]').click(function(e) {
@@ -124,9 +126,9 @@ $(document).on('ready turbolinks:load', function(){
     // for select pickers
     $('.selectpicker:not(.selectpickerified)').selectpicker().addClass('selectpickerified');
     // prevent default empty links
-    $("a[href='#']:not(.hash-disabled)").click(function(e) { e.preventDefault(); }).addClass('hash-disabled');
+    $("a[href='#']:not(.hash-disabled)").click(function(e) { e.preventDefault(); }).addClass('hash-disabled').blur();
     // make sure auto-focus happen
-    setTimeout(function() { $("[autofocus]:first").focus(); }, 300);
+    setTimeout(function() { $(".btn").blur(); $("[autofocus]:first").focus(); }, 300);
   };
   // apply to current document as well
   apply_to_documents();

@@ -1,0 +1,38 @@
+<%= 
+  render 'admin/shared/index',
+    title: "لیست #{t("activerecord.models.#{@admin_workshops.model_name.i18n_key}")}",
+    editable_content: false,
+    before_table: lambda {
+      raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_workshops}</small>"
+    },
+    after_table: lambda {
+      raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_workshops, renderer: BootstrapPagination::Rails}</div>"
+    },
+    table_head: {
+      'ردیف': { style: 'width: 30px' },
+      'نام کارگاه': { style: 'width: 130px' },
+      'استان': { style: 'width: 130px' },
+      'آدرسی': { },
+      'عملیات': { style: 'width: 200px' }
+    },
+    table_body: lambda {
+%>
+	<% states_count = State.count %>
+  <% @admin_workshops.each do |ins| %>
+  	<%
+  		is_complete = (Admin::Pricing::Transit.where("admin_workshop_workshop_id = ? and price is not null", ins.id).count == states_count)
+  	%>
+    <tr <%= raw is_complete ? "" : "class='danger' title='اطلاعات ترابری برای این کارگاه تکمیل نشده است.' data-toggle='tooltip'"%>>
+      <td><%= ins.id %></td>
+      <td><%= ins.name %></td>
+      <td><%= ins.state.name %></td>
+      <td><%= ins.address %></td>
+      <td>
+      	<%= link_to ls_transit_admin_pricing_transit_path(ins), class: 'inline-html-call' do %>
+      		<span class="fa fa-truck"></span> <%= is_complete ? "بروز‌رسانی هزینه‌های ترابری" : "تکمیل هزینه‌های ترابری" %>
+      	<% end %>
+      </td>
+    </tr>
+  <% end %>
+      
+<% } %>

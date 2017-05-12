@@ -1,7 +1,7 @@
 fa:
   activerecord:
     models:
-      admin/workshop/workshop: 'کارگاه'
+      admin/workshop/workshop: 'کارگاه‌ها'
     attributes:
       admin/workshop/workshop:
         name: 'نام کارگاه'

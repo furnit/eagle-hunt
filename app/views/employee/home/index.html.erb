@@ -1,6 +1,6 @@
 <%
 	entity = current_user.type.symbol
-	entity = session[:admin_as_employee]["sym"] if session[:admin_as_employee]
+	entity = session[:admin_as_employee][:sym] if session[:admin_as_employee]
 	entity = entity.to_s.downcase
 	valid_path = path_exists? "employee_#{entity.pluralize}_path"
 %>

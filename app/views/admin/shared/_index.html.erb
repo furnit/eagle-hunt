@@ -1,4 +1,5 @@
-<div class='col-md-12 col-lg-10 col-lg-offset-1'>
+<% index_id = Time.now.to_i + rand.to_s[2..-1].to_i %>
+<div class='col-md-12 col-lg-10 col-lg-offset-1' id="index-<%= index_id %>">
 	<% if defined?(title) %>
 	  <legend>
 	    <h1 class='pull-right'><%= raw title %></h1>
@@ -18,7 +19,7 @@
 	<% if defined? table_head or defined? table_body %>
 	
 		<% if not defined? editable_content or editable_content %>
-			<%= acu_as :admin { render 'shared/editable_content' } %>	
+			<%= acu_as :admin { render 'shared/editable_content', for_tag: "#index-#{index_id}" } %>	
 		<% end %>
 		
 	  <table class='table table-striped table-hover table-index-file'>

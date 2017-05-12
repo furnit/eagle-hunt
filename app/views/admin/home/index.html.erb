@@ -14,11 +14,14 @@
 </div>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
-	  $('#management-panel #navigation .list-group a[href!="#"]').click(function(){
+	  $('#management-panel #navigation .list-group a[href!="#"]').click(function(e){
+	  	e.preventDefault();
+	  	e.stopPropagation();
 	    $('#management-panel #navigation .list-group a.active').removeClass('active');
 	    $(this).addClass('active');
 	    $('.panel-collapse.in').not(':has(.list-group a.active)').closest('.panel-group').find('[data-toggle="collapse"]').click();
 	    $(this).closest('.panel').find('.collapsed[data-toggle="collapse"]').click();
+	    $("iframe[name='" + $(this).attr('target') + "']").attr('src', $(this).attr('href'));
 	  });
 	  // make bookmarkable hash
     if(window.location.hash) {

@@ -1,0 +1,23 @@
+fa:
+  activerecord:
+    models:
+      admin/pricing/transit: 'هزینه‌های ترابری'
+    attributes:
+      admin/pricing/transit:
+        admin_workshop_workshop_id: کارگاه
+        state_id: استان
+        price: مبلغ
+    errors:
+      models:
+        admin/pricing/transit:
+          attributes:
+            admin_workshop_workshop_id:
+              blank: 'نمیتواند خالی باشد.'
+            state_id:
+              blank: 'نمیتواند خالی باشد.'
+            price:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+              not_a_number: نامعتبر می‌باشد.
+              less_than_or_equal_to: نامعتبر می‌باشد.
+              greater_than_or_equal_to: نامعتبر می‌باشد.

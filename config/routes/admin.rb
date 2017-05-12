@@ -108,6 +108,11 @@ Rails.application.routes.draw do
     # <pricing>
     namespace :pricing do
       resources :consts
+      resources :transits do
+        member do
+          get :ls_transit
+        end
+      end
     end
     # </pricing>
     

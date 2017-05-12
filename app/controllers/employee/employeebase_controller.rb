@@ -18,7 +18,7 @@ class Employee::EmployeebaseController < ApplicationController
     proc = Employee::Processed.find_or_create_by(
       admin_furniture_id: id,
       user_id: current_user.id,
-      as_symbol: acu_is?(:admin) ? session[:admin_as_employee]["sym"] : current_user.type.symbol
+      as_symbol: acu_is?(:admin) ? session[:admin_as_employee][:sym] : current_user.type.symbol
     )
     proc.updated_at = Time.now
     proc.save
@@ -28,7 +28,7 @@ class Employee::EmployeebaseController < ApplicationController
     Employee::Processed.where(
       admin_furniture_id: params[:id],
       user_id: current_user.id,
-      as_symbol: (acu_is?(:admin) ? session[:admin_as_employee]["sym"] : current_user.type.symbol)).empty?
+      as_symbol: (acu_is?(:admin) ? session[:admin_as_employee][:sym] : current_user.type.symbol)).empty?
   end
   
   private

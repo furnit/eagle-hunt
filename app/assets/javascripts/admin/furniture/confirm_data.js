@@ -68,6 +68,8 @@ $(document).ready(function () {
 			create_editable($(this).closest('.panel-body')).find('.label').hide();
 	  	// set arguments for created editables
 	  	$('.panel-body .editable').editable({
+	  		// don't intialy disable the editables
+	  		disabled: false,
 	  		// inject parameters to params sending to server
 	  		params: function(params){
 	  			params = $.extend(params, $(".value[data-pk='"+params.pk+"']").data('options'));
