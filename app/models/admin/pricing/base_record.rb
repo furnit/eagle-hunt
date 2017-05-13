@@ -8,7 +8,7 @@ class Admin::Pricing::BaseRecord < ApplicationRecord
   def validate_prices
     ls_numeric_attribs.each do |col|
       if self[col]
-        if not(self[col].to_s.numeric? and Float(self[col]) >= 0 and Float(self[col]) <= 10_000_000_000)
+        if not(self[col].to_s.numeric? and Float(self[col]) >= 0 and Float(self[col]) <= 1_000_000_000)
           errors.add col, I18n.t("activerecord.errors.models.#{self.model_name.i18n_key}.attributes.#{col}.invalid")
         end
       end

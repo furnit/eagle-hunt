@@ -26,7 +26,9 @@ class ApplicationController < ActionController::Base
       # init `last_accessed_at` expired?
       if isession.last_accessed_at and (isession.last_accessed_at + eval(AppConfig.session.expiration) < Time.now)
         # signout the user
-        sign_out_and_redirect(current_user)
+        sign_out current_user
+        # redirect to `/user/sign_in` path
+        redirect_to new_user_session_path
         # delete session from db
         isession.destroy
         # indicate the error message
@@ -103,9 +105,11 @@ class ApplicationController < ActionController::Base
     op = {
       create: 'ایجاد',
       update: 'ویرایش',
-      delete: 'حذف'
+      destroy: 'حذف'
     }[op.to_sym]
-    "#{label} «<b>#{eval("instance.#{field.to_s}")}</b>» با موفقیت #{op} شد." 
+    text = field
+    text = eval("instance.#{field.to_s}") if field.is_a? Symbol
+    "#{label} «<b>#{text}</b>» با موفقیت #{op} شد." 
   end
   
   def add_to_phonebook_if_necessary

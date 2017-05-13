@@ -56,7 +56,7 @@ class Admin::Workshop::WorkshopsController < Admin::AdminbaseController
   def destroy
     @admin_workshop_workshop.destroy
     respond_to do |format|
-      format.html { redirect_to admin_workshop_workshops_path, notice: mk_notice(@admin_workshop_workshop, :name, 'کارگاه', :delete) }
+      format.html { redirect_to admin_workshop_workshops_path, notice: mk_notice(@admin_workshop_workshop, :name, 'کارگاه', :destroy) }
       format.json { head :no_content }
     end
   end
