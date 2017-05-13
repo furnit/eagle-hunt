@@ -50,7 +50,7 @@ Acu::Rules.define do
     end
     
     # no-one can update/destroy anything in `pricing` namespace
-    namespace :pricing, except: [:transits, :fabrics] do
+    namespace :pricing, except: [:transits, :fabrics, :woods] do
       deny :everyone, on: [:destroy, :update]
     end
   end

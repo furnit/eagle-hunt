@@ -1,20 +1,20 @@
 <%= 
   render 'admin/shared/index',
-    title: "لیست #{t("activerecord.models.#{Admin::Pricing::Fabric.model_name.i18n_key}")}", 
+    title: "لیست #{t("activerecord.models.#{Admin::Pricing::Wood.model_name.i18n_key}")}", 
     title_right: lambda {
-      link_to new_admin_pricing_fabric_url, class: 'inline-html-call' do
+      link_to new_admin_pricing_wood_url, class: 'inline-html-call' do
         raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
       end
     },
     before_table: lambda {
-      raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_pricing_fabrics}</small>"
+      raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_pricing_woods}</small>"
     },
     after_table: lambda {
-      raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_pricing_fabrics, renderer: BootstrapPagination::Rails}</div>"
+      raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_pricing_woods, renderer: BootstrapPagination::Rails}</div>"
     },
     table_head: {
       'ردیف': { style: 'width: 30px' },
-      'برند': { style: 'width: 150px' },
+      'نوع': { style: 'width: 150px' },
       'قیمت (به تومان)': { style: 'width: 150px' },
       'توضیحات': { },      
       'آخرین بروزرسانی': { style: 'width: 130px' },
@@ -22,12 +22,12 @@
     },
     table_body: lambda {
 %>
-  <% @admin_pricing_fabrics.each do |ins| %>
+  <% @admin_pricing_woods.each do |ins| %>
     <tr>
       <td><%= ins.id %></td>
-      <td><%= editable_tag ins, :admin_furniture_fabric_brand_id, type: :select, value: ins.admin_furniture_fabric_brand_id, source: admin_furniture_fabric_brands_path, text: ins.brand.name %></td>
+      <td><%= editable_tag ins, :admin_furniture_wood_type_id, type: :select, value: ins.admin_furniture_wood_type_id, source: admin_furniture_wood_types_path, text: ins.type.name %></td>
       <td><%= editable_tag ins, :price %></td>
-      <td><%= editable_tag ins, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %></td>      
+      <td><%= editable_tag ins, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %></td>
       <td class='datetime' data-date='<%= ins.updated_at %>'></td>
       <td>
         <%= link_to ins, method: :delete, data: { confirm: { title: "آیا از حذف این مورد اطمینان دارید؟", message: "توجه فرمایید که حذف این مورد غیر قابل بازگشت خواهد بود!" } }, class: 'text-danger' do %>

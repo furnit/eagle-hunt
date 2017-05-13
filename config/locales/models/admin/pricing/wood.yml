@@ -1,17 +1,17 @@
 fa:
   activerecord:
     models:
-      admin/pricing/fabric: 'قیمت‌های پارچه‌ها'
+      admin/pricing/wood: 'قیمت‌های چوب‌ها'
     attributes:
-      admin/pricing/fabric:
-        admin_furniture_fabric_brand_id: برند پارچه
+      admin/pricing/wood:
+        admin_furniture_wood_type_id: نوع چوب
         price: قیمت‌ (تومان)
         comment: توضیحات
     errors:
       models:
-        admin/pricing/fabric:
+        admin/pricing/wood:
           attributes:
-            admin_furniture_fabric_brand_id:
+            admin_furniture_wood_type_id:
               blank: 'نمیتواند خالی باشد.'
               taken: قبلا این مقدار‌دهدی شده است.
               invalid: 'نامعتبر می‌باشد.'

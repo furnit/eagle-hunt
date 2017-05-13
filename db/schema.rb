@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170513090550) do
+ActiveRecord::Schema.define(version: 20170513100151) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -193,6 +193,15 @@ ActiveRecord::Schema.define(version: 20170513090550) do
     t.datetime "updated_at",                 null: false
     t.index ["admin_workshop_workshop_id"], name: "index_admin_pricing_transits_on_admin_workshop_workshop_id", using: :btree
     t.index ["state_id"], name: "index_admin_pricing_transits_on_state_id", using: :btree
+  end
+
+  create_table "admin_pricing_woods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "admin_furniture_wood_type_id"
+    t.integer  "price"
+    t.text     "comment",                      limit: 65535
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.index ["admin_furniture_wood_type_id"], name: "index_admin_pricing_woods_on_admin_furniture_wood_type_id", using: :btree
   end
 
   create_table "admin_sms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -441,6 +450,7 @@ ActiveRecord::Schema.define(version: 20170513090550) do
   add_foreign_key "admin_pricing_fabrics", "admin_furniture_fabric_brands"
   add_foreign_key "admin_pricing_transits", "admin_workshop_workshops"
   add_foreign_key "admin_pricing_transits", "states"
+  add_foreign_key "admin_pricing_woods", "admin_furniture_wood_types"
   add_foreign_key "admin_workshop_workshops", "states"
   add_foreign_key "admin_workshop_workshops", "users"
   add_foreign_key "employee_fanis_furniture_build_details", "employee_fanis", on_update: :cascade, on_delete: :cascade

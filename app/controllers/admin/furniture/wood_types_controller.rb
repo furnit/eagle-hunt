@@ -5,6 +5,11 @@ class Admin::Furniture::WoodTypesController < Admin::AdminbaseController
   # GET /admin/furniture_wood_types.json
   def index
     @admin_furniture_wood_types = Admin::Furniture::WoodType.all
+    
+    respond_to do |format|
+      format.html
+      format.json { render json: @admin_furniture_wood_types.map {|i| {value: i.id, text: i.name}}, status: :ok }
+    end
   end
 
   # GET /admin/furniture_wood_types/1

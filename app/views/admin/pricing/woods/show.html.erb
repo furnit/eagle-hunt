@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Admin furniture wood type:</strong>
+  <%= @admin_pricing_wood.admin_furniture_wood_type %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @admin_pricing_wood.price %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @admin_pricing_wood.comment %>
+</p>
+
+<%= link_to 'Edit', edit_admin_pricing_wood_path(@admin_pricing_wood) %> |
+<%= link_to 'Back', admin_pricing_woods_path %>
