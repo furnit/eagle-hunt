@@ -26,7 +26,7 @@
     <tr>
       <td><%= ins.id %></td>
       <td><%= editable_tag ins, :admin_furniture_paint_color_brand_id, type: :select, value: ins.admin_furniture_paint_color_brand_id, source: admin_furniture_paint_color_brands_path, text: ins.brand.name %></td>
-      <td><%= editable_tag ins, :price %></td>
+      <td><%= editable_tag ins, :price, text: ins.price.to_s.to_money %></td>
       <td><%= editable_tag ins, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %></td>      
       <td class='datetime' data-date='<%= ins.updated_at %>'></td>
       <td>

@@ -5,6 +5,11 @@ class Admin::Furniture::FoamTypesController < Admin::AdminbaseController
   # GET /admin/furniture_foam_types.json
   def index
     @admin_furniture_foam_types = Admin::Furniture::FoamType.all
+    
+    respond_to do |format|
+      format.html
+      format.json { render json: @admin_furniture_foam_types.map {|i| {value: i.id, text: i.name}}, status: :ok }
+    end
   end
 
   # GET /admin/furniture_foam_types/new

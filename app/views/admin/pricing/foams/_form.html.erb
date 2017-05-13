@@ -1,0 +1,23 @@
+<% form_id = '' %>
+<%= remote_form(admin_pricing_foam) do |f| -%>
+  <% form_id = f.options[:html][:id] %>
+  <div  class='block'>
+  	<div class='row'>
+		  <div class="col-sm-6 col-xs-12 pull-right">
+		    <%= f.collection_select :admin_furniture_foam_type_id, Admin::Furniture::FoamType.where.not(id: Admin::Pricing::Foam.select(:admin_furniture_foam_type_id).map { |i| i.admin_furniture_foam_type_id }), :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', autofocus: true %>
+		  </div>
+      <div class="col-sm-6 col-xs-12 pull-right">
+        <%= f.number_field :price %>
+      </div>
+      <div class='clearfix'></div>
+      <div class="col-xs-12">
+      	<%= f.text_area :comment %>
+    	</div>
+    </div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+<% end %>

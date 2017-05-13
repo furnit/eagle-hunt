@@ -1,0 +1,20 @@
+fa:
+  activerecord:
+    models:
+      admin/pricing/foam: 'قیمت‌های ابر‌ها'
+    attributes:
+      admin/pricing/foam:
+        admin_furniture_foam_type_id: نوع ابر
+        price: قیمت‌ (تومان)
+        comment: توضیحات
+    errors:
+      models:
+        admin/pricing/foam:
+          attributes:
+            admin_furniture_foam_type_id:
+              blank: 'نمیتواند خالی باشد.'
+              taken: قبلا این مقدار‌دهدی شده است.
+              invalid: 'نامعتبر می‌باشد.'
+            price:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'

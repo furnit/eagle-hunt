@@ -107,6 +107,7 @@ Rails.application.routes.draw do
     
     # <pricing>
     namespace :pricing do
+      resources :foams
       resources :woods
       resources :consts
       resources :fabrics

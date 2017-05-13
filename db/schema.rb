@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170513102504) do
+ActiveRecord::Schema.define(version: 20170513104418) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -183,6 +183,15 @@ ActiveRecord::Schema.define(version: 20170513102504) do
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
     t.index ["admin_furniture_fabric_brand_id"], name: "index_admin_pricing_fabrics_on_admin_furniture_fabric_brand_id", using: :btree
+  end
+
+  create_table "admin_pricing_foams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "admin_furniture_foam_type_id"
+    t.integer  "price"
+    t.text     "comment",                      limit: 65535
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.index ["admin_furniture_foam_type_id"], name: "index_admin_pricing_foams_on_admin_furniture_foam_type_id", using: :btree
   end
 
   create_table "admin_pricing_paint_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -457,6 +466,7 @@ ActiveRecord::Schema.define(version: 20170513102504) do
   add_foreign_key "admin_furniture_paint_colors", "admin_furniture_paint_color_brands", column: "admin_furniture_paint_color_brands_id"
   add_foreign_key "admin_furniture_paint_colors", "admin_furniture_paint_color_qualities", column: "admin_furniture_paint_color_qualities_id"
   add_foreign_key "admin_pricing_fabrics", "admin_furniture_fabric_brands"
+  add_foreign_key "admin_pricing_foams", "admin_furniture_foam_types"
   add_foreign_key "admin_pricing_paint_colors", "admin_furniture_paint_color_brands"
   add_foreign_key "admin_pricing_transits", "admin_workshop_workshops"
   add_foreign_key "admin_pricing_transits", "states"

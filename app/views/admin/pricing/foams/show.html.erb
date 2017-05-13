@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Admin furniture foam type:</strong>
+  <%= @admin_pricing_foam.admin_furniture_foam_type %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @admin_pricing_foam.price %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @admin_pricing_foam.comment %>
+</p>
+
+<%= link_to 'Edit', edit_admin_pricing_foam_path(@admin_pricing_foam) %> |
+<%= link_to 'Back', admin_pricing_foams_path %>
