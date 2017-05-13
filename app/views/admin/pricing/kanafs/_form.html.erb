@@ -1,0 +1,21 @@
+<% form_id = '' %>
+<%= remote_form(admin_pricing_kanaf) do |f| -%>
+  <% form_id = f.options[:html][:id] %>
+  <div  class='block'>
+  	<div class="row">
+      <div class="col-sm-6 pull-right">
+        <%= f.number_field :price, autofocus: true %>
+      </div>
+      <div class='clearfix'></div>
+      <div class="col-sm-12">
+        <%= f.text_area :comment %>
+      </div>
+      <div class='clearfix'></div>
+		</div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+<% end %>

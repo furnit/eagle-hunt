@@ -1,0 +1,37 @@
+<%= 
+  render 'admin/shared/index',
+    title: "لیست #{t("activerecord.models.#{Admin::Pricing::Kanaf.model_name.i18n_key}")}", 
+    title_right: lambda {
+    	break if Admin::Pricing::Kanaf.count > 0
+      link_to new_admin_pricing_kanaf_url, class: 'inline-html-call' do
+        raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
+      end
+    },
+    before_table: lambda {
+      raw "<p class='alert alert-warning'><b>توجه:</b> به علت یکنواخت‌سازی قیمت کناف‌، هنگام محاسبه‌ی قیمت مبل ‌<b>آخرین داده‌ی جدول زیر</b> در نظر گرفته خواهد شد لذا جهت جلو‌گیری از وقوع هرگونه اشتباهی آخرین داده‌ی این جدول نمایش داده‌ می‌شود.</p>"
+    },
+    table_head: {
+      'ردیف': { style: 'width: 30px' },
+      'ردیف': { style: 'width: 130px' },
+      'قیمت (به تومان)': { style: 'width: 150px' },
+      'توضیحات': { },
+      'آخرین بروزرسانی': { style: 'width: 130px' },
+      'عملیات': { style: 'width: 80px' }
+    },
+    table_body: lambda {
+%>
+  <% @admin_pricing_kanafs.each do |ins| %>
+    <tr>
+      <td><%= ins.id %></td>
+      <td><%= editable_tag ins, :price, text: ins.price.to_s.to_money %></td>
+      <td><%= editable_tag ins, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %></td>
+      <td class='datetime' data-date='<%= ins.updated_at %>'></td>
+      <td>
+        <%= link_to ins, method: :delete, data: { confirm: { title: "آیا از حذف این مورد اطمینان دارید؟", message: "توجه فرمایید که حذف این مورد غیر قابل بازگشت خواهد بود!" } }, class: 'text-danger' do %>
+          <span class='fa fa-trash'></span> حذف
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+      
+<% } %>

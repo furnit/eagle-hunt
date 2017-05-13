@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170513104418) do
+ActiveRecord::Schema.define(version: 20170513154234) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -192,6 +192,13 @@ ActiveRecord::Schema.define(version: 20170513104418) do
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
     t.index ["admin_furniture_foam_type_id"], name: "index_admin_pricing_foams_on_admin_furniture_foam_type_id", using: :btree
+  end
+
+  create_table "admin_pricing_kanafs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "price"
+    t.text     "comment",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "admin_pricing_paint_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

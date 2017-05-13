@@ -1,0 +1,15 @@
+fa:
+  activerecord:
+    models:
+      admin/pricing/kanaf: 'قیمت‌های ابر‌ها'
+    attributes:
+      admin/pricing/kanaf:
+        price: قیمت‌ (تومان)
+        comment: توضیحات
+    errors:
+      models:
+        admin/pricing/kanaf:
+          attributes:
+            price:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
