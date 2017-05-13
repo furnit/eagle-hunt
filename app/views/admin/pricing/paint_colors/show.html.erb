@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Admin furniture paint color brand:</strong>
+  <%= @admin_pricing_paint_color.admin_furniture_paint_color_brand %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @admin_pricing_paint_color.price %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @admin_pricing_paint_color.comment %>
+</p>
+
+<%= link_to 'Edit', edit_admin_pricing_paint_color_path(@admin_pricing_paint_color) %> |
+<%= link_to 'Back', admin_pricing_paint_colors_path %>

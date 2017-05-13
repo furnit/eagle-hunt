@@ -33,7 +33,7 @@ class Admin::Pricing::FabricsController < Admin::AdminbaseController
 
     respond_to do |format|
       if @admin_pricing_fabric.save
-        format.html { redirect_to admin_pricing_fabrics_path, notice: mk_notice(@admin_pricing_fabric, @admin_pricing_fabric.brand.name, 'برند‌ پارچه', :create) }
+        format.html { redirect_to admin_pricing_fabrics_path, notice: mk_notice(@admin_pricing_fabric, @admin_pricing_fabric.brand.name, 'قیمت برای برند‌ پارچه', :create) }
         format.json { render json: @admin_pricing_fabric, status: :created, location: admin_pricing_fabrics_path }
       else
         format.html { render :new }
@@ -47,7 +47,7 @@ class Admin::Pricing::FabricsController < Admin::AdminbaseController
   def update
     respond_to do |format|
       if @admin_pricing_fabric.update(admin_pricing_fabric_params)
-        format.html { redirect_to admin_pricing_fabrics_path, notice: mk_notice(@admin_pricing_fabric, @admin_pricing_fabric.brand.name, 'برند‌ پارچه', :update) }
+        format.html { redirect_to admin_pricing_fabrics_path, notice: mk_notice(@admin_pricing_fabric, @admin_pricing_fabric.brand.name, 'قیمت برای برند‌ پارچه', :update) }
         format.json { render json: @admin_pricing_fabric, status: :ok, location: admin_pricing_fabrics_path }
       else
         format.html { render :edit }
@@ -61,7 +61,7 @@ class Admin::Pricing::FabricsController < Admin::AdminbaseController
   def destroy
     @admin_pricing_fabric.destroy
     respond_to do |format|
-      format.html { redirect_to admin_pricing_fabrics_path, notice: mk_notice(@admin_pricing_fabric, @admin_pricing_fabric.brand.name, 'برند‌ پارچه', :destroy) }
+      format.html { redirect_to admin_pricing_fabrics_path, notice: mk_notice(@admin_pricing_fabric, @admin_pricing_fabric.brand.name, 'قیمت برای برند‌ پارچه', :destroy) }
       format.json { head :no_content }
     end
   end

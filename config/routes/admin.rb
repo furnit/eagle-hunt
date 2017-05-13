@@ -110,6 +110,7 @@ Rails.application.routes.draw do
       resources :woods
       resources :consts
       resources :fabrics
+      resources :paint_colors
       resources :transits do
         member do
           get :ls_transit

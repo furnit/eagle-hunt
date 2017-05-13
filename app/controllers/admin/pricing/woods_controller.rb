@@ -33,7 +33,7 @@ class Admin::Pricing::WoodsController < Admin::AdminbaseController
 
     respond_to do |format|
       if @admin_pricing_wood.save
-        format.html { redirect_to admin_pricing_woods_path, notice: mk_notice(@admin_pricing_wood, @admin_pricing_wood.type.name, 'چوب', :create) }
+        format.html { redirect_to admin_pricing_woods_path, notice: mk_notice(@admin_pricing_wood, @admin_pricing_wood.type.name, 'قیمت چوب', :create) }
         format.json { render json: @admin_pricing_wood, status: :created, location: admin_pricing_woods_path }
       else
         format.html { render :new }
@@ -47,7 +47,7 @@ class Admin::Pricing::WoodsController < Admin::AdminbaseController
   def update
     respond_to do |format|
       if @admin_pricing_wood.update(admin_pricing_wood_params)
-        format.html { redirect_to admin_pricing_woods_path, notice: mk_notice(@admin_pricing_wood, @admin_pricing_wood.type.name, 'چوب', :update) }
+        format.html { redirect_to admin_pricing_woods_path, notice: mk_notice(@admin_pricing_wood, @admin_pricing_wood.type.name, 'قیمت چوب', :update) }
         format.json { render json: @admin_pricing_wood, status: :ok, location: admin_pricing_woods_path }
       else
         format.html { render :edit }
@@ -61,7 +61,7 @@ class Admin::Pricing::WoodsController < Admin::AdminbaseController
   def destroy
     @admin_pricing_wood.destroy
     respond_to do |format|
-      format.html { redirect_to admin_pricing_woods_path, notice: mk_notice(@admin_pricing_wood, @admin_pricing_wood.type.name, 'چوب', :destroy) }
+      format.html { redirect_to admin_pricing_woods_path, notice: mk_notice(@admin_pricing_wood, @admin_pricing_wood.type.name, 'قیمت چوب', :destroy) }
       format.json { head :no_content }
     end
   end
