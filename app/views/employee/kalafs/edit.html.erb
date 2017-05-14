@@ -1,10 +1,10 @@
 <% unit = Admin::Furniture::Spec.where(name: 'چوب').first.unit %>
 <%= render 'employee/shared/input_for7' %>
-<%= remote_form @form[:furniture], url: employee_kanafs_path(format: :json), method: :post do |f| %>
+<%= remote_form @form[:furniture], url: employee_kalafs_path(format: :json), method: :post do |f| %>
 	<%= f.hidden_field :id, value: @form[:furniture].id %>
 	<%= f.hidden_field :hd, value: Digest::SHA256.new << (@form[:furniture].id.to_s + Rails.application.config.secret_key_base) %>
 	<div class='ir'>
-		<%= f.fields_for @form[:kanaf] do |ff| %>
+		<%= f.fields_for @form[:kalaf] do |ff| %>
 			<div class="panel panel-success">
 			  <div class="panel-heading"><strong><span class='fa fa-money'></span> دست‌مزد</strong></div>
 			  <div class="panel-body">
@@ -85,8 +85,8 @@
 				spec: 'دستمزد‌',
 				list: [
 					{
-						valid: get_val('[name="admin_furniture[employee_kanaf][wage]"]') !== '؟', 
-						val: get_currency('[name="admin_furniture[employee_kanaf][wage]"]'),
+						valid: get_val('[name="admin_furniture[employee_kalaf][wage]"]') !== '؟', 
+						val: get_currency('[name="admin_furniture[employee_kalaf][wage]"]'),
 						append: 'تومان',
 						title: 'دست‌مزد'
 					}
@@ -97,9 +97,9 @@
 				spec: 'زمان', 
 				list: [
 					{
-						valid: get_val('[name="admin_furniture[employee_kanaf][days_to_complete]"]') > 0,
-						val: get_val('[name="admin_furniture[employee_kanaf][days_to_complete]"]'),
-						append: days_scale_locale[$('[name="admin_furniture[employee_kanaf][days_to_complete_scale]"]').val()],
+						valid: get_val('[name="admin_furniture[employee_kalaf][days_to_complete]"]') > 0,
+						val: get_val('[name="admin_furniture[employee_kalaf][days_to_complete]"]'),
+						append: days_scale_locale[$('[name="admin_furniture[employee_kalaf][days_to_complete_scale]"]').val()],
 						title: 'مدت زمان پایان «نقاشی»'
 					}
 				]
@@ -109,8 +109,8 @@
 				spec: 'جزییات',
 				list: [
 					{
-						valid: get_val('[name="admin_furniture[employee_kanaf][choob]"]') !== '؟', 
-						val: get_currency('[name="admin_furniture[employee_kanaf][choob]"]'),
+						valid: get_val('[name="admin_furniture[employee_kalaf][choob]"]') !== '؟', 
+						val: get_currency('[name="admin_furniture[employee_kalaf][choob]"]'),
 						append: "<%= unit %>",
 						title: 'آستر اولیه'
 					}

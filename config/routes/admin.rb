@@ -110,7 +110,7 @@ Rails.application.routes.draw do
       resources :foams
       resources :woods
       resources :consts
-      resources :kanafs
+      resources :kalafs
       resources :fabrics
       resources :paint_colors
       resources :transits do

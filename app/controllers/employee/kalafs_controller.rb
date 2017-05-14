@@ -1,4 +1,4 @@
-class Employee::KanafsController < Employee::EmployeebaseController
+class Employee::KalafsController < Employee::EmployeebaseController
   before_action :set_forms_instance, only: [:edit, :create]
   
   def index
@@ -7,28 +7,28 @@ class Employee::KanafsController < Employee::EmployeebaseController
   def edit
     unless has_processed_before params[:id]
       # this means the user wants to re-evaluate the params
-      @form[:kanaf] = Employee::Kanaf.where(furniture_id: params[:id], user_id: current_user.id).last
-      # create new records if something is wrong and the kanaf not found
-      set_forms_instance and return if not @form[:kanaf] 
+      @form[:kalaf] = Employee::Kalaf.where(furniture_id: params[:id], user_id: current_user.id).last
+      # create new records if something is wrong and the kalaf not found
+      set_forms_instance and return if not @form[:kalaf] 
       # try to normalize the wages to thousand tomans!
-      @form[:kanaf].wage = @form[:kanaf].wage.tomans
+      @form[:kalaf].wage = @form[:kalaf].wage.tomans
     end
   end
   
   def create
-    @form[:kanaf] = Employee::Kanaf.new(kanaf_params)
+    @form[:kalaf] = Employee::Kalaf.new(kalaf_params)
     
     respond_to do |format|
-      if @form[:kanaf].valid?
+      if @form[:kalaf].valid?
         # destroy all related data from previous un-confirmed details for current furniture and user
         # this will give the user edit-like ability without making database messy and also keeping the confirmed data on touched!
-        Employee::Kanaf.where(furniture_id: furniture_params[:id], user_id: current_user.id, confirmed: 0).destroy_all
+        Employee::Kalaf.where(furniture_id: furniture_params[:id], user_id: current_user.id, confirmed: 0).destroy_all
         
         # save the details
-        @form[:kanaf].save
+        @form[:kalaf].save
         
         # flag it as unconfirmed data
-        @form[:kanaf].furniture.update has_unconfirmed_data: true
+        @form[:kalaf].furniture.update has_unconfirmed_data: true
         
         # flag current furniture processed by current user
         flag_processed furniture_params[:id]
@@ -47,9 +47,9 @@ class Employee::KanafsController < Employee::EmployeebaseController
     return unless verify_two_step_auth
     p = params[:admin_furniture_furniture]
     if p
-      p = p[:employee_kanaf]
+      p = p[:employee_kalaf]
       if p
-        Employee::Kanaf.update(p[:id], kanaf_params(inject: false))
+        Employee::Kalaf.update(p[:id], kalaf_params(inject: false))
       else
         raise RuntimeError.new("wrong data!")
       end
@@ -63,7 +63,7 @@ class Employee::KanafsController < Employee::EmployeebaseController
   def set_forms_instance
     @form = {
       furniture: Admin::Furniture::Furniture.find(params[:id] || furniture_params[:id]).freeze,
-      kanaf: Employee::Kanaf.new
+      kalaf: Employee::Kalaf.new
     }
   end
   
@@ -75,9 +75,9 @@ class Employee::KanafsController < Employee::EmployeebaseController
     params.require(:admin_furniture_furniture).permit(:id, :hd)
   end
   
-  def kanaf_params inject: true
+  def kalaf_params inject: true
     # purify the params
-    par = params.require(:admin_furniture_furniture).require(:employee_kanaf).permit(:wage, :choob, :days_to_complete, :days_to_complete_scale)
+    par = params.require(:admin_furniture_furniture).require(:employee_kalaf).permit(:wage, :choob, :days_to_complete, :days_to_complete_scale)
     # have to convert it to hash to process
     par = par.to_h
     # convert to days, based on defined scale

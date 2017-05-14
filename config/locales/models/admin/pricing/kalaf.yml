@@ -1,14 +1,14 @@
 fa:
   activerecord:
     models:
-      admin/pricing/kanaf: 'قیمت‌های ابر‌ها'
+      admin/pricing/kalaf: 'قیمت‌ چوب کلاف‌'
     attributes:
-      admin/pricing/kanaf:
+      admin/pricing/kalaf:
         price: قیمت‌ (تومان)
         comment: توضیحات
     errors:
       models:
-        admin/pricing/kanaf:
+        admin/pricing/kalaf:
           attributes:
             price:
               blank: 'نمیتواند خالی باشد.'

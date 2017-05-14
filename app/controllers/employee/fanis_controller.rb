@@ -114,7 +114,7 @@ class Employee::FanisController < Employee::EmployeebaseController
   
   def fanis_params inject: true
     # purify the params
-    par = params.require(:admin_furniture_furniture).require(:employee_fani).permit(:wage_rokob, :wage_khayat, :days_to_complete, :days_to_complete_scale, :needs_kande, :needs_kanaf, :needs_rang)
+    par = params.require(:admin_furniture_furniture).require(:employee_fani).permit(:wage_rokob, :wage_khayat, :days_to_complete, :days_to_complete_scale, :needs_kande, :needs_kalaf, :needs_rang)
     # have to convert it to hash to process
     par = par.to_h
     # convert to days, based on defined scale

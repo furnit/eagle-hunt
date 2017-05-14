@@ -3,7 +3,7 @@ class CreateFurnitures < ActiveRecord::Migration[5.0]
     create_table :furnitures do |t|
       t.string :name
       t.float :size_parche
-      t.float :size_kanaf
+      t.float :size_kalaf
       t.float :size_abr
 
       t.float :wage_khayat

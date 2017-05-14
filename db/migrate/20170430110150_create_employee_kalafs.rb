@@ -1,6 +1,6 @@
-class CreateEmployeeKanafs < ActiveRecord::Migration[5.0]
+class CreateEmployeeKalafs < ActiveRecord::Migration[5.0]
   def change
-    create_table :employee_kanafs do |t|
+    create_table :employee_kalafs do |t|
       t.references :furniture
       t.references :user
       t.float :wage

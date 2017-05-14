@@ -56,13 +56,13 @@
 <% # ETELA'ATE UMUMI %>
 <% build_section panel_type: 'primary',
 			pangel_heading: "<span class='fa fa-info'></span> اطلاعات عمومی",
-			thead: ['کارمند', 'رنگ‌آمیزی دارد؟', 'کنده‌کاری دارد؟', 'کناف دارد؟'] do %>
+			thead: ['کارمند', 'رنگ‌آمیزی دارد؟', 'کنده‌کاری دارد؟', 'کلاف دارد؟'] do %>
 	
 	<% klass_id = next_klass.call %>
 	<% intel.each do |i| %>
 		<tr <%= klass_id %> class="<%= i[:data].confirmed? ? "" : "warning" %>">
 			<td><%= i[:data].user.full_name %></td>
-			<% [:needs_rang, :needs_kande, :needs_kanaf].each do |label| %>
+			<% [:needs_rang, :needs_kande, :needs_kalaf].each do |label| %>
 				<td>
 					<% outlier_label i[:data][label], collection: intel.map { |i| i[:data][label] }, categorical: true do %>
 						<span class='value' data-type="select" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-pk="<%= next_value.call %>" data-value="<%= i[:data][label] ? 1 : 0 %>" data-source="<%= ['ندارد', 'دارد'].map.with_index { |i, index| {value: index, text: i} }.to_json %>" data-options='<%= {

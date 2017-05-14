@@ -48,9 +48,9 @@ class Employee::HomeController < ApplicationController
     when :NAGASH
       query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_rang` AND `confirmed` = 1) AND #{query[0]}"
     when :NAJAR
-      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_kanaf` AND `needs_kande` AND `confirmed` = 1) AND #{query[0]}"
-    when :KANAF
-      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_kanaf` AND `confirmed` = 1) AND #{query[0]}"
+      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_kalaf` AND `needs_kande` AND `confirmed` = 1) AND #{query[0]}"
+    when :KALAF
+      query[0] = "`id` IN (SELECT `furniture_id` FROM `employee_fanis` WHERE `needs_kalaf` AND `confirmed` = 1) AND #{query[0]}"
     else
       raise RuntimeError.new("invalid symbol `#{symbol}`")
     end

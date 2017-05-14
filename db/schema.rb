@@ -194,7 +194,7 @@ ActiveRecord::Schema.define(version: 20170513162134) do
     t.index ["admin_furniture_foam_type_id"], name: "index_admin_pricing_foams_on_admin_furniture_foam_type_id", using: :btree
   end
 
-  create_table "admin_pricing_kanafs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "admin_pricing_kalafs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "price"
     t.text     "comment",    limit: 65535
     t.datetime "created_at",               null: false
@@ -303,7 +303,7 @@ ActiveRecord::Schema.define(version: 20170513162134) do
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
     t.boolean  "needs_kande",                 default: false
-    t.boolean  "needs_kanaf",                 default: false
+    t.boolean  "needs_kalaf",                 default: false
     t.boolean  "needs_rang",                  default: false
     t.integer  "days_to_complete",            default: 0
     t.index ["furniture_id"], name: "index_employee_fanis_on_furniture_id", using: :btree
@@ -319,7 +319,7 @@ ActiveRecord::Schema.define(version: 20170513162134) do
     t.index ["furniture_build_detail_id"], name: "index_furniture_build_detail", using: :btree
   end
 
-  create_table "employee_kanafs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "employee_kalafs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "furniture_id"
     t.integer  "user_id"
     t.float    "wage",             limit: 24
@@ -328,8 +328,8 @@ ActiveRecord::Schema.define(version: 20170513162134) do
     t.integer  "confirmed",        limit: 1
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
-    t.index ["furniture_id"], name: "index_employee_kanafs_on_furniture_id", using: :btree
-    t.index ["user_id"], name: "index_employee_kanafs_on_user_id", using: :btree
+    t.index ["furniture_id"], name: "index_employee_kalafs_on_furniture_id", using: :btree
+    t.index ["user_id"], name: "index_employee_kalafs_on_user_id", using: :btree
   end
 
   create_table "employee_nagashes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
