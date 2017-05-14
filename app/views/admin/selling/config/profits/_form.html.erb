@@ -1,0 +1,30 @@
+<% form_id = '' %>
+<%= remote_form(admin_selling_config_profit) do |f| -%>
+  <% form_id = f.options[:html][:id] %>
+  <div  class='block'>
+		<table class="table">
+			<thead class="no-layout">
+				<tr>
+					<td class='col-md-6'></td>
+					<td class='col-md-6'></td>
+				</tr>
+			</thead>
+			<tbody>
+				<% [:overall, :marketer, :marketed].each do |t| %>
+				<tr>
+					<td><%= f.number_field t, step: 0.001, min: 0, wrapper: { class: 'col-md-10 col-md-offset-2' } %></td>
+					<td style="padding-top: 10px">
+						<%= check_awesome f.object.class.human_attribute_name("#{t.to_s}_fixed"), 'آیا این مقدار به صورت ثابت درنظر گرفته شود یا درصدی؟', name: "#{f.object_name}[#{t.to_s}_fixed]" %>
+					</td>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+    <div class='clearfix'></div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+<% end %>

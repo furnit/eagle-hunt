@@ -1,0 +1,35 @@
+<%= 
+  render 'admin/shared/index',
+    title: "لیست #{t("activerecord.models.#{Admin::Selling::Config::Profit.model_name.i18n_key}")}", 
+    title_right: lambda {
+    	break if Admin::Selling::Config::Profit.count > 0
+      link_to new_admin_selling_config_profit_url, class: 'inline-html-call' do
+        raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
+      end
+    },
+    before_table: lambda {
+      raw "<p class='alert alert-warning'><b>توجه:</b> به علت یکنواخت‌سازی قیمت‌ها، هنگام محاسبه‌ی قیمت مبل ‌<b>آخرین داده‌ی جدول زیر</b> در نظر گرفته خواهد شد لذا جهت جلو‌گیری از وقوع هرگونه اشتباهی آخرین داده‌ی این جدول نمایش داده‌ می‌شود.</p>"
+    },
+    table_head: {
+      'ردیف': { style: 'width: 30px' },
+      'میزان سوددهی': { style: 'width: 130px' },
+      'بازایابی': { style: 'width: 130px' },
+      'تخفیف بازایابی': { style: 'width: 130px' },
+      'آخرین بروزرسانی': { style: 'width: 130px' },
+    },
+    table_body: lambda {
+%>
+  <% @admin_selling_config_profits.each do |ins| %>
+    <tr>
+      <td><%= ins.id %></td>
+      <% [:overall, :marketer, :marketed].each do |t| %>
+      <td>
+      	<%= editable_tag ins, t, text: (eval("ins.#{t}_fixed?") ? ins[t].to_i.to_s.to_money : ins[t].to_f.to_s.to_money) %>
+      	(<%= editable_tag ins, :"#{t}_fixed", type: :select, source: [{value: 0, text: 'درصدی'}, {value: 1, text: 'ثابت'}], value: (eval("ins.#{t}_fixed?") ? 1 : 0), text: raw("<span class='fa fa-#{eval("ins.#{t}_fixed?") ? 'check' : 'percent'}'><span>"), 'original-title': (eval("ins.#{t}_fixed?") ? 'ثابت' : 'درصدی')  %>)
+  		</td>
+  		<% end %>
+      <td class='datetime' data-date='<%= ins.updated_at %>'></td>
+    </tr>
+  <% end %>
+      
+<% } %>

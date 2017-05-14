@@ -1,0 +1,25 @@
+fa:
+  activerecord:
+    models:
+      admin/selling/config/profit: 'سوددهی و بازاریابی'
+    attributes:
+      admin/selling/config/profit:
+        overall: سوددهی کلی
+        overall_fixed: مقدار ثابت؟
+        marketer: بازاریاب
+        marketer_fixed: مقدار ثابت؟
+        marketed: تخفیف بازاریابی
+        marketed_fixed: مقدار ثابت؟
+    errors:
+      models:
+        admin/selling/config/profit:
+          attributes:
+            overall:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            marketer:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            marketed:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'

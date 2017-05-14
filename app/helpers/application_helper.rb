@@ -110,7 +110,7 @@ module ApplicationHelper
     raw '<div class="img img-responsive %s" id="%s" style="%s;width:%s;height:%s;background-image:url(%s);background-repeat:no-repeat;" data-thumb="%s"></div>' %[css_class.to_s, css_id.to_s, css_style.to_s, width.to_s, height.to_s, image.to_s, thumb.to_s]
   end
 
-  def check_awesome(title, comment, checked: false, id: nil, name: nil, value: nil, box_title: '', prefix: '')
+  def check_awesome(title, comment = '', checked: false, id: nil, name: nil, value: nil, box_title: '', prefix: '')
     @check_awesome_id ||= 0
     @check_awesome_id += 1
     id = id || 'check-awesome-id' + @check_awesome_id.to_s

@@ -15,8 +15,7 @@
       'ردیف': { style: 'width: 130px' },
       'قیمت (به تومان)': { style: 'width: 150px' },
       'توضیحات': { },
-      'آخرین بروزرسانی': { style: 'width: 130px' },
-      'عملیات': { style: 'width: 80px' }
+      'آخرین بروزرسانی': { style: 'width: 130px' }
     },
     table_body: lambda {
 %>
@@ -26,11 +25,6 @@
       <td><%= editable_tag ins, :price, text: ins.price.to_s.to_money %></td>
       <td><%= editable_tag ins, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %></td>
       <td class='datetime' data-date='<%= ins.updated_at %>'></td>
-      <td>
-        <%= link_to ins, method: :delete, data: { confirm: { title: "آیا از حذف این مورد اطمینان دارید؟", message: "توجه فرمایید که حذف این مورد غیر قابل بازگشت خواهد بود!" } }, class: 'text-danger' do %>
-          <span class='fa fa-trash'></span> حذف
-        <% end %>
-      </td>
     </tr>
   <% end %>
       

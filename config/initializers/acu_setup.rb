@@ -6,7 +6,7 @@ Acu.setup do |config|
 
   # the audit log file, to log how the requests handles, good for production
   # leave it black for nil to disable the logging
-  config.audit_log_file   = "/tmp/acu-viramobl-auth.log"
+  config.audit_log_file   = Rails.root.join("tmp", "acu-auth.log")
 
   # cache the rules to make rule matching much faster
   # it's not recommended to use it in developement/test evn.

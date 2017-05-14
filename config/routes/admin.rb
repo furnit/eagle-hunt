@@ -121,5 +121,13 @@ Rails.application.routes.draw do
     end
     # </pricing>
     
+    # <selling>
+    namespace :selling do
+      namespace :config do
+        resources :profits
+      end
+    end
+    # </selling>
+    
   end
 end

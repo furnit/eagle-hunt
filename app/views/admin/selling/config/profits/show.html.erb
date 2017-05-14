@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Overall:</strong>
+  <%= @admin_selling_config_profit.overall %>
+</p>
+
+<p>
+  <strong>Overall fixed:</strong>
+  <%= @admin_selling_config_profit.overall_fixed %>
+</p>
+
+<p>
+  <strong>Marketer:</strong>
+  <%= @admin_selling_config_profit.marketer %>
+</p>
+
+<p>
+  <strong>Marketer fixed:</strong>
+  <%= @admin_selling_config_profit.marketer_fixed %>
+</p>
+
+<p>
+  <strong>Marketed:</strong>
+  <%= @admin_selling_config_profit.marketed %>
+</p>
+
+<p>
+  <strong>Marketed fixed:</strong>
+  <%= @admin_selling_config_profit.marketed_fixed %>
+</p>
+
+<%= link_to 'Edit', edit_admin_selling_config_profit_path(@admin_selling_config_profit) %> |
+<%= link_to 'Back', admin_selling_config_profits_path %>
