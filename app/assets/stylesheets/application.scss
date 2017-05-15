@@ -81,6 +81,10 @@ body {
   textarea { @extend .form-control; font-size: 20px!important; }
   input { font-size: 20px!important; }
   
+  .bootstrap-select{
+    &:not(.en) * { @extend .ir-font }
+    &.en * { @extend .en-font }
+  }
 
   th { text-align: right }
 

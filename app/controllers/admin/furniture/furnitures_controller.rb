@@ -146,7 +146,6 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
   end
   
   def confirm
-    byebug
     results = []
     ls_intel.each do |_, employees|
       employees.each do |intel|
@@ -154,7 +153,7 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
         results << intel[:data].save
       end
     end
-    @furniture.ready_for_pricing = furniture_params[:ready_for_pricing];
+    @furniture.ready_for_pricing = furniture_params[:ready_for_pricing]
     @furniture.has_unconfirmed_data = false
     results << @furniture.save
     

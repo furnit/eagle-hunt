@@ -27,12 +27,12 @@ class Admin::Furniture::Furniture < ParanoiaRecord
   end
   
   def notify_on_availble
-    NotifyOnFurnitureAvailable.notify_for_furniture self.id, self.name if self.available and self.available_changed?
+    ::NotifyOnFurnitureAvailable.notify_for_furniture self.id, self.name if self.available and self.available_changed?
   end
   
   def intel
     intel = { }
-    Employee::Processed.where(admin_furniture_id: self.id).distinct.each do |proc|
+    ::Employee::Processed.where(admin_furniture_id: self.id).distinct.each do |proc|
       name = proc.as_symbol.downcase.to_sym
       intel[name] ||= []
       intel[name] << {
@@ -47,12 +47,23 @@ class Admin::Furniture::Furniture < ParanoiaRecord
     self[:ready_for_pricing] = val
     
     if self[:ready_for_pricing]
-      _intel = 
       overalls = { }
       self.intel.each do |name, i|
+        next if i.empty?
+        data = i.map { |ii| ii[:data] }
+        (::Employee::Overall.column_names & data.first.as_json.keys.map { |ii| "#{name.to_s.downcase}_#{ii}" }).each do |column|
+          tabc = column.gsub("#{name.to_s.downcase}_", "")
+          overalls[column] = data.max_by { |ii| ii[tabc].to_f }[tabc]
+        end
       end
-      byebug
+      ::Employee::Overall.find_or_create_by(admin_furniture_furniture_id: self.id).update_attributes(overalls)
     end
+  end
+  
+  def days_to_complete
+    overall = ::Employee::Overall.where(admin_furniture_furniture_id: self.id).first
+    return -1 if overall.nil?
+    overall.as_json.select { |c| c[/\w+_days_to_complete$/] }.values.sum
   end
   
   filterrific(
@@ -110,6 +121,10 @@ class Admin::Furniture::Furniture < ParanoiaRecord
     case get_flags.map { |i| i[:column] }[flag_id]
     when 'has_unconfirmed_data'
       where('has_unconfirmed_data')
+    when 'ready_for_pricing'
+      where('ready_for_pricing')
+    when 'not_ready_for_pricing'
+      where('not ready_for_pricing')
     when 'data_locked_at'
       where('data_locked_at IS NOT NULL')
     when 'not_data_locked_at'
@@ -125,11 +140,13 @@ class Admin::Furniture::Furniture < ParanoiaRecord
 
   def self.get_flags
     [
-      { column: 'has_unconfirmed_data', title: 'حاوی اطلاعات تایید نشده' },
-      { column: 'data_locked_at', title: 'اطلاعات قفل شده' },
-      { column: 'not_data_locked_at', title: 'اطلاعات قفل نشده' },
-      { column: 'available', title: 'قابل سفارش' },
-      { column: 'not_available', title: 'غیر قابل سفارش' }
+      { column: 'has_unconfirmed_data', title: 'حاوی اطلاعات تایید نشده', data: { content: "<span class='fa fa-info' style='padding-top: 10px'></span> حاوی اطلاعات تایید نشده" } },
+      { column: 'ready_for_pricing', title: 'آماده برای قیمت‌گذاری', data: { content: "<span class='fa fa-money' style='padding-top: 10px'></span> آماده برای قیمت‌گذاری" } },
+      { column: 'not_ready_for_pricing', title: 'حاوی اطلاعات ناقص', data: { content: "<span class='fa fa-ban' style='padding-top: 10px'></span> حاوی اطلاعات ناقص" } },
+      { column: 'data_locked_at', title: 'اطلاعات قفل شده', data: { content: "<span class='fa fa-lock' style='padding-top: 10px'></span> اطلاعات قفل شده" } },
+      { column: 'not_data_locked_at', title: 'اطلاعات قفل نشده', data: { content: "<span class='fa fa-unlock-alt' style='padding-top: 10px'></span> اطلاعات قفل نشده" } },
+      { column: 'available', title: 'قابل سفارش', data: { content: "<span class='fa fa-check' style='padding-top: 10px'></span> قابل سفارش" } },
+      { column: 'not_available', title: 'غیر قابل سفارش', data: { content: "<span class='fa fa-times' style='padding-top: 10px'></span> غیرقابل سفارش" } }
     ]
   end
 

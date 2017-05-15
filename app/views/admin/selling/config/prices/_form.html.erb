@@ -4,10 +4,16 @@
   <div  class='block'>
   	<div class='row'>
   		<legend>پارچه</legend>
-  		<%= f.select :admin_furniture_fabric_brand_id, @fabrics.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند پارچه را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', autofocus: true, data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
-  		<legend>چوب</legend>
-  		<%= f.select :admin_furniture_wood_type_id, @woods.map{ |i| [i.type.name, i.type.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
-  		<%= f.select :admin_furniture_paint_color_brand_id, @paint_colors.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
+  		<%= f.select :admin_furniture_fabric_brand_id, @fabrics.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند پارچه را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
+  		<% if [@woods, @paint_colors].any? %>
+	  		<legend>چوب</legend>
+	  		<% if not @woods.nil? %>
+	  			<%= f.select :admin_furniture_wood_type_id, @woods.map{ |i| [i.type.name, i.type.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
+				<% end %>  		
+	  		<% if not @paint_colors.nil? %>
+		  		<%= f.select :admin_furniture_paint_color_brand_id, @paint_colors.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
+				<% end %>  		
+  		<% end %>
   		<div class='clearfix'></div>
 		</div>
   </div>
@@ -17,7 +23,3 @@
   </div>
   <div class='clearfix'></div>
 <% end %>
-
-<style type="text/css" media="screen">
-	.bootstrap-select * { font-size: 20px; }
-</style>

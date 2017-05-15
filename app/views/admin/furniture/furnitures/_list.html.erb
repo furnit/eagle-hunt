@@ -8,6 +8,7 @@
 		},
     table_head: {
       'ردیف': { style: 'width: 30px' },
+      'وضعیت': { style: 'width: 100px'},
       'دسته‌بندی': { style: 'width: 100px' },
       'نام مدل': { style: 'width: 120px' },
       'گالری': { style: 'width: 100px' },
@@ -21,12 +22,34 @@
     <%
     	next if f.deleted_at
       type_name = Admin::Furniture::Type.with_deleted.find(f.furniture_type_id).name;
-      klass, title = "", ""
-      klass, title = "warning", "این محصول قابل سفارش نیست!" if not f.available
-      klass, title = "danger", "اطلاعات مربوط به این محصول تایید نشده است!"  if f.has_unconfirmed_data
     %>
-    <tr class='<%= klass %>' data-toggle='<%= title.length > 0 ? 'tooltip' : '' %>' title='<%= title %>'>
+    <tr>
       <td><%= f.id %></td>
+      <td>
+      	<%
+      		[
+      			[
+      				f.available?, "check", "times",
+      				"",
+      				"غیرقابل سفارش",
+    				],
+      			[
+      				f.has_unconfirmed_data?, "info", "",
+      				"دارای اطلاعات تایید نشده",
+      				""
+    				],
+      			[
+      				f.ready_for_pricing?, "money", "ban",
+      				"قابل قیمت‌گذاری",
+      				"حاوی اطلاعات ناقص"
+    				]
+  				].each do |item|
+  					next if item.first and item[1].blank?
+  					next if not item.first and item[2].blank?
+      	%>
+      		<span class="fa fa-<%= item.first ? item[1] : item[2] %>" data-toggle="tooltip" title="<%= item.first ? item[3] : item[4] %>"></span>
+      	<% end %>
+      </td>
       <td>
         <%= editable_tag f, :furniture_type_id, type: :select, value: f.furniture_type_id, source: admin_furniture_types_path, text: type_name %>
       </td>
@@ -61,11 +84,13 @@
             			<span class='fa fa-book'></span> اطلاعات مرتبط
             		<% end %>
           		</li>
+          		<% if f.ready_for_pricing? %>
           		<li>
           			<%= link_to edit_admin_selling_config_price_path(f), class: 'inline-html-call' do %>
           				<span class='fa fa-money'></span> تنظیم قیمت‌گذاری پیش‌فرض
           			<% end %>
         			</li>
+        			<% end %>
             	<li class='divider'></li>
             	<li>
 			          <%= link_to edit_admin_furniture_furniture_path(f, admin: :check), :class => 'inline-html-call' do %>

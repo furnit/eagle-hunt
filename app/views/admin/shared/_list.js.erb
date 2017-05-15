@@ -1,3 +1,5 @@
+$('input, .selectpicker').blur();
+
 $("#filterrific_results").html("<%= j render "#{params[:controller]}/list" %>");
 
 <% if @filterrific.instance_variable_defined?(:@search_query) and not @filterrific.search_query.to_s.empty? %>

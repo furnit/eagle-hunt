@@ -71,13 +71,14 @@ class Admin::Selling::Config::PricesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_selling_config_price
-      @admin_selling_config_price = Admin::Selling::Config::Price.find_or_create_by(admin_furniture_furniture_id: Admin::Furniture::Furniture.find(params[:id]))
+      @admin_selling_config_price = Admin::Selling::Config::Price.find_or_create_by(admin_furniture_furniture_id: Admin::Furniture::Furniture.where(id: params[:id], ready_for_pricing: true).first.id)
     end
     
     def set_editional_data
+      overall = Employee::Overall.find_by(admin_furniture_furniture_id: params[:id])
       @fabrics = Admin::Pricing::Fabric.all
-      @paint_colors = Admin::Pricing::PaintColor.all
-      @woods = Admin::Pricing::Wood.all
+      @paint_colors = overall.fani_needs_rang? ? Admin::Pricing::PaintColor.all : nil
+      @woods = overall.fani_needs_kande? ? Admin::Pricing::Wood.all : nil
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
