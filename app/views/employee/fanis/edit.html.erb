@@ -1,5 +1,5 @@
 <% specs = Admin::Furniture::Spec.where('name IN (?)', ['پارچه', 'ابر']) %>
-<% sections = Admin::Furniture::Section.where('name IN (?)', ['زیری', 'پشتی', 'دسته']) %>
+<% sections = Admin::Furniture::Section.where(tag: :NECESSARY) %>
 <%= render 'employee/shared/input_for7' %>
 <%= remote_form @form[:furniture], url: employee_fanis_path(format: :json), method: :post do |f| %>
 	<%= f.hidden_field :id, value: @form[:furniture].id %>
@@ -122,7 +122,7 @@
 			months: 'ماه'
 		}
 		
-		var get_val = function(e) { return $(e).val().length ? $(e).val() : '؟'  }
+		var get_val = function(e) { console.log([e, $(e).val()]); return $(e).val().length ? $(e).val() : '؟'  }
 		var get_checked = function(e) { return $(e + ':checked').length ? 'بله' : 'خیر' }
 		var get_currency = function(e) {
 			if(get_val(e) === '؟') return get_val(e);
@@ -135,14 +135,14 @@
 				spec: 'دستمزد‌ها',
 				list: [
 					{
-						valid: get_val('[name="admin_furniture[employee_fani][wage_rokob]"]') !== '؟', 
-						val: get_currency('[name="admin_furniture[employee_fani][wage_rokob]"]'),
+						valid: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][wage_rokob]"]') !== '؟', 
+						val: get_currency('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][wage_rokob]"]'),
 						append: 'تومان',
 						title: 'دست‌مزد روکوب'
 					},
 					{
-						valid: get_val('[name="admin_furniture[employee_fani][wage_khayat]"]') !== '؟',
-						val: get_currency('[name="admin_furniture[employee_fani][wage_khayat]"]'),
+						valid: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][wage_khayat]"]') !== '؟',
+						val: get_currency('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][wage_khayat]"]'),
 						append: 'تومان',
 						title: 'دستمزد خیاط'
 					}
@@ -153,9 +153,9 @@
 				spec: 'زمان', 
 				list: [
 					{
-						valid: get_val('[name="admin_furniture[employee_fani][days_to_complete]"]') > 0,
-						val: get_val('[name="admin_furniture[employee_fani][days_to_complete]"]'),
-						append: days_scale_locale[$('[name="admin_furniture[employee_fani][days_to_complete_scale]"]').val()],
+						valid: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][days_to_complete]"]') > 0,
+						val: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][days_to_complete]"]'),
+						append: days_scale_locale[$('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][days_to_complete_scale]"]').val()],
 						title: 'مدت زمان پایان «خیاطی» و «روکوبی»'
 					}
 				]
@@ -164,9 +164,9 @@
 				icon: 'fa-info',
 				spec: 'اطلاعات عمومی',
 				list: [
-					{valid: true, val: get_checked('[name="admin_furniture[employee_fani][needs_kande]"]'), append: '', title: 'نیاز به روکوبی دارد؟'},
-					{valid: true, val: get_checked('[name="admin_furniture[employee_fani][needs_kalaf]"]'), append: '', title: 'نیاز به کلاف دارد؟'},
-					{valid: true, val: get_checked('[name="admin_furniture[employee_fani][needs_rang]"]'), append: '', title: 'نیاز به رنگ دارد؟'}
+					{valid: true, val: get_checked('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][needs_kande]"]'), append: '', title: 'نیاز به روکوبی دارد؟'},
+					{valid: true, val: get_checked('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][needs_kalaf]"]'), append: '', title: 'نیاز به کلاف دارد؟'},
+					{valid: true, val: get_checked('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][needs_rang]"]'), append: '', title: 'نیاز به رنگ دارد؟'}
 				]
 			},
 			<% specs.each do |spec| %>
@@ -177,11 +177,11 @@
 				list: [
 					<% sections.each do |section| %>
 					{
-						valid: get_val('[name="admin_furniture[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]') !== '؟',
-						val: get_val('[name="admin_furniture[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]'), 
-						append: $('[name="admin_furniture[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]')
+						valid: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]') !== '؟',
+						val: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]'), 
+						append: $('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]')
 											.siblings('.input-group-addon').html() <% if is_abr %>
-											 + $('[name="admin_furniture[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][options][admin_furniture_foam_types][id]"] [selected]').text()
+											 + $('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][options][admin_furniture_foam_types][id]"] [selected]').text()
 											 <% end %>
 										,
 					 	title: 'برای <%= section.comment %>',

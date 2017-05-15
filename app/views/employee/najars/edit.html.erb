@@ -85,8 +85,8 @@
 				spec: 'دستمزد‌',
 				list: [
 					{
-						valid: get_val('[name="admin_furniture[employee_najar][wage]"]') !== '؟', 
-						val: get_currency('[name="admin_furniture[employee_najar][wage]"]'),
+						valid: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_najar][wage]"]') !== '؟', 
+						val: get_currency('[name="<%= @form[:furniture].model_name.param_key %>[employee_najar][wage]"]'),
 						append: 'تومان',
 						title: 'دست‌مزد'
 					}
@@ -97,9 +97,9 @@
 				spec: 'زمان', 
 				list: [
 					{
-						valid: get_val('[name="admin_furniture[employee_najar][days_to_complete]"]') > 0,
-						val: get_val('[name="admin_furniture[employee_najar][days_to_complete]"]'),
-						append: days_scale_locale[$('[name="admin_furniture[employee_najar][days_to_complete_scale]"]').val()],
+						valid: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_najar][days_to_complete]"]') > 0,
+						val: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_najar][days_to_complete]"]'),
+						append: days_scale_locale[$('[name="<%= @form[:furniture].model_name.param_key %>[employee_najar][days_to_complete_scale]"]').val()],
 						title: 'مدت زمان پایان «نقاشی»'
 					}
 				]
@@ -109,8 +109,8 @@
 				spec: 'جزییات',
 				list: [
 					{
-						valid: get_val('[name="admin_furniture[employee_najar][choob]"]') !== '؟', 
-						val: get_currency('[name="admin_furniture[employee_najar][choob]"]'),
+						valid: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_najar][choob]"]') !== '؟', 
+						val: get_currency('[name="<%= @form[:furniture].model_name.param_key %>[employee_najar][choob]"]'),
 						append: "<%= unit %>",
 						title: 'آستر اولیه'
 					}

@@ -55,11 +55,17 @@
             			<span class='fa fa-eye'></span> مشاهده
             		<% end %>
             	</li>
+            	<li class='divider'></li>
             	<li>
             		<%= link_to ls_intel_admin_furniture_furniture_path(f), class: 'inline-html-call' do %>
             			<span class='fa fa-book'></span> اطلاعات مرتبط
             		<% end %>
           		</li>
+          		<li>
+          			<%= link_to edit_admin_selling_config_price_path(f), class: 'inline-html-call' do %>
+          				<span class='fa fa-money'></span> تنظیم قیمت‌گذاری پیش‌فرض
+          			<% end %>
+        			</li>
             	<li class='divider'></li>
             	<li>
 			          <%= link_to edit_admin_furniture_furniture_path(f, admin: :check), :class => 'inline-html-call' do %>

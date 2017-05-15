@@ -229,9 +229,12 @@ function fetch_edited_items() {
 			} else {
 				$this.html("<span class='fa fa-spinner fa-spin'></span> در حال نهایی‌سازی تایید اطلاعات.");
 				$this.attr('class', 'btn btn-success');
+				data = { };
+				$('.confirm-intel-editional-data input[type="checkbox"][name]').each(function() { data[$(this).attr('name')] = $(this).is(':checked'); });
 				$.ajax({
 					url: $('input.furniture-intel[type="hidden"][name="flink"]').val(),
 					type: 'POST',
+					data: data,
 					success: function(data) {
 						if(data.status === "success") {
 							$this.html("<span class='fa fa-check'></span> اطلاعات با موفقیت تایید و در سامانه ثبت شد.");

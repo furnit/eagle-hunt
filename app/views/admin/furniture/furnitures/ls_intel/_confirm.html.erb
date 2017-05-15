@@ -7,6 +7,9 @@
 	<div id="two-step-auth-container" class="hidden" <%= two_step_auth.expired? ? "" : "ignore-at-initial" %>>
 		<%= render_two_step_auth_form %>
 	</div>
+	<div class="confirm-intel-editional-data">
+		<%= check_awesome 'آیا این محصول قابل قیمت‌گذاری می‌باشد؟', 'در صورتی که جواب شما به سوال «آیا کلیه‌ی اطلاعات لازم جهت قیمت‌گذاری این محصول در دست می‌باشد؟» مثبت می‌باشد، این گزینه‌ را انتخاب کنید.', name: "#{@furniture.model_name.param_key}[ready_for_pricing]" %>
+	</div>
 	<div id="confirm-submit-container">
 		<a href="#" id="confirmation-content-confirm-action" class='btn btn-primary'><span class='fa fa-check'></span> تایید کلیه‌ی اطلاعات</a>
 		<div class="panel panel-danger panel-errors hidden" style='margin-top: 20px;'>

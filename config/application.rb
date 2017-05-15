@@ -39,5 +39,8 @@ module Viramobl
     # setting time zone
     config.time_zone = 'Tehran'
     config.active_record.default_timezone = :utc
+    
+    # skip `jbuilder` files when generating
+    config.generators.jbuilder = false
   end
 end

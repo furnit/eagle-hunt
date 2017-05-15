@@ -37,7 +37,7 @@ class Employee::NajarsController < Employee::EmployeebaseController
         format.json { head :no_content, status: :ok, location: employee_root_path }
       else
         format.html { render :edit, layout: false, status: :unprocessable_entity }
-        format.json { head status: :unprocessable_entity }
+        format.json { head :no_content, status: :unprocessable_entity }
       end
     end 
     

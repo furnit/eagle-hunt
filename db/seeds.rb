@@ -71,14 +71,14 @@ end
 # => adding furniture section details
 #
 [
-  ['پشتی', 'قسمت تکیه‌گاه و پشت', "data/images/sofa/poshti.png"],
-  ['زیری', 'قسمت تحتانی و نشیمن‌گاه', "data/images/sofa/ziri.png"],
-  ['دسته', 'دسته‌ها', "data/images/sofa/daste.png"],
-  ['پایه', 'پایه‌ها', "data/images/sofa/paye.png"],
-  ['کوسن', 'بالشتک‌ها', "data/images/sofa/kosan.png"]
+  ['پشتی', 'قسمت تکیه‌گاه و پشت', 'NECESSARY', "data/images/sofa/poshti.png"],
+  ['زیری', 'قسمت تحتانی و نشیمن‌گاه', 'NECESSARY', "data/images/sofa/ziri.png"],
+  ['دسته', 'دسته‌ها', 'NECESSARY', "data/images/sofa/daste.png"],
+  ['پایه', 'پایه‌ها', 'OPTIONAL', "data/images/sofa/paye.png"],
+  ['کوسن', 'بالشتک‌ها', 'OPTIONAL', "data/images/sofa/kosan.png"]
 ]
-.each do |name, comment, image|
-  section = Admin::Furniture::Section.create!(name: name, comment: comment)
+.each do |name, comment, tag, image|
+  section = Admin::Furniture::Section.create!(name: name, tag: tag, comment: comment)
   section.images = [Rails.root.join(image).open]
   section.save!
 end

@@ -1,0 +1,23 @@
+<% form_id = '' %>
+<%= remote_form(admin_selling_config_price) do |f| -%>
+  <% form_id = f.options[:html][:id] %>
+  <div  class='block'>
+  	<div class='row'>
+  		<legend>پارچه</legend>
+  		<%= f.select :admin_furniture_fabric_brand_id, @fabrics.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند پارچه را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', autofocus: true, data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
+  		<legend>چوب</legend>
+  		<%= f.select :admin_furniture_wood_type_id, @woods.map{ |i| [i.type.name, i.type.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
+  		<%= f.select :admin_furniture_paint_color_brand_id, @paint_colors.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
+  		<div class='clearfix'></div>
+		</div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+<% end %>
+
+<style type="text/css" media="screen">
+	.bootstrap-select * { font-size: 20px; }
+</style>

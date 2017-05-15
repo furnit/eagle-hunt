@@ -30,6 +30,31 @@ class Admin::Furniture::Furniture < ParanoiaRecord
     NotifyOnFurnitureAvailable.notify_for_furniture self.id, self.name if self.available and self.available_changed?
   end
   
+  def intel
+    intel = { }
+    Employee::Processed.where(admin_furniture_id: self.id).distinct.each do |proc|
+      name = proc.as_symbol.downcase.to_sym
+      intel[name] ||= []
+      intel[name] << {
+        meta: proc,
+        data: "Employee::#{proc.as_symbol.to_s.downcase.classify}".constantize.where(furniture_id: self.id, user_id: proc.user_id).last
+      }
+    end
+    intel
+  end
+  
+  def ready_for_pricing= val
+    self[:ready_for_pricing] = val
+    
+    if self[:ready_for_pricing]
+      _intel = 
+      overalls = { }
+      self.intel.each do |name, i|
+      end
+      byebug
+    end
+  end
+  
   filterrific(
     default_filter_params: { sorted_by: 'updated_at_desc' },
     available_filters: [

@@ -51,6 +51,7 @@ Rails.application.routes.draw do
           get    :list_images, RC::json_request_only 
           get    :ls_intel, RC::ajax_server
           post   :confirm, RC::ajax_server.merge(RC::json_request_only)
+          get    :ls_price_details, RC::ajax_server
         end
         collection do
           post   :markup, RC::json_request_only
@@ -125,6 +126,7 @@ Rails.application.routes.draw do
     namespace :selling do
       namespace :config do
         resources :profits
+        resources :prices
       end
     end
     # </selling>

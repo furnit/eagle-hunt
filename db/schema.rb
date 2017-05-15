@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170513162134) do
+ActiveRecord::Schema.define(version: 20170515122826) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 20170513162134) do
     t.boolean  "has_unconfirmed_data",               default: false
     t.datetime "data_locked_at"
     t.integer  "free_cushions",                      default: 0
+    t.boolean  "ready_for_pricing"
     t.index ["deleted_at"], name: "index_admin_furniture_furnitures_on_deleted_at", using: :btree
     t.index ["furniture_type_id"], name: "index_admin_furniture_furnitures_on_furniture_type_id", using: :btree
   end
@@ -136,6 +137,7 @@ ActiveRecord::Schema.define(version: 20170513162134) do
     t.json     "images"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "tag"
   end
 
   create_table "admin_furniture_specs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -227,6 +229,20 @@ ActiveRecord::Schema.define(version: 20170513162134) do
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
     t.index ["admin_furniture_wood_type_id"], name: "index_admin_pricing_woods_on_admin_furniture_wood_type_id", using: :btree
+  end
+
+  create_table "admin_selling_config_prices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "admin_furniture_furniture_id"
+    t.integer  "admin_furniture_fabric_brand_id"
+    t.integer  "admin_furniture_paint_color_brand_id"
+    t.integer  "admin_furniture_wood_type_id"
+    t.float    "overall_cost",                         limit: 24
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.index ["admin_furniture_fabric_brand_id"], name: "index_config_price_fabric", using: :btree
+    t.index ["admin_furniture_furniture_id"], name: "index_config_price_furniture", using: :btree
+    t.index ["admin_furniture_paint_color_brand_id"], name: "index_config_price_paint_color", using: :btree
+    t.index ["admin_furniture_wood_type_id"], name: "index_config_price_wood", using: :btree
   end
 
   create_table "admin_selling_config_profits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -361,6 +377,32 @@ ActiveRecord::Schema.define(version: 20170513162134) do
     t.index ["user_id"], name: "index_employee_najars_on_user_id", using: :btree
   end
 
+  create_table "employee_overalls", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "admin_furniture_furniture_id"
+    t.float    "fani_wage_rokob",              limit: 24
+    t.json     "fani_build_details"
+    t.float    "fani_wage_khayat",             limit: 24
+    t.boolean  "fani_needs_kande"
+    t.boolean  "fani_needs_kalaf"
+    t.boolean  "fani_needs_rang"
+    t.integer  "fani_days_to_complete"
+    t.float    "nagash_wage",                  limit: 24
+    t.float    "nagash_astare_avaliye",        limit: 24
+    t.float    "nagash_astare_asli",           limit: 24
+    t.float    "nagash_range_asli",            limit: 24
+    t.float    "nagash_rouye",                 limit: 24
+    t.integer  "nagash_days_to_complete"
+    t.float    "najar_wage",                   limit: 24
+    t.float    "najar_choob",                  limit: 24
+    t.integer  "najar_days_to_complete"
+    t.float    "kalaf_wage",                   limit: 24
+    t.float    "kalaf_choob",                  limit: 24
+    t.integer  "kalaf_days_to_complete"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.index ["admin_furniture_furniture_id"], name: "index_employee_overalls_on_admin_furniture_furniture_id", using: :btree
+  end
+
   create_table "employee_processeds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "admin_furniture_id"
     t.integer  "user_id"
@@ -489,10 +531,15 @@ ActiveRecord::Schema.define(version: 20170513162134) do
   add_foreign_key "admin_pricing_transits", "admin_workshop_workshops"
   add_foreign_key "admin_pricing_transits", "states"
   add_foreign_key "admin_pricing_woods", "admin_furniture_wood_types"
+  add_foreign_key "admin_selling_config_prices", "admin_furniture_fabric_brands"
+  add_foreign_key "admin_selling_config_prices", "admin_furniture_furnitures"
+  add_foreign_key "admin_selling_config_prices", "admin_furniture_paint_color_brands"
+  add_foreign_key "admin_selling_config_prices", "admin_furniture_wood_types"
   add_foreign_key "admin_workshop_workshops", "states"
   add_foreign_key "admin_workshop_workshops", "users"
   add_foreign_key "employee_fanis_furniture_build_details", "employee_fanis", on_update: :cascade, on_delete: :cascade
   add_foreign_key "employee_fanis_furniture_build_details", "furniture_build_details", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "employee_overalls", "admin_furniture_furnitures"
   add_foreign_key "employee_processeds", "admin_furniture_furnitures", column: "admin_furniture_id"
   add_foreign_key "employee_processeds", "users"
   add_foreign_key "furniture_build_details", "admin_furniture_sections"

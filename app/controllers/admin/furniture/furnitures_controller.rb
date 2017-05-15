@@ -142,19 +142,11 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
   end
 
   def ls_intel
-    @intel = { }
-    Employee::Processed.where(admin_furniture_id: @furniture.id).distinct.each do |proc|
-      name = proc.as_symbol.downcase.to_sym
-      @intel[name] ||= []
-      @intel[name] << {
-        meta: proc,
-        data: "Employee::#{proc.as_symbol.to_s.downcase.classify}".constantize.where(furniture_id: @furniture.id, user_id: proc.user_id).last
-      }
-    end
-    @intel
+    @intel = @furniture.intel
   end
   
   def confirm
+    byebug
     results = []
     ls_intel.each do |_, employees|
       employees.each do |intel|
@@ -162,7 +154,7 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
         results << intel[:data].save
       end
     end
-    
+    @furniture.ready_for_pricing = furniture_params[:ready_for_pricing];
     @furniture.has_unconfirmed_data = false
     results << @furniture.save
     
@@ -186,7 +178,7 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def furniture_params
-      params.require(:admin_furniture_furniture).permit(:id, :name, :comment, :furniture_type_id, :description, :free_cushions)
+      params.require(:admin_furniture_furniture).permit(:id, :name, :comment, :furniture_type_id, :description, :free_cushions, :ready_for_pricing)
     end
     
     def redirection_url
