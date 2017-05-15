@@ -1,0 +1,21 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture/set: 'ست مبلمان'
+    attributes:
+      admin/furniture/set:
+        name: 'عنوان'
+        config: 'تنظیمات (تعداد نتظیمات این ست را با «فاصله» یا «ویرگول» وارد نمایید.)'
+        comment: 'توضیحات'
+    errors:
+      models:
+        admin/furniture/set:
+          attributes:
+            name:
+              blank: 'نمی‌تواند خالی باشد.'
+            comment:
+              blank: 'نمی‌تواند خالی باشد.'
+            config:
+              blank: 'نمی‌تواند خالی باشد.'
+              invalid: 'نامعتیر می‌باشد.'
+              taken: 'قبلا تعریف شده است.'

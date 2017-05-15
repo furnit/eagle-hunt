@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @admin_furniture_set.name %>
+</p>
+
+<p>
+  <strong>Config:</strong>
+  <%= @admin_furniture_set.config %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @admin_furniture_set.comment %>
+</p>
+
+<%= link_to 'Edit', edit_admin_furniture_set_path(@admin_furniture_set) %> |
+<%= link_to 'Back', admin_furniture_sets_path %>

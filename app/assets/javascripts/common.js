@@ -59,8 +59,8 @@ $(document).on('ready turbolinks:load', function(){
           input.closest('.form-group').addClass('has-error');
           input.parent().find('.help-block').remove();
           input.parent().append('<span class="help-block">' + $.map(messages, function(m) { return m.charAt(0).toUpperCase() + m.slice(1); }).join('<br />') + '</span>');
-
         });
+        form.find('.has-error:first input:first, .has-error:first select:first, .has-error:first textarea:first').focus();
       }
     }).on('ajax:success', function(e, data, status, xhr){
     	// redirect if any redirection header specified
