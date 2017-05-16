@@ -26,7 +26,7 @@
   <% @admin_selling_config_piece_prices.each do |ins| %>
     <tr>
       <td><%= ins.id %></td>
-      <td><%= editable_tag ins, :admin_furniture_set_id, type: :select, value: ins.admin_furniture_set_id, source: admin_furniture_sets_path, text: "#{ins.set.name} #{ins.set.config.to_s}" %></td>
+      <td><%= "#{ins.set.name} #{ins.set.config.to_s}" %></td>
       <td><%= editable_tag ins, :admin_furniture_piece_id, type: :select, value: ins.admin_furniture_piece_id, source: admin_furniture_pieces_path, text: "#{ins.piece.piece} نفری" %></td>
       <td><%= editable_tag ins, :percentage %></td>
       <td><%= editable_tag ins, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %></td>

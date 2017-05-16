@@ -6,7 +6,7 @@ fa:
       admin/selling/config/piece_price:
         admin_furniture_set_id: ست مبلمان (مرجع قیمت‌گذاری)
         admin_furniture_piece_id: تعداد نفرات مبل؟ (۳ نفری، ۲ نفری، ۱ نفری؟)
-        percentage: نسبت قیمت‌گذاری (ما مین «صفر و یک»)
+        percentage: نسبت قیمت‌گذاری (بین «صفر و یک»)
         comment: توضیحات
     errors:
       models:
@@ -21,3 +21,4 @@ fa:
             percentage:
               blank: 'نمیتواند خالی باشد.'
               invalid: 'نامعتبر می‌باشد.'
+              inclusion: مقدار باید بین «صفر و یک» باشد.

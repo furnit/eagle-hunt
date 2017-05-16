@@ -1,11 +1,13 @@
 <% form_id = '' %>
+<% set = Admin::Furniture::Set.where id: Admin::Selling::Config::PiecePrice.pluck(:admin_furniture_set_id) %>
+<% set = Admin::Furniture::Set.all if set.empty? %>
 <%= remote_form(admin_selling_config_piece_price) do |f| -%>
   <% form_id = f.options[:html][:id] %>
   <div  class='block'>
     <div class="row">
-      <%= f.select :admin_furniture_set_id, Admin::Furniture::Set.all.map{ |i| [i.name, i.id, { 'data-subtext': " #{i.config.to_s}" }] }, { prompt: 'لطفا مشخصات ست را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
+      <%= f.select :admin_furniture_set_id, set.map{ |i| [i.name, i.id, { 'data-subtext': " #{i.config.to_s}" }] }, { prompt: 'لطفا مشخصات ست را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
       
-      <%= f.select :admin_furniture_piece_id, Admin::Furniture::Piece.all.map{ |i| [i.piece, i.id, { 'data-subtext': " نفری" }] }, { prompt: 'لطفا تعداد نفرات مبل را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
+      <%= f.select :admin_furniture_piece_id, Admin::Furniture::Piece.where.not(id: Admin::Selling::Config::PiecePrice.pluck(:admin_furniture_piece_id)).map{ |i| [i.piece, i.id, { 'data-subtext': " نفری" }] }, { prompt: 'لطفا تعداد نفرات مبل را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
 
       <div class="field">
         <%= f.number_field :percentage, step: 0.05, min: 0, max: 1, wrapper: { class: 'col-md-6 col-md-offset-6' } %>

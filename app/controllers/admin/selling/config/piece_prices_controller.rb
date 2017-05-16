@@ -33,7 +33,7 @@ class Admin::Selling::Config::PiecePricesController < Admin::AdminbaseController
 
     respond_to do |format|
       if @admin_selling_config_piece_price.save
-        format.html { redirect_to admin_selling_config_piece_prices_path, notice: mk_notice(@admin_selling_config_piece_price, :id, 'Piece price', :create) }
+        format.html { redirect_to admin_selling_config_piece_prices_path, notice: mk_notice(@admin_selling_config_piece_price, :id, 'داده‌ی شماره', :create) }
         format.json { render json: @admin_selling_config_piece_price, status: :created, location: admin_selling_config_piece_prices_path }
       else
         format.html { render :new }
@@ -47,7 +47,7 @@ class Admin::Selling::Config::PiecePricesController < Admin::AdminbaseController
   def update
     respond_to do |format|
       if @admin_selling_config_piece_price.update(admin_selling_config_piece_price_params)
-        format.html { redirect_to admin_selling_config_piece_prices_path, notice: mk_notice(@admin_selling_config_piece_price, :id, 'Piece price', :update) }
+        format.html { redirect_to admin_selling_config_piece_prices_path, notice: mk_notice(@admin_selling_config_piece_price, :id, 'داده‌ی شماره', :update) }
         format.json { render json: @admin_selling_config_piece_price, status: :ok, location: admin_selling_config_piece_prices_path }
       else
         format.html { render :edit }
@@ -61,7 +61,7 @@ class Admin::Selling::Config::PiecePricesController < Admin::AdminbaseController
   def destroy
     @admin_selling_config_piece_price.destroy
     respond_to do |format|
-      format.html { redirect_to admin_selling_config_piece_prices_path, notice: mk_notice(@admin_selling_config_piece_price, :id, 'Piece price', :destroy) }
+      format.html { redirect_to admin_selling_config_piece_prices_path, notice: mk_notice(@admin_selling_config_piece_price, :id, 'داده‌ی شماره', :destroy) }
       format.json { head :no_content }
     end
   end
