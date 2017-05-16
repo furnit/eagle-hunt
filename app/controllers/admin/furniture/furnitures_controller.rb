@@ -153,7 +153,7 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
         results << intel[:data].save
       end
     end
-    @furniture.ready_for_pricing = furniture_params[:ready_for_pricing]
+    @furniture.ready_for_pricing = furniture_params[:ready_for_pricing] rescue false
     @furniture.has_unconfirmed_data = false
     results << @furniture.save
     
@@ -166,13 +166,6 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
         format.json { render json: {status: :failed, operation: :confirm}, status: :unprocessable_entity }
       end
     end
-  end
-
-  def compute_cost
-    byebug
-    od = @furniture.overall_details.as_json
-    cost = od.select { |i| i =~ /.*wage.*/ }.sum
-    byebug
   end
 
   private

@@ -13,6 +13,7 @@
       'نام مدل': { style: 'width: 120px' },
       'گالری': { style: 'width: 100px' },
       'درباره‌ی مدل': { },
+      'قیمت (تومان)': { style: "width: 200px" },
       'آخرین بروزرسانی': { style: 'width: 130px' },
       'عملیات': { style: 'width: 80px' }
     },
@@ -22,6 +23,7 @@
     <%
     	next if f.deleted_at
       type_name = Admin::Furniture::Type.with_deleted.find(f.furniture_type_id).name;
+      price = f.cost?
     %>
     <tr>
       <td><%= f.id %></td>
@@ -65,6 +67,7 @@
       <td>
         <%= editable_tag f, :comment, type: :textarea, placement: :bottom, 'allow-empty': true, text: f.comment.blank? ? "«توضیحی ثبت نشده است.»" : f.comment %>
       </td>
+      <td><label class="label label-<%= price <= 0 ? "warning" : "success" %>"><%= price <= 0 ? "قیمت‌گذاری نشده است." : price.to_s.to_money %></label></td>
       <td class='datetime' data-date='<%= f.updated_at %>'></td>
       <td>
         <% acu_as :admin do %>

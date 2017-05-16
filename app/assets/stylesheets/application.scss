@@ -105,6 +105,8 @@ body {
     }
   }
 
+  .label { @extend .ir-font }
+
   .bootstrap-select.btn-group .filter-option,
   .dropdown-menu { @extend .ir }
 

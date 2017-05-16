@@ -59,17 +59,41 @@
         <div class='furniture-content'>
 	        <div class="thumbnail">
 	          <%= link_to image_tag(image_url(f.images[f.cover_details["index"].to_i], thumb: true), :class => 'img img-thumbnail img-responsive', :style => 'width: 100%; height: 250px'), home_furniture_path(f) %>
-	          <div class="caption" style='padding: 20px'>
-	            <dl>
-	              <dt>نام مدل</dt>
-	              <dd><%= f.name %></dd>
-	              <dt>قیمت</dt>
-	              <dd><%= f.cost? %> <%= AppConfig.currency %></dd>
-	              <dt>درباره‌ی طرح</dt>
-	              <dd class='text-justify'><%= f.comment %></dd>
-	            </dl>
+	          <div class="caption" style='padding: 20px; font-size: 120%'>
+	          	<table class="table no-layout <%= f.available? ? "" : "text-muted" %>">
+	          		<thead class="no-layout">
+	          			<tr>
+	          				<th style="width: 150px"></th>
+	          				<th style="overflow: auto"></th>
+          				</tr>
+          			</thead>
+	          		<tbody class="no-layoutx">
+	          			<tr>
+	          				<td>نام مدل</td>
+	          				<td><%= f.name %></td>
+	          			</tr>
+	          			<tr>
+	          				<td>قیمت</td>
+	          				<td>
+			              	<% if f.available and f.cost? > 0 %>
+			              		<%= f.cost?.to_s.to_money %> <%= AppConfig.currency %>
+		              		<% else %>
+		              			<small>-</small>
+		              		<% end %>
+	          				</td>
+	          			</tr>
+	          			<tr>
+	          				<td colspan="2">
+	          					<p class='text-justify' style="font-xsize: 80%">
+	          						<%= f.comment%>
+          						</p>
+          						<%= raw '<span style="display:inline-block; width: 3pt"></span>' * (Admin::Furniture::Furniture.columns_hash['comment'].limit - f.comment.length) %>
+        						</td>
+	          			</tr>
+	          		</tbody>
+          		</table>
 	            <div class='clearfix'></div>
-	            <p>
+	            <p style="position: relative; bottom: 0px">
 	            	<%= link_to 'مشاهده‌ جزئیات', home_furniture_path(f), :class => 'info btn btn-primary pull-left' %>
 	            	<span style='position: relative; top: 5px' class="label label-<%= f.available ? 'success' : 'warning' %>"><%= f.available ? 'قابل سفارش' : 'غیرقابل سفارش' %></span>
 		            <div class='clearfix'></div>

@@ -120,7 +120,7 @@
 					<td>
 						<% outlier_label detail.value, collection: details_value, diff_level: 5 do %>
 							<span class='value' data-type="text" data-pk="<%= next_value.call %>" data-url-x='<%= update_field_employee_fanis_path(format: :json) %>' data-options='<%= {
-								"#[employee_fani][furniture_build_detail][id]": detail.id
+								"#{admin_furniture_param_key}[employee_fani][furniture_build_detail][id]": detail.id
 							}.to_json %>' data-resource="<%= admin_furniture_param_key %>[employee_fani][furniture_build_detail]" data-name="value" data-original-value="<%= detail.value %>" data-original-title="مقدار اولیه: <%= detail.value %>"><%= detail.value %></span>
 							&nbsp;
 							<%= spec.unit %>

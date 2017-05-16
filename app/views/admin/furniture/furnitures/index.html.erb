@@ -13,19 +13,19 @@
     <%= form_for_filterrific @filterrific do |f| %>
       <div class='row'>
         <div class="col-md-3 pull-right">
-          <label for="filterrific[search_query]"><span class='fa fa-filter'></span> جستجو</label>
+          <label for="filterrific[search_query]"><span class='fa fa-filter'></span> جستجو</label><br />
           <%= f.search_field :search_query, class: 'filterrific-periodically-observed form-control' %>
         </div>
         <div class='col-md-3 pull-right'>
-          <label for="filterrific[sorted_by]"><span class='fa fa-filter'></span> مرتب‌سازی</label>
+          <label for="filterrific[sorted_by]"><span class='fa fa-filter'></span> مرتب‌سازی</label><br />
           <%= f.select(:sorted_by, Admin::Furniture::Furniture.options_for_sorted_by, { }, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }) %>
         </div>
         <div class='col-md-3 pull-right'>
-          <label for="filterrific[get_by_furniture_types]"><span class='fa fa-filter'></span> نوع محصول</label>
+          <label for="filterrific[get_by_furniture_types]"><span class='fa fa-filter'></span> نوع محصول</label><br />
           <%= f.collection_select(:get_by_furniture_types, Admin::Furniture::Type.all, :id, :name, { :include_blank => 'همه' }, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }) %>
         </div>
         <div class='col-md-3 pull-right'>
-          <label for="filterrific[get_by_flags]"><span class='fa fa-flag-o'></span> براساس پرچم‌ها</label>
+          <label for="filterrific[get_by_flags]"><span class='fa fa-flag-o'></span> براساس پرچم‌ها</label><br />
           <%= f.select(:get_by_flags, Admin::Furniture::Furniture.get_flags.map.with_index { |i, index| out = [i[:title], index]; out << i[:data].map { |k, v| {"data-#{k}": v} }.reduce({}, :merge) if i[:data]; out }, { include_blank: 'هیچ‌کدام'}, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }) %>
         </div>
       </div>

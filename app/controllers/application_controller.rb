@@ -137,10 +137,6 @@ class ApplicationController < ActionController::Base
   
   protected
   
-  def two_step_auth
-    ::TwoStepAuth.new current_user
-  end
-  
   def prefer_layout lyout = nil
     return 'ajax' if is_ajax_call?
     lyout

@@ -1,8 +1,4 @@
-module ApplicationHelper
-  def two_step_auth
-    ::TwoStepAuth.new current_user
-  end
-  
+module ApplicationHelper  
   def editable_tag instance, field, **kwargs
     text = (kwargs[:text] || eval("instance.#{field.to_s}")).to_s
     kwargs.delete :text

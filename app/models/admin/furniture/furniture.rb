@@ -1,6 +1,7 @@
 class Admin::Furniture::Furniture < ParanoiaRecord
   has_many :employee_fanis, dependent: :destroy, class_name: '::Employee::Fani'
   has_one :overall_details, class_name: '::Employee::Overall', foreign_key: :admin_furniture_furniture_id
+  has_one :price, class_name: '::Admin::Selling::Config::Price', foreign_key: :admin_furniture_furniture_id
   belongs_to :type, class_name: '::Admin::Furniture::Type', foreign_key: :furniture_type_id
   
   accepts_nested_attributes_for :employee_fanis, :allow_destroy => true
@@ -17,23 +18,55 @@ class Admin::Furniture::Furniture < ParanoiaRecord
   
   before_save :notify_on_availble
   
-  def cost?
-    return 1e+6
+  def comment= val
+    self[:comment] = val[0..(self.class.columns_hash['comment'].limit-1)]
   end
   
-  def compute_cost fabric: nil, paint_color: nil, wood: nil, kalaf: nil
+  def has_unconfirmed_data= val
+    self[:has_unconfirmed_data] = val
+    if val
+      self[:available] = false
+      self[:ready_for_pricing] = false
+    end
+  end
+  
+  def cost?
+    _profit = Admin::Selling::Config::Profit.last;
+    _price  = self.price 
+    return 0 if [_profit.nil?, _price.nil?, not(self.ready_for_pricing)].any?
+    ((1 + (_profit.overall / 100.0)) * _price.overall_cost).to_i 
+  end
+  
+  
+  def compute_cost const: nil, fabric: nil, paint_color: nil, paint_astar_rouye: nil, wood: nil, kalaf: nil
     foam = Admin::Pricing::Foam.all
     # overall details
     od   = overall_details.as_json
     # general details
     gd   = od.reject { |i| [:id, :admin_furniture_furniture_id, :created_at, :updated_at].include? i.to_sym or i =~ /.*(wage|needs|days_to_complete|build_details).*/ };
+    # define sum
+    sum = 0
+    # sum-up consts
+    sum = const.as_json.reject { |i| [:id, :updated_at, :created_at].include? i.to_sym }.sum if const
     # sum-up wages
-    sum  = od.select { |i| i =~ /.*wage.*/}.sum
+    sum += od.select { |i| i =~ /.*wage.*/}.sum
     # sum-up najar
-    sum += gd[:najar_choob.to_s] * wood.price if wood
+    sum += gd[:najar_choob.to_s] * wood.price if wood and gd[:najar_choob.to_s]
     # sum-up kalaf
-    sum += gd[:kalaf_choob.to_s] * kalaf.price if kalaf
-    byebug
+    sum += gd[:kalaf_choob.to_s] * kalaf.price if kalaf and gd[:kalaf_choob.to_s]
+    # sum-up paint-color
+    sum += gd[:nagash_range_asli.to_s] * paint_color.price if paint_color and gd[:nagash_range_asli.to_s]
+    # if astar va rouye given?
+    if paint_astar_rouye
+      # compute astar va rouye
+      paint_astar_rouye.as_json.select { |x| not [:id, :created_at, :updated_at].include? x.to_sym }.each do |f, v|
+        if gd["nagash_#{f}"]
+          sum += (gd["nagash_#{f}"] * v)
+        else
+          sum += v
+        end
+      end
+    end
     # sum-up build details
     od[:fani_build_details.to_s].each do |d|
       price = 0
@@ -49,7 +82,8 @@ class Admin::Furniture::Furniture < ParanoiaRecord
       end
       sum += price * ins.value
     end
-    sum
+    round = AppConfig.preference.price.round
+    ((sum / round).ceil * round).ceil
   end
 
   def save
@@ -169,6 +203,10 @@ class Admin::Furniture::Furniture < ParanoiaRecord
       where('ready_for_pricing')
     when 'not_ready_for_pricing'
       where('not ready_for_pricing')
+    when 'priced'
+      where("id IN (?) and ready_for_pricing", Admin::Selling::Config::Price.pluck(:admin_furniture_furniture_id))
+    when 'not_priced'
+      where("id NOT IN (?) or not ready_for_pricing", Admin::Selling::Config::Price.pluck(:admin_furniture_furniture_id))
     when 'data_locked_at'
       where('data_locked_at IS NOT NULL')
     when 'not_data_locked_at'
@@ -187,6 +225,8 @@ class Admin::Furniture::Furniture < ParanoiaRecord
       { column: 'has_unconfirmed_data', title: 'حاوی اطلاعات تایید نشده', data: { content: "<span class='fa fa-info' style='padding-top: 10px'></span> حاوی اطلاعات تایید نشده" } },
       { column: 'ready_for_pricing', title: 'آماده برای قیمت‌گذاری', data: { content: "<span class='fa fa-money' style='padding-top: 10px'></span> آماده برای قیمت‌گذاری" } },
       { column: 'not_ready_for_pricing', title: 'حاوی اطلاعات ناقص', data: { content: "<span class='fa fa-ban' style='padding-top: 10px'></span> حاوی اطلاعات ناقص" } },
+      { column: 'priced', title: 'دارای قیمت', data: { content: "<span class='fa fa-money text-success' style='padding-top: 10px'></span> دارای قیمت" } },
+      { column: 'not_priced', title: 'قیمت‌گذاری نشده', data: { content: "<span class='fa fa-money text-danger' style='padding-top: 10px'></span> قیمت‌گذاری نشده" } },
       { column: 'data_locked_at', title: 'اطلاعات قفل شده', data: { content: "<span class='fa fa-lock' style='padding-top: 10px'></span> اطلاعات قفل شده" } },
       { column: 'not_data_locked_at', title: 'اطلاعات قفل نشده', data: { content: "<span class='fa fa-unlock-alt' style='padding-top: 10px'></span> اطلاعات قفل نشده" } },
       { column: 'available', title: 'قابل سفارش', data: { content: "<span class='fa fa-check' style='padding-top: 10px'></span> قابل سفارش" } },
