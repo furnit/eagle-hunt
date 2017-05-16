@@ -1,0 +1,4 @@
+<div style="width: 100%">
+  <legend>ویرایش <%= t "activerecord.models.#{Admin::Selling::Config::DaysToComplete.model_name.i18n_key}" %>: «<strong><%= @admin_selling_config_days_to_complete.id %></strong>»</legend>
+  <%= render 'form', admin_selling_config_days_to_complete: @admin_selling_config_days_to_complete, :submit_text => 'ویرایش' %>
+</div>

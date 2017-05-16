@@ -82,8 +82,7 @@ class Admin::Furniture::Furniture < ParanoiaRecord
       end
       sum += price * ins.value
     end
-    round = AppConfig.preference.price.round
-    ((sum / round).ceil * round).ceil
+    sum.stepize AppConfig.preference.price.round
   end
 
   def save
@@ -141,7 +140,10 @@ class Admin::Furniture::Furniture < ParanoiaRecord
   def days_to_complete
     overall = ::Employee::Overall.where(admin_furniture_furniture_id: self.id).first
     return -1 if overall.nil?
-    overall.as_json.select { |c| c[/\w+_days_to_complete$/] }.values.sum
+    conf = Admin::Selling::Config::DaysToComplete.last
+    extra = 0
+    extra = conf.as_json.reject { |k| [:id, :created_at, :updated_at].include? k.to_sym }.sum if conf
+    (overall.as_json.select { |c| c[/\w+_days_to_complete$/] }.values.sum + extra).to_i
   end
   
   filterrific(

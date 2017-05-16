@@ -134,6 +134,7 @@ Rails.application.routes.draw do
         resources :profits
         resources :prices
         resources :piece_prices
+        resources :days_to_completes
       end
     end
     # </selling>

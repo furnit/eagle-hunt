@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516121610) do
+ActiveRecord::Schema.define(version: 20170516212200) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -254,6 +254,12 @@ ActiveRecord::Schema.define(version: 20170516121610) do
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
     t.index ["admin_furniture_wood_type_id"], name: "index_admin_pricing_woods_on_admin_furniture_wood_type_id", using: :btree
+  end
+
+  create_table "admin_selling_config_days_to_completes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "extra"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "admin_selling_config_piece_prices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

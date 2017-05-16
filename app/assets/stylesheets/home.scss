@@ -20,3 +20,13 @@
 .furniture-right-pannel > fieldset > div {
   margin: 5px;
 }
+
+.furniture-content {
+  .thumbnail {
+    .caption {
+      table.furniture-summary {
+        tr:not(:last-child) > td:first-child { font-weight: bold }
+      }
+    }
+  }
+}

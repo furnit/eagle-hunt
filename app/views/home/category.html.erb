@@ -60,28 +60,32 @@
 	        <div class="thumbnail">
 	          <%= link_to image_tag(image_url(f.images[f.cover_details["index"].to_i], thumb: true), :class => 'img img-thumbnail img-responsive', :style => 'width: 100%; height: 250px'), home_furniture_path(f) %>
 	          <div class="caption" style='padding: 20px; font-size: 120%'>
-	          	<table class="table no-layout <%= f.available? ? "" : "text-muted" %>">
+	          	<table class="furniture-summary table no-layout <%= f.available? ? "" : "text-muted" %>">
 	          		<thead class="no-layout">
 	          			<tr>
 	          				<th style="width: 150px"></th>
 	          				<th style="overflow: auto"></th>
           				</tr>
           			</thead>
-	          		<tbody class="no-layoutx">
+	          		<tbody>
 	          			<tr>
 	          				<td>نام مدل</td>
 	          				<td><%= f.name %></td>
 	          			</tr>
 	          			<tr>
-	          				<td>قیمت</td>
+	          				<td>قیمت <small class="text-muted" style="font-weight: normal">(ست <%= AppConfig.preference.furniture.unit %> نفره)</small></td>
 	          				<td>
 			              	<% if f.available and f.cost? > 0 %>
-			              		<%= f.cost?.to_s.to_money %> <%= AppConfig.currency %>
+			              		<span class="text-success"><%= f.cost?.to_s.to_money %> <%= AppConfig.currency %></span>
 		              		<% else %>
 		              			<small>-</small>
 		              		<% end %>
 	          				</td>
 	          			</tr>
+	          			<tr>
+	          				<td>زمان تکمیل سفارش</td>
+	          				<td><%= f.days_to_complete %> روز<td>
+          				</tr>
 	          			<tr>
 	          				<td colspan="2">
 	          					<p class='text-justify' style="font-xsize: 80%">

@@ -1,0 +1,16 @@
+fa:
+  activerecord:
+    models:
+      admin/selling/config/days_to_complete: مدت زمان مازاد تکمیل سفارش
+    attributes:
+      admin/selling/config/days_to_complete:
+        extra: مازاد (روز)
+    errors:
+      models:
+        admin/selling/config/days_to_complete:
+          attributes:
+            extra:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+              not_a_number: 'نامعتبر می‌باشد.'
+              greater_than_or_equal_to: نمیتواند کوچک‌تر از «صفر» باشد.
