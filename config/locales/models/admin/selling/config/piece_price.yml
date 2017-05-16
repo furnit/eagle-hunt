@@ -1,0 +1,23 @@
+fa:
+  activerecord:
+    models:
+      admin/selling/config/piece_price: 'نسبت قیمت‌های محصولات تکی'
+    attributes:
+      admin/selling/config/piece_price:
+        admin_furniture_set_id: ست مبلمان (مرجع قیمت‌گذاری)
+        piece: تعداد نفرات مبل؟ (۳ نفری، ۲ نفری، ۱ نفری؟)
+        percentage: نسبت قیمت‌گذاری (ما مین «صفر و یک»)
+        comment: توضیحات
+    errors:
+      models:
+        admin/selling/config/piece_price:
+          attributes:
+            admin_furniture_set_id:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            piece:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            percentage:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'

@@ -1,0 +1,28 @@
+<% form_id = '' %>
+<%= remote_form(admin_selling_config_piece_price) do |f| -%>
+  <% form_id = f.options[:html][:id] %>
+  <div  class='block'>
+    <div class="row">
+      <%= f.select :admin_furniture_set_id, Admin::Furniture::Set.all.map{ |i| [i.name, i.id, { 'data-subtext': " #{i.config.to_s}" }] }, { prompt: 'لطفا مشخصات ست را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
+
+      <div class="field">
+        <%= f.number_field :piece %>
+      </div>
+
+      <div class="field">
+        <%= f.number_field :percentage, step: 0.05, min: 0, max: 1 %>
+      </div>
+
+      <div class="field">
+        <%= f.text_area :comment %>
+      </div>
+
+      <div class='clearfix'></div>
+    </div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+<% end %>

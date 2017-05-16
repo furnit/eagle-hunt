@@ -8,7 +8,7 @@ class Admin::Furniture::SetsController < Admin::AdminbaseController
 
     respond_to do |format|
       format.html
-      format.json { render json: @admin_furniture_sets.map { |i| { value: i.id, text: i.to_s } }, status: :ok }
+      format.json { render json: @admin_furniture_sets.map { |i| { value: i.id, text: "#{i.name} #{i.config.to_s}" } }, status: :ok }
     end
   end
 

@@ -1,5 +1,6 @@
 class Admin::Furniture::Furniture < ParanoiaRecord
   has_many :employee_fanis, dependent: :destroy, class_name: '::Employee::Fani'
+  has_one :overall_details, class_name: '::Employee::Overall', foreign_key: :admin_furniture_furniture_id
   belongs_to :type, class_name: '::Admin::Furniture::Type', foreign_key: :furniture_type_id
   
   accepts_nested_attributes_for :employee_fanis, :allow_destroy => true
@@ -18,6 +19,10 @@ class Admin::Furniture::Furniture < ParanoiaRecord
   
   def cost?
     return 1e+6
+  end
+  
+  def compute_cost set: nil, fabric: 0, kalaf: 0, wood: 0 
+    
   end
 
   def save

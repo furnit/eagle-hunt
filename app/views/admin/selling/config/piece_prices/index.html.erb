@@ -1,0 +1,42 @@
+<%= 
+  render 'admin/shared/index',
+    title: "لیست #{t("activerecord.models.#{Admin::Selling::Config::PiecePrice.model_name.i18n_key}")}", 
+    title_right: lambda {
+      link_to new_admin_selling_config_piece_price_url, class: 'inline-html-call' do
+        raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
+      end
+    },
+    before_table: lambda {
+      raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_selling_config_piece_prices}</small>"
+    },
+    after_table: lambda {
+      raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_selling_config_piece_prices, renderer: BootstrapPagination::Rails}</div>"
+    },
+    table_head: {
+      'ردیف': { style: 'width: 30px' },
+      'ست': { style: 'width: 230px' },
+      'تعداد نفرات': { style: 'width: 130px' },
+      'نسبت قیمت‌گذاری': { style: 'width: 130px' },
+      'توضیحات': { },
+      'آخرین بروزرسانی': { style: 'width: 130px' },
+      'عملیات': { style: 'width: 80px' }
+    },
+    table_body: lambda {
+%>
+  <% @admin_selling_config_piece_prices.each do |ins| %>
+    <tr>
+      <td><%= ins.id %></td>
+      <td><%= editable_tag ins, :admin_furniture_set_id, type: :select, value: ins.admin_furniture_set_id, source: admin_furniture_sets_path, text: "#{ins.set.name} #{ins.set.config.to_s}" %></td>
+      <td><%= editable_tag ins, :piece %></td>
+      <td><%= editable_tag ins, :percentage %></td>
+      <td><%= editable_tag ins, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %></td>
+      <td class='datetime' data-date='<%= ins.updated_at %>'></td>
+      <td>
+        <%= link_to ins, method: :delete, data: { confirm: { title: "آیا از حذف این مورد اطمینان دارید؟", message: "توجه فرمایید که حذف این مورد غیر قابل بازگشت خواهد بود!" } }, class: 'text-danger' do %>
+          <span class='fa fa-trash'></span> حذف
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+      
+<% } %>

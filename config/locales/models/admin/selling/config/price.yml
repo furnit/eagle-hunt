@@ -7,6 +7,7 @@ fa:
         admin_furniture_fabric_brand_id: برند پارچه
         admin_furniture_paint_color_brand_id: برند رنگ چوب
         admin_furniture_wood_type_id: نوع چوب
+        admin_furniture_set_id: مشخصات ست
     errors:
       models:
         admin/selling/config/price:

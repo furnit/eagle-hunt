@@ -3,6 +3,8 @@
   <% form_id = f.options[:html][:id] %>
   <div  class='block'>
   	<div class='row'>
+  		<legend>نوع ست</legend>
+  		<%= f.select :admin_furniture_set_id, Admin::Furniture::Set.all.map{ |i| [i.name, i.id] }, { prompt: 'لطفا مشخصات ست را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
   		<legend>پارچه</legend>
   		<%= f.select :admin_furniture_fabric_brand_id, @fabrics.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند پارچه را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
   		<% if [@woods, @paint_colors].any? %>
@@ -17,9 +19,34 @@
   		<div class='clearfix'></div>
 		</div>
   </div>
+	<hr />
+  <div class='block'>
+		<div class="row">
+			<legend>قیمت محاسبه‌شده:</legend>
+		</div>
+	</div>
 
   <div class="actions field pull-left">
     <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
   </div>
   <div class='clearfix'></div>
 <% end %>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$('form#<%= form_id %> select').on('change', function() {
+			data = { }
+			$('form#<%= form_id %> select').each(function() {
+				data[$(this).attr('name')] = $(this).val();
+			});
+			$.ajax({
+				url: '<%= compute_cost_admin_furniture_furniture_path(@furniture, format: :json) %>',
+				type: 'post',
+				data: data,
+				success: function(data) {
+					console.log(data);
+				}
+			});
+		})
+	});
+</script>

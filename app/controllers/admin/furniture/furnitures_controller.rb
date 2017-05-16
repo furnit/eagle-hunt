@@ -1,5 +1,5 @@
 class Admin::Furniture::FurnituresController < Admin::UploaderController
-  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :cover, :edit_description, :update_description, :ls_intel, :confirm]
+  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :cover, :edit_description, :update_description, :ls_intel, :confirm, :compute_cost]
 
   # GET /furnitures
   # GET /furnitures.json
@@ -166,6 +166,13 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
         format.json { render json: {status: :failed, operation: :confirm}, status: :unprocessable_entity }
       end
     end
+  end
+
+  def compute_cost
+    byebug
+    od = @furniture.overall_details.as_json
+    cost = od.select { |i| i =~ /.*wage.*/ }.sum
+    byebug
   end
 
   private

@@ -46,7 +46,6 @@ class Admin::Selling::Config::PricesController < ApplicationController
   # PATCH/PUT /admin/selling/config/prices/1
   # PATCH/PUT /admin/selling/config/prices/1.json
   def update
-    return
     respond_to do |format|
       if @admin_selling_config_price.update(admin_selling_config_price_params)
         format.html { redirect_to admin_selling_config_prices_path, notice: mk_notice(@admin_selling_config_price, :id, 'Price', :update) }
@@ -71,7 +70,8 @@ class Admin::Selling::Config::PricesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_selling_config_price
-      @admin_selling_config_price = Admin::Selling::Config::Price.find_or_create_by(admin_furniture_furniture_id: Admin::Furniture::Furniture.where(id: params[:id], ready_for_pricing: true).first.id)
+      @furniture = Admin::Furniture::Furniture.where(id: params[:id], ready_for_pricing: true).first
+      @admin_selling_config_price = Admin::Selling::Config::Price.find_or_create_by(admin_furniture_furniture_id: @furniture.id)
     end
     
     def set_editional_data
