@@ -54,7 +54,6 @@ Rails.application.routes.draw do
           get    :ls_intel, RC::ajax_server
           post   :confirm, RC::ajax_server.merge(RC::json_request_only)
           get    :ls_price_details, RC::ajax_server
-          post   :compute_cost, RC::ajax_server.merge(RC::json_request_only)
         end
         collection do
           post   :markup, RC::json_request_only
@@ -117,6 +116,10 @@ Rails.application.routes.draw do
       resources :kalafs
       resources :fabrics
       resources :paint_colors
+      resources :paint_astar_rouyes
+      resources :computes, RC::non_restful do
+        post :index, RC::ajax_server.merge(RC::json_request_only)
+      end
       resources :transits do
         member do
           get :ls_transit

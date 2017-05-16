@@ -1,0 +1,26 @@
+fa:
+  activerecord:
+    models:
+      admin/pricing/paint_astar_rouye: 'قیمت‌های آستر و رویه رنگ'
+    attributes:
+      admin/pricing/paint_astar_rouye:
+        astare_avaliye: آستر اولیه
+        astare_asli: آستر اصلی
+        rouye: رویه
+        batune: بتونه
+    errors:
+      models:
+        admin/pricing/paint_astar_rouye:
+          attributes:
+            astare_avaliye:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            astare_asli:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            rouye:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            batune:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'

@@ -51,7 +51,7 @@ $(document).on('ready turbolinks:load', function(){
         model_name = form.attr('name') || '';
         form.find('.has-error').removeClass('has-error').find('.help-block').remove();
         $.each(errors, function(field, messages) {
-          input = form.find('input, select, textarea, div[name]').filter(function() {
+          input = form.find('input[type!=hidden], select, textarea, div[name]').filter(function() {
             name = $(this).attr('name');
             if(name)
               return name.match(new RegExp(model_name + '\\[' + field + '\\(?'));

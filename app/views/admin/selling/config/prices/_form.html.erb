@@ -1,5 +1,5 @@
 <% form_id = '' %>
-<%= remote_form(admin_selling_config_price) do |f| -%>
+<%= remote_form(admin_selling_config_price, as: :furniture_config) do |f| -%>
   <% form_id = f.options[:html][:id] %>
   <div  class='block'>
   	<div class='row'>
@@ -20,9 +20,15 @@
 		</div>
   </div>
 	<hr />
-  <div class='block'>
+  <div class='block' id="computed-price">
 		<div class="row">
 			<legend>قیمت محاسبه‌شده:</legend>
+		</div>
+		<div id="error-block" class="hidden">
+			<div class="panel panel-danger panel-errors" style='margin-top: 20px;'>
+				<div class="panel-heading">خطای اجرای عملیات!</div>
+			  <div class="panel-body"></div>
+			</div>
 		</div>
 	</div>
 
@@ -34,17 +40,24 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
+		$("#computed-price #error-block").slideUp(function() { $(this).removeClass("hidden"); });
 		$('form#<%= form_id %> select').on('change', function() {
 			data = { }
 			$('form#<%= form_id %> select').each(function() {
-				data[$(this).attr('name')] = $(this).val();
+				data[$(this).attr('name').replace(/admin_furniture_/ig, "")] = $(this).val();
 			});
 			$.ajax({
-				url: '<%= compute_cost_admin_furniture_furniture_path(@furniture, format: :json) %>',
+				url: '<%= admin_pricing_compute_index_path(@furniture, format: :json) %>',
 				type: 'post',
+				dataType: 'json',
 				data: data,
 				success: function(data) {
 					console.log(data);
+				},
+				error: function(data) {
+					$("#computed-price #error-block .panel-heading").html('خطای اجرای عملیات!');
+					$("#computed-price #error-block .panel-body").html(data.responseJSON.message);
+					$("#computed-price #error-block").slideDown();
 				}
 			});
 		})

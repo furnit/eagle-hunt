@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516071755) do
+ActiveRecord::Schema.define(version: 20170516121610) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -150,9 +150,10 @@ ActiveRecord::Schema.define(version: 20170516071755) do
   create_table "admin_furniture_sets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.json     "config"
-    t.text     "comment",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.text     "comment",     limit: 65535
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "total_count"
   end
 
   create_table "admin_furniture_specs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -216,6 +217,15 @@ ActiveRecord::Schema.define(version: 20170516071755) do
     t.text     "comment",    limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+  end
+
+  create_table "admin_pricing_paint_astar_rouyes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.float    "astare_avaliye", limit: 24
+    t.float    "astare_asli",    limit: 24
+    t.float    "rouye",          limit: 24
+    t.float    "batune",         limit: 24
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "admin_pricing_paint_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

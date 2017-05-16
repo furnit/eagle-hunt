@@ -7,7 +7,8 @@
       end
     },
     before_table: lambda {
-      raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_pricing_paint_colors}</small>"
+    	raw "<p class='alert alert-warning'><strong>توجه:</strong> واحد ارزی به «<b>تومان</b>» می‌باشد.</p>" +
+      "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_pricing_paint_colors}</small>"
     },
     after_table: lambda {
       raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_pricing_paint_colors, renderer: BootstrapPagination::Rails}</div>"

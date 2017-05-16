@@ -21,8 +21,35 @@ class Admin::Furniture::Furniture < ParanoiaRecord
     return 1e+6
   end
   
-  def compute_cost set: nil, fabric: 0, kalaf: 0, wood: 0 
-    
+  def compute_cost fabric: nil, paint_color: nil, wood: nil, kalaf: nil
+    foam = Admin::Pricing::Foam.all
+    # overall details
+    od   = overall_details.as_json
+    # general details
+    gd   = od.reject { |i| [:id, :admin_furniture_furniture_id, :created_at, :updated_at].include? i.to_sym or i =~ /.*(wage|needs|days_to_complete|build_details).*/ };
+    # sum-up wages
+    sum  = od.select { |i| i =~ /.*wage.*/}.sum
+    # sum-up najar
+    sum += gd[:najar_choob.to_s] * wood.price if wood
+    # sum-up kalaf
+    sum += gd[:kalaf_choob.to_s] * kalaf.price if kalaf
+    byebug
+    # sum-up build details
+    od[:fani_build_details.to_s].each do |d|
+      price = 0
+      # convert from hash to furniture build details
+      ins = FurnitureBuildDetail.new(d)
+      case ins.spec.name
+      when 'ابر'
+        price = foam.select { |i| i.admin_furniture_foam_type_id == ins.options["admin_furniture_foam_types"]["id"].to_i }.first.price
+      when 'پارچه'
+        price = fabric.price if fabric
+      else
+        raise RuntimeError.new("undefined spec# #{ins.spec.id}")
+      end
+      sum += price * ins.value
+    end
+    sum
   end
 
   def save
@@ -60,6 +87,18 @@ class Admin::Furniture::Furniture < ParanoiaRecord
           tabc = column.gsub("#{name.to_s.downcase}_", "")
           overalls[column] = data.max_by { |ii| ii[tabc].to_f }[tabc]
         end
+      end
+      overalls[:fani_build_details] = []
+      fbd = { }
+      self.intel[:fani].each do |i|
+        i[:data].furniture_build_details.each do |bd|
+          key = "#{bd.admin_furniture_section_id}-#{bd.admin_furniture_spec_id}"
+          fbd[key] ||= []
+          fbd[key] << bd
+        end
+      end
+      fbd.each do |_, i|
+        overalls[:fani_build_details] << i.max_by { |ii| ii.value }
       end
       ::Employee::Overall.find_or_create_by(admin_furniture_furniture_id: self.id).update_attributes(overalls)
     end

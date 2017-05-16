@@ -8,6 +8,10 @@ class Admin::Furniture::Set < ApplicationRecord
   
   def config= val
     self[:config] = val.split(/[#{SEPERATOR}]+/).flatten
+    self[:total_count] = self[:config].map(&:to_i).sum
+  end
+  
+  def total_count= val
   end
   
   def validate_config
@@ -24,4 +28,11 @@ class Admin::Furniture::Set < ApplicationRecord
       errors.add :config, :taken
     end
   end
+  
+  def self.prefered
+    Rails.cache.fetch('prefered_set', expires_in: 1.months) do
+      Admin::Furniture::Set.find_by(total_count: AppConfig.preference.furniture.unit)
+    end
+  end
+
 end

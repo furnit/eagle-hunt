@@ -2,6 +2,11 @@ require_relative 'routes/config.rb'
 
 Rails.application.routes.draw do
   
+  namespace :admin do
+    namespace :pricing do
+      resources :paint_astar_rouyes
+    end
+  end
   root to: 'home#index'
 
   [:category, :furniture].each do |action|

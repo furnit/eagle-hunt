@@ -15,6 +15,7 @@
     table_head: {
       'ردیف': { style: 'width: 30px' },
       'عنوان': { style: 'width: 150px' },
+      'تعداد': { style: 'width: 50px' },
       'تنظیمات': { style: 'width: 200px' },
       'توضیح': { },
       'آخرین بروزرسانی': { style: 'width: 130px' },
@@ -26,6 +27,7 @@
     <tr>
       <td><%= ins.id %></td>
       <td><%= editable_tag ins, :name %></td>
+      <td><%= ins.total_count %></td>
       <td><%= editable_tag ins, :config, text: ins.config.to_s[1..-2] %></td>
       <td><%= editable_tag ins, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %></td>
       <td class='datetime' data-date='<%= ins.updated_at %>'></td>

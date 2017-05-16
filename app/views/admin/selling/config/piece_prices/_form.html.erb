@@ -1,28 +1,47 @@
 <% form_id = '' %>
-<% set = Admin::Furniture::Set.where id: Admin::Selling::Config::PiecePrice.pluck(:admin_furniture_set_id) %>
-<% set = Admin::Furniture::Set.all if set.empty? %>
-<%= remote_form(admin_selling_config_piece_price) do |f| -%>
-  <% form_id = f.options[:html][:id] %>
-  <div  class='block'>
-    <div class="row">
-      <%= f.select :admin_furniture_set_id, set.map{ |i| [i.name, i.id, { 'data-subtext': " #{i.config.to_s}" }] }, { prompt: 'لطفا مشخصات ست را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
-      
-      <%= f.select :admin_furniture_piece_id, Admin::Furniture::Piece.where.not(id: Admin::Selling::Config::PiecePrice.pluck(:admin_furniture_piece_id)).map{ |i| [i.piece, i.id, { 'data-subtext': " نفری" }] }, { prompt: 'لطفا تعداد نفرات مبل را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
-
-      <div class="field">
-        <%= f.number_field :percentage, step: 0.05, min: 0, max: 1, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
-      </div>
-
-      <div class="field">
-        <%= f.text_area :comment, wrapper: { class: 'col-sm-12' } %>
-      </div>
-
-      <div class='clearfix'></div>
-    </div>
-  </div>
-
-  <div class="actions field pull-left">
-    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
-  </div>
-  <div class='clearfix'></div>
+<% set = Admin::Furniture::Set.find_by total_count: AppConfig.preference.furniture.unit %>
+<% if set %>
+	<%= remote_form(admin_selling_config_piece_price) do |f| -%>
+	  <% form_id = f.options[:html][:id] %>
+	  <div  class='block'>
+	    <div class="row">
+	    	<div class="field">
+	      	<%= f.hidden_field :admin_furniture_set_id, value: set.id %>
+	      	<%= f.select :admin_furniture_set_id, [set].map{ |i| [i.name, i.id, { 'data-subtext': " #{i.config.to_s}" }] }, { selected: set.id }, required: true, layout: :default, disabled: true, prompt: false, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
+	      </div>
+	      <div class='clearfix'></div>
+	    	<div class="field" style="margin-top: 20px">
+		      <%= f.select :admin_furniture_piece_id, Admin::Furniture::Piece.where.not(id: Admin::Selling::Config::PiecePrice.pluck(:admin_furniture_piece_id)).map{ |i| [i.piece, i.id, { 'data-subtext': " نفری" }] }, { prompt: 'لطفا تعداد نفرات مبل را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
+				</div>
+	      <div class='clearfix'></div>			
+	      <div class="field">
+	        <%= f.number_field :percentage, step: 0.05, min: 0, max: 1, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
+	      </div>
+	      <div class='clearfix'></div>
+	      <div class="field">
+	        <%= f.text_area :comment, wrapper: { class: 'col-sm-12' } %>
+	      </div>
+	
+	      <div class='clearfix'></div>
+	    </div>
+	  </div>
+	
+	  <div class="actions field pull-left">
+	    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+	  </div>
+	  <div class='clearfix'></div>
+	<% end %>
+	
+	<style type="text/css" media="screen">
+		form#<%= form_id %> .field:not(:first-child) { margin-top: 20px; }
+	</style>
+<% else %>
+	<div class="panel panel-danger">
+	  <div class="panel-heading">
+	  	<span class='fa fa-exclamation-triangle'></span> عدم وجود داده!
+	  </div>
+	  <div class="panel-body">‌ستی با مبنای تعداد <b><%= AppConfig.preference.furniture.unit %> نفره</b> تعریف نشده است، می‌توانید این ست را در
+	  	<%= link_to 'اینجا', admin_furniture_sets_path %>
+	  	تعریف نمایید.</div>
+	</div>
 <% end %>

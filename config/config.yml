@@ -28,6 +28,8 @@ defaults: &defaults
     expiration: 60.minutes
       
   preference:
+    furniture:
+      unit: 7
     timing:
       sms: [9, 21]
       

@@ -1,0 +1,19 @@
+<% form_id = '' %>
+<%= remote_form(admin_pricing_paint_astar_rouye) do |f| -%>
+  <% form_id = f.options[:html][:id] %>
+  <div  class='block'>
+  	<div class="row">
+  		<% [:batune, :astare_avaliye, :astare_asli, :rouye].each.with_index do |ff, index| %>
+      <div class="col-md-6 pull-right">
+        <%= f.number_field ff, **{step: 500, min: 0}.merge(index == 0 ? {autofocus: true} : {}) %>
+      </div>
+      <% end %>
+
+      <div class='clearfix'></div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+<% end %>
