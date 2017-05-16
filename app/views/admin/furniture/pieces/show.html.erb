@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Piece:</strong>
+  <%= @admin_furniture_piece.piece %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @admin_furniture_piece.comment %>
+</p>
+
+<%= link_to 'Edit', edit_admin_furniture_piece_path(@admin_furniture_piece) %> |
+<%= link_to 'Back', admin_furniture_pieces_path %>

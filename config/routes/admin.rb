@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     
     # <furniture>
     namespace :furniture do 
+      # <fabric>
       namespace :fabric do
         resources :cushions
       
@@ -42,6 +43,7 @@ Rails.application.routes.draw do
           end
         end
       end
+      # </fabric>
       
       resources :furnitures do
         member do
@@ -65,7 +67,7 @@ Rails.application.routes.draw do
         end
       end
       
-      [:foam_types, :specs, :sets].each do |rsrc|
+      [:foam_types, :specs, :sets, :pieces].each do |rsrc|
         resources rsrc, except: [:show]
       end
       

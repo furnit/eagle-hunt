@@ -131,6 +131,13 @@ ActiveRecord::Schema.define(version: 20170516071755) do
     t.index ["admin_furniture_paint_color_qualities_id"], name: "index_color_quality", using: :btree
   end
 
+  create_table "admin_furniture_pieces", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "piece"
+    t.text     "comment",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
   create_table "admin_furniture_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "comment"
@@ -241,11 +248,12 @@ ActiveRecord::Schema.define(version: 20170516071755) do
 
   create_table "admin_selling_config_piece_prices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "admin_furniture_set_id"
-    t.integer  "piece"
-    t.float    "percentage",             limit: 24
-    t.text     "comment",                limit: 65535
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.integer  "admin_furniture_piece_id"
+    t.float    "percentage",               limit: 24
+    t.text     "comment",                  limit: 65535
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.index ["admin_furniture_piece_id"], name: "index_selling_config_piece_prices_piece", using: :btree
     t.index ["admin_furniture_set_id"], name: "index_selling_config_piece_prices_set", using: :btree
   end
 
@@ -561,6 +569,7 @@ ActiveRecord::Schema.define(version: 20170516071755) do
   add_foreign_key "admin_pricing_transits", "admin_workshop_workshops"
   add_foreign_key "admin_pricing_transits", "states"
   add_foreign_key "admin_pricing_woods", "admin_furniture_wood_types"
+  add_foreign_key "admin_selling_config_piece_prices", "admin_furniture_pieces"
   add_foreign_key "admin_selling_config_piece_prices", "admin_furniture_sets"
   add_foreign_key "admin_selling_config_price_rates", "admin_furniture_sets"
   add_foreign_key "admin_selling_config_prices", "admin_furniture_fabric_brands"

@@ -1,0 +1,16 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture/piece: 'انواع مبلمان‌های تکی'
+    attributes:
+      admin/furniture/piece:
+        piece: 'تعداد'
+        comment: 'توضیحات'
+    errors:
+      models:
+        admin/furniture/piece:
+          attributes:
+            piece:
+              blank: 'نمی‌تواند خالی باشد.'
+              invalid: 'نامعتیر می‌باشد.'
+              taken: 'قبلا تعریف شده است.'

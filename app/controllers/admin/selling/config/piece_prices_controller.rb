@@ -74,6 +74,6 @@ class Admin::Selling::Config::PiecePricesController < Admin::AdminbaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_selling_config_piece_price_params
-      params.require(:admin_selling_config_piece_price).permit(:admin_furniture_set_id, :piece, :percentage, :comment)
+      params.require(:admin_selling_config_piece_price).permit(:admin_furniture_set_id, :admin_furniture_piece_id, :percentage, :comment)
     end
 end

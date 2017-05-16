@@ -1,0 +1,22 @@
+<% form_id = '' %>
+<%= remote_form(admin_furniture_piece) do |f| -%>
+  <% form_id = f.options[:html][:id] %>
+  <div  class='block'>
+  	<div class="row">
+      <div class="col-md-6 col-md-offset-6">
+        <%= f.number_field :piece, autofocus: true, min: 1, max: 10 %>
+      </div>
+
+      <div class="col-md-12">
+        <%= f.text_area :comment %>
+      </div>
+
+      <div class='clearfix'></div>
+    </div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+<% end %>

@@ -5,7 +5,7 @@ fa:
     attributes:
       admin/selling/config/piece_price:
         admin_furniture_set_id: ست مبلمان (مرجع قیمت‌گذاری)
-        piece: تعداد نفرات مبل؟ (۳ نفری، ۲ نفری، ۱ نفری؟)
+        admin_furniture_piece_id: تعداد نفرات مبل؟ (۳ نفری، ۲ نفری، ۱ نفری؟)
         percentage: نسبت قیمت‌گذاری (ما مین «صفر و یک»)
         comment: توضیحات
     errors:
@@ -15,7 +15,7 @@ fa:
             admin_furniture_set_id:
               blank: 'نمیتواند خالی باشد.'
               invalid: 'نامعتبر می‌باشد.'
-            piece:
+            admin_furniture_piece_id:
               blank: 'نمیتواند خالی باشد.'
               invalid: 'نامعتبر می‌باشد.'
             percentage:
