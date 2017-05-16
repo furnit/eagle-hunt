@@ -36,9 +36,7 @@ class Admin::Furniture::Set < ApplicationRecord
   end
   
   def self.prefered
-    Rails.cache.fetch('prefered_set', expires_in: 1.months) do
-      Admin::Furniture::Set.find_by(total_count: AppConfig.preference.furniture.unit)
-    end
+    Admin::Furniture::Set.find_by(total_count: AppConfig.preference.furniture.unit)
   end
 
 end
