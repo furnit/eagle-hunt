@@ -1,7 +1,9 @@
 <%=
   render 'admin/shared/index',
 		before_table: lambda {
-			raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @furnitures}</small>"
+			text = ""
+			text = "<p class='alert alert-danger'><b>توجه:</b> میزان سود هر مبل در سامانه تعریف نشده است، می‌توانید از #{link_to 'اینجا', admin_selling_config_profits_path} تعریف نمایید.</p>" if Admin::Selling::Config::Profit.last.nil?
+			raw text + "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @furnitures}</small>"
 		},
 		after_table: lambda {
 			raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @furnitures, renderer: BootstrapPagination::Rails}</div>"

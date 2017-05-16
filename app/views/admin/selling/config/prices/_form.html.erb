@@ -26,7 +26,7 @@
 			<div class="row" id="price">
 				<legend>قیمت محاسبه‌شده:</legend>
 				<p>
-					قیمت برای تنظیمات بالا <span class="label label-success ir-font">0</span> <b>تومان</b> می‌شود.
+					قیمت برای تنظیمات بالا <span class="label label-success ir-font"><%= @furniture.cost?.to_s.to_money %></span> <b>تومان</b> می‌شود.
 				</p>
 			</div>
 			<div id="error-block" class="hidden">

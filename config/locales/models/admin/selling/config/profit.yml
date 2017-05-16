@@ -4,11 +4,11 @@ fa:
       admin/selling/config/profit: 'سوددهی و بازاریابی'
     attributes:
       admin/selling/config/profit:
-        overall: سوددهی کلی
+        overall: 'سوددهی کلی - درصدی: بین [0 تا 100]'
         overall_fixed: مقدار ثابت؟
-        marketer: بازاریاب
+        marketer: 'بازاریاب - درصدی: بین [0 تا 100]'
         marketer_fixed: مقدار ثابت؟
-        marketed: تخفیف بازاریابی
+        marketed: 'تخفیف بازاریابی - درصدی: بین [0 تا 100]'
         marketed_fixed: مقدار ثابت؟
     errors:
       models:

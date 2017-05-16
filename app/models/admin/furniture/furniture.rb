@@ -33,7 +33,7 @@ class Admin::Furniture::Furniture < ParanoiaRecord
   def cost?
     _profit = Admin::Selling::Config::Profit.last;
     _price  = self.price 
-    return 0 if [_profit.nil?, _price.nil?, not(self.ready_for_pricing)].any?
+    return 0 if [_profit.nil?, _price.nil?, (_price and _price.overall_cost.nil?), not(self.ready_for_pricing)].any?
     ((1 + (_profit.overall / 100.0)) * _price.overall_cost).to_i 
   end
   
