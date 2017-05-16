@@ -81,6 +81,7 @@ class Admin::Selling::Config::PricesController < Admin::AdminbaseController
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_selling_config_price
       @furniture = Admin::Furniture::Furniture.where(id: params[:id], ready_for_pricing: true).first
+      raise ActiveRecord::RecordNotFound.new("furniture# #{params[:id]} not found or not ready for pricing!") if @furniture.nil?
       @set = Admin::Furniture::Set.find(admin_selling_config_price_params[:admin_furniture_set_id]).config if params["action"] == "update"
       @admin_selling_config_price = Admin::Selling::Config::Price.find_or_create_by(admin_furniture_furniture_id: @furniture.id)
     end

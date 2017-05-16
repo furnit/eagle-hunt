@@ -1,76 +1,87 @@
-<% form_id = '' %>
-<%= remote_form(admin_selling_config_price, url: admin_selling_config_price_path(id: @furniture.id), as: :furniture_config) do |f| -%>
-  <% form_id = f.options[:html][:id] %>
-  <%= hidden_field_tag :hd, get_hash(@furniture.id.to_s) %>
-  <div  class='block'>
-  	<div class='row'>
-  		<legend>نوع ست</legend>
-  		<%= f.select :admin_furniture_set_id, Admin::Furniture::Set.all.map{ |i| [i.name, i.id] }, { prompt: 'لطفا مشخصات ست را انتخاب کنید.', selected: Admin::Furniture::Set.prefered.id }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
-  		<legend>پارچه</legend>
-  		<%= f.select :admin_furniture_fabric_brand_id, @fabrics.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند پارچه را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
-  		<% if [@woods, @paint_colors].any? %>
-	  		<legend>چوب</legend>
-	  		<% if not @woods.nil? %>
-	  			<%= f.select :admin_furniture_wood_type_id, @woods.map{ |i| [i.type.name, i.type.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
-				<% end %>  		
-	  		<% if not @paint_colors.nil? %>
-		  		<%= f.select :admin_furniture_paint_color_brand_id, @paint_colors.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
-				<% end %>  		
-  		<% end %>
-  		<div class='clearfix'></div>
-		</div>
-  </div>
-	<hr />
-  <div class='block' id="computed-price">
-		<div class="row" id="price">
-			<legend>قیمت محاسبه‌شده:</legend>
-			<p>
-				قیمت برای تنظیمات بالا <span class="label label-success ir-font">0</span> <b>تومان</b> می‌شود.
-			</p>
-		</div>
-		<div id="error-block" class="hidden">
-			<div class="panel panel-danger panel-errors" style='margin-top: 20px;'>
-				<div class="panel-heading">خطای اجرای عملیات!</div>
-			  <div class="panel-body"></div>
+<% if not Admin::Furniture::Set.prefered.nil? %>
+	<% form_id = '' %>
+	<%= remote_form(admin_selling_config_price, url: admin_selling_config_price_path(id: @furniture.id), as: :furniture_config) do |f| -%>
+	  <% form_id = f.options[:html][:id] %>
+	  <%= hidden_field_tag :hd, get_hash(@furniture.id.to_s) %>
+	  <div  class='block'>
+	  	<div class='row'>
+	  		<legend>نوع ست</legend>
+	  		<%= f.select :admin_furniture_set_id, Admin::Furniture::Set.all.map{ |i| [i.name, i.id] }, { prompt: 'لطفا مشخصات ست را انتخاب کنید.', selected: Admin::Furniture::Set.prefered.id }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
+	  		<legend>پارچه</legend>
+	  		<%= f.select :admin_furniture_fabric_brand_id, @fabrics.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند پارچه را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 col-md-offset-6' } %>
+	  		<% if [@woods, @paint_colors].any? %>
+		  		<legend>چوب</legend>
+		  		<% if not @woods.nil? %>
+		  			<%= f.select :admin_furniture_wood_type_id, @woods.map{ |i| [i.type.name, i.type.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
+					<% end %>  		
+		  		<% if not @paint_colors.nil? %>
+			  		<%= f.select :admin_furniture_paint_color_brand_id, @paint_colors.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
+					<% end %>  		
+	  		<% end %>
+	  		<div class='clearfix'></div>
+			</div>
+	  </div>
+		<hr />
+	  <div class='block' id="computed-price">
+			<div class="row" id="price">
+				<legend>قیمت محاسبه‌شده:</legend>
+				<p>
+					قیمت برای تنظیمات بالا <span class="label label-success ir-font">0</span> <b>تومان</b> می‌شود.
+				</p>
+			</div>
+			<div id="error-block" class="hidden">
+				<div class="panel panel-danger panel-errors" style='margin-top: 20px;'>
+					<div class="panel-heading">خطای اجرای عملیات!</div>
+				  <div class="panel-body"></div>
+				</div>
 			</div>
 		</div>
-	</div>
-
-  <div class="actions field pull-left">
-    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
-  </div>
-  <div class='clearfix'></div>
-<% end %>
-
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function(){
-		$("#computed-price #error-block").slideUp(function() { $(this).removeClass("hidden"); });
-		$('form#<%= form_id %> select').on('change', function() {
-			data = { }
-			$('form#<%= form_id %> select').each(function() {
-				data[$(this).attr('name').replace(/admin_furniture_/ig, "")] = $(this).val();
-			});
-			$("#computed-price > #price > p > .label").html("<span class='fa fa-spinner fa-spin' style='margin-top: 3px;'></span>");
-			$.ajax({
-				url: '<%= admin_pricing_compute_index_path(@furniture, format: :json) %>',
-				type: 'post',
-				dataType: 'json',
-				data: data,
-				success: function(data) {
-					if(data !== undefined) {
-						$("#computed-price #error-block").slideUp();
-						$("#computed-price > #price > p > .label").html(data.cost);
+	
+	  <div class="actions field pull-left">
+	    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+	  </div>
+	  <div class='clearfix'></div>
+	<% end %>
+	
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function(){
+			$("#computed-price #error-block").slideUp(function() { $(this).removeClass("hidden"); });
+			$('form#<%= form_id %> select').on('change', function() {
+				data = { }
+				$('form#<%= form_id %> select').each(function() {
+					data[$(this).attr('name').replace(/admin_furniture_/ig, "")] = $(this).val();
+				});
+				$("#computed-price > #price > p > .label").html("<span class='fa fa-spinner fa-spin' style='margin-top: 3px;'></span>");
+				$.ajax({
+					url: '<%= admin_pricing_compute_index_path(@furniture, format: :json) %>',
+					type: 'post',
+					dataType: 'json',
+					data: data,
+					success: function(data) {
+						if(data !== undefined) {
+							$("#computed-price #error-block").slideUp();
+							$("#computed-price > #price > p > .label").html(data.cost);
+						}
+					},
+					error: function(data) {
+						$("#computed-price #error-block .panel-heading").html('خطای اجرای عملیات!');
+						$("#computed-price #error-block .panel-body").html(data.responseJSON.message);
+						$("#computed-price #error-block").slideDown();
 					}
-				},
-				error: function(data) {
-					$("#computed-price #error-block .panel-heading").html('خطای اجرای عملیات!');
-					$("#computed-price #error-block .panel-body").html(data.responseJSON.message);
-					$("#computed-price #error-block").slideDown();
-				}
-			}).always(function() {
-				if($("#computed-price > #price > p > .label > .fa-spinner").length > 0)
-					$("#computed-price > #price > p > .label").html("0");
-			});
-		})
-	});
-</script>
+				}).always(function() {
+					if($("#computed-price > #price > p > .label > .fa-spinner").length > 0)
+						$("#computed-price > #price > p > .label").html("0");
+				});
+			})
+		});
+	</script>
+<% else %>
+<div class="panel panel-danger">
+  <div class="panel-heading">
+  	<span class='fa fa-exclamation-triangle'></span> عدم وجود داده‌ی کافی
+  </div>
+  <div class="panel-body">لطفا ست مبنای <b><%= AppConfig.preference.furniture.unit %> نفره</b>
+  	<%= link_to "در سیستم‌", admin_furniture_sets_path %>
+  	تعریف کنید.</div>
+</div>
+<% end %>

@@ -39,7 +39,12 @@ class Admin::Furniture::Furniture < ParanoiaRecord
   
   
   def compute_cost const: nil, fabric: nil, paint_color: nil, paint_astar_rouye: nil, wood: nil, kalaf: nil
+    # fetch all foams' prices
     foam = Admin::Pricing::Foam.all
+    # validate pricing of foams
+    raise RuntimeError.new("ابر قیمت‌گذاری نشده است.") if foam.empty?
+    # validate const prices
+    raise RuntimeError.new("هزینه‌های ثابت قیمت‌گذاری نشده است.") if not const
     # overall details
     od   = overall_details.as_json
     # general details
@@ -82,6 +87,7 @@ class Admin::Furniture::Furniture < ParanoiaRecord
       end
       sum += price * ins.value
     end
+    # round-up the sum and return the value
     sum.stepize AppConfig.preference.price.round
   end
 

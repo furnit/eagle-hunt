@@ -12,14 +12,20 @@ class Admin::Furniture::Set < ApplicationRecord
   end
   
   def total_count= val
+    # prevent from mistake settings
   end
   
   def validate_config
+    pieces = Admin::Furniture::Piece.pluck(:piece)
     config.each do |i|
       if not i.to_s.numeric?
         errors.add :config, :invalid 
         break
-      end 
+      end
+      if not pieces.include? i.to_s.to_i
+        errors.add :config, :not_defined
+        break
+      end
     end
   end
   

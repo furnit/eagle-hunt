@@ -273,16 +273,6 @@ ActiveRecord::Schema.define(version: 20170516212200) do
     t.index ["admin_furniture_set_id"], name: "index_selling_config_piece_prices_set", using: :btree
   end
 
-  create_table "admin_selling_config_price_rates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "admin_furniture_set_id"
-    t.integer  "count"
-    t.float    "percentage",             limit: 24
-    t.text     "comment",                limit: 65535
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.index ["admin_furniture_set_id"], name: "index_admin_selling_config_price_rates_on_admin_furniture_set_id", using: :btree
-  end
-
   create_table "admin_selling_config_prices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "admin_furniture_furniture_id"
     t.integer  "admin_furniture_fabric_brand_id"
@@ -587,7 +577,6 @@ ActiveRecord::Schema.define(version: 20170516212200) do
   add_foreign_key "admin_pricing_woods", "admin_furniture_wood_types"
   add_foreign_key "admin_selling_config_piece_prices", "admin_furniture_pieces"
   add_foreign_key "admin_selling_config_piece_prices", "admin_furniture_sets"
-  add_foreign_key "admin_selling_config_price_rates", "admin_furniture_sets"
   add_foreign_key "admin_selling_config_prices", "admin_furniture_fabric_brands"
   add_foreign_key "admin_selling_config_prices", "admin_furniture_furnitures"
   add_foreign_key "admin_selling_config_prices", "admin_furniture_paint_color_brands"
