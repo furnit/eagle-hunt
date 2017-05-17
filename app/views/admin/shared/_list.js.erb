@@ -1,4 +1,4 @@
-$('input, .selectpicker').blur();
+$('input:not([type="search"]), .selectpicker').blur();
 
 $("#filterrific_results").html("<%= j render "#{params[:controller]}/list" %>");
 

@@ -26,6 +26,7 @@ class Admin::Furniture::Furniture < ParanoiaRecord
     if not val
       self[:available] = val
     else
+      raise ClientError.new('این محصول دارای عکس‌ نمی‌باشد، لذا قابلیت سفارش‌گیری از آن وجود ندارد.') if self.images.empty?
       raise ClientError.new('داده‌های مالی یا فنی لازم جهت قابل سفارش شدن این محصول وجود ندارد.') if [self[:has_unconfirmed_data], not(self[:ready_for_pricing]), self.cost? <= 0].any?
       self[:available] = val
     end
@@ -189,13 +190,14 @@ class Admin::Furniture::Furniture < ParanoiaRecord
     where(
       terms.map {
         or_clauses = [
+          "LOWER(admin_furniture_furnitures.id) = ?",
           "LOWER(admin_furniture_furnitures.name) LIKE ?",
           "LOWER(admin_furniture_furnitures.comment) LIKE ?",
           "LOWER(admin_furniture_furnitures.description) LIKE ?"
         ].join(' OR ')
         "(#{ or_clauses })"
       }.join(' AND '),
-      *terms.map { |e| [e] * num_or_conditions }.flatten
+      *([query] + terms.map { |e| [e] * num_or_conditions }.flatten)
     )
   }
   

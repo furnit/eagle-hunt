@@ -40,6 +40,7 @@
 			    		window.location = xhr.getResponseHeader('Location');
 					},
 					error: function(xhr) {
+						$("input[name='furniture[available]']").prop('checked', !$("input[name='furniture[available]']").prop('checked'));
 						data = { message: '<span class="text-danger"><span class="fa fa-exclamation-triangle"></span> خطا در انجام عملیات!</span>' }
 						if(xhr.responseJSON !== undefined && xhr.responseJSON.message !== undefined) {
 							data = {
@@ -54,7 +55,7 @@
 		})
 	</script>
 <% end %>
-	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 block' id='furniture-detail-block1'>
+	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 block <%= not(@furniture.available) ? "text-muted" : "" %>' id='furniture-detail-block1'>
 		<div class='col-lg-3 col-md-3 col-sm-3 hidden-xs pull-right'>
 			<%= image_tag 'logo.png', :class => 'img img-responsive' %>
 		</div>
@@ -72,14 +73,31 @@
 						<th>دسته‌بندی</th>
 						<td><%= link_to @furniture.type.name, home_category_path(@furniture.type) %></td>
 					</tr>
-					<tr>
-						<th>قیمت پایه</th>
-						<td><%= @furniture.cost? %> تومان</td>
+    			<tr>
+    				<td>قیمت <small class="text-muted" style="font-weight: normal">(ست <%= AppConfig.preference.furniture.unit %> نفره)</small></td>
+    				<td>
+            	<% if @furniture.available and @furniture.cost? > 0 %>
+            		<span class="text-success"><%= @furniture.cost?.to_s.to_money %> <%= AppConfig.currency %></span>
+          		<% else %>
+          			-
+          		<% end %>
+    				</td>
+    				<td>زمان تکمیل سفارش</td>
+    				<td>
+    					<% if @furniture.days_to_complete > 0 and @furniture.available %>
+    						<%= @furniture.days_to_complete %> روز
+  						<% else %>
+  							-
+							<% end %>
+						</td>
+    			</tr>
+    			<tr>
 						<th>وضعیت</th>
 						<td>
 							<span class="label label-<%= @furniture.available ? 'success' : 'warning' %>"><%= @furniture.available ? 'قابل سفارش' : 'غیرقابل سفارش' %></span>
 						</td>
-					</tr>
+						<td colspan="2"></td>
+  				</tr>
 					<tr>
 						<th>درباره‌ی طرح</th>
 						<td colspan="3"><%= raw @furniture.comment %></td>
@@ -167,7 +185,7 @@
 			</fieldset>
 		</div>
 	</div>
-</div>  	    
+</div>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
