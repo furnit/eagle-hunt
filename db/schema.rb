@@ -319,9 +319,10 @@ ActiveRecord::Schema.define(version: 20170517190849) do
 
   create_table "admin_uploaded_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.json     "image"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean  "owned"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "owned",      default: false
+    t.index ["owned"], name: "index_admin_uploaded_files_on_owned", using: :btree
   end
 
   create_table "admin_user_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

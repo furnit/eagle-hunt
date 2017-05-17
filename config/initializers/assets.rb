@@ -19,6 +19,7 @@ Rails.application.config.assets.version = '1.0'
   admin
   shared
   vendors
+  image_upload
 ).each do |directory|
   Rails.application.config.assets.precompile += [ "#{directory}/*.js", "#{directory}/*.css", "#{directory}/*.coffee" ]
 end
@@ -52,20 +53,6 @@ Rails.application.config.assets.precompile += [
   '*.icon'
 ]
 
-# ----------------- jQuery File Upload ---------------------
-
-# file uploading JS resources
-%w(jquery.fileupload jquery.fileupload-image jquery.fileupload-process jquery.fileupload-ui jquery.fileupload-validate jquery.iframe-transport jquery.ui.widget tmpl.min load-image.all.min jquery.xdr-transport).each do |js|
-  Rails.application.config.assets.precompile += [ 'image_upload/%s.js' %js ]
-end
-
-# file uploading CSS resources
-%w(blueimp-gallery.min jquery.fileupload jquery.fileupload-ui jquery.fileupload-noscript jquery.fileupload-ui-noscript).each do |js|
-  Rails.application.config.assets.precompile += [ 'image_upload/%s.css' %js ]
-end
-
-# ----------------- jQuery File Upload ---------------------
-
 # Controller related files to pre-compile
 %w(
   home
@@ -73,7 +60,6 @@ end
   sessions
   profiles
   shopping_carts
-  uploaded_files
 ).each do |controller|
   Rails.application.config.assets.precompile += [ "#{controller}.coffee", "#{controller}.js", "#{controller}.css", "#{controller}.scss" ]
 end
