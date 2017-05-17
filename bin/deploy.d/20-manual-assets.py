@@ -5,8 +5,8 @@ import os, shutil
 MANUAL_ASSETS = [
 	['app/assets/stylesheets/photoswipe/default-skin/default-skin.png', 'public/assets/photoswipe/default-skin/'],
 	['app/assets/stylesheets/photoswipe/default-skin/default-skin.svg', 'public/assets/photoswipe/default-skin/'],
-	['/home/dariush/Desktop/viramobl/app/assets/javascripts/image_upload/tmpl.min.js.map', 'public/assets/'],
-  ['/home/dariush/Desktop/viramobl/app/assets/javascripts/image_upload/load-image.all.min.js.map', 'public/assets/']
+	['app/assets/javascripts/image_upload/tmpl.min.js.map', 'public/assets/'],
+  ['app/assets/javascripts/image_upload/load-image.all.min.js.map', 'public/assets/']
 ]
 
 for asset in MANUAL_ASSETS:
