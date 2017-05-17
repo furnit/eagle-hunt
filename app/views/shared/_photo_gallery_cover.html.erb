@@ -17,7 +17,7 @@
 		  	idx = gallery.getCurrentIndex();
 		    $.ajax({
 		      url: gallery.items[idx].cover_url,
-		      data: {admin_furniture: {index: idx}},
+		      data: {<%= Admin::Furniture::Furniture.model_name.param_key %>: {index: idx}},
 		      method: 'POST',
 		      dataType: 'json',
 		      success: function() {

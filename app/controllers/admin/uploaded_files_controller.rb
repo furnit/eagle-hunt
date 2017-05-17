@@ -27,6 +27,6 @@ class Admin::UploadedFilesController < Admin::AdminbaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def picture_params
-      params.require(:uploaded_files).permit({images: []})
+      params.require(:uploaded_files).permit(:image)
     end
 end

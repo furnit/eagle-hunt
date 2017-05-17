@@ -122,7 +122,7 @@
 			months: 'ماه'
 		}
 		
-		var get_val = function(e) { console.log([e, $(e).val()]); return $(e).val().length ? $(e).val() : '؟'  }
+		var get_val = function(e) { return $(e).val().length ? $(e).val() : '؟'  }
 		var get_checked = function(e) { return $(e + ':checked').length ? 'بله' : 'خیر' }
 		var get_currency = function(e) {
 			if(get_val(e) === '؟') return get_val(e);

@@ -44,12 +44,11 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
   # POST /furnitures.json
   def create
     @furniture = Admin::Furniture::Furniture.new(furniture_params)
+    # update the uploaded image and re-save the model
+    update_uploaded_images @furniture, :admin_furniture_furniture
+    
     respond_to do |format|
       if @furniture.save
-        # update the uploaded image and re-save the model
-        # the model need to be created at first then the update happen
-        update_uploaded_images @furniture, :admin_furniture_furniture, auto_save: true
-        # make_cover no_respond: true
         format.html { redirect_to redirection_url, notice: 'دسته‌بندی جدید «<b>%s</b>» با موفقیت ایجاد شد.' %@furniture.name }
         format.json { render json: @furniture, status: :created, location: redirection_url }
       else

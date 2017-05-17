@@ -1,4 +1,3 @@
-class Admin::Furniture::Section < ApplicationRecord
+class Admin::Furniture::Section < Admin::Uploader::Image
   validates_presence_of :name, :comment
-  mount_uploaders :images, ImageUploader
 end

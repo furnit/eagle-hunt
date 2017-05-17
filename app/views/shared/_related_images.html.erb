@@ -4,11 +4,11 @@
 		<div class='field row' id='img-collection'>
 		<% list_or_prompt defined?(images) ? images : collection.images, 'برای این محصول عکسی ثبت نشده است.'  do |i, index| %>
 			<span class="img-wrap" style='margin: 10px;'>
-			    <%= link_to i.url, :target => :__blank do %>
-						<%= image_tag i.thumb.url, :class => 'img img-responsive img-thumbnail', :style => 'height: 100px!important;'  %>
+			    <%= link_to i[:image].url, :target => :__blank do %>
+						<%= image_tag i[:image].thumb.url, :class => 'img img-responsive img-thumbnail', :style => 'height: 100px!important;'  %>
 					<% end %>
 					<div class='text-center' style='margin: 10px 3px auto;'>
-					  <%= check_awesome 'کاور؟', '', name: "#{collection.model_name.param_key}[images_to_delete][]", value: index, prefix: 'cover-', box_title: 'حذف؟' %>
+					  <%= check_awesome 'کاور؟', '', name: "#{collection.model_name.param_key}[images_to_delete][]", value: collection.secure_image_id(i[:id]), prefix: 'cover-', box_title: 'حذف؟' %>
 					</div>
 			</span>
 		<% end %>

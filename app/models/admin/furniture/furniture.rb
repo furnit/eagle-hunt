@@ -1,4 +1,7 @@
-class Admin::Furniture::Furniture < ParanoiaRecord
+class Admin::Furniture::Furniture < Admin::Uploader::Image
+  
+  acts_as_paranoid
+  
   has_many :employee_fanis, dependent: :destroy, class_name: '::Employee::Fani'
   has_one :overall_details, class_name: '::Employee::Overall', foreign_key: :admin_furniture_furniture_id
   has_one :price, class_name: '::Admin::Selling::Config::Price', foreign_key: :admin_furniture_furniture_id
@@ -9,12 +12,6 @@ class Admin::Furniture::Furniture < ParanoiaRecord
   validates_presence_of :furniture_type_id, :name
   
   validates :free_cushions, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 20 } 
-  
-  mount_uploaders :images, ImageUploader
-
-  # don't delete the images on soft delete
-  # see: (github.com/carrierwaveuploader/carrierwave/issues/624#issuecomment-15243440)
-  skip_callback :commit, :after, :remove_images!
   
   before_save :notify_on_availble
   

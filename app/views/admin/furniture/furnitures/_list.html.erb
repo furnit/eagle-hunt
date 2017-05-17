@@ -147,7 +147,7 @@
 				<% end %>'
 				.replace('%7B', '{').replace('%7D', '}')
 				.replace('src="/images/{2}"', 'src="{2}"')
-				.format(data.images[index].url, index, data.images[index].thumb.url, index == data.cover, $this.attr('data-id'))
+				.format(data.images[index].image.url, index, data.images[index].image.thumb.url, index == data.cover, $this.attr('data-id'))
 				$(gallery).append(link);
 			});
 		};

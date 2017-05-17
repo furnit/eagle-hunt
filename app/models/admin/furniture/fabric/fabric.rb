@@ -1,13 +1,11 @@
-class Admin::Furniture::Fabric::Fabric < ParanoiaRecord
+class Admin::Furniture::Fabric::Fabric < Admin::Uploader::Image
+  
+  acts_as_paranoid
+
   belongs_to :type, foreign_key: :admin_furniture_fabric_type_id, class_name: '::Admin::Furniture::FabricType'
   belongs_to :brand, foreign_key: :admin_furniture_fabric_brand_id, class_name: '::Admin::Furniture::FabricBrand'
   has_many   :models, foreign_key: :admin_furniture_fabric_fabric_id, class_name: '::Admin::Furniture::Fabric::Model'
   has_many :admin_furniture_fabric_color_indices, class_name: '::Admin::Furniture::FabricColorIndex', foreign_key: :admin_furniture_fabric_id, dependent: :destroy
-  
-  mount_uploaders :images, ImageUploader
-  # don't delete the images on soft delete
-  # see: (github.com/carrierwaveuploader/carrierwave/issues/624#issuecomment-15243440)
-  skip_callback :commit, :after, :remove_images!
   
   validates_presence_of :admin_furniture_fabric_type_id, :admin_furniture_fabric_brand_id
   

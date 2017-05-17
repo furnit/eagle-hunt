@@ -3,7 +3,7 @@
 ]
 .each do |name, image|
   type = Admin::Furniture::Type.create(name: name, comment: name)
-  type.images = [Rails.root.join(image).open]
+  type.images = upload_files image
   type.save!
 end
 
@@ -14,8 +14,6 @@ end
 ]
 .each do |name, pattern|
   fur = Admin::Furniture::Furniture.create(name: name, comment: name, furniture_type_id: 1)
-  images = []
-  Dir.glob(pattern).each { |image| images << Pathname.new(Rails.root.join(image)).open }
-  fur.images = images
+  fur.images = upload_files Dir.glob(pattern)
   fur.save!
 end
