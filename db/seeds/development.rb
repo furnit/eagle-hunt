@@ -1,3 +1,5 @@
+require_relative 'utils'
+
 [
   ['راحتی', 'data/images/samples/furnitures/1/sample-1.jpg']
 ]
