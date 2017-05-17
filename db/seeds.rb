@@ -105,6 +105,19 @@ end
   Admin::Furniture::Spec.create!(name: name, unit: unit, comment: name)
 end
 
+(1..3).each do |i|
+  Admin::Furniture::Piece.create(piece: i, comment: "مبل #{i} نفره")
+end
+
+[
+  [3, 2, 1, 1],
+  [3, 2, 1, 1, 1],
+  [3, 2, 2, 1, 1]
+]
+.each do |config|
+  Admin::Furniture::Set.create!(name: "ست #{config.sum} نفره", config: config, total_count: config.sum)
+end
+
 target_asset = Rails.root.join( 'db', 'seeds', "#{Rails.env.downcase}.rb")
 
 load(target_asset) if File.file?(target_asset)
