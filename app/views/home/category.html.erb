@@ -55,7 +55,7 @@
     <legend><span class='fa fa-chevron-left'></span> دسته بندی: <b><%= @furniture_type.name %></b></legend>
     <% list_or_prompt @furniture, 'محصولی در این دسته‌بندی یافت نشد.' do |f| %>
       <% col_scales = [6, 6, 6, 12] %>
-      <div class="furniture-item col-lg-<%= col_scales[0] %> col-md-<%= col_scales[1] %> col-sm-<%= col_scales[2] %> col-xs-<%= col_scales[3] %>" style='margin-bottom: 30px'>
+      <div class="furniture-item col-lg-<%= col_scales[0] %> col-md-<%= col_scales[1] %> col-sm-<%= col_scales[2] %> col-xs-<%= col_scales[3] %>">
         <div class='furniture-content'>
 	        <div class="thumbnail">
 	          <%= link_to image_tag(image_url(f.images[f.cover_details["index"].to_i], thumb: true), :class => 'img img-thumbnail img-responsive', :style => 'width: 100%; height: 250px'), home_furniture_path(f) %>
@@ -78,13 +78,19 @@
 			              	<% if f.available and f.cost? > 0 %>
 			              		<span class="text-success"><%= f.cost?.to_s.to_money %> <%= AppConfig.currency %></span>
 		              		<% else %>
-		              			<small>-</small>
+		              			-
 		              		<% end %>
 	          				</td>
 	          			</tr>
 	          			<tr>
 	          				<td>زمان تکمیل سفارش</td>
-	          				<td><%= f.days_to_complete %> روز<td>
+	          				<td>
+	          					<% if f.days_to_complete > 0 and f.available %>
+	          						<%= f.days_to_complete %> روز
+          						<% else %>
+          							-
+      								<% end %>
+      							<td>
           				</tr>
 	          			<tr>
 	          				<td colspan="2">

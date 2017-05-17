@@ -1,4 +1,5 @@
 [
+  'lib/exceptions',
   'lib/sms/bootstrap',
   'lib/two_step_auth',
   'lib/compute_price',

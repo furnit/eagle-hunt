@@ -101,6 +101,8 @@ gem 'kmeans-clusterer'
 gem 'meta-tags'
 # for db:session storage
 gem 'activerecord-session_store'
+# for language detection
+gem "cld"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

@@ -7,7 +7,7 @@ class Admin::Pricing::ComputesController < Admin::AdminbaseController
   # GET /admin/pricing/computes.json
   def index
     # expecting to have @set ready
-    raise RuntimeError.new("ابتدا نوع ست مورد نظر خود را وارد کنید.") if not @set
+    raise ClientError.new("ابتدا نوع ست مورد نظر خود را وارد کنید.") if not @set
     # return if no workable info defined?
     return if not admin_pricing_compute_params.select { |k| [:fabric_brand_id, :paint_color_brand_id, :wood_type_id].include? k.to_sym }.values.map(&:numeric?).any?
     # compute the cost
@@ -15,7 +15,7 @@ class Admin::Pricing::ComputesController < Admin::AdminbaseController
     # respond the cost
     respond_with_success cost.to_i.to_s.to_money
     # if anything occured
-  rescue RuntimeError => e
+  rescue ClientError => e
     respond_with_error e.message
   end
 

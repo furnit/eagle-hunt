@@ -1,5 +1,5 @@
 class Admin::Furniture::FurnituresController < Admin::UploaderController
-  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :cover, :edit_description, :update_description, :ls_intel, :confirm, :compute_cost]
+  before_action :set_furniture, only: [:show, :edit, :update, :destroy, :cover, :edit_description, :update_description, :ls_intel, :confirm, :compute_cost, :toggle_available]
 
   # GET /furnitures
   # GET /furnitures.json
@@ -84,7 +84,7 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
   def destroy
     @furniture.destroy
     respond_to do |format|
-      format.html { redirect_to admin_furniture_types_path(:id => @furniture.furniture_type_id), notice: 'محصول «<b>%s</b>» با موفقیت حذف شد.' %@furniture.name }
+      format.html { redirect_to redirection_url(force_admin: true), notice: 'محصول «<b>%s</b>» با موفقیت حذف شد.' %@furniture.name }
       format.json { head :no_content }
     end
   end
@@ -168,6 +168,19 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
     end
   end
 
+  def toggle_available
+    text = @furniture.available ? "غیرقابل سفارش" : "قابل سفارش"
+    respond_to do |format|
+      if @furniture.update(available: not(@furniture.available))
+        format.html { redirect_to redirection_url, notice: "محصول «<b>%s</b>» با موفقیت «<b>#{text}</b>» شد." %@furniture.name }
+        format.json { render json: @furniture, status: :ok, location: redirection_url }
+      else
+        format.html { render :edit }
+        format.json { render json: @furniture.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.
@@ -180,9 +193,14 @@ class Admin::Furniture::FurnituresController < Admin::UploaderController
       params.require(:admin_furniture_furniture).permit(:id, :name, :comment, :furniture_type_id, :description, :free_cushions, :ready_for_pricing)
     end
     
-    def redirection_url
-      if not params.require(:admin_furniture_furniture)[:admin].nil?
-        admin_furniture_furnitures_path
+    def redirection_url force_admin: false
+      if force_admin or [(params[:admin_furniture_furniture] and params[:admin_furniture_furniture][:admin]), params[:admin]].any?
+        case ((params[:admin_furniture_furniture] and params[:admin_furniture_furniture][:admin]) || params[:admin]).to_s.to_sym
+        when :client
+          admin_root_path(anchor: admin_furniture_furnitures_path.gsub('/admin/', ''))
+        else
+          admin_furniture_furnitures_path
+        end
       else
         home_furniture_path @furniture
       end

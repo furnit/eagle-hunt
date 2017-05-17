@@ -71,7 +71,9 @@
     </div>
   </nav>
   <div class="clearfix"></div>
-  <%= render 'layouts/alerts' %>
+  <% if flash[:keeped].nil? %>
+	  <%= render 'layouts/alerts' %>
+	<% end %>
   <div class='container-fluid' style='margin:0; padding:0'>
     <%= yield %>
   </div>

@@ -54,6 +54,7 @@ Rails.application.routes.draw do
           get    :ls_intel, RC::ajax_server
           post   :confirm, RC::ajax_server.merge(RC::json_request_only)
           get    :ls_price_details, RC::ajax_server
+          put    :toggle_available
         end
         collection do
           post   :markup, RC::json_request_only

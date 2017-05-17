@@ -15,8 +15,24 @@ class ApplicationController < ActionController::Base
   before_action :add_to_phonebook_if_necessary
   # translates every params' entity from arabic to english 
   before_action :param_convert_ar2en_i
+  # rescue from all user-error exception
+  rescue_from ClientError, with: :render_client_exception
   
   private
+  
+  def render_client_exception(e)
+    msg = "خطایی در هنگام اجرای عملیات رخ داده‌ است؛ لطفا دوباره تلاش کنید و در صورت رخداد مجدد این خطا به تیم توسعه‌ی سایت اطلاع دهید."
+    msg = "<b>خطا!</b> #{e.message}" if [:fa, :ar, :ur].include? CLD.detect_language(e.message)[:code].to_sym
+    return if performed?
+    respond_to do |format|
+      format.html { redirect_to redirection_url, flash: { error: msg } }
+      format.json { render json: {status: :error, message: msg}, status: :unprocessable_entity, location: redirection_url }
+    end
+  end
+
+  def redirection_url
+    request.headers["Referer"] || root_path 
+  end
 
   def guard_admin_with_last_access_expiration
     # except `quest`s and `client`s

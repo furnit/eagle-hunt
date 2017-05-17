@@ -1,3 +1,2 @@
-module Exceptions
-  class RecordNotAvailable < RuntimeError; end
-end
+class ClientError < RuntimeError; end
+class RecordNotAvailable < ClientError; end

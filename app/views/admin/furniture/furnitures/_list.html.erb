@@ -3,6 +3,11 @@
 		before_table: lambda {
 			text = ""
 			text = "<p class='alert alert-danger'><b>توجه:</b> میزان سود هر مبل در سامانه تعریف نشده است، می‌توانید از #{link_to 'اینجا', admin_selling_config_profits_path} تعریف نمایید.</p>" if Admin::Selling::Config::Profit.last.nil?
+			text += '	<div class="alert alert-success xalert-dismissible" role="alert">
+								  <button type="button" class="close pull-left" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								  <strong>توجه</strong> زمانی محصولی <b>قابل سفارش</b> می‌شود که <b>اطلاعات مرتبط</b> با آن «<b>تاببد</b>» شود و سپس «<b>قیمت‌گذاری</b>» گردد.
+								</div>
+								<div class="clearfix"></div>'
 			raw text + "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @furnitures}</small>"
 		},
 		after_table: lambda {
@@ -33,8 +38,8 @@
       	<%
       		[
       			[
-      				f.available?, "check", "times",
-      				"",
+      				f.available?, "check text-success", "times text-warning",
+      				"قابل سفارش",
       				"غیرقابل سفارش",
     				],
       			[
@@ -69,7 +74,7 @@
       <td>
         <%= editable_tag f, :comment, type: :textarea, placement: :bottom, 'allow-empty': true, text: f.comment.blank? ? "«توضیحی ثبت نشده است.»" : f.comment %>
       </td>
-      <td><label class="label label-<%= price <= 0 ? "warning" : "success" %>"><%= price <= 0 ? "قیمت‌گذاری نشده است." : price.to_s.to_money %></label></td>
+      <td><label class="label label-<%= (price <= 0 or not(f.available)) ? "warning" : "success" %>" <%= raw (not(f.available) ? "data-toggle='tooltip' title='غیر‌قابل سفارش'" : "") %>><%= price <= 0 ? "قیمت‌گذاری نشده است." : price.to_s.to_money %></label></td>
       <td class='datetime' data-date='<%= f.updated_at %>'></td>
       <td>
         <% acu_as :admin do %>
@@ -101,6 +106,18 @@
 			          <%= link_to edit_admin_furniture_furniture_path(f, admin: :check), :class => 'inline-html-call' do %>
 			            <span class='fa fa-pencil'></span> ویرایش
 			          <% end %>
+            	</li>
+            	<li>
+            		<% text = (f.available ? "غیرقابل سفارش کردن" : "قابل سفارش کردن") %>
+			          <%= link_to toggle_available_admin_furniture_furniture_path(f, admin: :check), method: :put, data: { confirm: { message: "آیا از «<b>#{text}</b>» این مورد اطمینان دارید؟" } } do %>
+			            <span class='fa fa-<%= f.available ? "times" : "check" %>'></span> <%= text %>
+			          <% end %>
+            	</li>
+            	<li class='divider'></li>
+            	<li>
+				        <%= link_to f, method: :delete, data: { confirm: { title: "آیا از حذف این مورد اطمینان دارید؟", message: "توجه فرمایید که حذف این مورد غیر قابل بازگشت خواهد بود!" } }, class: 'text-danger' do %>
+				          <span class='fa fa-trash'></span> حذف
+				        <% end %>
             	</li>
             </ul>
           </div>

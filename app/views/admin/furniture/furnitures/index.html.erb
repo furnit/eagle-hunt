@@ -2,7 +2,7 @@
   render 'admin/shared/index',
     title: "لیست #{t("activerecord.models.#{Admin::Furniture::Furniture.model_name.i18n_key}")}", 
     title_right: lambda {
-      link_to new_admin_furniture_furniture_path, class: 'inline-html-call' do
+      link_to new_admin_furniture_furniture_path(admin: :check), class: 'inline-html-call' do
         raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
       end
     },
