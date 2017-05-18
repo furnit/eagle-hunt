@@ -1,0 +1,36 @@
+<% form_id = '' %>
+<%= remote_form(order_order) do |f| -%>
+  <% form_id = f.options[:html][:id] %>
+  <div  class='block'>
+      <div class="field">
+        <%= f.text_field :user_id %>
+      </div>
+
+      <div class="field">
+        <%= f.text_field :admin_furniture_furniture_id %>
+      </div>
+
+      <div class="field">
+        <%= f.text_field :admin_furniture_fabric_fabric %>
+      </div>
+
+      <div class="field">
+        <%= f.text_field :fabric_id %>
+      </div>
+
+      <div class="field">
+        <%= f.text_field :admin_furniture_paint_color_id %>
+      </div>
+
+      <div class="field">
+        <%= f.text_field :admin_furniture_wood_types_id %>
+      </div>
+
+      <div class='clearfix'></div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+<% end %>

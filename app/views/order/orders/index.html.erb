@@ -1,0 +1,34 @@
+<%= 
+  render 'admin/shared/index',
+    title: "لیست #{t("activerecord.models.#{Order::Order.model_name.i18n_key}")}", 
+    title_right: lambda {
+      link_to new_order_order_url, class: 'inline-html-call' do
+        raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
+      end
+    },
+    before_table: lambda {
+      raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @order_orders}</small>"
+    },
+    after_table: lambda {
+      raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @order_orders, renderer: BootstrapPagination::Rails}</div>"
+    },
+    table_head: {
+      'ردیف': { style: 'width: 30px' },
+      'آخرین بروزرسانی': { style: 'width: 130px' },
+      'عملیات': { style: 'width: 80px' }
+    },
+    table_body: lambda {
+%>
+  <% @order_orders.each do |ins| %>
+    <tr>
+      <td><%= ins.id %></td>
+      <td class='datetime' data-date='<%= ins.updated_at %>'></td>
+      <td>
+        <%= link_to ins, method: :delete, data: { confirm: { title: "آیا از حذف این مورد اطمینان دارید؟", message: "توجه فرمایید که حذف این مورد غیر قابل بازگشت خواهد بود!" } }, class: 'text-danger' do %>
+          <span class='fa fa-trash'></span> حذف
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+      
+<% } %>

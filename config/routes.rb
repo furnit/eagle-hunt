@@ -2,11 +2,6 @@ require_relative 'routes/config.rb'
 
 Rails.application.routes.draw do
   
-  namespace :admin do
-    namespace :pricing do
-      resources :paint_astar_rouyes
-    end
-  end
   root to: 'home#index'
 
   [:category, :furniture].each do |action|
@@ -23,6 +18,10 @@ Rails.application.routes.draw do
 
   resources :profiles
   
+  namespace :order do
+    resources :orders
+  end
+
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',

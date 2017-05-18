@@ -1,0 +1,4 @@
+<div style="width: 100%">
+  <legend>ویرایش <%= t "activerecord.models.#{Order::Order.model_name.i18n_key}" %>: «<strong><%= @order_order.id %></strong>»</legend>
+  <%= render 'form', order_order: @order_order, :submit_text => 'ویرایش' %>
+</div>
