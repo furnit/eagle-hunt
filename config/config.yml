@@ -32,8 +32,9 @@ defaults: &defaults
       round: 5000
     furniture:
       unit: 7
-    timing:
-      sms: [9, 21]
+    sms:
+      outdated: 24.hours
+      timing: [9, 21]
       
   fabric:
     colours:

@@ -54,22 +54,29 @@ class AutoStart::SmsJob < ApplicationJob
       sms.destroy
     else
       logger.error "[#{Time.now}] Failed to send message `#{sms.message}` to `#{sms.to}` burying it for later trial".red
-      # if the send was not successfull, re-schedule the sending message
-      AutoStart::SmsJob.set(wait: 3.minutes).perform_later(sms)
+      # if sms is outdated?
+      if expired? sms.created_at, eval(AppConfig.preference.sms.outdated)
+        logger.info "[#{Time.now}] Message `#{sms.message}` to be sent to `#{sms.to}` discarded due to being outdated".red
+        # delete the messafe from database
+        sms.destroy
+      else
+        # if the send was not successfull and not outdated, re-schedule the sending message
+        AutoStart::SmsJob.set(wait: 3.minutes).perform_later(sms)
+      end
     end
   end
   
   protected
   
   def self.is_proper_time? 
-    return Time.now.hour.between? *AppConfig.preference.timing.sms
+    return Time.now.hour.between? *AppConfig.preference.sms.timing
   end
   
   def self.get_proper_time
     # if now is proper time? return the current time 
     return Time.now if is_proper_time?
     # fetch the prefered hours
-    pref_hours = AppConfig.preference.timing.sms;
+    pref_hours = AppConfig.preference.sms.timing;
     # send tomorrow morning, if the `chour` is after `00:00`
     pref_time = Date.today.noon.change(hour: pref_hours[0])
     # send tomorrow morning, if the `chour` is before `00:00`
