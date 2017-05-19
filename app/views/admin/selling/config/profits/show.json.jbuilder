@@ -1,1 +1,0 @@
-json.partial! "admin_selling_config_profits/admin_selling_config_profit", admin_selling_config_profit: @admin_selling_config_profit
