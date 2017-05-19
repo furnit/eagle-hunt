@@ -3,13 +3,15 @@ class AutoStart::SmsJob < ApplicationJob
   
   def schedule
     # schedule all un-sent messages into database!
-    Admin::Sms.all.each do |sms|
-      if sms.is_urgent
-        logger.info "[#{Time.now}] sending buried SMS to `#{sms.to}` now!".yellow
-        AutoStart::SmsJob.perform_now sms
-      else
-        logger.info "[#{Time.now}] sending buried SMS to `#{sms.to}` at proper time which is `#{AutoStart::SmsJob.get_proper_time}`!".yellow
-        AutoStart::SmsJob.set(wait_until: AutoStart::SmsJob.get_proper_time).perform_later sms
+    Thread.new do
+      Admin::Sms.all.each do |sms|
+        if sms.is_urgent
+          logger.info "[#{Time.now}] sending buried SMS to `#{sms.to}` now!".yellow
+          AutoStart::SmsJob.perform_now sms
+        else
+          logger.info "[#{Time.now}] sending buried SMS to `#{sms.to}` at proper time which is `#{AutoStart::SmsJob.get_proper_time}`!".yellow
+          AutoStart::SmsJob.set(wait_until: AutoStart::SmsJob.get_proper_time).perform_later sms
+        end
       end
     end
   end
