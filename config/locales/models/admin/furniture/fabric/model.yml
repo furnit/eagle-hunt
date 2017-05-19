@@ -1,0 +1,12 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture/fabric/model: 'اندازه‌های استاندارد کوسن‌ها'
+    attributes:
+      admin/furniture/fabric/model:
+        name: نام مدل
+        admin_furniture_fabric_fabric_id: پارچه
+    errors:
+      models:
+        admin/furniture/fabric/model:
+          attributes:

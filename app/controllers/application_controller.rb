@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   
   def render_client_exception(e)
     msg = "خطایی در هنگام اجرای عملیات رخ داده‌ است؛ لطفا دوباره تلاش کنید و در صورت رخداد مجدد این خطا به تیم توسعه‌ی سایت اطلاع دهید."
-    msg = "<b>خطا!</b> #{e.message}" if [:fa, :ar, :ur].include? CLD.detect_language(e.message)[:code].to_sym
+    msg = e.message if [:fa, :ar, :ur].include? CLD.detect_language(e.message)[:code].to_sym
     return if performed?
     respond_to do |format|
       format.html { redirect_to redirection_url, flash: { error: msg } }

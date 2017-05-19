@@ -11,7 +11,7 @@
 		$('form#<%= form_id %> a[data-method="delete"][data-remote="true"]')
 			.click(function() { $(this).parents('.img-wrap').addClass('fade') })
 			.bind("ajax:complete", function() { $(this).parents('.img-wrap').removeClass('fade') })
-			.bind("ajax:error", function(evt, data, status, xhr){ bootbox.alert({title: 'خطا در انجام عملیات!', message: 'خطایی در هنگام حذف عکس مورد انتخاب صورت گرفت!'}) })
+			.bind("ajax:error", function(evt, data, status, xhr){ alert_error('خطایی در هنگام حذف عکس مورد انتخاب صورت گرفت!'); })
 			.bind("ajax:success", function(evt, data, status, xhr) {
 				$(this).parents('.img-wrap').fadeOut(500, function() {
 					$(this).remove();

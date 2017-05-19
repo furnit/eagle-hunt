@@ -1,6 +1,6 @@
 class Admin::UploaderController < Admin::AdminbaseController
-  def ls_images instance
-    obj = {images: instance.images};
+  def ls_images instance, images: nil
+    obj = {images: images || instance.images};
     yield obj if block_given?
     respond_to do |format|
       format.json { render json: obj, status: :ok }

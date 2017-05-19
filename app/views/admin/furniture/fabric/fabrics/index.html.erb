@@ -47,7 +47,7 @@
         <% end %>
       </td>
       <td class='photo-gallery-collection-incomplete'>
-      	<% i = ft.images.first %>
+      	<% i = ft.models.first.nil? ? nil : ft.models.first.image %>
 				<%= link_to image_url(i), data: { id: ft.id, source: list_images_admin_furniture_fabric_fabric_path(ft) } do %>
 					<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 40px; width: 70px' %>
 				<% end %>
@@ -81,13 +81,13 @@
                     <span class='fa fa-check'></span> خارچ کردن از آرشیو
                  	<% end %>
                 <% else %>
-                  <%= link_to archive_admin_furniture_fabric_fabric_path(ft), method: :delete, data: { :confirm => { title: 'این دسته‌بندی آرشیو شود؟', message: 'تا زمانی که این دسته‌بندی در آرشیو می‌باشد امکان <b>مشاهده</b> و <b>اعمال تغییرات</b> برای این دسته‌بندی وجود ندارد.' } } do %>
+                  <%= link_to archive_admin_furniture_fabric_fabric_path(ft), method: :delete, data: { :confirm => { title: 'این دسته‌طرح آرشیو شود؟', message: 'تا زمانی که این دسته‌بندی در آرشیو می‌باشد امکان <b>مشاهده</b> و <b>اعمال تغییرات</b> برای این دسته‌طرح وجود ندارد.' } } do %>
                     <span class='fa fa-archive'></span> آرشیو کردن
                  	<% end %>                 	
               	<% end %>
               </li>
               <li>
-              	<%= link_to ft, method: :delete, data: { confirm: { title: "آیا از حذف این دسته‌بندی اطمینان دارید؟", message: "توجه فرمایید که حذف طرح پارچه غیر قابل بازگشت خواهد بود!" } } do %>
+              	<%= link_to ft, method: :delete, data: { confirm: { title: "آیا از حذف این دسته‌طرح اطمینان دارید؟", message: "توجه فرمایید که حذف طرح پارچه غیر قابل بازگشت خواهد بود!" } } do %>
               		<span class='fa fa-trash'></span> حذف
               	<% end %>
             	</li>

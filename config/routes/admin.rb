@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     
     resources :contacts
     
-    resources :uploaded_files, RC::ajax_server.merge(RC::json_request_only).merge({only: [:create, :update]})
+    resources :uploaded_files, RC::ajax_server.merge(RC::json_request_only).merge({only: [:create, :destroy]})
 
     resources :users do
       collection do

@@ -14,6 +14,10 @@ $(document).on('ready', function() {
   });
 });
 
+function alert_error(msg) {
+	bootbox.alert({title: '<span class="text-danger"><span class="fa fa-exclamation-triangle"></span> خطا در انجام عملیات!</span>', message: msg});
+}
+
 $(document).on('ready turbolinks:load', function(){
 	// define format proto-type for string class 
 	String.prototype.format = function () {
@@ -50,17 +54,21 @@ $(document).on('ready turbolinks:load', function(){
         errors = data.responseJSON;
         model_name = form.attr('name') || '';
         form.find('.has-error').removeClass('has-error').find('.help-block').remove();
-        $.each(errors, function(field, messages) {
-          input = form.find('input[type!=hidden], select, textarea, div[name]').filter(function() {
-            name = $(this).attr('name');
-            if(name)
-              return name.match(new RegExp(model_name + '\\[' + field + '\\(?'));
-          });
-          input.closest('.form-group').addClass('has-error');
-          input.parent().find('.help-block').remove();
-          input.parent().append('<span class="help-block">' + $.map(messages, function(m) { return m.charAt(0).toUpperCase() + m.slice(1); }).join('<br />') + '</span>');
-        });
-        form.find('.has-error:first input:first, .has-error:first select:first, .has-error:first textarea:first').focus();
+        if(Array.isArray(errors)) {
+	        $.each(errors, function(field, messages) {
+	          input = form.find('input[type!=hidden], select, textarea, div[name]').filter(function() {
+	            name = $(this).attr('name');
+	            if(name)
+	              return name.match(new RegExp(model_name + '\\[' + field + '\\(?'));
+	          });
+	          input.closest('.form-group').addClass('has-error');
+	          input.parent().find('.help-block').remove();
+	          input.parent().append('<span class="help-block">' + $.map(messages, function(m) { return m.charAt(0).toUpperCase() + m.slice(1); }).join('<br />') + '</span>');
+	        });
+	        form.find('.has-error:first input:first, .has-error:first select:first, .has-error:first textarea:first').focus();
+        } else if(typeof(errors) === "object" && errors.message !== undefined) {
+        	alert_error(errors.message);
+        }
       }
     }).on('ajax:success', function(e, data, status, xhr){
     	// redirect if any redirection header specified
@@ -141,7 +149,7 @@ $(document).on('ready turbolinks:load', function(){
 }).ajaxError(function(e, xhr){
   // i.e users sent wrong data to the server OR abort!!
   if(xhr.status === 422 || xhr.status === 0 || xhr.statusText === "abort") return;
-  bootbox.alert({title: '<span class="text-danger"><span class="fa fa-exclamation-triangle"></span> خطا در انجام عملیات!</span>', message: 'خطایی در هنگام اجرای عملیات رخ داده‌ است؛ لطفا دوباره تلاش کنید و در صورت رخداد مجدد این خطا به تیم توسعه‌ی سایت اطلاع دهید و <b>بن تخفیف بگیرید</b>!'});
+  alert_error('خطایی در هنگام اجرای عملیات رخ داده‌ است؛ لطفا دوباره تلاش کنید و در صورت رخداد مجدد این خطا به تیم توسعه‌ی سایت اطلاع دهید و <b>بن تخفیف بگیرید</b>!');
 });
 
 function update_the_shopping_cart_banner(count) {
