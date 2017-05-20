@@ -4,7 +4,7 @@
   <div  class='block'>
   	<div class='row'>
 		  <div class="col-sm-6 col-xs-12 pull-right">
-      	<%= f.collection_select :admin_furniture_wood_type_id, Admin::Furniture::WoodType.where.not(id: Admin::Pricing::Wood.select(:admin_furniture_wood_type_id).map { |i| i.admin_furniture_wood_type_id }), :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', autofocus: true %>
+      	<%= f.collection_select :admin_furniture_wood_type_id, Admin::Furniture::Wood::Type.where.not(id: Admin::Pricing::Wood.select(:admin_furniture_wood_type_id).map { |i| i.admin_furniture_wood_type_id }), :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', autofocus: true %>
 		  </div>
       <div class="col-sm-6 col-xs-12 pull-right">
         <%= f.number_field :price %>

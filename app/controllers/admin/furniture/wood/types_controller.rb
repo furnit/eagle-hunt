@@ -1,10 +1,10 @@
-class Admin::Furniture::WoodTypesController < Admin::AdminbaseController
+class Admin::Furniture::Wood::TypesController < Admin::AdminbaseController
   before_action :set_admin_furniture_wood_type, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/furniture_wood_types
   # GET /admin/furniture_wood_types.json
   def index
-    @admin_furniture_wood_types = Admin::Furniture::WoodType.all
+    @admin_furniture_wood_types = Admin::Furniture::Wood::Type.all
     
     respond_to do |format|
       format.html
@@ -19,7 +19,7 @@ class Admin::Furniture::WoodTypesController < Admin::AdminbaseController
 
   # GET /admin/furniture_wood_types/new
   def new
-    @admin_furniture_wood_type = Admin::Furniture::WoodType.new
+    @admin_furniture_wood_type = Admin::Furniture::Wood::Type.new
   end
 
   # GET /admin/furniture_wood_types/1/edit
@@ -29,7 +29,7 @@ class Admin::Furniture::WoodTypesController < Admin::AdminbaseController
   # POST /admin/furniture_wood_types
   # POST /admin/furniture_wood_types.json
   def create
-    @admin_furniture_wood_type = Admin::Furniture::WoodType.new(admin_furniture_wood_type_params)
+    @admin_furniture_wood_type = Admin::Furniture::Wood::Type.new(admin_furniture_wood_type_params)
 
     respond_to do |format|
       if @admin_furniture_wood_type.save
@@ -69,7 +69,7 @@ class Admin::Furniture::WoodTypesController < Admin::AdminbaseController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_furniture_wood_type
-      @admin_furniture_wood_type = Admin::Furniture::WoodType.find(params[:id])
+      @admin_furniture_wood_type = Admin::Furniture::Wood::Type.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

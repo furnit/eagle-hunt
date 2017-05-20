@@ -1,9 +1,9 @@
 fa:
   activerecord:
     models:
-      admin/furniture/wood_type: نوع چوب
+      admin/furniture/wood/type: نوع چوب
     attributes:
-      admin/furniture/wood_type:
+      admin/furniture/wood/type:
         name: 'عنوان'
         comment: 'توضیحات'
         value: مبلغ
