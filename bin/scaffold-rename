@@ -43,15 +43,14 @@ end
 def str_replace file, old_text, new_text, regex: false
   file_bk = "#{file}.bk-scaffold-rename";
   if_apply do
-    FileUtils.cp(file, file_bk) if $args[:backup]
+    FileUtils.cp(file, file_bk)
     IO.write(file, File.open(file) { |f| f.read.gsub(old_text, new_text) } )
-    if $args[:backup] and FileUtils.compare_file(file, file_bk)
-      FileUtils.rm file_bk 
-    else
+    if not FileUtils.compare_file(file, file_bk)
       $args[:proccessed] ||= { }
       p "@ #{file}".green if not $args[:proccessed][file]
       $args[:proccessed][file] = true
     end
+    FileUtils.rm file_bk if not $args[:backup]
   end
   if_demo do
     replaces = []
@@ -72,12 +71,13 @@ end
 def move_file file, old_substitute, new_substitute
   if_apply do
     newfile = file.gsub(old_substitute, new_substitute)
+    next if not File.exists?(file) or newfile == file
     FileUtils.mkdir_p(File.dirname(newfile)) unless File.exists?(File.dirname(newfile))
     FileUtils.mv file, newfile
-    p "rename: ", file.gsub(old_substitute, old_substitute.yellow), "->", file.gsub(old_substitute, new_substitute.green)
+    p "rename: ".yellow, file.gsub(old_substitute, old_substitute.yellow), "->", file.gsub(old_substitute, new_substitute.green)
   end
   if_demo do
-    p "rename: ", file.gsub(old_substitute, old_substitute.yellow), "->", file.gsub(old_substitute, new_substitute.green)
+    p "rename: ".yellow, file.gsub(old_substitute, old_substitute.yellow), "->", file.gsub(old_substitute, new_substitute.green)
   end
 end
 
@@ -94,15 +94,16 @@ to = $args[:to]
 from = $args[:from]
 
 if $args[:restore]
+  p "RESTORING...".yellow
   to, from = from, to
 end
 
 # replace the origin name
 folders = [ :app, :db, :config ]
-pattern = "/**/*{rb,yml}"
+pattern = "/**/*{rb,yml,css,js,coffee}"
 folders.each do |folder|
-  p "\n------------------------------------------------\n"
-  p folder
+  p "\n#{"-"*80}\n"
+  p "#{folder}/*" 
   p
 
   files = Dir.glob "#{folder}#{pattern}"
@@ -123,3 +124,13 @@ folders.each do |folder|
     end
   end
 end
+
+p "\n#{"-"*80}\n"
+p "NOTICES: ".yellow
+[
+  "you need to modify the `#{"config/routes.rb".yellow}` by your self.",
+  "you may need to reset you database schema; use: `#{"rails db:drop && rails db:create && rails db:schema:load && rails db:seed".yellow}`"
+].each.with_index do |n, index|
+  p "#{tab}[#{index + 1}] #{n}"
+end
+p "#{"-"*80}\n"
