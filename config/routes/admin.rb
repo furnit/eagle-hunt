@@ -36,6 +36,12 @@ Rails.application.routes.draw do
         resources :brands
         resources :cushions
         resources :qualities
+        
+        resources :colors, except: [:show, :create] do
+          collection do 
+            post :compute
+          end
+        end
       
         resources :fabrics do
           member do
@@ -46,6 +52,20 @@ Rails.application.routes.draw do
         end
       end
       # </fabric>
+      
+      # <paint>
+      namespace :paint do
+        resources :colors
+        resources :color_brands
+        resources :color_qualities
+      end
+      # </paint>
+      
+      # <wood>
+      namespace :wood do
+        resources :types
+      end
+      # </wood>
       
       resources :furnitures do
         member do
@@ -80,20 +100,6 @@ Rails.application.routes.draw do
           get    :list_images, RC::json_request_only 
         end
       end
-      
-      resources :fabric_colors, except: [:show, :create] do
-        collection do 
-          post :compute
-        end
-      end
-      
-      resources :wood_types
-      
-      resources :paint_color_qualities
-      
-      resources :paint_color_brands
-  
-      resources :paint_colors   
     end
     # </furniture>
     
