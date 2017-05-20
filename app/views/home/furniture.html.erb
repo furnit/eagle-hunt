@@ -108,7 +108,7 @@
 		<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12 text-center' style='padding: 0; padding-top: 40px;'>
 		  <div class='col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-2 col-sm-8 col-xs-offset-2 col-xs-8 order'>
 		  	<% if @furniture.available %>
-	  		  <div class='btn-order'>
+	  		  <div class='btn-order' data-target="<%= @furniture.id %>">
 	  		    <label>سفارش محصول</label>
 	  		    <div><span class='fa <%= @furniture.available ? 'fa-truck' : 'fa-bell-o' %>'></span></div>
 	  	    </div>
@@ -189,6 +189,8 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
+		// order furniture click event
+		$("#furniture-detail-block1 .btn-order").click(function(){ window.location = "<%= order_order_path(@furniture, h: get_hash(@furniture.id)) %>"; });
 		$('a#edit-furniture-description').click(function(e){
 			e.preventDefault();
 			e.stopPropagation();
