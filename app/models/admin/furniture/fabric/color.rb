@@ -1,4 +1,4 @@
-class Admin::Furniture::FabricColor < ApplicationRecord
+class Admin::Furniture::Fabric::Color < ApplicationRecord
   has_many :models_color, class_name: '::Admin::Furniture::Fabric::ModelColor', foreign_key: :admin_furniture_fabric_color_id
   
   def self.cluster k, runs: nil
@@ -16,11 +16,11 @@ class Admin::Furniture::FabricColor < ApplicationRecord
     # delete all indexed records
     Admin::Furniture::Fabric::ModelColor.delete_all
     # delete all color cluster records
-    Admin::Furniture::FabricColor.delete_all
+    Admin::Furniture::Fabric::Color.delete_all
     
     centers.each.with_index do |c, cindex|
       color = "#" + c.flatten.map { |i| i.to_i.to_s(16) }.map { |i| i.length == 1 ? "0#{i}" : i }.join
-      Admin::Furniture::FabricColor.create(id: cindex + 1, value: color, model: {k: k, init: centers.map { |i| i.flatten }, runs: runs})
+      Admin::Furniture::Fabric::Color.create(id: cindex + 1, value: color, model: {k: k, init: centers.map { |i| i.flatten }, runs: runs})
     end
   end
   

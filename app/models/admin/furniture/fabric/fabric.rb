@@ -12,7 +12,7 @@ class Admin::Furniture::Fabric::Fabric < Admin::Uploader::Image
   after_save { self.determine_colour if self.images_changed? }
   
   def determine_colour
-    params = Admin::Furniture::FabricColor.select(:model).first
+    params = Admin::Furniture::Fabric::Color.select(:model).first
     
     return if params.nil?
     
@@ -23,7 +23,7 @@ class Admin::Furniture::Fabric::Fabric < Admin::Uploader::Image
      
     self.models.each.with_index do |model, index|
       file = model.image[:image].file.file
-      Admin::Furniture::Fabric::ModelColor.create!(model: model, color: Admin::Furniture::FabricColor.find(kmeans.predict(Admin::Furniture::FabricColor.cluster_get_colours(file)).mode + 1))
+      Admin::Furniture::Fabric::ModelColor.create!(model: model, color: Admin::Furniture::Fabric::Color.find(kmeans.predict(Admin::Furniture::Fabric::Color.cluster_get_colours(file)).mode + 1))
     end
   end
 end

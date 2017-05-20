@@ -55,7 +55,7 @@ end
 
 # cluster colors
 k = 7
-Admin::Furniture::FabricColor.cluster k, runs: AppConfig.fabric.colours.cluster.runs
+Admin::Furniture::Fabric::Color.cluster k, runs: AppConfig.fabric.colours.cluster.runs
 Admin::Furniture::Fabric::Fabric.all.each { |f| f.determine_colour }
 
 # define constant 
