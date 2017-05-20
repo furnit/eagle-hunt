@@ -41,14 +41,16 @@ def if_demo &block
 end
 
 def str_replace file, old_text, new_text, regex: false
-  file_bk = "#{file}.bk";
+  file_bk = "#{file}.bk-scaffold-rename";
   if_apply do
-    FileUtils.mv(file, file_bk) if $args[:backup]
+    FileUtils.cp(file, file_bk) if $args[:backup]
     IO.write(file, File.open(file) { |f| f.read.gsub(old_text, new_text) } )
-    if FileUtils.compare_file(file, file_bk)
-      FileUtils.rm file 
+    if $args[:backup] and FileUtils.compare_file(file, file_bk)
+      FileUtils.rm file_bk 
     else
-      p "@ #{file}".green
+      $args[:proccessed] ||= { }
+      p "@ #{file}".green if not $args[:proccessed][file]
+      $args[:proccessed][file] = true
     end
   end
   if_demo do
@@ -68,12 +70,32 @@ def str_replace file, old_text, new_text, regex: false
 end
 
 def move_file file, old_substitute, new_substitute
+  if_apply do
+    newfile = file.gsub(old_substitute, new_substitute)
+    FileUtils.mkdir_p(File.dirname(newfile)) unless File.exists?(File.dirname(newfile))
+    FileUtils.mv file, newfile
+    p "rename: ", file.gsub(old_substitute, old_substitute.yellow), "->", file.gsub(old_substitute, new_substitute.green)
+  end
   if_demo do
     p "rename: ", file.gsub(old_substitute, old_substitute.yellow), "->", file.gsub(old_substitute, new_substitute.green)
   end
 end
 
 if_demo_text
+
+[:from, :to].each do |arg|
+  if $args[arg].singularize != $args[arg]
+    p "[WARNING] the `--#{arg}` is NOT singular, it will be convert to singular (i.e: `#{$args[arg].singularize}`).".yellow
+    $args[arg] = $args[arg].singularize
+  end
+end
+
+to = $args[:to]
+from = $args[:from]
+
+if $args[:restore]
+  to, from = from, to
+end
 
 # replace the origin name
 folders = [ :app, :db, :config ]
@@ -86,17 +108,18 @@ folders.each do |folder|
   files = Dir.glob "#{folder}#{pattern}"
   # search & replace class names
   files.each do |f|
-    str_replace f, $args[:from], $args[:to]
-    str_replace f, $args[:from].tableize, $args[:to].tableize
-    str_replace f, $args[:from].tableize.singularize, $args[:to].tableize.singularize
-    str_replace f, $args[:from].tableize.gsub("/", "_"), $args[:to].tableize.gsub("/", "_")
-    str_replace f, $args[:from].tableize.gsub("/", "_").singularize, $args[:to].tableize.gsub("/", "_").singularize
+    str_replace f, from.pluralize, to.pluralize
+    str_replace f, from.singularize, to.singularize
+    str_replace f, from.tableize, to.tableize
+    str_replace f, from.tableize.singularize, to.tableize.singularize
+    str_replace f, from.tableize.gsub("/", "_"), to.tableize.gsub("/", "_")
+    str_replace f, from.tableize.gsub("/", "_").singularize, to.tableize.gsub("/", "_").singularize
   end
 
   files.each do |f|
-    if f =~ /.*#{$args[:from].tableize.singularize}/
-      move_file f, $args[:from].tableize.singularize, $args[:to].tableize.singularize
+    if f =~ /.*#{from.tableize.singularize}/
+      move_file f, from.tableize.pluralize, to.tableize.pluralize
+      move_file f, from.tableize.singularize, to.tableize.singularize
     end
   end
-  # `find #{folder} -name "#{$args[:from].tableize.singularize}" -not -name ".git"` #-exec rename 's/kanaf/kalaf/' {} ";"
 end
