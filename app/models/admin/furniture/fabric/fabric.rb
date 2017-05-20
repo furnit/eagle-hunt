@@ -2,11 +2,11 @@ class Admin::Furniture::Fabric::Fabric < Admin::Uploader::Image
   
   acts_as_paranoid
 
-  belongs_to :type, foreign_key: :admin_furniture_fabric_type_id, class_name: '::Admin::Furniture::FabricType'
+  belongs_to :type, foreign_key: :admin_furniture_fabric_quality_id, class_name: '::Admin::Furniture::Fabric::Quality'
   belongs_to :brand, foreign_key: :admin_furniture_fabric_brand_id, class_name: '::Admin::Furniture::FabricBrand'
   has_many   :models, foreign_key: :admin_furniture_fabric_fabric_id, class_name: '::Admin::Furniture::Fabric::Model', dependent: :destroy
   
-  validates_presence_of :admin_furniture_fabric_type_id, :admin_furniture_fabric_brand_id
+  validates_presence_of :admin_furniture_fabric_quality_id, :admin_furniture_fabric_brand_id
   
   # determine color types
   after_save { self.determine_colour if self.images_changed? }

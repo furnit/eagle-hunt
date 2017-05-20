@@ -154,6 +154,6 @@ class Admin::Furniture::Fabric::FabricsController < Admin::UploaderController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_furniture_fabric_params
-      params.require(:admin_furniture_fabric_fabric).permit(:admin_furniture_fabric_type_id, :admin_furniture_fabric_brand_id, :comment)
+      params.require(:admin_furniture_fabric_fabric).permit(:admin_furniture_fabric_quality_id, :admin_furniture_fabric_brand_id, :comment)
     end
 end

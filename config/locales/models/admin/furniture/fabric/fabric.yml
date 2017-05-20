@@ -5,7 +5,7 @@ fa:
     attributes:
       admin/furniture/fabric/fabric:
         images_detail: 'جزییات طرح'
-        admin_furniture_fabric_type_id: 'کیفیت پارچه'
+        admin_furniture_fabric_quality_id: 'کیفیت پارچه'
         admin_furniture_fabric_brand_id: 'برند پارچه'
     errors:
       models:
@@ -13,7 +13,7 @@ fa:
           attributes:
             images:
               blank: 'نمی‌تواند خالی باشد.'
-            admin_furniture_fabric_type_id:
+            admin_furniture_fabric_quality_id:
               blank: 'نمی‌تواند خالی باشد.'
             admin_furniture_fabric_brand_id:
               blank: 'نمی‌تواند خالی باشد.'

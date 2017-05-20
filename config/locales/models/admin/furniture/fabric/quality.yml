@@ -1,14 +1,14 @@
 fa:
   activerecord:
     models:
-      admin/furniture/fabric_type: 'کیفیت پارچه'
+      admin/furniture/fabric/quality: 'کیفیت پارچه'
     attributes:
-      admin/furniture/fabric_type:
+      admin/furniture/fabric/quality:
         name: 'نام'
         comment: 'توضیحات'
     errors:
       models:
-        admin/furniture/fabric_type:
+        admin/furniture/fabric/quality:
           attributes:
             name:
               blank: 'نمی‌تواند خالی باشد.'

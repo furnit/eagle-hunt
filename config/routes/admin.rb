@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       # <fabric>
       namespace :fabric do
         resources :cushions
+        resources :qualities
       
         resources :fabrics do
           member do

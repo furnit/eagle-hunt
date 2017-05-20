@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20170520074554) do
   end
 
   create_table "admin_furniture_fabric_fabrics", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "admin_furniture_fabric_type_id"
+    t.integer  "admin_furniture_fabric_quality_id"
     t.integer  "admin_furniture_fabric_brand_id"
     t.text     "comment",                         limit: 65535
     t.json     "images"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20170520074554) do
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
     t.index ["admin_furniture_fabric_brand_id"], name: "index_fabric_brand", using: :btree
-    t.index ["admin_furniture_fabric_type_id"], name: "index_fabric_type", using: :btree
+    t.index ["admin_furniture_fabric_quality_id"], name: "index_fabric_type", using: :btree
   end
 
   create_table "admin_furniture_fabric_model_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20170520074554) do
     t.index ["admin_furniture_fabric_fabric_id"], name: "index_fabric_model_fabric", using: :btree
   end
 
-  create_table "admin_furniture_fabric_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "admin_furniture_fabric_qualities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.text     "comment",    limit: 65535
     t.datetime "created_at",               null: false
@@ -588,7 +588,7 @@ ActiveRecord::Schema.define(version: 20170520074554) do
   end
 
   add_foreign_key "admin_furniture_fabric_fabrics", "admin_furniture_fabric_brands"
-  add_foreign_key "admin_furniture_fabric_fabrics", "admin_furniture_fabric_types"
+  add_foreign_key "admin_furniture_fabric_fabrics", "admin_furniture_fabric_qualities"
   add_foreign_key "admin_furniture_fabric_model_colors", "admin_furniture_fabric_colors"
   add_foreign_key "admin_furniture_fabric_model_colors", "admin_furniture_fabric_models"
   add_foreign_key "admin_furniture_fabric_models", "admin_furniture_fabric_fabrics"

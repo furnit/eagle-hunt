@@ -2,15 +2,15 @@
 	render 'admin/shared/index',
 	  title: 'لیست کیفیت‌های پارچه', 
 		title_right: lambda {
-			link_to new_admin_furniture_fabric_type_path, class: 'inline-html-call' do
+			link_to new_admin_furniture_fabric_quality_path, class: 'inline-html-call' do
 				raw "<span class='fa fa-plus'></span> ایجاد کیفیت جدید"
 			end
 		},
 		before_table: lambda {
-			raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_furniture_fabric_types}</small>"
+			raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_furniture_fabric_qualities}</small>"
 		},
 		after_table: lambda {
-			raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_furniture_fabric_types, renderer: BootstrapPagination::Rails}</div>"
+			raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_furniture_fabric_qualities, renderer: BootstrapPagination::Rails}</div>"
 		},
 		table_head: {
 			'ردیف': { style: 'width: 30px' },
@@ -21,7 +21,7 @@
 		},
 		table_body: lambda {
 %>
-  <% @admin_furniture_fabric_types.each do |ft| %>
+  <% @admin_furniture_fabric_qualities.each do |ft| %>
     <tr>
       <td><%= ft.id %></td>
       <td>

@@ -39,7 +39,7 @@ end
 raise Exception.new("size doesn't match!") if fabrange.to_a.length != fabstack.length
 
 fabrange.each do |type|
-  Admin::Furniture::FabricType.create!(name: "درجه #{type}", comment: "پارچه درجه #{type}")
+  Admin::Furniture::Fabric::Quality.create!(name: "درجه #{type}", comment: "پارچه درجه #{type}")
 end
 
 fabrange.each do |brand|
@@ -47,7 +47,7 @@ fabrange.each do |brand|
 end
 
 fabrange.each do |idx|
-  f = Admin::Furniture::Fabric::Fabric.create!(type: Admin::Furniture::FabricType.find(idx), brand: Admin::Furniture::FabricBrand.find(idx))
+  f = Admin::Furniture::Fabric::Fabric.create!(type: Admin::Furniture::Fabric::Quality.find(idx), brand: Admin::Furniture::FabricBrand.find(idx))
   upload_files(fabstack).each do |idx|
     Admin::Furniture::Fabric::Model.create!(name: "M#{idx}", fabric: f, image: idx)
   end

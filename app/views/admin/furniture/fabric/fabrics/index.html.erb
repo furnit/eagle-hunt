@@ -41,7 +41,7 @@
       </td>
       <td>
       	<% if not ft.deleted_at %>
-          <%= editable_tag ft, :admin_furniture_fabric_type_id, type: :select, value: ft.admin_furniture_fabric_type_id, source: admin_furniture_fabric_types_path, text: ft.type.name %>
+          <%= editable_tag ft, :admin_furniture_fabric_quality_id, type: :select, value: ft.admin_furniture_fabric_quality_id, source: admin_furniture_fabric_qualities_path, text: ft.type.name %>
         <% else %>
             <%= ft.type.name %>
         <% end %>
