@@ -150,13 +150,13 @@ namespace :rename do
       end
 
       files.each do |f|
-        if f =~ /.*#{from.tableize.singularize}/
+        if f =~ /.*#{from.tableize.singularize}.*/ or f =~ /.*#{from.tableize.pluralize}.*/
           move_file f, from.tableize.pluralize, to.tableize.pluralize
           move_file f, from.tableize.singularize, to.tableize.singularize
         end
       end
     end
-    
+
     p "\n#{"-"*80}\n"
     p "NOTICES: ".yellow
     [
