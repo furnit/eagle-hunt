@@ -1,6 +1,6 @@
 <% specs = Admin::Furniture::Spec.where('name IN (?)', ['پارچه', 'ابر']) %>
 <% sections = Admin::Furniture::Section.where('name IN (?)', ['زیری', 'پشتی', 'دسته']) %>
-<% stuff_abr = Admin::Furniture::FoamType.all %>
+<% stuff_abr = Admin::Furniture::Foam::Type.all %>
 <% admin_furniture_param_key = Admin::Furniture::Furniture.model_name.param_key %>
 
 <% # DAST MOZD HA %>
