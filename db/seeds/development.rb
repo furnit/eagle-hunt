@@ -43,11 +43,11 @@ fabrange.each do |type|
 end
 
 fabrange.each do |brand|
-  Admin::Furniture::FabricBrand.create!(name: "برند #{brand}", comment: "پارچه برند #{brand}")
+  Admin::Furniture::Fabric::Brand.create!(name: "برند #{brand}", comment: "پارچه برند #{brand}")
 end
 
 fabrange.each do |idx|
-  f = Admin::Furniture::Fabric::Fabric.create!(type: Admin::Furniture::Fabric::Quality.find(idx), brand: Admin::Furniture::FabricBrand.find(idx))
+  f = Admin::Furniture::Fabric::Fabric.create!(type: Admin::Furniture::Fabric::Quality.find(idx), brand: Admin::Furniture::Fabric::Brand.find(idx))
   upload_files(fabstack).each do |idx|
     Admin::Furniture::Fabric::Model.create!(name: "M#{idx}", fabric: f, image: idx)
   end
@@ -63,7 +63,7 @@ const_price = Admin::Pricing::Const.columns_hash.keys.reject { |i| [:id, :update
 const_price[:extra] = 200000
 Admin::Pricing::Const.create! const_price
 
-Admin::Furniture::FabricBrand.all.each.with_index do |brand, index|
+Admin::Furniture::Fabric::Brand.all.each.with_index do |brand, index|
   Admin::Pricing::Fabric.create!(brand: brand, price: (5e+4 - 1e+4 * index).abs)
 end
 

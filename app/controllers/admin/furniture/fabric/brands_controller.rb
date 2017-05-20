@@ -1,10 +1,10 @@
-class Admin::Furniture::FabricBrandsController < Admin::AdminbaseController
+class Admin::Furniture::Fabric::BrandsController < Admin::AdminbaseController
   before_action :set_admin_furniture_fabric_brand, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/fabric_brands
   # GET /admin/fabric_brands.json
   def index
-    @admin_furniture_fabric_brands = Admin::Furniture::FabricBrand.paginate(page: params[:page])
+    @admin_furniture_fabric_brands = Admin::Furniture::Fabric::Brand.paginate(page: params[:page])
     
     respond_to do |format|
       format.html
@@ -19,7 +19,7 @@ class Admin::Furniture::FabricBrandsController < Admin::AdminbaseController
 
   # GET /admin/fabric_brands/new
   def new
-    @admin_furniture_fabric_brand = Admin::Furniture::FabricBrand.new
+    @admin_furniture_fabric_brand = Admin::Furniture::Fabric::Brand.new
   end
 
   # GET /admin/fabric_brands/1/edit
@@ -29,7 +29,7 @@ class Admin::Furniture::FabricBrandsController < Admin::AdminbaseController
   # POST /admin/fabric_brands
   # POST /admin/fabric_brands.json
   def create
-    @admin_furniture_fabric_brand = Admin::Furniture::FabricBrand.new(admin_furniture_fabric_brand_params)
+    @admin_furniture_fabric_brand = Admin::Furniture::Fabric::Brand.new(admin_furniture_fabric_brand_params)
 
     respond_to do |format|
       if @admin_furniture_fabric_brand.save
@@ -69,7 +69,7 @@ class Admin::Furniture::FabricBrandsController < Admin::AdminbaseController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_furniture_fabric_brand
-      @admin_furniture_fabric_brand = Admin::Furniture::FabricBrand.find(params[:id])
+      @admin_furniture_fabric_brand = Admin::Furniture::Fabric::Brand.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

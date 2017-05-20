@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     namespace :furniture do 
       # <fabric>
       namespace :fabric do
+        resources :brands
         resources :cushions
         resources :qualities
       
@@ -79,10 +80,6 @@ Rails.application.routes.draw do
           get    :list_images, RC::json_request_only 
         end
       end
-    
-      resources :fabric_types
-      
-      resources :fabric_brands
       
       resources :fabric_colors, except: [:show, :create] do
         collection do 

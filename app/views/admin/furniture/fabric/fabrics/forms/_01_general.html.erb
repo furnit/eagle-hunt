@@ -11,7 +11,7 @@
 		  </div>
 		  
 		  <div class="col-md-6 col-sm-6 col-xs-12">
-		    <%= f.collection_select :admin_furniture_fabric_brand_id, Admin::Furniture::FabricBrand.all, :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', autofocus: true %>
+		    <%= f.collection_select :admin_furniture_fabric_brand_id, Admin::Furniture::Fabric::Brand.all, :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', autofocus: true %>
 		  </div>
 	  </div>
   </div>

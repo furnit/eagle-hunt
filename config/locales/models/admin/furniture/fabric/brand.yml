@@ -1,14 +1,14 @@
 fa:
   activerecord:
     models:
-      admin/furniture/fabric_brand: 'برند پارچه'
+      admin/furniture/fabric/brand: 'برند پارچه'
     attributes:
-      admin/furniture/fabric_brand:
+      admin/furniture/fabric/brand:
         name: 'نام'
         comment: 'توضیحات'
     errors:
       models:
-        admin/furniture/fabric_brand:
+        admin/furniture/fabric/brand:
           attributes:
             name:
               blank: 'نمی‌تواند خالی باشد.'
