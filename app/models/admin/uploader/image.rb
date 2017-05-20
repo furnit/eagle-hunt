@@ -23,10 +23,7 @@ class Admin::Uploader::Image < ApplicationRecord
   after_destroy { Admin::UploadedFile.where(id: self[:images]).each(&:destroy) }
   
   def images= val
-    _val = [val].flatten
-    idx = Admin::UploadedFile.where(id: _val.first).pluck(:id)
-    raise ActiveRecord::RecordNotFound.new("images `#{_val - idx}` does not exists") if idx.map(&:to_i).sort != _val.map(&:to_i).sort
-    self[:images] = idx
+    self[:images] = validate_images val
   end
   
   def images
@@ -34,11 +31,9 @@ class Admin::Uploader::Image < ApplicationRecord
   end
   
   def image= val
-    _val = [val].flatten
-    raise RuntimeError.new("cannot accept more than 1 image file, but #{_val.length} given") if _val.length > 1
-    idx = Admin::UploadedFile.where(id: _val.first).pluck(:id)
-    raise ActiveRecord::RecordNotFound.new("images `#{_val - idx}` does not exists") if idx.map(&:to_i).sort != _val.map(&:to_i).sort
-    self[:images] = idx
+    val = validate_images val
+    raise RuntimeError.new("cannot accept more than 1 image file, but #{val.length} given") if val.length > 1
+    self[:images] = val
   end
   
   def image
@@ -47,11 +42,11 @@ class Admin::Uploader::Image < ApplicationRecord
   end
   
   def append_images val
-    self[:images] += [val].flatten
+    self[:images] += validate_images val
   end
   
   def remove_images val
-    val = [val].flatten
+    val = validate_images val
     Admin::UploadedFile.where(id: val).each(&:destroy)
     self[:images] -= val
   end
@@ -68,6 +63,13 @@ class Admin::Uploader::Image < ApplicationRecord
   
   private
   
+    def validate_images val
+      _val = [val].flatten
+      idx = Admin::UploadedFile.where(id: _val).pluck(:id)
+      raise ActiveRecord::RecordNotFound.new("images `#{_val - idx}` does not exists") if idx.map(&:to_i).sort != _val.map(&:to_i).sort
+      idx
+    end
+        
     def flag_owned
       return if not self.images_changed?
       Admin::UploadedFile.where(id: self[:images]).update_all(owned: true);

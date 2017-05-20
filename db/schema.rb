@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517163516) do
+ActiveRecord::Schema.define(version: 20170520074554) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -26,16 +26,6 @@ ActiveRecord::Schema.define(version: 20170517163516) do
     t.text     "comment",    limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
-  end
-
-  create_table "admin_furniture_fabric_color_indices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "admin_furniture_fabric_id"
-    t.integer  "admin_furniture_fabric_image"
-    t.integer  "admin_furniture_fabric_color_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.index ["admin_furniture_fabric_color_id"], name: "index_column_admin_fabric_color", using: :btree
-    t.index ["admin_furniture_fabric_id"], name: "index_column_admin_fabric", using: :btree
   end
 
   create_table "admin_furniture_fabric_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -68,6 +58,15 @@ ActiveRecord::Schema.define(version: 20170517163516) do
     t.datetime "updated_at",                                    null: false
     t.index ["admin_furniture_fabric_brand_id"], name: "index_fabric_brand", using: :btree
     t.index ["admin_furniture_fabric_type_id"], name: "index_fabric_type", using: :btree
+  end
+
+  create_table "admin_furniture_fabric_model_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "admin_furniture_fabric_model_id", null: false
+    t.integer  "admin_furniture_fabric_color_id", null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index ["admin_furniture_fabric_color_id"], name: "index_fabric_color_indices_fabric_color", using: :btree
+    t.index ["admin_furniture_fabric_model_id"], name: "index_fabric_color_indices_fabric_model", using: :btree
   end
 
   create_table "admin_furniture_fabric_models", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -318,7 +317,7 @@ ActiveRecord::Schema.define(version: 20170517163516) do
   end
 
   create_table "admin_uploaded_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.json     "images"
+    t.json     "image"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.boolean  "owned",      default: false
@@ -490,6 +489,21 @@ ActiveRecord::Schema.define(version: 20170517163516) do
     t.index ["admin_furniture_id"], name: "index_notify_admin_furniture", using: :btree
   end
 
+  create_table "order_orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id",                         null: false
+    t.integer  "admin_furniture_furniture_id",    null: false
+    t.integer  "admin_furniture_fabric_model_id", null: false
+    t.integer  "admin_furniture_paint_color_id",  null: false
+    t.integer  "admin_furniture_wood_types_id",   null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index ["admin_furniture_fabric_model_id"], name: "index_order_orders_on_admin_furniture_fabric_model_id", using: :btree
+    t.index ["admin_furniture_furniture_id"], name: "index_order_orders_on_admin_furniture_furniture_id", using: :btree
+    t.index ["admin_furniture_paint_color_id"], name: "index_order_orders_on_admin_furniture_paint_color_id", using: :btree
+    t.index ["admin_furniture_wood_types_id"], name: "index_order_orders_on_admin_furniture_wood_types_id", using: :btree
+    t.index ["user_id"], name: "index_order_orders_on_user_id", using: :btree
+  end
+
   create_table "profiles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.string   "first_name"
@@ -573,10 +587,10 @@ ActiveRecord::Schema.define(version: 20170517163516) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
   end
 
-  add_foreign_key "admin_furniture_fabric_color_indices", "admin_furniture_fabric_colors"
-  add_foreign_key "admin_furniture_fabric_color_indices", "admin_furniture_fabric_fabrics", column: "admin_furniture_fabric_id"
   add_foreign_key "admin_furniture_fabric_fabrics", "admin_furniture_fabric_brands"
   add_foreign_key "admin_furniture_fabric_fabrics", "admin_furniture_fabric_types"
+  add_foreign_key "admin_furniture_fabric_model_colors", "admin_furniture_fabric_colors"
+  add_foreign_key "admin_furniture_fabric_model_colors", "admin_furniture_fabric_models"
   add_foreign_key "admin_furniture_fabric_models", "admin_furniture_fabric_fabrics"
   add_foreign_key "admin_furniture_furnitures", "admin_furniture_types", column: "furniture_type_id"
   add_foreign_key "admin_furniture_paint_colors", "admin_furniture_paint_color_brands", column: "admin_furniture_paint_color_brands_id"
@@ -604,6 +618,11 @@ ActiveRecord::Schema.define(version: 20170517163516) do
   add_foreign_key "furniture_build_details", "admin_furniture_sections"
   add_foreign_key "furniture_build_details", "admin_furniture_specs"
   add_foreign_key "notify_on_furniture_availables", "admin_furniture_furnitures", column: "admin_furniture_id", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "order_orders", "admin_furniture_fabric_models"
+  add_foreign_key "order_orders", "admin_furniture_furnitures"
+  add_foreign_key "order_orders", "admin_furniture_paint_colors"
+  add_foreign_key "order_orders", "admin_furniture_wood_types", column: "admin_furniture_wood_types_id"
+  add_foreign_key "order_orders", "users"
   add_foreign_key "profiles", "states"
   add_foreign_key "profiles", "users", on_update: :cascade, on_delete: :cascade
   add_foreign_key "shopping_carts", "admin_furniture_furnitures", column: "furniture_id"

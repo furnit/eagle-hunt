@@ -10,3 +10,5 @@ fa:
       models:
         admin/furniture/fabric/model:
           attributes:
+            name:
+              taken: این نام قبلا برای این برند تعریف شده است.

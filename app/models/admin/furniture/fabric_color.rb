@@ -1,11 +1,11 @@
 class Admin::Furniture::FabricColor < ApplicationRecord
-  has_many :color_indices, class_name: '::Admin::Furniture::FabricColorIndex', foreign_key: :admin_furniture_fabric_color_id
+  has_many :models_color, class_name: '::Admin::Furniture::Fabric::ModelColor', foreign_key: :admin_furniture_fabric_color_id
   
   def self.cluster k, runs: nil
     colours = [];
-    fabrics = Admin::Furniture::Fabric.all
+    models = Admin::Furniture::Fabric::Model.all
     # collect all image data to cluster
-    fabrics.map { |f| f.images.map { |i| i.file.file } }.flatten.each { |file| colours += Admin::Furniture::FabricColor.cluster_get_colours(file) }
+    models.map { |f| f.images.map { |i| i[:image].file.file } }.flatten.each { |file| colours += cluster_get_colours(file) }
     
     centers = []
     
@@ -14,7 +14,7 @@ class Admin::Furniture::FabricColor < ApplicationRecord
     kmeans.clusters.each { |cluster| centers << cluster.centroid.data.to_a.each_slice(3).to_a }
     
     # delete all indexed records
-    Admin::Furniture::FabricColorIndex.delete_all
+    Admin::Furniture::Fabric::ModelColor.delete_all
     # delete all color cluster records
     Admin::Furniture::FabricColor.delete_all
     

@@ -18,7 +18,7 @@ class Admin::Pricing::BaseRecord < ApplicationRecord
   def prepare_price_fields
     ls_numeric_attribs.each do |col|
       self.class.send :define_method, "#{col}=" do |val|
-        self[col] = val.gsub(/[, ]/, "")
+        self[col] = val.to_s.gsub(/[, ]/, "")
       end
     end
   end

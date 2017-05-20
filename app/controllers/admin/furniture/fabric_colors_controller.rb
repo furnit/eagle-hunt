@@ -48,7 +48,7 @@ class Admin::Furniture::FabricColorsController < Admin::AdminbaseController
       
       Admin::Furniture::FabricColor.cluster k, runs: AppConfig.fabric.colours.cluster.runs
       
-      Admin::Furniture::Fabric.all.each { |f| f.determine_colour }
+      Admin::Furniture::Fabric::Fabric.all.each { |f| f.determine_colour }
       
       message = <<~sms
         دسته‌بندی رنگ‌ها با موفقیت به پایان رسید.

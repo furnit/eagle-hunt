@@ -1,5 +1,3 @@
-require 'descriptive_statistics'
-
 module Admin::Furniture::FurnituresHelper
   def is_outlier? item, collection: [], categorical: false, diff_level: 5, use_savanna: false
     return false if collection.length <= 2
