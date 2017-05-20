@@ -1,10 +1,10 @@
-class Admin::Furniture::PaintColorQualitiesController < Admin::AdminbaseController
+class Admin::Furniture::Paint::ColorQualitiesController < Admin::AdminbaseController
   before_action :set_admin_furniture_paint_color_quality, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/furniture_paint_color_qualities
   # GET /admin/furniture_paint_color_qualities.json
   def index
-    @admin_furniture_paint_color_qualities = Admin::Furniture::PaintColorQuality.all
+    @admin_furniture_paint_color_qualities = Admin::Furniture::Paint::ColorQuality.all
     
     respond_to do |format|
       format.html { }
@@ -19,7 +19,7 @@ class Admin::Furniture::PaintColorQualitiesController < Admin::AdminbaseControll
 
   # GET /admin/furniture_paint_color_qualities/new
   def new
-    @admin_furniture_paint_color_quality = Admin::Furniture::PaintColorQuality.new
+    @admin_furniture_paint_color_quality = Admin::Furniture::Paint::ColorQuality.new
   end
 
   # GET /admin/furniture_paint_color_qualities/1/edit
@@ -29,7 +29,7 @@ class Admin::Furniture::PaintColorQualitiesController < Admin::AdminbaseControll
   # POST /admin/furniture_paint_color_qualities
   # POST /admin/furniture_paint_color_qualities.json
   def create
-    @admin_furniture_paint_color_quality = Admin::Furniture::PaintColorQuality.new(admin_furniture_paint_color_quality_params)
+    @admin_furniture_paint_color_quality = Admin::Furniture::Paint::ColorQuality.new(admin_furniture_paint_color_quality_params)
 
     respond_to do |format|
       if @admin_furniture_paint_color_quality.save
@@ -69,7 +69,7 @@ class Admin::Furniture::PaintColorQualitiesController < Admin::AdminbaseControll
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_furniture_paint_color_quality
-      @admin_furniture_paint_color_quality = Admin::Furniture::PaintColorQuality.find(params[:id])
+      @admin_furniture_paint_color_quality = Admin::Furniture::Paint::ColorQuality.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

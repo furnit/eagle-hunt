@@ -1,10 +1,10 @@
-class Admin::Furniture::PaintColorsController < Admin::AdminbaseController
+class Admin::Furniture::Paint::ColorsController < Admin::AdminbaseController
   before_action :set_admin_furniture_paint_color, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/furniture_paint_colors
   # GET /admin/furniture_paint_colors.json
   def index
-    @admin_furniture_paint_colors = Admin::Furniture::PaintColor.all
+    @admin_furniture_paint_colors = Admin::Furniture::Paint::Color.all
   end
 
   # GET /admin/furniture_paint_colors/1
@@ -14,7 +14,7 @@ class Admin::Furniture::PaintColorsController < Admin::AdminbaseController
 
   # GET /admin/furniture_paint_colors/new
   def new
-    @admin_furniture_paint_color = Admin::Furniture::PaintColor.new
+    @admin_furniture_paint_color = Admin::Furniture::Paint::Color.new
   end
 
   # GET /admin/furniture_paint_colors/1/edit
@@ -24,7 +24,7 @@ class Admin::Furniture::PaintColorsController < Admin::AdminbaseController
   # POST /admin/furniture_paint_colors
   # POST /admin/furniture_paint_colors.json
   def create
-    @admin_furniture_paint_color = Admin::Furniture::PaintColor.new(admin_furniture_paint_color_params)
+    @admin_furniture_paint_color = Admin::Furniture::Paint::Color.new(admin_furniture_paint_color_params)
 
     respond_to do |format|
       if @admin_furniture_paint_color.save
@@ -64,7 +64,7 @@ class Admin::Furniture::PaintColorsController < Admin::AdminbaseController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_furniture_paint_color
-      @admin_furniture_paint_color = Admin::Furniture::PaintColor.find(params[:id])
+      @admin_furniture_paint_color = Admin::Furniture::Paint::Color.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

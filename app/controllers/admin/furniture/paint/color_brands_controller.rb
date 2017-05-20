@@ -1,10 +1,10 @@
-class Admin::Furniture::PaintColorBrandsController < Admin::AdminbaseController
+class Admin::Furniture::Paint::ColorBrandsController < Admin::AdminbaseController
   before_action :set_admin_furniture_paint_color_brand, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/furniture_paint_color_brands
   # GET /admin/furniture_paint_color_brands.json
   def index
-    @admin_furniture_paint_color_brands = Admin::Furniture::PaintColorBrand.all
+    @admin_furniture_paint_color_brands = Admin::Furniture::Paint::ColorBrand.all
     
     respond_to do |format|
       format.html { }
@@ -19,7 +19,7 @@ class Admin::Furniture::PaintColorBrandsController < Admin::AdminbaseController
 
   # GET /admin/furniture_paint_color_brands/new
   def new
-    @admin_furniture_paint_color_brand = Admin::Furniture::PaintColorBrand.new
+    @admin_furniture_paint_color_brand = Admin::Furniture::Paint::ColorBrand.new
   end
 
   # GET /admin/furniture_paint_color_brands/1/edit
@@ -29,7 +29,7 @@ class Admin::Furniture::PaintColorBrandsController < Admin::AdminbaseController
   # POST /admin/furniture_paint_color_brands
   # POST /admin/furniture_paint_color_brands.json
   def create
-    @admin_furniture_paint_color_brand = Admin::Furniture::PaintColorBrand.new(admin_furniture_paint_color_brand_params)
+    @admin_furniture_paint_color_brand = Admin::Furniture::Paint::ColorBrand.new(admin_furniture_paint_color_brand_params)
 
     respond_to do |format|
       if @admin_furniture_paint_color_brand.save
@@ -69,7 +69,7 @@ class Admin::Furniture::PaintColorBrandsController < Admin::AdminbaseController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_furniture_paint_color_brand
-      @admin_furniture_paint_color_brand = Admin::Furniture::PaintColorBrand.find(params[:id])
+      @admin_furniture_paint_color_brand = Admin::Furniture::Paint::ColorBrand.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -94,7 +94,7 @@ end
   '۱۰ کیلویی',
 ]
 .each do |name|
-  Admin::Furniture::FoamType.create!(name: name)
+  Admin::Furniture::Foam::Type.create!(name: name)
 end
 
 [

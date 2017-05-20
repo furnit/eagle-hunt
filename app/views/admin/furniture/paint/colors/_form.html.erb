@@ -3,10 +3,10 @@
 	<div  class='block'>
 		<div class='row field'>
 		  <div class="col-md-6 col-sm-6 col-xs-12 pull-right">
-		    <%= f.collection_select :admin_furniture_paint_color_brands_id, Admin::Furniture::PaintColorBrand.all, :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', autofocus: true, required: true %>
+		    <%= f.collection_select :admin_furniture_paint_color_brands_id, Admin::Furniture::Paint::ColorBrand.all, :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', autofocus: true, required: true %>
 		  </div>
 		  <div class="col-md-6 col-sm-6 col-xs-12 pull-right">
-		    <%= f.collection_select :admin_furniture_paint_color_qualities_id, Admin::Furniture::PaintColorQuality.all, :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', required: true %>
+		    <%= f.collection_select :admin_furniture_paint_color_qualities_id, Admin::Furniture::Paint::ColorQuality.all, :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', required: true %>
 		  </div>
 		  <div class="col-md-6 col-sm-6 col-xs-12 pull-right">
 		  	<%= f.text_field :name, required: true %>

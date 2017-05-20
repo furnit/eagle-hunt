@@ -59,6 +59,7 @@ Rails.application.routes.draw do
         resources :color_brands
         resources :color_qualities
       end
+      
       # </paint>
       
       # <wood>
@@ -66,6 +67,12 @@ Rails.application.routes.draw do
         resources :types
       end
       # </wood>
+      
+      # <foam>
+      namespace :foam do
+        resources :types, except: [:show]
+      end
+      # </foam>
       
       resources :furnitures do
         member do
@@ -89,7 +96,7 @@ Rails.application.routes.draw do
         end
       end
       
-      [:foam_types, :specs, :sets, :pieces].each do |rsrc|
+      [:specs, :sets, :pieces].each do |rsrc|
         resources rsrc, except: [:show]
       end
       

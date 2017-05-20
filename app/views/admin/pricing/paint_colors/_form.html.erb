@@ -4,7 +4,7 @@
   <div  class='block'>
   	<div class='row'>
 		  <div class="col-sm-6 col-xs-12 pull-right">
-      	<%= f.collection_select :admin_furniture_paint_color_brand_id, Admin::Furniture::PaintColorBrand.where.not(id: Admin::Pricing::PaintColor.select(:admin_furniture_paint_color_brand_id).map { |i| i.admin_furniture_paint_color_brand_id }), :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', autofocus: true %>
+      	<%= f.collection_select :admin_furniture_paint_color_brand_id, Admin::Furniture::Paint::ColorBrand.where.not(id: Admin::Pricing::PaintColor.select(:admin_furniture_paint_color_brand_id).map { |i| i.admin_furniture_paint_color_brand_id }), :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', autofocus: true %>
 		  </div>
       <div class="col-sm-6 col-xs-12 pull-right">
         <%= f.number_field :price %>

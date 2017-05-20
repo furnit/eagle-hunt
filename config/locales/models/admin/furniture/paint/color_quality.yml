@@ -1,14 +1,14 @@
 fa:
   activerecord:
     models:
-      admin/furniture/paint_color_brand: 'برند رنگ'
+      admin/furniture/paint/color_quality: 'کیفیت رنگ'
     attributes:
-      admin/furniture/paint_color_brand:
+      admin/furniture/paint/color_quality:
         name: 'نام'
         comment: 'توضیحات'
     errors:
       models:
-        admin/furniture/paint_color_brand:
+        admin/furniture/paint/color_quality:
           attributes:
             name:
               blank: 'نمی‌تواند خالی باشد.'

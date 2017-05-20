@@ -1,9 +1,9 @@
 fa:
   activerecord:
     models:
-      admin/furniture/paint_color: 'رنگ'
+      admin/furniture/paint/color: 'رنگ'
     attributes:
-      admin/furniture/paint_color:
+      admin/furniture/paint/color:
         name: 'نام'
         comment: 'توضیحات'
         color_value: 'کد HEX-RGB'
@@ -11,7 +11,7 @@ fa:
         admin_furniture_paint_color_brands_id: برند
     errors:
       models:
-        admin/furniture/paint_color:
+        admin/furniture/paint/color:
           attributes:
             name:
               blank: 'نمی‌تواند خالی باشد.'
