@@ -34,8 +34,11 @@ before_script:
   - cp .travis.database.yml config/database.yml
 
 script:
-  - RAILS_ENV=test bundle exec rake db:create
-  - RAILS_ENV=test bundle exec rake db:migrate
+  - export RAILS_ENV=test
+  - bundle exec rake db:create
+  - bundle exec rake db:schema:load
+  - bundle exec rake db:seed
+  - bundle exec ./rspec-in-order
 
 notifications:
   email:
