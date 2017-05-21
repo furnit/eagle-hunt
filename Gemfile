@@ -103,6 +103,10 @@ gem 'meta-tags'
 gem 'activerecord-session_store'
 # for language detection
 gem "cld"
+# for factoring rspec testing units 
+gem "factory_girl_rails"
+# fakes the data for testing
+gem "faker"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

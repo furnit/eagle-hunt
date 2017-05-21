@@ -6,7 +6,7 @@
 
 data/env.zip
 
-spec
+# spec
 
 # Ignore bundler config.
 /.bundle

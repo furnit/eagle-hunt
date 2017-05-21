@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+orders = [
+  "models/admin/user_type_spec.rb",
+  "models/user_spec.rb"
+]
+
+system "rspec #{orders.map { |s| "spec/#{s}" }.join(" ")}"
