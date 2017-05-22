@@ -47,7 +47,7 @@ fabrange.each do |brand|
 end
 
 fabrange.each.with_index do |idx, index|
-  f = Admin::Furniture::Fabric::Fabric.create!(type: Admin::Furniture::Fabric::Quality.find(idx), brand: Admin::Furniture::Fabric::Brand.find(idx))
+  f = Admin::Furniture::Fabric::Fabric.create!(quality: Admin::Furniture::Fabric::Quality.find(idx), brand: Admin::Furniture::Fabric::Brand.find(idx))
   upload_files(fabstack[index]).each do |idx|
     Admin::Furniture::Fabric::Model.create!(name: "M#{idx}", fabric: f, image: idx)
   end
@@ -58,7 +58,7 @@ k = 7
 Admin::Furniture::Fabric::Color.cluster k, runs: AppConfig.fabric.colours.cluster.runs
 Admin::Furniture::Fabric::Fabric.all.each { |f| f.determine_colour }
 
-# define constant 
+# define constant
 const_price = Admin::Pricing::Const.columns_hash.keys.reject { |i| [:id, :updated_at, :created_at].include? i.to_sym }.map { |i| {"#{i}": 20000 }}.reduce({}, :merge)
 const_price[:extra] = 200000
 Admin::Pricing::Const.create! const_price

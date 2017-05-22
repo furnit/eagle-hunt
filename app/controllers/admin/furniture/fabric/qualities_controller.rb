@@ -1,8 +1,8 @@
 class Admin::Furniture::Fabric::QualitiesController < Admin::AdminbaseController
   before_action :set_admin_furniture_fabric_quality, only: [:show, :edit, :update, :destroy]
 
-  # GET /admin/fabric_types
-  # GET /admin/fabric_types.json
+  # GET /admin/furniture/fabric/qualities
+  # GET /admin/furniture/fabric/qualities.json
   def index
     @admin_furniture_fabric_qualities = Admin::Furniture::Fabric::Quality.paginate(page: params[:page])
     
@@ -12,22 +12,22 @@ class Admin::Furniture::Fabric::QualitiesController < Admin::AdminbaseController
     end
   end
 
-  # GET /admin/fabric_types/1
-  # GET /admin/fabric_types/1.json
+  # GET /admin/furniture/fabric/qualities/1
+  # GET /admin/furniture/fabric/qualities/1.json
   def show
   end
 
-  # GET /admin/fabric_types/new
+  # GET /admin/furniture/fabric/qualities/new
   def new
     @admin_furniture_fabric_quality = Admin::Furniture::Fabric::Quality.new
   end
 
-  # GET /admin/fabric_types/1/edit
+  # GET /admin/furniture/fabric/qualities/1/edit
   def edit
   end
 
-  # POST /admin/fabric_types
-  # POST /admin/fabric_types.json
+  # POST /admin/furniture/fabric/qualities
+  # POST /admin/furniture/fabric/qualities.json
   def create
     @admin_furniture_fabric_quality = Admin::Furniture::Fabric::Quality.new(admin_furniture_fabric_quality_params)
 
@@ -42,8 +42,8 @@ class Admin::Furniture::Fabric::QualitiesController < Admin::AdminbaseController
     end
   end
 
-  # PATCH/PUT /admin/fabric_types/1
-  # PATCH/PUT /admin/fabric_types/1.json
+  # PATCH/PUT /admin/furniture/fabric/qualities/1
+  # PATCH/PUT /admin/furniture/fabric/qualities/1.json
   def update
     respond_to do |format|
       if @admin_furniture_fabric_quality.update(admin_furniture_fabric_quality_params)
@@ -56,8 +56,8 @@ class Admin::Furniture::Fabric::QualitiesController < Admin::AdminbaseController
     end
   end
 
-  # DELETE /admin/fabric_types/1
-  # DELETE /admin/fabric_types/1.json
+  # DELETE /admin/furniture/fabric/qualities/1
+  # DELETE /admin/furniture/fabric/qualities/1.json
   def destroy
     @admin_furniture_fabric_quality.destroy
     respond_to do |format|

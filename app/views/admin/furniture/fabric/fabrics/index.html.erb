@@ -1,6 +1,6 @@
-<%= 
+<%=
 	render 'admin/shared/index',
-	  title: 'طرح پارچه‌ها', 
+	  title: 'طرح پارچه‌ها',
 		title_right: lambda {
 			link_to new_admin_furniture_fabric_fabric_path, class: 'inline-html-call' do
 				raw "<span class='fa fa-plus'></span> ایجاد برند جدید"
@@ -41,9 +41,9 @@
       </td>
       <td>
       	<% if not ft.deleted_at %>
-          <%= editable_tag ft, :admin_furniture_fabric_quality_id, type: :select, value: ft.admin_furniture_fabric_quality_id, source: admin_furniture_fabric_qualities_path, text: ft.type.name %>
+          <%= editable_tag ft, :admin_furniture_fabric_quality_id, type: :select, value: ft.admin_furniture_fabric_quality_id, source: admin_furniture_fabric_qualities_path, text: ft.quality.name %>
         <% else %>
-            <%= ft.type.name %>
+            <%= ft.quality.name %>
         <% end %>
       </td>
       <td class='photo-gallery-collection-incomplete'>
@@ -83,7 +83,7 @@
                 <% else %>
                   <%= link_to archive_admin_furniture_fabric_fabric_path(ft), method: :delete, data: { :confirm => { title: 'این دسته‌طرح آرشیو شود؟', message: 'تا زمانی که این دسته‌بندی در آرشیو می‌باشد امکان <b>مشاهده</b> و <b>اعمال تغییرات</b> برای این دسته‌طرح وجود ندارد.' } } do %>
                     <span class='fa fa-archive'></span> آرشیو کردن
-                 	<% end %>                 	
+                 	<% end %>
               	<% end %>
               </li>
               <li>
@@ -97,13 +97,13 @@
       </td>
     </tr>
   <% end %>
-	    
+
 <% } %>
 <script type="text/javascript" charset="utf-8">
-	$(document).ready(function(){		
+	$(document).ready(function(){
 		function append2gallery() {
 			$('.photo-gallery-collection-incomplete a[data-source]').unbind('append2gallery').bind('append2gallery', function(e, data, index, gallery) {
-				link = 
+				link =
 				'<%= link_to "{0}", data: { index: "{1}", thumb: "{2}" } do %>\
 					<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
 				<% end %>'
