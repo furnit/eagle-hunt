@@ -21,6 +21,17 @@ ActiveRecord::Schema.define(version: 20170520074554) do
     t.datetime "updated_at",                  null: false
   end
 
+  create_table "admin_furniture_build_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "admin_furniture_section_id"
+    t.integer  "admin_furniture_spec_id"
+    t.float    "value",                      limit: 24
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.json     "options"
+    t.index ["admin_furniture_section_id"], name: "index_fbd_section", using: :btree
+    t.index ["admin_furniture_spec_id"], name: "index_fbd_spec", using: :btree
+  end
+
   create_table "admin_furniture_fabric_brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.text     "comment",    limit: 65535
@@ -392,11 +403,11 @@ ActiveRecord::Schema.define(version: 20170520074554) do
 
   create_table "employee_fanis_furniture_build_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "employee_fani_id"
-    t.integer  "furniture_build_detail_id"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "admin_furniture_build_detail_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index ["admin_furniture_build_detail_id"], name: "index_furniture_build_detail", using: :btree
     t.index ["employee_fani_id"], name: "index_employee_fani", using: :btree
-    t.index ["furniture_build_detail_id"], name: "index_furniture_build_detail", using: :btree
   end
 
   create_table "employee_kalafs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -477,17 +488,6 @@ ActiveRecord::Schema.define(version: 20170520074554) do
     t.index ["admin_furniture_id"], name: "index_employee_processeds_on_admin_furniture_id", using: :btree
     t.index ["as_symbol"], name: "index_employee_processeds_on_as_symbol", using: :btree
     t.index ["user_id"], name: "index_employee_processeds_on_user_id", using: :btree
-  end
-
-  create_table "furniture_build_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "admin_furniture_section_id"
-    t.integer  "admin_furniture_spec_id"
-    t.float    "value",                      limit: 24
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.json     "options"
-    t.index ["admin_furniture_section_id"], name: "index_furniture_build_details_on_admin_furniture_section_id", using: :btree
-    t.index ["admin_furniture_spec_id"], name: "index_furniture_build_details_on_admin_furniture_spec_id", using: :btree
   end
 
   create_table "notify_on_furniture_availables", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -598,6 +598,8 @@ ActiveRecord::Schema.define(version: 20170520074554) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
   end
 
+  add_foreign_key "admin_furniture_build_details", "admin_furniture_sections"
+  add_foreign_key "admin_furniture_build_details", "admin_furniture_specs"
   add_foreign_key "admin_furniture_fabric_color_indices", "admin_furniture_fabric_colors"
   add_foreign_key "admin_furniture_fabric_color_indices", "admin_furniture_fabric_fabrics", column: "admin_furniture_fabric_id"
   add_foreign_key "admin_furniture_fabric_fabrics", "admin_furniture_fabric_brands"
@@ -623,13 +625,11 @@ ActiveRecord::Schema.define(version: 20170520074554) do
   add_foreign_key "admin_selling_config_prices", "admin_furniture_wood_types"
   add_foreign_key "admin_workshop_workshops", "states"
   add_foreign_key "admin_workshop_workshops", "users"
+  add_foreign_key "employee_fanis_furniture_build_details", "admin_furniture_build_details", on_update: :cascade, on_delete: :cascade
   add_foreign_key "employee_fanis_furniture_build_details", "employee_fanis", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "employee_fanis_furniture_build_details", "furniture_build_details", on_update: :cascade, on_delete: :cascade
   add_foreign_key "employee_overalls", "admin_furniture_furnitures"
   add_foreign_key "employee_processeds", "admin_furniture_furnitures", column: "admin_furniture_id"
   add_foreign_key "employee_processeds", "users"
-  add_foreign_key "furniture_build_details", "admin_furniture_sections"
-  add_foreign_key "furniture_build_details", "admin_furniture_specs"
   add_foreign_key "notify_on_furniture_availables", "admin_furniture_furnitures", column: "admin_furniture_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "order_orders", "admin_furniture_fabric_models"
   add_foreign_key "order_orders", "admin_furniture_furnitures"

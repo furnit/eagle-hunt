@@ -177,11 +177,11 @@
 				list: [
 					<% sections.each do |section| %>
 					{
-						valid: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]') !== '؟',
-						val: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]'), 
-						append: $('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]')
+						valid: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][admin_furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]') !== '؟',
+						val: get_val('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][admin_furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]'), 
+						append: $('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][admin_furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][value]"]')
 											.siblings('.input-group-addon').html() <% if is_abr %>
-											 + $('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][options][admin_furniture_foam_types][id]"] [selected]').text()
+											 + $('[name="<%= @form[:furniture].model_name.param_key %>[employee_fani][admin_furniture_build_detail][spec][<%= spec.id %>][section][<%= section.id %>][options][admin_furniture_foam_types][id]"] [selected]').text()
 											 <% end %>
 										,
 					 	title: 'برای <%= section.comment %>',

@@ -1,4 +1,4 @@
-class FurnitureBuildDetail < ApplicationRecord
+class Admin::Furniture::BuildDetail < ApplicationRecord
   belongs_to :spec, class_name: 'Admin::Furniture::Spec', foreign_key: :admin_furniture_spec_id
   belongs_to :section, class_name: 'Admin::Furniture::Section', foreign_key: :admin_furniture_section_id
   

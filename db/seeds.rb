@@ -48,14 +48,14 @@ end
   '09120535348'
 ]
 .each do |phone_number|
-  User.create!(
+  u = User.create!(
     phone_number: phone_number,
     password: phone_number,
     password_confirmation: phone_number,
     admin_user_type_id: Admin::UserType.where('symbol = ?', :ADMIN.to_s).first.id
   )
-  .reset_password
-  .save
+  u.reset_password.save if Rails.env.production?
+  u.save
 end
 
 #

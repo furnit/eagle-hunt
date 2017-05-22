@@ -1,24 +1,24 @@
 class Admin::Furniture::Furniture < Admin::Uploader::Image
-  
+
   acts_as_paranoid
-  
+
   has_many :employee_fanis, dependent: :destroy, class_name: '::Employee::Fani'
   has_one :overall_details, class_name: '::Employee::Overall', foreign_key: :admin_furniture_furniture_id
   has_one :price, class_name: '::Admin::Selling::Config::Price', foreign_key: :admin_furniture_furniture_id
   belongs_to :type, class_name: '::Admin::Furniture::Type', foreign_key: :furniture_type_id
-  
+
   accepts_nested_attributes_for :employee_fanis, :allow_destroy => true
 
   validates_presence_of :furniture_type_id, :name
-  
-  validates :free_cushions, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 20 } 
-  
+
+  validates :free_cushions, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 20 }
+
   before_save :notify_on_availble
-  
+
   def comment= val
     self[:comment] = val[0..(self.class.columns_hash['comment'].limit-1)]
   end
-  
+
   def available= val
     if not val
       self[:available] = val
@@ -28,7 +28,7 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
       self[:available] = val
     end
   end
-  
+
   def has_unconfirmed_data= val
     self[:has_unconfirmed_data] = val
     if val
@@ -36,15 +36,15 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
       self[:ready_for_pricing] = false
     end
   end
-  
+
   def cost?
     _profit = Admin::Selling::Config::Profit.last;
-    _price  = self.price 
+    _price  = self.price
     return 0 if [_profit.nil?, _price.nil?, (_price and _price.overall_cost.nil?), not(self.ready_for_pricing)].any?
     ((1 + (_profit.overall / 100.0)) * _price.overall_cost).to_i
   end
-  
-  
+
+
   def compute_cost const: nil, fabric: nil, paint_color: nil, paint_astar_rouye: nil, wood: nil, kalaf: nil
     # fetch all foams' prices
     foam = Admin::Pricing::Foam.all
@@ -85,7 +85,7 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
     od[:fani_build_details.to_s].each do |d|
       price = 0
       # convert from hash to furniture build details
-      ins = FurnitureBuildDetail.new(d)
+      ins = Admin::Furniture::BuildDetail.new(d)
       case ins.spec.name
       when 'ابر'
         price = foam.select { |i| i.admin_furniture_foam_type_id == ins.options["admin_furniture_foam_types"]["id"].to_i }.first.price
@@ -105,11 +105,11 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
     self.cover_details ||= {index: 0, pos: '50%'}
     super
   end
-  
+
   def notify_on_availble
     ::NotifyOnFurnitureAvailable.notify_for_furniture self.id, self.name if self.available and self.available_changed?
   end
-  
+
   def intel
     intel = { }
     ::Employee::Processed.where(admin_furniture_id: self.id).distinct.each do |proc|
@@ -122,10 +122,10 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
     end
     intel
   end
-  
+
   def ready_for_pricing= val
     self[:ready_for_pricing] = val
-    
+
     if self[:ready_for_pricing]
       overalls = { }
       self.intel.each do |name, i|
@@ -139,7 +139,7 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
       overalls[:fani_build_details] = []
       fbd = { }
       self.intel[:fani].each do |i|
-        i[:data].furniture_build_details.each do |bd|
+        i[:data].build_details.each do |bd|
           key = "#{bd.admin_furniture_section_id}-#{bd.admin_furniture_spec_id}"
           fbd[key] ||= []
           fbd[key] << bd
@@ -151,7 +151,7 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
       ::Employee::Overall.find_or_create_by(admin_furniture_furniture_id: self.id).update_attributes(overalls)
     end
   end
-  
+
   def days_to_complete
     overall = ::Employee::Overall.where(admin_furniture_furniture_id: self.id).first
     return -1 if overall.nil?
@@ -160,7 +160,7 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
     extra = conf.as_json.reject { |k| [:id, :created_at, :updated_at].include? k.to_sym }.sum if conf
     (overall.as_json.select { |c| c[/\w+_days_to_complete$/] }.values.sum + extra).to_i
   end
-  
+
   filterrific(
     default_filter_params: { sorted_by: 'updated_at_desc' },
     available_filters: [
@@ -170,7 +170,7 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
       :get_by_flags
     ]
   )
-  
+
   scope :search_query, lambda { |query|
     return nil  if query.blank?
     # condition query, parse into individual keywords
@@ -197,11 +197,11 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
       *([query] + terms.map { |e| [e] * num_or_conditions }.flatten)
     )
   }
-  
+
   scope :get_by_furniture_types, lambda { |f_type_id|
     where("furniture_type_id = ?", f_type_id)
   }
-  
+
   scope :sorted_by, lambda { |sort_option|
     # extract the sort direction from the param value.
     direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'

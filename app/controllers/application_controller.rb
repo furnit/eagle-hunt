@@ -62,10 +62,16 @@ class ApplicationController < ActionController::Base
       end
       # check if session verified since this is an admin?
       if isession.verified_at.nil?
-        return if params["controller"] == "users/sessions" and [:verify, :confirm, :destroy].include? params["action"].to_sym
-        session[:request_for_signin_verification] = true
-        redirect_to users_sign_in_verify_path
-        return
+        if Rails.env.development?
+          flash[:error] = "<b>سابت در حالت توسعه قرار دارد؛ لذا بدون در نظر گرفتن تاییده ورود (رمز موقت) اجازه ورود داده شد.</b>"
+          isession.verified_at = Time.now
+          isession.save
+        else
+          return if params["controller"] == "users/sessions" and [:verify, :confirm, :destroy].include? params["action"].to_sym
+          session[:request_for_signin_verification] = true
+          redirect_to users_sign_in_verify_path
+          return
+        end
       else
         session.delete :request_for_signin_verification
       end
