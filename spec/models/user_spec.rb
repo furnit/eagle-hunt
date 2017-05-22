@@ -38,23 +38,29 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context "when is not mobile number" do
-      it "is not valid for not numerics" do
+    context "when is not numerics" do
+      it "is not valid" do
         subject.phone_number = "0" + "a1" * 5
         expect(subject.dup).to have_errors_on :phone_number, errors: :invalid
       end
+    end
 
-      it "is not valid for short number" do
+    context "when is a short number" do
+      it "is not valid" do
         subject.phone_number = "091212345"
         expect(subject.dup).to have_errors_on :phone_number, errors: :wrong_length
       end
+    end
 
-      it "is not valid for long number" do
+    context "when is a long number" do
+      it "is not valid" do
         subject.phone_number = "09121234567891011"
         expect(subject.dup).to have_errors_on :phone_number, errors: :wrong_length
       end
+    end
 
-      it "is not valid for not state phone number" do
+    context "when is not mobile number" do
+      it "is not valid" do
         subject.phone_number = "021888844443"
         expect(subject.dup).to have_errors_on :phone_number, errors: :invalid
       end
