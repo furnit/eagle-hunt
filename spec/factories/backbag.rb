@@ -5,12 +5,6 @@ FactoryGirl.define do
   sequence :text do |n|
     (Faker::Lorem.paragraph + n.to_s)
   end
-  sequence :first_name do |n|
-    "first_name#{n}"
-  end
-  sequence :last_name do |n|
-    "last_name#{n}"
-  end
   sequence :email do |n|
     "email#{n}@example.com"
   end

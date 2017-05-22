@@ -2,7 +2,21 @@ class Profile < ApplicationRecord
   belongs_to :user
   belongs_to :state
 
-  validates_presence_of :first_name, :last_name, :address
+  before_validation { self.postal_code = self.postal_code.gsub(/[- ]+/, "") if self.postal_code }
+
+  validates_presence_of :first_name, :last_name, :address, :state_id, :user_id
+  validates_length_of :postal_code, is: 10, allow_blank: true
+  validates_numericality_of :postal_code, greater_than: 0, allow_blank: true
+  validate :make_sure_persian
+
+
+  def make_sure_persian
+    [:first_name, :last_name, :address].each do |f|
+      if not(eval("self.#{f}") and eval("self.#{f}").is_arabic?)
+        errors.add f, :not_persian
+      end
+    end
+  end
 
   def full_name
     "%s %s" %[first_name, last_name]

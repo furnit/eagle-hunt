@@ -6,7 +6,6 @@ fa:
       profile:
         first_name: 'نام'
         last_name: 'نام خانوادگی'
-        contact: 'شماره موبایل'
         address: 'آدرس'
         postal_code: 'کدپستی (اختیاری)'
         state_id: 'استان'
@@ -15,16 +14,16 @@ fa:
         profile:
           attributes:
             first_name:
-              blank: 'باید وارد شود.'
+              blank: نمی‌تواند خالی باشد.
+              not_persian: 'بصورت فارسی باید وارد شود.'
             last_name:
-              blank: 'باید وارد شود.'
-            contact:
-              blank: 'باید وارد شود.'
-              invalid: 'درست وارد نشده است، 
-<i>
-توجه فرمایید که شماره موبایل وارد شده باید به صورت
-<u>۰۹۱۲۱۲۳۴۵۶۷</u>
-وارد شود.
-<i>'
+              blank: نمی‌تواند خالی باشد.
+              not_persian: 'بصورت فارسی باید وارد شود.'
             address:
-              blank: 'باید وارد شود.'
+              blank: نمی‌تواند خالی باشد.
+              not_persian: 'بصورت فارسی باید وارد شود.'
+            postal_code:
+              wrong_length: باید ۱۰ رفمی باشد.
+              not_a_number: نامعتبر می‌باشد.
+            state_id:
+              blank: نمی‌تواند خالی باشد.
