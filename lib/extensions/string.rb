@@ -26,4 +26,12 @@ class String
     sp.each.with_index { |s, index| out += ((index > 0 ? "." : "") + s.reverse.scan(/.{1,3}/).map(&:reverse).reverse.join(',')) }
     out
   end
+  
+  def lang?
+    CLD.detect_language(self)
+  end
+  
+  def is_arabic?  
+    [:fa, :ar, :ur].include? self.lang?[:code].to_sym
+  end
 end
