@@ -1,2 +1,0 @@
-class ConstConst < ApplicationRecord
-end

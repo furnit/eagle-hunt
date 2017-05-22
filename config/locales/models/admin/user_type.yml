@@ -20,3 +20,7 @@ fa:
               taken: 'نمیتواند تکراری باشد.'
             auth_level:
               blank: 'نمیتواند خالی باشد.'
+              not_a_number: 'نامعتبر نمیتواند.'
+              greater_than_or_equal_to: نمیتواند مقادیر منفی بگیرد.
+            comment:
+              blank: 'نمی‌تواند خالی باشد.'

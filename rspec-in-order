@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
 
 orders = [
-  "models/admin/user_type_spec.rb",
-  "models/user_spec.rb"
+  "models/admin/user_type",
+  "models/user",
+  "models/state"
 ]
 
-system "bundle exec rspec #{orders.map { |s| "spec/#{s}" }.join(" ")}"
+system "bundle exec rspec #{orders.map { |s| "spec/#{[s].flatten.join("_spec.rb spec/")}_spec.rb" }.join(" ")}"

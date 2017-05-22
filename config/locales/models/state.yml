@@ -1,0 +1,14 @@
+fa:
+  activerecord:
+    models:
+      state: 'استان'
+    attributes:
+      state:
+        name: 'نام'
+    errors:
+      models:
+        state:
+          attributes:
+            name:
+              blank: 'باید وارد شود.'
+              taken: 'قبلا وارد شده است.'
