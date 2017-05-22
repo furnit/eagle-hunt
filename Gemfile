@@ -103,10 +103,6 @@ gem 'meta-tags'
 gem 'activerecord-session_store'
 # for language detection
 gem "cld"
-# for factoring rspec testing units 
-gem "factory_girl_rails"
-# fakes the data for testing
-gem "faker"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -117,6 +113,10 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   # For pretty print
   gem 'awesome_print', github: 'awesome-print/awesome_print'
+  # for factoring rspec testing units 
+  gem "factory_girl_rails"
+  # fakes the data for testing
+  gem "faker"
 end
 
 group :development do

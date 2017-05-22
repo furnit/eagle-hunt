@@ -1,5 +1,7 @@
 fa:
   activerecord:
+    models:
+      user: 'کاربر'
     attributes:
       user:
         phone_number: 'شماره موبایل'
@@ -18,6 +20,11 @@ fa:
             password:
               invalid: 'اشتباه وارد شده است.'
               blank: 'نباید خالی باشد.'
+            phone_number:
+              invalid: 'نامعتبر می‌باشد.'
+              wrong_length: 'نامعتبر می‌باشد.'
+              taken: 'کاربری قبلا با این شماره ثبت‌نام کرده است!'
+              blank: نمی‌تواند خالی باشد.
 
   devise:
     failure:

@@ -1,5 +1,33 @@
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
+  
+  after_validation do
+    # unify the error message
+    collection = { }
+    self.errors.messages.each do |field, msgs|
+      collection[field] ||= []
+      msgs.each.with_index do |msg, index|
+        self.errors.messages[field].delete_at index if collection[field].include? msg
+      end
+    end
+  end
+  
+  protected
+  
+  def normalize_phone_number number
+    return number if number.nil? or number.blank?
+    out = number.to_s.gsub(/[- ,.]+/, "")
+    return number if not out.to_s.numeric?
+    out
+  end
+
+  def helper
+    @helper ||= Class.new do
+      # include `number_to_phone`
+      include ActionView::Helpers::NumberHelper
+    end.new
+  end
+  
   def error_messages!
     return "" unless error_messages?
     

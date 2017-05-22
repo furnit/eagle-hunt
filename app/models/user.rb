@@ -10,26 +10,14 @@ class User < ApplicationRecord
   has_one :profile, autosave: true
   belongs_to :type, class_name: '::Admin::UserType', foreign_key: :admin_user_type_id
 
+  validates_presence_of :phone_number
   validates :phone_number, length: { is: 11 }, uniqueness: true
   validates_format_of :phone_number, :with => /09\d{2}[- ]?\d{3}[- ]?\d{4}/i
 
-  before_validation :normalize_phone_number
-  after_initialize :normalize_phone_number
-  after_validation {
-    # remove one of errors `wrong_length` and `invalid` if both occures at same time.
-    if (self.errors.details[:phone_number].map { |e| e[:error] } & [:invalid, :wrong_length]).length == 2
-      self.errors.messages[:phone_number].delete_at self.errors.details[:phone_number].index { |i| i[:error] == :wrong_length }
-    end
-  }
+  after_initialize  { self.phone_number = normalize_phone_number self.phone_number }
+  before_validation { self.phone_number = normalize_phone_number self.phone_number }
 
-  before_save :check_if_password_changed?
-
-  def helper
-    @helper ||= Class.new do
-      # include `number_to_phone`
-      include ActionView::Helpers::NumberHelper
-    end.new
-  end
+  before_save :set_change_password
   
   # secure sensitive details on json request
   def as_json(options)
@@ -49,18 +37,9 @@ class User < ApplicationRecord
     return self
   end
 
-  def normalize_phone_number
-    return self.phone_number if self.phone_number.nil?
-    self.phone_number = helper.number_to_phone(self.phone_number.strip, delimiter: "", pattern: /(\d{4})[- ]?(\d{3})[- ]?(\d{4})$/)
-  end
-
   def self.authenticate(phone_number, password, with_deleted = "with_deleted")
     user = eval("User.#{with_deleted}.find_for_authentication(:phone_number => '#{phone_number}')")
     user and user.valid_password?(password) ? user : nil
-  end
-
-  def check_if_password_changed?
-    self.change_password = false if self.encrypted_password_changed? and not @reset_password
   end
 
 	def email_required?
@@ -74,6 +53,12 @@ class User < ApplicationRecord
   def full_name
     return 'بدون نام' if self.profile == nil
     '%s %s' %[self.profile.first_name, self.profile.last_name]
+  end
+  
+  protected
+
+  def set_change_password
+    self.change_password = false if self.encrypted_password_changed? and not @reset_password
   end
 
   ######## Filtering ########
@@ -168,6 +153,4 @@ class User < ApplicationRecord
         ['حساب‌های مسدود', 'blocked_at'],
       ]
     end
-
-
 end
