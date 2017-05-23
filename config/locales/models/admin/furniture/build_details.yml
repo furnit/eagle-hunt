@@ -1,16 +1,20 @@
 fa:
   activerecord:
     models:
-      furniture_build_detail: 'جزییات ساخت مبل'
+      admin/furniture/build_detail: 'جزییات ساخت مبل'
     attributes:
-      furniture_build_detail:
+      admin/furniture/build_detail:
         value: 'مقدار'
         admin_furniture_scale_id: واحد
         admin_furniture_sections_id: برای
         admin_furniture_specs_id: از
     errors:
       models:
-        furniture_build_detail:
+        admin/furniture/build_detail:
           attributes:
             value:
+              blank: 'باید وارد شود.'
+            section:
+              blank: 'باید وارد شود.'
+            spec:
               blank: 'باید وارد شود.'

@@ -4,5 +4,5 @@ class Admin::Furniture::BuildDetail < ApplicationRecord
   
   attr_accessor :admin_furniture_foam_type_id
   
-  validates_presence_of :value
+  validates_presence_of :value, :section, :spec
 end
