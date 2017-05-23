@@ -1,14 +1,19 @@
 class Admin::Furniture::Set < ApplicationRecord
-  SEPERATOR = "-, ،_"
+  SEPERATOR = "-, ،_\\[\\]"
   
-  validates_presence_of :name, :config
+  validates_presence_of :name, :config, :comment
   validate :validate_config
   validate :validate_uniqueness_config
-  before_save { self.config = self.config.map { |i| i.to_s.to_i } }
+  
+  before_save { self[:config] = self.config }
   
   def config= val
-    self[:config] = val.split(/[#{SEPERATOR}]+/).flatten
+    self[:config] = val.to_s.split(/[#{SEPERATOR}]+/).flatten.reject { |s| s.empty? }
     self[:total_count] = self[:config].map(&:to_i).sum
+  end
+  
+  def config
+    (self[:config] || []).map(&:to_i).sort
   end
   
   def total_count= val
@@ -17,7 +22,7 @@ class Admin::Furniture::Set < ApplicationRecord
   
   def validate_config
     pieces = Admin::Furniture::Piece.pluck(:piece)
-    config.each do |i|
+    (self[:config] || []).each do |i|
       if not i.to_s.numeric?
         errors.add :config, :invalid 
         break
@@ -30,8 +35,12 @@ class Admin::Furniture::Set < ApplicationRecord
   end
   
   def validate_uniqueness_config
-    if self.class.where.not(id: id).where("config REGEXP ?", ".*#{config.map { |i| i.to_s.to_i }.to_s[1..-2]}.*").count > 0
-      errors.add :config, :taken
+    ids = (self[:config] || [])
+    self.class.where.not(id: id).where(total_count: total_count).pluck(:config).each do |_config|
+      if _config.sort == config.sort
+        errors.add :config, :taken
+        break
+      end
     end
   end
   

@@ -117,7 +117,25 @@ end
   [3, 2, 2, 1, 1]
 ]
 .each do |config|
-  Admin::Furniture::Set.create!(name: "ست #{config.sum} نفره", config: config, total_count: config.sum)
+  def fa_numbers i
+    case i
+    when 0
+      "صفر"
+    when 1
+      "یک"
+    else
+      i.to_s
+    end
+  end
+  counts = Hash.new(0)
+  # iterate over the array, counting duplicate entries
+  config.each { |v| counts[v] += 1 }
+  comment = "این ست شامل #{config.length} عدد مبل به صورت"
+  config.uniq.each do |i|
+    comment += "، «#{fa_numbers(counts[i])}» فقره مبل «#{i} نفره»"
+  end
+  comment += " می‌باشد."
+  Admin::Furniture::Set.create!(name: "ست #{config.sum} نفره", comment: comment.strip, config: config)
 end
 
 target_asset = Rails.root.join( 'db', 'seeds', "#{Rails.env.downcase}.rb")

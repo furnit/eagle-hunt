@@ -540,16 +540,6 @@ ActiveRecord::Schema.define(version: 20170523071946) do
     t.index ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
   end
 
-  create_table "shopping_carts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id"
-    t.integer  "furniture_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["furniture_id"], name: "index_shopping_carts_on_furniture_id", using: :btree
-    t.index ["user_id", "furniture_id"], name: "index_shopping_carts_on_user_id_and_furniture_id", unique: true, using: :btree
-    t.index ["user_id"], name: "index_shopping_carts_on_user_id", using: :btree
-  end
-
   create_table "states", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -636,7 +626,5 @@ ActiveRecord::Schema.define(version: 20170523071946) do
   add_foreign_key "order_orders", "users"
   add_foreign_key "profiles", "states"
   add_foreign_key "profiles", "users", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "shopping_carts", "admin_furniture_furnitures", column: "furniture_id"
-  add_foreign_key "shopping_carts", "users"
   add_foreign_key "users", "admin_user_types"
 end
