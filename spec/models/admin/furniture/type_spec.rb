@@ -1,7 +1,8 @@
 require 'rails_helper'
+require Rails.root.join("spec", "support/shared_examples/soft_delete");
 
 RSpec.describe Admin::Furniture::Type, type: :model do
-  subject { build :admin_furniture_type }
+  subject { create :admin_furniture_type }
 
   describe "#name" do
     it "is required" do
@@ -16,4 +17,6 @@ RSpec.describe Admin::Furniture::Type, type: :model do
       expect(subject).to have_errors_on :comment, errors: :blank
     end
   end
+
+  include_examples :test_soft_delete, :admin_furniture_type
 end
