@@ -27,3 +27,5 @@ fa:
               not_a_number: نامعتبر می‌باشد.
             state_id:
               blank: نمی‌تواند خالی باشد.
+            user_id:
+              blank: نمی‌تواند خالی باشد.

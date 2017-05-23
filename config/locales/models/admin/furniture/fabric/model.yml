@@ -12,3 +12,5 @@ fa:
           attributes:
             name:
               taken: این نام قبلا برای این برند تعریف شده است.
+            fabric:
+              blank: نمی‌تواند خالی باشد.

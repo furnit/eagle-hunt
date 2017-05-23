@@ -13,7 +13,8 @@ fa:
           attributes:
             images:
               blank: 'نمی‌تواند خالی باشد.'
-            admin_furniture_fabric_quality_id:
+            brand:
               blank: 'نمی‌تواند خالی باشد.'
-            admin_furniture_fabric_brand_id:
+              taken: این برند با همین کیفیت قبلا تعریف شده است.
+            quality:
               blank: 'نمی‌تواند خالی باشد.'
