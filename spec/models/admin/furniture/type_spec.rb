@@ -4,6 +4,8 @@ require Rails.root.join("spec", "support/shared_examples/soft_delete");
 RSpec.describe Admin::Furniture::Type, type: :model do
   subject { create :admin_furniture_type }
 
+  include_examples :test_image_container, :admin_furniture_type
+
   describe "#name" do
     it "is required" do
       subject.name = nil

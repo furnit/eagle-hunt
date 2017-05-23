@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Admin::Furniture::Fabric::Model, type: :model do
   subject { build :admin_furniture_fabric_model }
 
+  include_examples :test_image_container, :admin_furniture_fabric_model
+
   describe "#name" do
     context "when [#name, #fabric] is not unique" do
       it "is not valid" do

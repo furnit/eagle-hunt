@@ -8,7 +8,8 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 [
   :factory_girl,
-  :matchers
+  :matchers,
+  "shared_examples/image_container"
 ]
 .each do |file|
   require "support/#{file}"
