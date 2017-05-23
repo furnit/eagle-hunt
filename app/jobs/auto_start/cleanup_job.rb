@@ -14,14 +14,8 @@ class AutoStart::CleanupJob < PeriodicJob
   protected
   
   def cleanup_uploaded_files
-    Admin::UploadedFile.where("not owned and updated_at < ?", 3.days.ago).each do |f|
-      begin
-        f.destroy
-        dir = File.dirname(f.image.file.file);
-        Dir.delete dir if Dir["#{dir}/*"].empty?
-      rescue
-      end
-    end
+    # carrierwave will take care of the empty directories
+    Admin::UploadedFile.where("owned <= 0 and updated_at < ?", 3.days.ago).destroy_all
   end
   
 end

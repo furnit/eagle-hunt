@@ -18,37 +18,58 @@ class Admin::Uploader::Image < ApplicationRecord
     where(ids.flatten.map { |id| "JSON_CONTAINS(images, ?)" }.join(" OR "), *ids.flatten.map(&:to_s))
   }
 
-  after_initialize { self[:images] ||= [] }
+  before_save { self[:images].uniq! }
+
+  after_initialize { self[:images] ||= []; @new_images = [] }
   
   after_destroy { Admin::UploadedFile.where(id: self[:images]).each(&:destroy) }
   
   def images= val
-    self[:images] = validate_images val
+    val = validate_images val
+    # flag not owned the previous images that are not included in `val`
+    flag_not_owned self[:images] - (self[:images] & val)
+    # reset the images 
+    self[:images] = val
+    # flag the new images
+    @new_images = val.uniq
+  end
+  
+  def image= val
+    val = validate_images val
+    # flag not owned the previous images that are not included in `val`
+    flag_not_owned self[:images] - (self[:images] & val)
+    raise RuntimeError.new("cannot accept more than 1 image file, but #{val.length} given") if val.length > 1
+    # reset the images
+    self[:images] = val
+    # flag the new images
+    @new_images = val.uniq
+  end
+  
+  def append_images val
+    val = validate_images val
+    # flag the new images
+    flag_new_images val
+    # add to the list
+    self[:images] = (self[:images] + val).uniq
+  end
+  
+  def remove_images val
+    val = validate_images val
+    # only remove the images that are bound to current instance
+    return if val.empty? or (self[:images] & val).empty?
+    # flag not owned the images
+    flag_not_owned (self[:images] & val)
+    # remove from the list
+    self[:images] -= val
   end
   
   def images
     Admin::UploadedFile.where(id: self[:images]).map { |i| { id: i.id, image: i.image } }.flatten
   end
   
-  def image= val
-    val = validate_images val
-    raise RuntimeError.new("cannot accept more than 1 image file, but #{val.length} given") if val.length > 1
-    self[:images] = val
-  end
-  
   def image
     i = Admin::UploadedFile.where(id: self[:images]).first
     { id: i.id, image: i.image }
-  end
-  
-  def append_images val
-    self[:images] += validate_images val
-  end
-  
-  def remove_images val
-    val = validate_images val
-    Admin::UploadedFile.where(id: val).each(&:destroy)
-    self[:images] -= val
   end
   
   def self.secure_image_id id
@@ -67,11 +88,30 @@ class Admin::Uploader::Image < ApplicationRecord
       _val = [val].flatten
       idx = Admin::UploadedFile.where(id: _val).pluck(:id)
       raise ActiveRecord::RecordNotFound.new("images `#{_val - idx}` does not exists") if idx.map(&:to_i).sort != _val.map(&:to_i).sort
-      idx
+      idx.uniq
     end
-        
+    
+    def flag_new_images val
+      val = [val].flatten
+      # only add those that are not included in current images' list
+      @new_images = (@new_images + (val - (self[:images] & val))).uniq
+    end
+      
+    
+    def flag_not_owned val
+      idx = (self[:images] & val)
+      return if idx.empty?
+      # remove from new image lists
+      @new_images -= idx
+      # decrement the owned flag
+      Admin::UploadedFile.where(id: idx).update_all("owned = owned - 1");
+      # destroy the image if no one referencing this
+      Admin::UploadedFile.where(id: idx).where("owned <= 0").each(&:destroy)
+    end
+    
     def flag_owned
-      return if not self.images_changed?
-      Admin::UploadedFile.where(id: self[:images]).update_all(owned: true);
+      return if not self.images_changed? or @new_images.empty?
+      # only own the new images
+      Admin::UploadedFile.where(id: @new_images).update_all("owned = owned + 1");
     end
 end

@@ -8,6 +8,9 @@ class ImageUploader < CarrierWave::Uploader::Base
   storage :file
   # storage :fog
 
+  # on remove
+  after :remove, :delete_empty_upstream_dirs
+  
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
@@ -47,4 +50,10 @@ class ImageUploader < CarrierWave::Uploader::Base
   #   "something.jpg" if original_filename
   # end
 
+  def delete_empty_upstream_dirs
+    path = ::File.expand_path(store_dir, root)
+    Dir.delete(path) # fails if path not empty dir
+  rescue SystemCallError
+    true # nothing, the dir is not empty
+  end
 end

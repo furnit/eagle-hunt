@@ -4,7 +4,7 @@ class Admin::Furniture::Type < Admin::Uploader::Image
   
   has_many :furniture, class_name: '::Admin::Furniture::Furniture', foreign_key: :furniture_type_id
   
-  validates_presence_of :name
+  validates_presence_of :name, :comment
   
   def to_jq_upload
     {

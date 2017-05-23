@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170520074554) do
+ActiveRecord::Schema.define(version: 20170523071946) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -195,12 +195,10 @@ ActiveRecord::Schema.define(version: 20170520074554) do
 
   create_table "admin_furniture_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
-    t.text     "comment",         limit: 65535
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
+    t.text     "comment",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.json     "images"
-    t.boolean  "is_inside_type",                default: false
-    t.boolean  "is_outside_type",               default: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_admin_furniture_types_on_deleted_at", using: :btree
   end
@@ -339,9 +337,9 @@ ActiveRecord::Schema.define(version: 20170520074554) do
 
   create_table "admin_uploaded_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.json     "image"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "owned",      default: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "owned",      default: 0
     t.index ["owned"], name: "index_admin_uploaded_files_on_owned", using: :btree
   end
 
@@ -542,6 +540,16 @@ ActiveRecord::Schema.define(version: 20170520074554) do
     t.index ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
   end
 
+  create_table "shopping_carts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "furniture_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["furniture_id"], name: "index_shopping_carts_on_furniture_id", using: :btree
+    t.index ["user_id", "furniture_id"], name: "index_shopping_carts_on_user_id_and_furniture_id", unique: true, using: :btree
+    t.index ["user_id"], name: "index_shopping_carts_on_user_id", using: :btree
+  end
+
   create_table "states", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -628,5 +636,7 @@ ActiveRecord::Schema.define(version: 20170520074554) do
   add_foreign_key "order_orders", "users"
   add_foreign_key "profiles", "states"
   add_foreign_key "profiles", "users", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "shopping_carts", "admin_furniture_furnitures", column: "furniture_id"
+  add_foreign_key "shopping_carts", "users"
   add_foreign_key "users", "admin_user_types"
 end
