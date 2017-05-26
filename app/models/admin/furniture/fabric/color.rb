@@ -1,5 +1,20 @@
 class Admin::Furniture::Fabric::Color < ApplicationRecord
   has_many :models_color, class_name: '::Admin::Furniture::Fabric::ModelColor', foreign_key: :admin_furniture_fabric_color_id
+
+  validates_presence_of :value, :model
+  validates_uniqueness_of :name, allow_blank: true
+  validate :value_length_and_format
+  validate :model_format
+  
+  before_save { value = "##{value.gsub("#", "")}" if value }
+  
+  def value 
+    self[:value] || ""
+  end
+  
+  def model
+    self[:model] || { }
+  end
   
   def self.cluster k, runs: nil
     colours = [];
@@ -31,4 +46,19 @@ class Admin::Furniture::Fabric::Color < ApplicationRecord
     img.scale(colour_sampling[0], colour_sampling[1]).each_pixel { |pixel| colours << [pixel.red, pixel.green, pixel.blue].map { |p| p/= 256 } }
     colours
   end
+  
+  protected
+  
+    def value_length_and_format
+      v = value.gsub("#", "")
+      if v.length != 6 or v !~ /[a-f0-9]{6}/i
+        errors.add :value, :invalid
+      end
+    end
+
+    def model_format
+      if not(model.is_a? Hash) or (model.keys.map(&:to_sym) & [:k, :init, :runs]).length != 3 or model["k"] != model["init"].length
+        errors.add :model, :invalid
+      end
+    end
 end

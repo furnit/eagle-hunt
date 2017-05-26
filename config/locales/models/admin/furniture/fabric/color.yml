@@ -1,0 +1,22 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture/fabric/color: 'اندازه‌های استاندارد کوسن‌ها'
+    attributes:
+      admin/furniture/fabric/color:
+        name: نام مدل
+        value: مقدار
+        comment: توضیحات
+        model: مدل
+    errors:
+      models:
+        admin/furniture/fabric/color:
+          attributes:
+            name:
+              taken: این نام قبلا تعریف شده است.
+            value:
+              blank: نمی‌تواند خالی باشد.
+              invalid: کد رنگ نامعتبر می‌باشد.
+            model:
+              blank: نمی‌تواند خالی باشد.
+              invalid: نامعتبر می‌باشد.
