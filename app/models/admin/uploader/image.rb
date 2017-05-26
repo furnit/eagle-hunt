@@ -17,14 +17,17 @@ class Admin::Uploader::Image < ApplicationRecord
     end
     where(ids.flatten.map { |id| "JSON_CONTAINS(images, ?)" }.join(" OR "), *ids.flatten.map(&:to_s))
   }
-
+  
+  after_initialize :init  
+  
   before_save { self[:images].uniq! }
-
-  after_initialize { self[:images] ||= []; @new_images = [] }
   
   after_destroy { Admin::UploadedFile.where(id: self[:images]).each(&:destroy) }
   
   def images= val
+    # for .create! issue fix
+    init
+    # validate the values
     val = validate_images val
     # flag not owned the previous images that are not included in `val`
     flag_not_owned self[:images] - (self[:images] & val)
@@ -35,6 +38,9 @@ class Admin::Uploader::Image < ApplicationRecord
   end
   
   def image= val
+    # for .create! issue fix
+    init
+    # validate the values
     val = validate_images val
     # flag not owned the previous images that are not included in `val`
     flag_not_owned self[:images] - (self[:images] & val)
@@ -84,6 +90,11 @@ class Admin::Uploader::Image < ApplicationRecord
   
   private
   
+    def init
+      @new_images ||= []
+      self[:images] ||= []
+    end
+    
     def validate_images val
       _val = [val].flatten
       idx = Admin::UploadedFile.where(id: _val).pluck(:id)
