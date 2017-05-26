@@ -3,7 +3,6 @@ FactoryGirl.define do
     ((0..9).map { ('a'..'z').to_a[rand(26)] }.join + n.to_s)
   end
   sequence :text do |n|
-    byebug
     Faker::Lorem.paragraphs(3).join("[#{n.to_s}]. ")
   end
   sequence :email do |n|
