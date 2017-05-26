@@ -162,9 +162,7 @@ module ApplicationHelper
   end
 
   def shopping_cart_count?
-    return ShoppingCart.where("user_id = ?", current_user.id).count if user_signed_in?
-    return session[:shopping_cart].length if session[:shopping_cart]
-    return 0
+    0
   end
 
   def redirect_form(instance, **args)
