@@ -1,0 +1,17 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture/fabric/model_color: 'اندازه‌های استاندارد کوسن‌ها'
+    attributes:
+      admin/furniture/fabric/model_color:
+        admin_furniture_fabric_color_id: رنگ
+        admin_furniture_fabric_model_id: مدل
+    errors:
+      models:
+        admin/furniture/fabric/model_color:
+          attributes:
+            model:
+              blank: نمی‌تواند خالی باشد.
+              taken: قبلا این مدل و رنگ وارد شده اتس.
+            color:
+              blank: نمی‌تواند خالی باشد.

@@ -14,4 +14,7 @@ FactoryGirl.define do
   sequence :phone_number do |n|
     "0#{(9120000000 + n)}"
   end
+  sequence :hex_color do |n|
+    "##{format('%06d', n)}"
+  end
 end
