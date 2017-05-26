@@ -13,5 +13,4 @@ fa:
           attributes:
             name:
               blank: 'نمی‌تواند خالی باشد.'
-            comment:
-              blank: 'نمی‌تواند خالی باشد.'
+              taken: قبلا ثبت شده است.
