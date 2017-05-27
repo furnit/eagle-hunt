@@ -8,6 +8,8 @@ class User < ApplicationRecord
          :recoverable
 
   has_one :profile, autosave: true
+  belongs_to :creator_user, class_name: '::User'
+  has_many :created_users, class_name: '::User', foreign_key: :creator_user_id
   belongs_to :type, class_name: '::Admin::UserType', foreign_key: :admin_user_type_id
 
   validates_presence_of :phone_number

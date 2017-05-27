@@ -3,10 +3,10 @@ class Admin::Furniture::Fabric::Color < ApplicationRecord
 
   validates_presence_of :value, :model
   validates_uniqueness_of :name, allow_blank: true
-  validate :value_length_and_format
   validate :model_format
   
   before_save { value = "##{value.gsub("#", "")}" if value }
+  validates_format_of :value, with: /\A#?(?:[A-F0-9]{3}){1,2}\z/i, message: :invalid 
   
   def value 
     self[:value] || ""
@@ -48,13 +48,6 @@ class Admin::Furniture::Fabric::Color < ApplicationRecord
   end
   
   protected
-  
-    def value_length_and_format
-      v = value.gsub("#", "")
-      if v.length != 6 or v !~ /[a-f0-9]{6}/i
-        errors.add :value, :invalid
-      end
-    end
 
     def model_format
       if not(model.is_a? Hash) or (model.keys.map(&:to_sym) & [:k, :init, :runs]).length != 3 or model["k"] != model["init"].length

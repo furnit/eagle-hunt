@@ -25,7 +25,7 @@ fa:
             postal_code:
               wrong_length: باید ۱۰ رفمی باشد.
               not_a_number: نامعتبر می‌باشد.
-            state_id:
+            state:
               blank: نمی‌تواند خالی باشد.
-            user_id:
+            user:
               blank: نمی‌تواند خالی باشد.

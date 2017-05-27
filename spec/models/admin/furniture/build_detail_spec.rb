@@ -5,7 +5,7 @@ RSpec.describe Admin::Furniture::BuildDetail, type: :model do
 
   describe "#section" do
     it "is required" do
-      subject.admin_furniture_section_id = nil
+      subject.section = nil
       expect(subject).to have_errors_on :section, errors: :blank
     end
   end

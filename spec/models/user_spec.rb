@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject { build(:user) }
+  subject { build :user }
 
   describe "#email" do
     it "is not required" do
@@ -158,9 +158,9 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "#creator_user_id" do
+  describe "#creator_user" do
     it "is initially nil" do
-      expect(subject.unlock_token).to be_falsey
+      expect(subject.creator_user).to be_falsey
     end
   end
 
@@ -171,7 +171,7 @@ RSpec.describe User, type: :model do
 
     context "when setting invalid type" do
       it "will raise an exception on save" do
-        subject.admin_user_type_id = 1000
+        subject.admin_user_type_id = -1
         expect { subject.save }.to raise_error(ActiveRecord::InvalidForeignKey, /.*FOREIGN KEY \(`admin_user_type_id`\) REFERENCES `admin_user_types` \(`id`\).*/)
       end
     end

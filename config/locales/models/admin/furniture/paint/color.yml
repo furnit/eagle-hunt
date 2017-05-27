@@ -19,8 +19,9 @@ fa:
             comment:
               blank: 'نمی‌تواند خالی باشد.'
             color_value:
-              invalid: 'کد HEX-RGB نامعتبر است.'
-            admin_furniture_paint_color_qualities_id:
               blank: 'نمی‌تواند خالی باشد.'
-            admin_furniture_paint_color_brands_id:
+              invalid: 'کد HEX-RGB نامعتبر است.'
+            quality:
+              blank: 'نمی‌تواند خالی باشد.'
+            brand:
               blank: 'نمی‌تواند خالی باشد.'

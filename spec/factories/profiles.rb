@@ -5,6 +5,6 @@ FactoryGirl.define do
     last_name { Faker::Name.last_name }
     address { "تهران، خیابان ولیعصر" }
     postal_code { rand.to_s[2..11] }
-    state_id { State.order("RAND()").first.id }
+    state { State.order("RAND()").first }
   end
 end

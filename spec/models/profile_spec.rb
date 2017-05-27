@@ -107,44 +107,44 @@ RSpec.describe Profile, type: :model do
     end
   end
 
-  describe "#state_id" do
+  describe "#state" do
     it "is required" do
-      subject.state_id = nil
-      expect(subject).to have_errors_on :state_id, errors: :blank
+      subject.state = nil
+      expect(subject).to have_errors_on :state, errors: :blank
     end
 
-    context "when setting wrong #state_id" do
-      before { subject.state_id = -1001 }
+    context "when setting wrong #state" do
+      before { subject.state = State.new(id: -1001) }
 
       it "is valid" do
-        expect(subject).to be_valid_on :state_id
+        expect(subject).to be_valid_on :state
       end
 
       it "will raise an exception on save" do
-        expect { subject.save }.to raise_error(ActiveRecord::InvalidForeignKey, /.*FOREIGN KEY \(`state_id`\) REFERENCES `states` \(`id`\).*/)
+        expect { subject.save }.to raise_error ActiveRecord::InvalidForeignKey
       end
     end
   end
 
-  describe "#user_id" do
+  describe "#user" do
     it "is required" do
-      subject.state_id = nil
-      expect(subject).to have_errors_on :state_id, errors: :blank
+      subject.state = nil
+      expect(subject).to have_errors_on :state, errors: :blank
     end
 
-    context "when setting wrong #user_id" do
-      before { subject.user_id = -1001 }
+    context "when setting wrong #user" do
+      before { subject.user = User.new(id: -1001) }
 
       it "is valid" do
-        expect(subject).to be_valid_on :user_id
+        expect(subject).to be_valid_on :user
       end
 
       it "will raise an exception on save" do
-        expect { subject.save }.to raise_error(ActiveRecord::InvalidForeignKey, /.*FOREIGN KEY \(`user_id`\) REFERENCES `users` \(`id`\).*/)
+        expect { subject.save }.to raise_error ActiveRecord::InvalidForeignKey
       end
     end
 
-    context "when duplicate #user_id" do
+    context "when duplicate #user" do
       it "will raise an exception on save" do
         expect(subject.save).to be_truthy
         expect { subject.dup.save }.to raise_error ActiveRecord::RecordNotUnique
