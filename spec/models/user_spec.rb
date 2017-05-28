@@ -106,66 +106,88 @@ RSpec.describe User, type: :model do
 
   describe "#is_added_to_phonebook" do
     it "is initially nil" do
+      expect(subject.save).to be_truthy
+      subject.reload
       expect(subject.is_added_to_phonebook).to be_falsey
     end
   end
 
   describe "#error_on_add_to_phonebook" do
     it "is initially nil" do
+      expect(subject.save).to be_truthy
+      subject.reload
       expect(subject.error_on_add_to_phonebook).to be_falsey
     end
   end
 
   describe "#deleted_at" do
     it "is initially nil" do
+      expect(subject.save).to be_truthy
+      subject.reload
       expect(subject.deleted_at).to be_falsey
     end
   end
 
   describe "#confirmation_token" do
     it "is initially nil" do
+      expect(subject.save).to be_truthy
+      subject.reload
       expect(subject.confirmation_token).to be_falsey
     end
   end
 
   describe "#confirmation_sent_at" do
     it "is initially nil" do
+      expect(subject.save).to be_truthy
+      subject.reload
       expect(subject.confirmation_sent_at).to be_falsey
     end
   end
 
   describe "#failed_attempts" do
     it "is initially 0" do
+      expect(subject.save).to be_truthy
+      subject.reload
       expect(subject.failed_attempts).to eq 0
     end
   end
 
   describe "#unlock_token" do
     it "is initially nil" do
+      expect(subject.save).to be_truthy
+      subject.reload
       expect(subject.unlock_token).to be_falsey
     end
   end
 
   describe "#blocked_at" do
     it "is initially nil" do
+      expect(subject.save).to be_truthy
+      subject.reload
       expect(subject.blocked_at).to be_falsey
     end
   end
 
   describe "#unlock_token" do
     it "is initially nil" do
+      expect(subject.save).to be_truthy
+      subject.reload
       expect(subject.unlock_token).to be_falsey
     end
   end
 
   describe "#creator_user" do
     it "is initially nil" do
+      expect(subject.save).to be_truthy
+      subject.reload
       expect(subject.creator_user).to be_falsey
     end
   end
 
   describe "#type" do
     it "is initially a `:CLIENT` type" do
+      expect(subject.save).to be_truthy
+      subject.reload
       expect(subject.type.symbol.to_sym).to eq :CLIENT
     end
 

@@ -14,7 +14,7 @@ class User < ApplicationRecord
 
   validates_presence_of :phone_number
   validates :phone_number, length: { is: 11 }, uniqueness: true
-  validates_format_of :phone_number, :with => /09\d{2}[- ]?\d{3}[- ]?\d{4}/i
+  validates_format_of :phone_number, with: /\A09\d{9}\z/i, message: :invalid
 
   after_initialize  { self.phone_number = normalize_phone_number self.phone_number }
   before_validation { self.phone_number = normalize_phone_number self.phone_number }
