@@ -2,15 +2,13 @@ class Admin::Pricing::BaseRecord < ApplicationRecord
   self.abstract_class = true
   
   protected
-
+ 
   validate :validate_prices
   
   def validate_prices
     ls_numeric_attribs.each do |col|
-      if self[col]
-        if not(self[col].to_s.numeric? and Float(self[col]) >= 0 and Float(self[col]) <= 1_000_000_000)
-          errors.add col, I18n.t("activerecord.errors.models.#{self.model_name.i18n_key}.attributes.#{col}.invalid")
-        end
+      if self[col] and @error_container[col]
+        errors.add col, @error_container[col]
       end
     end
   end
@@ -18,7 +16,14 @@ class Admin::Pricing::BaseRecord < ApplicationRecord
   def prepare_price_fields
     ls_numeric_attribs.each do |col|
       self.class.send :define_method, "#{col}=" do |val|
-        self[col] = val.to_s.gsub(/[, ]/, "")
+        @error_container ||= { }
+        val = val.to_s.gsub(/[, ]/, "")
+        if not(val.numeric? and Float(val) >= 0 and Float(val) <= 1_000_000_000)
+          @error_container[col] = :invalid 
+        else
+          @error_container.delete col
+        end
+        self[col] = val
       end
     end
   end
@@ -35,5 +40,4 @@ class Admin::Pricing::BaseRecord < ApplicationRecord
     end
     cols
   end
-  
 end
