@@ -17,11 +17,11 @@ fa:
             name:
               blank: 'نمیتواند خالی باشد.'
               taken: 'نمیتواند تکراری باشد.'
-            state_id:
+            state:
               blank: 'نمیتواند خالی باشد.'
             address:
               blank: 'نمیتواند خالی باشد.'
-            user_id:
+            manager:
               blank: 'نمیتواند خالی باشد.'
             phone_number:
               blank: 'نمیتواند خالی باشد.'
