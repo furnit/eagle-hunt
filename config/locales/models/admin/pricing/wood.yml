@@ -11,7 +11,7 @@ fa:
       models:
         admin/pricing/wood:
           attributes:
-            admin_furniture_wood_type_id:
+            type:
               blank: 'نمیتواند خالی باشد.'
               taken: قبلا این مقدار‌دهدی شده است.
               invalid: 'نامعتبر می‌باشد.'
