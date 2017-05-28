@@ -11,9 +11,9 @@ fa:
       models:
         admin/pricing/transit:
           attributes:
-            admin_workshop_workshop_id:
+            workshop:
               blank: 'نمیتواند خالی باشد.'
-            state_id:
+            state:
               blank: 'نمیتواند خالی باشد.'
             price:
               blank: 'نمیتواند خالی باشد.'
