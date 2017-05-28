@@ -11,7 +11,7 @@ fa:
       models:
         admin/pricing/foam:
           attributes:
-            admin_furniture_foam_type_id:
+            type:
               blank: 'نمیتواند خالی باشد.'
               taken: قبلا این مقدار‌دهدی شده است.
               invalid: 'نامعتبر می‌باشد.'
