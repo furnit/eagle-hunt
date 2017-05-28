@@ -9,7 +9,7 @@ RSpec.describe Admin::Furniture::Paint::Color, type: :model do
       expect(subject).to have_errors_on :name, errors: :blank
     end
 
-    describe "when is not unique" do
+    context "when is not unique" do
       it "is not valid" do
         expect(subject.save).to be_truthy
         expect(subject.dup).to have_errors_on :name, errors: :taken
@@ -23,7 +23,7 @@ RSpec.describe Admin::Furniture::Paint::Color, type: :model do
       expect(subject).to have_errors_on :brand, errors: :blank
     end
 
-    describe "when is not valid" do
+    context "when is not valid" do
       it "raises exception" do
         subject.brand = Admin::Furniture::Paint::ColorBrand.new(id: -1)
         expect { subject.save }.to raise_error ActiveRecord::InvalidForeignKey
@@ -37,7 +37,7 @@ RSpec.describe Admin::Furniture::Paint::Color, type: :model do
       expect(subject).to have_errors_on :quality, errors: :blank
     end
 
-    describe "when is not valid" do
+    context "when is not valid" do
       it "raises exception" do
         subject.quality = Admin::Furniture::Paint::ColorQuality.new(id: -1)
         expect { subject.save }.to raise_error ActiveRecord::InvalidForeignKey
