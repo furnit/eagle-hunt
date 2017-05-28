@@ -1,5 +1,5 @@
 require 'rails_helper'
-require Rails.root.join("spec", "support/shared_examples/pricing");
+require Rails.root.join("spec", "support/shared_examples/pricing")
 
 RSpec.describe Admin::Pricing::Const, type: :model do
   subject { build :admin_pricing_const }
