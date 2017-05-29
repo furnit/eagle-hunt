@@ -70,8 +70,8 @@ RSpec.describe Admin::Furniture::Set, type: :model do
 
   describe "#total_count" do
     it "cannot be assigned directly" do
-      subject.total_count = 100
-      expect(subject.total_count).to be_falsy
+      subject.total_count = subject.config.sum + 10
+      expect(subject.total_count).to eq subject.config.sum
     end
 
     it "returns the #config.sum" do
