@@ -14,6 +14,7 @@ class Admin::Selling::Config::PiecePrice < ApplicationRecord
   
   def same_set
     # check to make sure all table has same prefered sets' ID
+    # `.reload` is required due to test {commit@3cba486}
     if not self.set or self.set.reload.total_count != AppConfig.preference.furniture.unit
       errors.add :admin_furniture_set_id, :invalid
     end
