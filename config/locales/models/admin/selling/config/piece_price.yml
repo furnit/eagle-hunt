@@ -12,10 +12,10 @@ fa:
       models:
         admin/selling/config/piece_price:
           attributes:
-            admin_furniture_set_id:
+            set:
               blank: 'نمیتواند خالی باشد.'
               invalid: 'نامعتبر می‌باشد.'
-            admin_furniture_piece_id:
+            piece:
               blank: 'نمیتواند خالی باشد.'
               invalid: 'نامعتبر می‌باشد.'
             percentage:
