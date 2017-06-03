@@ -20,7 +20,7 @@ fa:
               greater_than: باید دارای مقدار بزرگتر از صفر باشد.
             wood:
               blank: نمیتواند خالی باشد.
-            fabric:
+            fabric_brand:
               blank: نمیتواند خالی باشد.
             furniture:
               blank: نمیتواند خالی باشد.

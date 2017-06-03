@@ -11,9 +11,11 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
   validates_presence_of :furniture_type_id, :name
 
   validates :free_cushions, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 20 }
+  
+  before_save { self.cover_details ||= {index: 0, pos: '50%'} }
 
   before_save :notify_on_availble
-
+  
   def comment= val
     self[:comment] = val[0..(self.class.columns_hash['comment'].limit-1)]
   end
@@ -97,12 +99,6 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
     end
     # round-up the sum and return the value
     sum.stepize AppConfig.preference.price.round
-  end
-
-  def save
-	# default values for cover details
-    self.cover_details ||= {index: 0, pos: '50%'}
-    super
   end
 
   def notify_on_availble
