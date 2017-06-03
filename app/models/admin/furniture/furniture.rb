@@ -1,5 +1,4 @@
 class Admin::Furniture::Furniture < Admin::Uploader::Image
-
   acts_as_paranoid
 
   has_many :employee_fanis, dependent: :destroy, class_name: '::Employee::Fani'

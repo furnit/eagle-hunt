@@ -4,6 +4,7 @@ fa:
       admin/selling/config/price: تنظیم قیمت محصول
     attributes:
       admin/selling/config/price:
+        overall_cost: هزینه‌های کلی
         admin_furniture_fabric_brand_id: برند پارچه
         admin_furniture_paint_color_brand_id: برند رنگ چوب
         admin_furniture_wood_type_id: نوع چوب
@@ -12,6 +13,16 @@ fa:
       models:
         admin/selling/config/price:
           attributes:
-            overall:
+            overall_cost:
               blank: 'نمیتواند خالی باشد.'
               invalid: 'نامعتبر می‌باشد.'
+              not_a_number: باید مقداری عددی باشد.
+              greater_than: باید دارای مقدار بزرگتر از صفر باشد.
+            wood:
+              blank: نمیتواند خالی باشد.
+            fabric:
+              blank: نمیتواند خالی باشد.
+            furniture:
+              blank: نمیتواند خالی باشد.
+            paint_color:
+              blank: نمیتواند خالی باشد.
