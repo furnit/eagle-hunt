@@ -1,10 +1,11 @@
 class Admin::Pricing::BaseRecord < ApplicationRecord
   self.abstract_class = true
-  
+
   protected
- 
+
+  before_validation { @error_container ||= { } }
   validate :validate_prices
-  
+
   def validate_prices
     ls_numeric_attribs.each do |col|
       if self[col] and @error_container[col]
@@ -12,14 +13,14 @@ class Admin::Pricing::BaseRecord < ApplicationRecord
       end
     end
   end
-  
+
   def prepare_price_fields
     ls_numeric_attribs.each do |col|
       self.class.send :define_method, "#{col}=" do |val|
         @error_container ||= { }
         val = val.to_s.gsub(/[, ]/, "")
         if not(val.numeric? and Float(val) >= 0 and Float(val) <= 1_000_000_000)
-          @error_container[col] = :invalid 
+          @error_container[col] = :invalid
         else
           @error_container.delete col
         end
@@ -27,7 +28,7 @@ class Admin::Pricing::BaseRecord < ApplicationRecord
       end
     end
   end
-  
+
   def ls_numeric_attribs
     cols = []
     klass = self.class.name.classify.constantize;
