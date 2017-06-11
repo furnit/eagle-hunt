@@ -5,7 +5,7 @@ class Admin::Selling::Config::Price < ApplicationRecord
   belongs_to :fabric_brand, class_name: "::Admin::Furniture::Fabric::Brand", foreign_key: :admin_furniture_fabric_brand_id
   belongs_to :paint_color, class_name: "::Admin::Furniture::Paint::ColorBrand", foreign_key: :admin_furniture_paint_color_brand_id
   
-  validates_presence_of :overall_cost, :set, :wood, :fabric_brand, :furniture, :paint_color
-  validates_numericality_of :overall_cost, greater_than: 0
+  # validates_presence_of :overall_cost, :set, :wood, :fabric_brand, :furniture, :paint_color
+  validates_numericality_of :overall_cost, greater_than: 0, allow_nil: true
   validates_uniqueness_of :furniture
 end
