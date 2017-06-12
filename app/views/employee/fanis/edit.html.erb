@@ -60,7 +60,8 @@
 											</td>
 											<% if is_abr %>
 											<td>
-												<%= fff.select :admin_furniture_foam_type_id,  Admin::Furniture::Foam::Type.all.collect {|i| [i.name, i.id]}, { label: raw("&nbsp;"), selected: @form[:build_details][build_details_index][:options]["admin_furniture_foam_types"]["id"].to_i }, name: "#{fff.object_name}[spec][#{spec.id}][section][#{section.id}][options][#{Admin::Furniture::Foam::Type.table_name}][id]" %>
+												<% selected = @form[:build_details][build_details_index][:options]["admin_furniture_foam_types"]["id"].to_i if @form[:build_details][build_details_index][:options] %>
+												<%= fff.select :admin_furniture_foam_type_id,  Admin::Furniture::Foam::Type.all.collect {|i| [i.name, i.id]}, { label: raw("&nbsp;"), selected: selected }, name: "#{fff.object_name}[spec][#{spec.id}][section][#{section.id}][options][#{Admin::Furniture::Foam::Type.table_name}][id]" %>
 											</td>
 											<% end %>
 						      		<td>
