@@ -1,11 +1,12 @@
 class Admin::Furniture::Type < Admin::Uploader::Image
-  
+  self.table_name = "admin_furniture_types"
+
   acts_as_paranoid
-  
+
   has_many :furniture, class_name: '::Admin::Furniture::Furniture', foreign_key: :furniture_type_id
-  
+
   validates_presence_of :name, :comment
-  
+
   def to_jq_upload
     {
       "name" => read_attribute(:images),

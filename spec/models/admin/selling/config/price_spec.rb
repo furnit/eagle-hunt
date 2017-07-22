@@ -1,11 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Admin::Selling::Config::Price, type: :model do
-  subject {
-    puts "-----------------------------------------------------"
-    ActiveRecord::Base.logger = Logger.new(STDOUT)
-    build :admin_selling_config_price
-  }
+  subject { build :admin_selling_config_price }
 
   describe "#overall_cost" do
     it "is optional" do
@@ -87,7 +83,6 @@ RSpec.describe Admin::Selling::Config::Price, type: :model do
 
     context "when is not unique" do
       it "is not valid" do
-        byebug
         expect(subject.save).to be_truthy
         expect(subject.dup).to have_errors_on :furniture, errors: :taken
       end
