@@ -44,8 +44,7 @@ end
 # => adding admins
 #
 [
-  '09120686119',
-  '09120535348'
+  '09120686119'
 ]
 .each do |phone_number|
   u = User.create!(
@@ -62,8 +61,7 @@ end
 # => adding admins' profile
 #
 [
-  ['داریوش', 'حسن‌پور', 'اصفهان'],
-  ['سیاوش', 'حسن‌پور', 'آذربایجان غربی']
+  ['داریوش', 'حسن‌پور', 'اصفهان']
 ]
 .each.with_index do |data, index|
   Profile.create!(first_name: data[0], last_name: data[1], state_id: State.where('name = ?', data[2]).first.id, address: data[2], user_id: index + 1)
