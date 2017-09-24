@@ -1,5 +1,6 @@
 class Order::OrdersController < ApplicationController
   before_action :set_order_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order_furniture, only: [:new, :simple, :advance]
 
   # GET /order/orders
   # GET /order/orders.json
@@ -66,10 +67,21 @@ class Order::OrdersController < ApplicationController
     end
   end
 
+  def simple
+  end
+
+  def advance
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_order_order
       @order_order = Order::Order.find(params[:id])
+    end
+
+    def set_order_furniture
+      @furniture = Admin::Furniture::Furniture.find(params.require(:f))
+      raise Exception.new("id & key does not match!") if params.require(:h) != get_hash(@furniture.id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

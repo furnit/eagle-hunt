@@ -1,0 +1,62 @@
+<div class="container">
+	<%= path_to_here! "محصول: #{@furniture.name}" %>
+	<legend>
+		سفارش ساده /
+		<small><%= link_to "محصول #{@furniture.name}", home_furniture_path(@furniture) %></small>
+		<small><%= link_to raw("<small><span class='fa fa-sliders'></span> تغییر به سفارش پیشرفته<small>"), advance_order_order_path(0, f: @furniture.id, h: get_hash(@furniture.id)), class: "pull-left" %></small>
+	</legend>
+
+	<div class="block">
+		<legend style="margin-bottom: 30px">
+			<h3>
+				لطفا یکی از عکس‌های زیر را جهت سفارش انتخاب کنید.<br />
+				<small>می‌توانید با کلیک بروی عکس‌ها آن‌ها را بزرگ‌نمایی کنید.</small>
+			</h3>
+		</legend>
+		<div id='cover-collection' class='photo-gallery-collection text-center' >
+			<% @furniture.images.each.with_index do |i, index| %>
+				<span class="img-wrap" style='margin: 10px;'>
+					<%= link_to image_url(i), xclass:'hidden', 'data-type' => 'photo-gallery', data: { index: index, thumb: thumbnail_url(i), cover: @furniture.cover_details["index"].to_i == index, 'cover-url': cover_admin_furniture_furniture_path(@furniture, format: :json)  }  do %>
+						<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 100px;' %>
+					<% end %>
+					<div class='text-center' style='margin: 10px 3px auto;'>
+					  <%= check_awesome '', '', name: "selected_model", id: unique_id, value: i[:id], box_title: 'سفارش این مدل!' %>
+					</div>
+				</span>
+			<% end %>
+			<div class="clearfix"></div>
+		</div>
+		<button class="btn btn-success disabled pull-left" id="submit-order" style="font-size: 20px">
+			<span class="fa fa-check"></span> صدور فاکتور و پرداخت
+		</button>
+		<div class="clearfix"></div>
+	</div>
+</div>
+
+<style type="text/css" media="screen">
+	input[name="selected_model"]:checked
+</style>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$('input[name=selected_model]').change(function(){
+			$original = $(this);
+			// un-check everything else
+			$('input[name=selected_model]').each(function(){
+				if($(this).attr('id') != $original.attr('id')) $(this).prop('checked', false);
+			});
+			if($('input[name=selected_model]:checked').length)
+				$('button#submit-order').removeClass('disabled');
+			else
+				$('button#submit-order').addClass('disabled');
+			$('.img-wrap img').css('border', 'unset');
+			if($(this).prop('checked'))
+				$(this).closest('.img-wrap').find('img').css('border', '3px solid green');
+		});
+		$("button#submit-order").click(function(){
+			alert("submitted");
+		});
+	});
+</script>
+
+<%= render 'shared/photo_gallery', collection: @furniture %>

@@ -187,10 +187,14 @@
 	</div>
 </div>
 
+<% order_btn_id = unique_id; %>
+<%= link_to "#", new_order_order_path(f: @furniture, h: get_hash(@furniture.id)), class: "inline-html-call hidden", id: "l-#{order_btn_id}" %>
+
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 		// order furniture click event
-		$("#furniture-detail-block1 .btn-order").click(function(){ window.location = "<%= order_order_path(@furniture, h: get_hash(@furniture.id)) %>"; });
+		$("#furniture-detail-block1 .btn-order").click(function(){ $("#l-<%= order_btn_id %>").click(); });
+
 		$('a#edit-furniture-description').click(function(e){
 			e.preventDefault();
 			e.stopPropagation();
@@ -206,9 +210,9 @@
 				$('#furntiure_description-edit-zone').removeClass('hidden');
 				$this = $(this);
 				$('#furntiure_description-edit-zone')
-					.load($(this).attr('href'), function(){ 
+					.load($(this).attr('href'), function(){
 						$this
-							.addClass('editing') 
+							.addClass('editing')
 							.find('span').html('لغو ویرایش');
 						$this.find('.fa').attr('class', 'fa fa-times');
 					});
@@ -225,7 +229,7 @@
 			} else {
 				$('[for="add_to_cart"] .title').text('به سبد خرید اضافه شد.');
 			}
-	
+
 			$.ajax({
 			  type: "POST",
 			  url: url,

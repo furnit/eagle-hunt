@@ -16,6 +16,7 @@ Rails.application.config.assets.version = '1.0'
   users
   filterrific
   employee
+  order
   admin
   shared
   vendors

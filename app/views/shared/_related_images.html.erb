@@ -8,7 +8,7 @@
 						<%= image_tag i[:image].thumb.url, :class => 'img img-responsive img-thumbnail', :style => 'height: 100px!important;'  %>
 					<% end %>
 					<div class='text-center' style='margin: 10px 3px auto;'>
-					  <%= check_awesome 'کاور؟', '', name: "#{collection.model_name.param_key}[images_to_delete][]", value: collection.class.secure_image_id(i[:id]), prefix: 'cover-', box_title: 'حذف؟' %>
+					  <%= check_awesome '', '', name: "#{collection.model_name.param_key}[images_to_delete][]", value: collection.class.secure_image_id(i[:id]), prefix: 'cover-', box_title: 'حذف؟' %>
 					</div>
 			</span>
 		<% end %>

@@ -7,7 +7,7 @@ $(document).on('ready', function() {
     trickleRate: 0.03
   });
   // set bootbox locale
-  bootbox.setLocale('fa');  
+  bootbox.setLocale('fa');
   // set bootbox default args
   bootbox.setDefaults({
   	closeButton: false
@@ -19,7 +19,7 @@ function alert_error(msg) {
 }
 
 $(document).on('ready turbolinks:load', function(){
-	// define format proto-type for string class 
+	// define format proto-type for string class
 	String.prototype.format = function () {
     var args = [].slice.call(arguments);
     return this.replace(/(\{\d+\})/g, function (a){
@@ -94,14 +94,14 @@ $(document).on('ready turbolinks:load', function(){
 	      var body = html;
 	      var title = '';
 	      if(body.length === 0) return;
-	
+
 	      if($(html).find('> *:first').is('legend')) {
 	        var wrapped = $("<div>" + html + "</div>");
 	        wrapped.find('legend:first').remove();
 	        var body = wrapped.html();
 	        var title = $(html).find('legend:first').html();
 	      }
-	
+
 	      var dialog = bootbox.dialog({
 	        title: title,
 	        message: body,

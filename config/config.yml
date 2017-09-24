@@ -1,9 +1,10 @@
 defaults: &defaults
+  brand: مبل ویرا
   domain: www.viramobl.com
   protocol: http
-    
+
   currency: تومان
-  
+
   passwords:
     reset:
       expiration: 24.hours
@@ -12,12 +13,12 @@ defaults: &defaults
       token_length: 6
       send_expiration: 10.minutes
       confirmed_expiration: 30.minutes
-    
+
   sms_api:
     sms_ir:
       username: <%= ENV['SMS_API_USERNAME'] %>
       password: <%= ENV['SMS_API_PASSWORD'] %>
-      
+
   recaptcha:
     verify: https://www.google.com/recaptcha/api/siteverify
     keys:
@@ -26,7 +27,7 @@ defaults: &defaults
 
   session:
     expiration: 60.minutes
-      
+
   preference:
     price:
       round: 5000
@@ -35,13 +36,13 @@ defaults: &defaults
     sms:
       outdated: 24.hours
       timing: [9, 21]
-      
+
   fabric:
     colours:
       cluster:
         k: 24
         runs: 50
-        colour_sampling: [3, 3]  
+        colour_sampling: [3, 3]
 
 development:
   <<: *defaults
@@ -54,4 +55,3 @@ test:
 production:
   <<: *defaults
   protocol: https
-  

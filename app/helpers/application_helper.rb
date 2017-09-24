@@ -1,4 +1,26 @@
-module ApplicationHelper  
+module ApplicationHelper
+  def unique_id
+    @@unique_id_collection ||= { }
+    # generate a random id
+    id = Time.now.to_i.to_s + rand.to_s[2..-1]
+    # if id is generated befored?
+    if not @@unique_id_collection[id].nil?
+      i = 0;
+      idx = id
+      # append numbers until it's new
+      while not @@unique_id_collection[idx].nil?
+        idx = id + i.to_s;
+        i += 1;
+      end
+      # replace the new id with old duplicated id
+      id = idx
+    end
+    # flag that the id defined
+    @@unique_id_collection[id] = 1
+    # return the unique id
+    return id
+  end
+
   def editable_tag instance, field, **kwargs
     text = (kwargs[:text] || eval("instance.#{field.to_s}")).to_s
     kwargs.delete :text
@@ -9,44 +31,44 @@ module ApplicationHelper
       kwargs.delete :enabled
     end
     kwargs.delete :class
-    
-    link_to text, "#", class: klass, data: { 
+
+    link_to text, "#", class: klass, data: {
       type: :text,
-      resource: "#{instance.model_name.param_key}", 
-      name: field.to_s.downcase, 
+      resource: "#{instance.model_name.param_key}",
+      name: field.to_s.downcase,
       url: path_exists?("#{instance.model_name.singular_route_key}_path(id: -1)") ? send("#{instance.model_name.singular_route_key}_path", instance, format: :json) : nil,
       "original-title": kwargs[:"original-title"] || text
     }.merge(kwargs)
-    
+
   end
-  
+
   def list_or_prompt(k, p, &block)
     concat sanitize "<div class='empty-collection'>%s</div>" %p if k.empty?
     k.each.with_index { |l, index| yield l, index }
   end
-  
+
   def namespace? sym
     split = params[:controller].split('/')
     split.length > 1 and split[0].downcase == sym.to_s.downcase
   end
-  
+
   def recaptcha_tag callback: nil, has_error: false
     raw "<div class='form-group %s'>
       <label class='control-label'>لطفا جهت احراز هویت گزینه‌ی «من ربات نیستم» را انتخاب کنید.</label>
       <div class='g-recaptcha' data-sitekey='#{AppConfig.recaptcha.keys.site}' %s></div>
      </div>" %[(has_error ? 'has-error' : ''), (callback.blank? ? '' : "data-callback='#{callback}'")]
   end
-   
+
   def path_exists? path
     begin
       eval(path)
     rescue NameError
       return false
     end
-    
+
     return true
   end
-  
+
   def render_two_step_auth_form name: nil
     name ||= ::TwoStepAuth.input_name
     @temp_password_id ||= 0
@@ -89,7 +111,7 @@ module ApplicationHelper
         });
       </script>"
   end
-  
+
   def get_namespace
     split = params["controller"].split('/')
     return :default if split.length == 1
@@ -140,20 +162,21 @@ module ApplicationHelper
   end
 
   def path_to_here!(*_pathes)
-    pathes = [link_to(t('routes.%s.label' %controller.controller_name), request.path)]
-
-    if i18n_set? ('routes.%s.%s' %[controller.controller_name, controller.action_name])
-      pathes << t('routes.%s.%s' %[controller.controller_name, controller.action_name])
-    elsif i18n_set? ('routes.%s' %[controller.action_name])
-      pathes << t('routes.%s' %[controller.action_name])
+    action_name = request.path_parameters[:action]
+    controller_name = request.path_parameters[:controller]
+    pathes = [link_to(t('routes.%s.label' %controller_name), request.env["REQUEST_URI"])]
+    if i18n_set? ('routes.%s.%s' %[controller_name, action_name])
+      pathes << t('routes.%s.%s' %[controller_name, action_name])
+    elsif i18n_set? ('routes.%s' %[action_name])
+      pathes << t('routes.%s' %[action_name])
     elsif _pathes.length ==  0
-      pathes = [t('routes.%s.label' %controller.controller_name)]
+      pathes = [t('routes.%s.label' %controller_name)]
     end
 
     pathes += _pathes if _pathes.length
 
     str = "<ol class='breadcrumb col-md-12' style='font-weight: bold; background-color: white; border: 1px solid #eee; border-radius: 0; marginx: auto 20px 30px 20px;'>
-            <li><span class='fa fa-angle-double-left' style='margin-left: 10px'></span>#{link_to 'مبل ویرا', root_path}</li>"
+            <li><span class='fa fa-angle-double-left' style='margin-left: 10px'></span>#{link_to AppConfig.brand, root_path}</li>"
     pathes.each.with_index do |l, index|
       str += "<li" + (index != pathes.length - 1 ? "" : " class='active'") + "> #{l}</li>"
     end
