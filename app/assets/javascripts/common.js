@@ -148,8 +148,23 @@ $(document).on('ready turbolinks:load', function(){
   });
 }).ajaxError(function(e, xhr){
   // i.e users sent wrong data to the server OR abort!!
-  if(xhr.status === 422 || xhr.status === 0 || xhr.statusText === "abort") return;
-  alert_error('خطایی در هنگام اجرای عملیات رخ داده‌ است؛ لطفا دوباره تلاش کنید و در صورت رخداد مجدد این خطا به تیم توسعه‌ی سایت اطلاع دهید و <b>بن تخفیف بگیرید</b>!');
+  if(xhr.status === 0 || xhr.statusText === "abort") return;
+  // the un-processable entity error:
+  if(xhr.status === 422) {
+  	// try to extract the json error message if possible
+  	var json = xhr.responseJSON;
+  	// maybe the request didn't made by json request
+  	if(typeof json === "undefined" && typeof xhr.responseText === "string")
+  		// try to parse the text
+  		try { json = JSON.parse(xhr.responseText); } catch(e) { }
+		// if a error object is provided by json?
+		if(typeof json !== "undefined" && json["status"] === "error" && typeof json["message"] === "string")
+			alert_error(json["message"]);
+		// do not proceed with default let the caller handle the 422 errors
+		return;
+	}
+	// if we couldn't comeup with a nothing, alert the default
+	alert_error('خطایی در هنگام اجرای عملیات رخ داده‌ است؛ لطفا دوباره تلاش کنید و در صورت رخداد مجدد این خطا به تیم توسعه‌ی سایت اطلاع دهید و <b>بن تخفیف بگیرید</b>!');
 });
 
 function update_the_shopping_cart_banner(count) {

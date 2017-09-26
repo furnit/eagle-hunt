@@ -1,6 +1,10 @@
 class Order::OrdersController < ApplicationController
-  before_action :set_order_order, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, except: [:new]
   before_action :set_order_furniture, only: [:new, :simple, :advance]
+  before_action :set_order_order, only: [:show, :edit, :update, :destroy]
+  before_action only: [:new, :simple, :advance] do
+    @order = Order::Order.new
+  end
 
   # GET /order/orders
   # GET /order/orders.json
@@ -71,6 +75,36 @@ class Order::OrdersController < ApplicationController
   end
 
   def advance
+  end
+
+  def submit_simple
+    pars = params.require(:order_order).permit(:selected_model, :admin_furniture_furniture_id);
+    # find the furniture first
+    furniture = Admin::Furniture::Furniture.find(pars[:admin_furniture_furniture_id]);
+    # flag it if not available
+    raise ClientError.new('این محصول قابل سفارش نمی‌باشد.') if not furniture.available
+    # cannot order with an un-resolved order pending
+    raise ClientError.new('این محصول را قبلا سفارش داده‌اید و در دست بررسی قرار دارد و تا زمانی که این محصول در دست بررسی قرار دارد امکان سفارش مجدد آن وجود ندارد.') if Order::Order.exists?(user_id: current_user.id, admin_furniture_furniture_id: furniture.id, resolved: false)
+    # check if selected exists in the furniture's images
+    is_related = furniture.images.map { |i| i[:id] == pars[:selected_model].to_i }.any?
+    # raise error if data are not valid
+    raise RuntimeError.new('sent data are not valid.') if not is_related
+    # add the order
+    Order::Order.create!(user_id: current_user.id, admin_furniture_furniture_id: furniture.id, is_default: true, default_id: pars[:selected_model], resolved: false)
+    # make an alert
+    mk_alert title: 'سفارش ثبت و در صف بررسی قرار گرفت', body: 'به زودی از همکاران ما تماسی جهت تکمیل سفارش دریافت خواهید کرد.'
+    # redirect to furniture path
+    redirect_to home_furniture_path(furniture)
+  end
+
+  def test_order
+    client = Savon.client(wsdl: "http://pardano.com/p/webservice-test/?wsdl");
+    resp = client.call(:requestpayment, message: { api: "test", price: "100", callback: "http://localhost:3000/order/orders/api_callback" }).to_hash()[:requestpayment_response]
+    redirect_to "http://pardano.com/p/payment/#{resp[:return]}"
+  end
+
+  def api_callback
+    byebug
   end
 
   private

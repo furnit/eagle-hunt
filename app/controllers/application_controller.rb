@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_action :store_user_location, if: :storable_location?
   # no forgery!
   protect_from_forgery with: :exception
   # gaurd the project by Access Controll Unit
@@ -13,13 +14,13 @@ class ApplicationController < ActionController::Base
   before_action :change_user_password_if_necessary
   # add to phonebook if necessary
   before_action :add_to_phonebook_if_necessary
-  # translates every params' entity from arabic to english 
+  # translates every params' entity from arabic to english
   before_action :param_convert_ar2en_i
   # rescue from all user-error exception
   rescue_from ClientError, with: :render_client_exception
-  
+
   private
-  
+
   def render_client_exception(e)
     msg = "خطایی در هنگام اجرای عملیات رخ داده‌ است؛ لطفا دوباره تلاش کنید و در صورت رخداد مجدد این خطا به تیم توسعه‌ی سایت اطلاع دهید."
     msg = e.message if e.message.is_arabic?
@@ -31,7 +32,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirection_url
-    request.headers["Referer"] || root_path 
+    request.headers["Referer"] || root_path
   end
 
   def guard_admin_with_last_access_expiration
@@ -52,7 +53,7 @@ class ApplicationController < ActionController::Base
         return
       end
       # if session was not expired?
-      # update access time every 3 minutes to reduce call for database 
+      # update access time every 3 minutes to reduce call for database
       # since loading a page may require many requests.
       if isession.last_accessed_at.nil? or (isession.last_accessed_at + 3.minutes < Time.now)
         # update the last access time
@@ -87,7 +88,7 @@ class ApplicationController < ActionController::Base
         if h[k].respond_to? :each
           h[k].each { |i| i.to_ar2en_i if i.respond_to? :to_ar2en_i }
         else
-          h[k].to_ar2en_i if h[k].respond_to? :to_ar2en_i 
+          h[k].to_ar2en_i if h[k].respond_to? :to_ar2en_i
         end
       end
     end
@@ -103,7 +104,7 @@ class ApplicationController < ActionController::Base
     end
     return true
   end
-  
+
   def session_data
     raise RuntimeError.new("invalid cookie") if cookies[SESSION_KEY].blank?
     SessionStore.find_by_session_id cookies[SESSION_KEY]
@@ -122,7 +123,7 @@ class ApplicationController < ActionController::Base
       redirect_to edit_user_registration_path
     end
   end
-  
+
   def mk_notice instance, field, label, op
     op = {
       create: 'ایجاد',
@@ -131,17 +132,21 @@ class ApplicationController < ActionController::Base
     }[op.to_sym]
     text = field
     text = eval("instance.#{field.to_s}") if field.is_a? Symbol
-    "#{label} «<b>#{text}</b>» با موفقیت #{op} شد." 
+    "#{label} «<b>#{text}</b>» با موفقیت #{op} شد."
   end
-  
+
+  def mk_alert title:, body:
+    flash[:page_alert] = { title: title, body: body }
+  end
+
   def add_to_phonebook_if_necessary
     if user_signed_in? and current_user.profile and not(current_user.is_added_to_phonebook or current_user.error_on_add_to_phonebook)
       require "#{Rails.root}/lib/sms/bootstrap"
-      if not SMS.add_to_phonebook first_name: current_user.profile.first_name, last_name: current_user.profile.last_name, mobile: current_user.phone_number 
+      if not SMS.add_to_phonebook first_name: current_user.profile.first_name, last_name: current_user.profile.last_name, mobile: current_user.phone_number
         message = <<~sms
           خطای اضافه کردن به دفترچه تلفن
           کاربر: #{current_user.id}
-          
+
           مبل ویرا
           #{AppConfig.domain}
         sms
@@ -156,22 +161,37 @@ class ApplicationController < ActionController::Base
       current_user.save
     end
   end
-  
+
   protected
-  
-  def prefer_layout lyout = nil
-    return 'ajax' if is_ajax_call?
-    lyout
-  end
 
-  def is_ajax_call?
-    not request.xhr?.nil?
-  end
+    def prefer_layout lyout = nil
+      return 'ajax' if is_ajax_call?
+      lyout
+    end
 
-  def prevent_browser_caching
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate' # HTTP 1.1.
-    response.headers['Pragma'] = 'no-cache' # HTTP 1.0.
-    response.headers['Expires'] = '0' # Proxies.
-  end
+    def is_ajax_call?
+      not request.xhr?.nil?
+    end
+
+    def prevent_browser_caching
+      response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate' # HTTP 1.1.
+      response.headers['Pragma'] = 'no-cache' # HTTP 1.0.
+      response.headers['Expires'] = '0' # Proxies.
+    end
+
+  private
+    # Its important that the location is NOT stored if:
+    # - The request method is not GET (non idempotent)
+    # - The request is handled by a Devise controller such as Devise::SessionsController as that could cause an
+    #    infinite redirect loop.
+    # - The request is an Ajax request as this can lead to very unexpected behaviour.
+    def storable_location?
+      request.get? && !devise_controller? && !request.xhr?
+    end
+
+    def store_user_location
+      # :user is the scope we are authenticating
+      store_location_for(:user, request.fullpath)
+    end
 
 end

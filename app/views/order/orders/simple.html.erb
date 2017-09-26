@@ -14,21 +14,42 @@
 			</h3>
 		</legend>
 		<div id='cover-collection' class='photo-gallery-collection text-center' >
+			<% input_name = "#{@order.model_name.param_key}[selected_model]" %>
 			<% @furniture.images.each.with_index do |i, index| %>
 				<span class="img-wrap" style='margin: 10px;'>
 					<%= link_to image_url(i), xclass:'hidden', 'data-type' => 'photo-gallery', data: { index: index, thumb: thumbnail_url(i), cover: @furniture.cover_details["index"].to_i == index, 'cover-url': cover_admin_furniture_furniture_path(@furniture, format: :json)  }  do %>
 						<%= image_tag thumbnail_url(i), :class => 'cover-item img-responsive img-thumbnail', style: 'height: 100px;' %>
 					<% end %>
 					<div class='text-center' style='margin: 10px 3px auto;'>
-					  <%= check_awesome '', '', name: "selected_model", id: unique_id, value: i[:id], box_title: 'سفارش این مدل!' %>
+					  <%= check_awesome '', '', name: input_name, id: unique_id, value: i[:id], box_title: 'سفارش این مدل!' %>
 					</div>
 				</span>
 			<% end %>
 			<div class="clearfix"></div>
 		</div>
-		<button class="btn btn-success disabled pull-left" id="submit-order" style="font-size: 20px">
-			<span class="fa fa-check"></span> صدور فاکتور و پرداخت
-		</button>
+		<table class="table" style="margin-top: 30px; font-size: 20px">
+			<tbody>
+				<tr>
+					<td>
+						<div class="row">
+							<p class="col-md-1 pull-right" style="padding: 0; padding-left: 10px">
+								<strong><span class="fa fa-commenting-o"></span> توجه:</strong>
+							</p>
+							<p class="text-justify col-md-11">
+								مجموعه <em><%= AppConfig.brand %></em>
+								به منابع پارچه‌ای فراوانی دسترسی دارد، ولی ممکن است پارچه‌ و طرح مورد نظر در بازار پارچه ایران موجود نباشد.<br />
+								لذا ابتدا سفارش شما ثبت می‌گردد و در صورت وجود طرح و پارچه‌ی مورد نظر، سفارش شما فاکتور می‌گردد و بعد از پرداخت توسط شما اقدامات ساخت و تولید آن صورت خواهد گرفت.
+							</p>
+						</div>
+					</td>
+					<td class="col-sm-1">
+						<button class="btn btn-success disabled pull-left" id="submit-order">
+							<span class="fa fa-check"></span> ثبت سفارش
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 		<div class="clearfix"></div>
 	</div>
 </div>
@@ -39,13 +60,14 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
-		$('input[name=selected_model]').change(function(){
+		var input_name = "input[name='<%= input_name %>']";
+		$(input_name).change(function(){
 			$original = $(this);
 			// un-check everything else
-			$('input[name=selected_model]').each(function(){
+			$(input_name).each(function(){
 				if($(this).attr('id') != $original.attr('id')) $(this).prop('checked', false);
 			});
-			if($('input[name=selected_model]:checked').length)
+			if($(input_name + ':checked').length)
 				$('button#submit-order').removeClass('disabled');
 			else
 				$('button#submit-order').addClass('disabled');
@@ -54,7 +76,11 @@
 				$(this).closest('.img-wrap').find('img').css('border', '3px solid green');
 		});
 		$("button#submit-order").click(function(){
-			alert("submitted");
+			$.ajax({
+				method: 'post',
+				data: { "<%= input_name %>": $(input_name + ':checked').val(), "<%= @order.model_name.param_key %>[<%= @furniture.model_name.param_key %>_id]": <%= @furniture.id %> },
+				url: "<%= submit_simple_order_order_path %>"
+			});
 		});
 	});
 </script>

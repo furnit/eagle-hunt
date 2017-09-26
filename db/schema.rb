@@ -498,17 +498,22 @@ ActiveRecord::Schema.define(version: 20170526101444) do
   end
 
   create_table "order_orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id",                         null: false
-    t.integer  "admin_furniture_furniture_id",    null: false
-    t.integer  "admin_furniture_fabric_model_id", null: false
-    t.integer  "admin_furniture_paint_color_id",  null: false
-    t.integer  "admin_furniture_wood_types_id",   null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.integer  "user_id",                                         null: false
+    t.integer  "admin_furniture_furniture_id",                    null: false
+    t.integer  "admin_furniture_fabric_model_id"
+    t.integer  "admin_furniture_paint_color_id"
+    t.integer  "admin_furniture_wood_type_id"
+    t.json     "set"
+    t.boolean  "is_default",                      default: false
+    t.integer  "default_id"
+    t.boolean  "resolved",                        default: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.index ["admin_furniture_fabric_model_id"], name: "index_order_orders_on_admin_furniture_fabric_model_id", using: :btree
     t.index ["admin_furniture_furniture_id"], name: "index_order_orders_on_admin_furniture_furniture_id", using: :btree
     t.index ["admin_furniture_paint_color_id"], name: "index_order_orders_on_admin_furniture_paint_color_id", using: :btree
-    t.index ["admin_furniture_wood_types_id"], name: "index_order_orders_on_admin_furniture_wood_types_id", using: :btree
+    t.index ["admin_furniture_wood_type_id"], name: "index_order_orders_on_admin_furniture_wood_type_id", using: :btree
+    t.index ["default_id"], name: "index_order_orders_on_default_id", using: :btree
     t.index ["user_id"], name: "index_order_orders_on_user_id", using: :btree
   end
 
@@ -622,7 +627,7 @@ ActiveRecord::Schema.define(version: 20170526101444) do
   add_foreign_key "order_orders", "admin_furniture_fabric_models"
   add_foreign_key "order_orders", "admin_furniture_furnitures"
   add_foreign_key "order_orders", "admin_furniture_paint_colors"
-  add_foreign_key "order_orders", "admin_furniture_wood_types", column: "admin_furniture_wood_types_id"
+  add_foreign_key "order_orders", "admin_furniture_wood_types"
   add_foreign_key "order_orders", "users"
   add_foreign_key "profiles", "states"
   add_foreign_key "profiles", "users", on_update: :cascade, on_delete: :cascade

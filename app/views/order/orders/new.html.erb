@@ -1,38 +1,43 @@
 <div class="containerx">
 	<%#= path_to_here! "محصول: #{@furniture.name}" %>
 	<legend><strong>سفارش محصول</strong></legend>
-
-	<div class="block">
-		<p>
-			» برای ادامه در این قسمت نوع سفارش خود را مشخص می‌کنید.
-		</p>
-		<legend>روش‌های سفارش محصول</legend>
-		<table style="font-size: 20px">
-			<thead>
-				<tr>
-					<th style="width: 130px"></th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td style="font-weight: bold; vertical-align: top"><span class="fa fa-check"></span> سفارش ساده:</td>
-					<td style="padding-right: 10px">در این روش می‌توانید یکی از عکس‌های محصول را انتخاب کنید و سفارش در یک مرحله به پایان رسد. در این روش قیمت محصول دقیقا همان قیمتی است که در پروفایل محصول آورده شده است.</td>
-				</tr>
-				<tr><td colspan="2">&nbsp;</td></tr>
-				<tr>
-					<td style="font-weight: bold; vertical-align: top"><span class="fa fa-sliders"></span> سفارش پیشرفته:</td>
-					<td style="padding-right: 10px">در این نوع از سفارش می‌توانید تمامی اجزای مبل را بنا به سلیقه‌ی خود سفارش دهید. که شامل رنگ و نوع پارچه قست‌های مختلف مبل، نوع چوب، رنگ و نوع رنگ‌آمیزی چوب و غیره...<br />در این روش قیمت نهایی محصول با توجه به جزئیات سفارش تعیین خواهد شد.</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<div class="row">
-		<div class="col-sm-6">
-			<%= link_to raw("<span class='fa fa-sliders'></span> سفارش پیشرفته"), advance_order_order_path(0, f: @furniture.id, h: get_hash(@furniture.id)), class: "btn btn-success", style: "font-size: 20px!important" %>
-		</div>
-		<div class="col-sm-2" xstyle="margin-left: 60px">
-			<%= link_to raw("<span class='fa fa-check'></span> سفارش ساده"), simple_order_order_path(0, f: @furniture.id, h: get_hash(@furniture.id)), class: "btn btn-primary", style: "font-size: 20px!important" %>
-		</div>
-	</div>
+		<% if @furniture.available %>
+			<div class="block">
+				<p>
+					» برای ادامه در این قسمت نوع سفارش خود را مشخص می‌کنید.
+				</p>
+				<legend>روش‌های سفارش محصول</legend>
+				<table style="font-size: 20px">
+					<thead>
+						<tr>
+							<th style="width: 130px"></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td style="font-weight: bold; vertical-align: top"><span class="fa fa-check"></span> سفارش ساده:</td>
+							<td style="padding-right: 10px">در این روش می‌توانید یکی از عکس‌های محصول را انتخاب کنید و سفارش در یک مرحله به پایان رسد.</td>
+						</tr>
+						<tr><td colspan="2">&nbsp;</td></tr>
+						<tr>
+							<td style="font-weight: bold; vertical-align: top"><span class="fa fa-sliders"></span> سفارش پیشرفته:</td>
+							<td style="padding-right: 10px">در این نوع از سفارش می‌توانید تمامی اجزای مبل را بنا به سلیقه‌ی خود سفارش دهید. که شامل رنگ و نوع پارچه قست‌های مختلف مبل، نوع چوب، رنگ و نوع رنگ‌آمیزی چوب و غیره...<br />در این روش قیمت نهایی محصول با توجه به جزئیات سفارش تعیین خواهد شد.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<%= link_to raw("<span class='fa fa-sliders'></span> سفارش پیشرفته"), advance_order_order_path(0, f: @furniture.id, h: get_hash(@furniture.id)), class: "btn btn-success", style: "font-size: 20px!important" %>
+				</div>
+				<div class="col-sm-2" xstyle="margin-left: 60px">
+					<%= link_to raw("<span class='fa fa-check'></span> سفارش ساده"), simple_order_order_path(0, f: @furniture.id, h: get_hash(@furniture.id)), class: "btn btn-primary", style: "font-size: 20px!important" %>
+				</div>
+			</div>
+		<% else %>
+			<div class="block text-center">
+				<span class="fa fa-exclamation-triangle"></span> این محصول قابل سفارش نمی‌باشد.
+			</div>
+		<% end %>
 </div>

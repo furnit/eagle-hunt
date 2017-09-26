@@ -46,11 +46,11 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  domain: dev.viramobl.com
+  domain: localhost:3000
 
 test:
   <<: *defaults
-  domain: dev.viramobl.com
+  domain: localhost:3000
 
 production:
   <<: *defaults

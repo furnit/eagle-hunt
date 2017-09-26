@@ -81,13 +81,13 @@ gem 'bootstrap-select-rails'
 gem 'recaptcha', require: "recaptcha/rails"
 # for shorten URLs
 gem 'bitly'
-# colorizes the string 
+# colorizes the string
 gem 'colorize'
-# for general schedule purposes 
+# for general schedule purposes
 gem 'whenever', require: false
-# for fixing the `openssl.so: warning: already initialized constant` issue caused when backing up the database 
+# for fixing the `openssl.so: warning: already initialized constant` issue caused when backing up the database
 gem 'openssl', '2.0.2'
-# for fixing the `bigdecimal.so: warning: already initialized constant` issue caused when backing up the database 
+# for fixing the `bigdecimal.so: warning: already initialized constant` issue caused when backing up the database
 gem 'bigdecimal', '~> 1.1'
 # for dependency of `gem 'descriptive_statistics'`
 gem 'statistics2', github: 'noise2/statistics2'
@@ -102,7 +102,9 @@ gem 'meta-tags'
 # for db:session storage
 gem 'activerecord-session_store'
 # for language detection
-gem "cld"
+gem 'cld'
+# for SOAP
+gem 'savon', '~> 2.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -113,7 +115,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   # For pretty print
   gem 'awesome_print', github: 'awesome-print/awesome_print'
-  # for factoring rspec testing units 
+  # for factoring rspec testing units
   gem "factory_girl_rails"
   # fakes the data for testing
   gem "faker"
