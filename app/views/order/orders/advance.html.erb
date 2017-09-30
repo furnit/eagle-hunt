@@ -1,12 +1,14 @@
+<%= render 'home/furniture_cover', furniture: @furniture, show_samples: false, admin_adjusts: false %>
+
 <div class="container">
 	<%= path_to_here! "محصول: #{@furniture.name}" %>
 	<legend>
 		سفارش پیشرفته /
 		<small><%= link_to "محصول #{@furniture.name}", home_furniture_path(@furniture) %></small>
-		<small><%= link_to raw("<small><span class='fa fa-sliders'></span> تغییر به سفارش ساده<small>"), simple_order_order_path(0, f: @furniture.id, h: get_hash(@furniture.id)), class: "pull-left" %></small>
+		<small><%= link_to raw("<small><span class='fa fa-sliders'></span> تغییر به سفارش ساده</small>"), simple_order_order_path(0, f: @furniture.id, h: get_hash(@furniture.id)), class: "pull-left" %></small>
 	</legend>
 
-	<ul class="breadcrumb-steps">
+	<ul class="breadcrumb-steps" id="order-stage-steps">
 	  <li class="current">
 	  	<a href="#step1">
 	  		<em>قدم اول: پارچه</em>
@@ -20,7 +22,7 @@
   		</a>
 		</li>
 	  <li>
-	  	<a href="#step1">
+	  	<a href="#step3">
 	  		<em>قدم سوم: کوسن</em>
 	  		<span>تعداد کوسن‌ها</span>
   		</a>
@@ -33,14 +35,41 @@
 		</li>
 	</ul>
 
-	<div class="block">
-
+	<div class="block" id="order-stages">
+		<% Dir['app/views/order/orders/steps/*.html.erb'].each do |file| %>
+			<%= render "order/orders/steps/" + File.basename(file, '.html.erb').sub(/^_/, '') %>
+		<% end %>
+		<div id="step-nav">
+		<hr />
+			<button class="btn btn-default pull-right hidden" id="btn-prev">
+				<span class="fa fa-arrow-right" style="margin-top: 3px"></span> مرحله‌ی قبل
+			</button>
+			<button class="btn btn-primary pull-left" id="btn-next">
+				مرحله‌ی بعد <span class="fa fa-arrow-left" style="margin-top: 3px"></span>
+			</button>
+			<div class="clearfix"></div>
+		</div>
 	</div>
 </div>
 
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
+		$("#order-stages #btn-next").click(function() {
+			$("#order-stage-steps li.current").next().addClass('current').prev().removeClass('current');
+			$("#order-stages #btn-prev").removeClass('hidden');
+			$(this).blur();
+		});
+		$("#order-stages #btn-prev").click(function() {
+			$("#order-stage-steps li.current").prev().addClass('current').next().removeClass('current');
+			if($("#order-stage-steps li:first").hasClass('current')) $(this).addClass('hidden');
+			$(this).blur();
+		});
+		$("#order-stages #step-nav button").click(function() {
+			$("#order-stages > div:not(#step-nav)").addClass('hidden');
+			console.log("#order-stages > div'" + $("#order-stage-steps li.current a").attr('href'));
+			$("#order-stages > div" + $("#order-stage-steps li.current a").attr('href')).removeClass('hidden');
+		});
 	});
 </script>
 

@@ -4,7 +4,7 @@
 	<legend>
 		سفارش ساده /
 		<small><%= link_to "محصول #{@furniture.name}", home_furniture_path(@furniture) %></small>
-		<small><%= link_to raw("<small><span class='fa fa-sliders'></span> تغییر به سفارش پیشرفته<small>"), advance_order_order_path(0, f: @furniture.id, h: get_hash(@furniture.id)), class: "pull-left" %></small>
+		<small><%= link_to raw("<small><span class='fa fa-sliders'></span> تغییر به سفارش پیشرفته</small>"), advance_order_order_path(0, f: @furniture.id, h: get_hash(@furniture.id)), class: "pull-left" %></small>
 	</legend>
 
 	<div class="block">

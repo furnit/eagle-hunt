@@ -57,12 +57,12 @@
 
 .ir-font {
   font-family: BZar,'BZar', "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 17px;
+  font-size: 20px;
 }
 
 .en-font {
   font-family: TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .ir { direction: rtl!important; text-align: right!important; }
@@ -80,7 +80,7 @@ body {
   select,
   textarea { @extend .form-control; font-size: 20px!important; }
   input { font-size: 20px!important; }
-  
+
   .bootstrap-select{
     &:not(.en) * { @extend .ir-font }
     &.en * { @extend .en-font }
@@ -89,7 +89,7 @@ body {
   th { text-align: right }
 
   input[type=tel] { text-align: right; direction: ltr }
-  
+
   table {
     tbody.no-layout > tr > td {
       border: 0!important
@@ -99,7 +99,7 @@ body {
       border: 0!important
     }
     tr.divider {
-      &:not(:first-child) { 
+      &:not(:first-child) {
         td { border-top: 3px solid $table-border-color; }
       }
     }
@@ -151,9 +151,9 @@ body {
     min-height: 50px;
     font-size: 15px
   }
-  
+
   div.div-form-group.has-error {
-    * { color: $state-danger-text }   
+    * { color: $state-danger-text }
   }
   .field_with_errors {
   }
@@ -175,13 +175,13 @@ body {
       dd { margin-left: 10%; }
     }
   }
-  
+
   .kid-effect {
-    -webkit-box-shadow:0 0 20px #0088cc; 
-    -moz-box-shadow: 0 0 20px #0088cc; 
+    -webkit-box-shadow:0 0 20px #0088cc;
+    -moz-box-shadow: 0 0 20px #0088cc;
     box-shadow:0 0 20px #0088cc;
   }
-  
+
   .highlight {
     color: black;
     font-weight: bold;
@@ -324,7 +324,7 @@ body {
   .ir {
     ::-webkit-input-placeholder { text-align: right; }
     :-moz-placeholder { text-align: right; }
-    ::-moz-placeholder { text-align: right; }   
+    ::-moz-placeholder { text-align: right; }
     :-ms-input-placeholder { text-align: right; }
     /*
      * input group for .ir class
@@ -348,13 +348,13 @@ body {
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
     }
-    
+
     .has-error {
       .input-group-addon {
         border-color: $state-danger-text!important;
       }
     }
-    
+
     .input-group {
       .form-control:last-child {
         @extend .form-control:last-child;

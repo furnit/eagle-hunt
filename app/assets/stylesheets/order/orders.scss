@@ -1,3 +1,44 @@
 /*
 *= require vendors/wizard-breadcrumb-steps
 */
+
+#order-stages {
+  > div {
+    > legend { font-weight: bold; font-sizex: 2em; }
+    > legend + p { font-sizex: 1.5em }
+  }
+  #step1 {
+    #step1-1 {
+      border-left: 3px solid #e7e7e7;
+
+      li {
+        small {
+          font-weight: bold;
+        }
+        &:not(:last-child) {
+          border-bottom: 2px solid #e7e7e7;
+        }
+        &.active {
+          img {
+            border: 3px solid #0088cc;
+          }
+        }
+        &:not(.active):not(:hover) {
+          opacity: .7;
+          small {
+            font-weight: normal;
+          }
+        }
+      }
+    }
+    #step1-2 {
+      &.disabled {
+        & > * { opacity: 0.7 }
+      }
+      #step1-2-content {
+        legend { font-weight: bold; }
+        .fab-container { padding: 10px 0 10px 0; }
+      }
+    }
+  }
+}

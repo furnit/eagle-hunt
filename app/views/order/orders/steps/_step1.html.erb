@@ -1,0 +1,69 @@
+<div id="step1">
+	<legend>انتخاب طرح و رنگ پارچه</legend>
+	<p>لطفا برای انتخاب پارچه‌ی هریک از قسمت‌های زیر بروی قسمت مورد نظر کلیک کنید.</p>
+	<hr />
+	<div class="row">
+		<div id="step1-1" class="text-center col-sm-3 col-xs-12 pull-right">
+			<ul class="list-unstyled text-center pull-right">
+			<% @furniture_sections.each do |s| %>
+				<li>
+					<a href="#"><%= image_tag s.image[:image], height: "150px" %></a>
+					<small><%= s.comment %></small>
+				</li>
+			<% end %>
+			</ul>
+		</div>
+		<div id="step1-2" class="col-sm-9 col-xs-12 pull-right hidden">
+			<div class="input-group" id="step1-2-options">
+				<label for="fabric-quality">کیفیت پارچه:</label>
+				<%= select_tag "fabric-quality", options_from_collection_for_select(@fabric_quals, :id, :name), prompt: "انتخاب کنید." %>
+			</div>
+			<hr />
+			<div id="step1-2-content"></div>
+		</div>
+		<div id="step1-2-warning" class="text-center">
+			<span class='fa fa-hand-o-right'></span> لطفا برای شروع یکی از قسمت‌های مبل را از سمت راست صفحه انتخاب نمایید.
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$('#step1-1 li').click(function() {
+			$(this).closest('ul').find('.active').removeClass('active');
+			$(this).addClass('active');
+			$('#step1-2-warning').addClass('hidden');
+			$('#step1-2').removeClass('hidden');
+		})
+		$('#step1 #step1-2 #fabric-quality').change(function() {
+			$("#step1-2-content").html("<div class='text-center'><span class='fa fa-spinner fa-spin'></span></div>");
+			$.ajax({
+				url: '<%= ls_fabrics_api_index_path %>',
+				method: 'post',
+				data: {q: $(this).find(':selected').val()},
+				success: function(data) {
+					// clear the content
+				  $("#step1-2-content").html("");
+					if(data.length === 0) {
+						$("#step1-2-content").html("<div class='text-center'><span class='fa fa-exclamation-triangle'></span> هیچ پارچه‌ای با این کیفیت در سیستم ثبت نشده است.</div>");
+						return;
+					}
+					for(var i = 0, j = data.length; i < j; i ++) {
+						 var fabric = data[i];
+						 $("#step1-2-content").append("<legend>" + fabric.brand.name + "</legend>");
+						 var models = fabric.models
+
+						 $("#step1-2-content").append("<div class='row'>");
+						 for(var l = 0, k = models.length; l < k; l++) {
+						 		$("#step1-2-content").append("<div class='col-sm-4 text-center fab-container'>\
+							 		<img src='" + models[l].thumb + "' data-origin-src='" + models[l].origin + "' class='img img-responsive img-thumbnail' />\
+							 		<label style='display: block; margin-top: 10px;'>M" + models[l].id + "</label>\
+						 		</div>");
+						 };
+						 $("#step1-2-content").append("</div>");
+					};
+				}
+			});
+		});
+	});
+</script>

@@ -1,5 +1,5 @@
 class Order::OrdersController < ApplicationController
-  before_filter :authenticate_user!, except: [:new]
+  before_action :authenticate_user!, except: [:new]
   before_action :set_order_furniture, only: [:new, :simple, :advance]
   before_action :set_order_order, only: [:show, :edit, :update, :destroy]
   before_action only: [:new, :simple, :advance] do
@@ -76,6 +76,8 @@ class Order::OrdersController < ApplicationController
   end
 
   def advance
+    @furniture_sections = Admin::Furniture::Section.where(tag: :NECESSARY)
+    @fabric_quals = Admin::Furniture::Fabric::Quality.all
   end
 
   def submit_simple

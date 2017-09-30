@@ -7,6 +7,13 @@ GIT
       activesupport (>= 4.2, < 6.0)
 
 GIT
+  remote: https://github.com/ai/autoprefixer-rails.git
+  revision: 5115a993b6979ae441e77b49e8799518e02e81b3
+  specs:
+    autoprefixer-rails (7.1.4.1)
+      execjs
+
+GIT
   remote: https://github.com/awesome-print/awesome_print.git
   revision: 551bb9cd306aee74e338c92316c8709ff71fb305
   specs:
@@ -96,8 +103,6 @@ GEM
       gyoku (>= 0.4.0)
       nokogiri
     arel (7.1.4)
-    autoprefixer-rails (6.7.7.2)
-      execjs
     autosize-rails (1.18.17)
       rails (>= 3.1)
     bcrypt (3.1.11)
@@ -343,6 +348,7 @@ DEPENDENCIES
   accountingjs-rails
   activerecord-session_store
   acts_as_paranoid!
+  autoprefixer-rails!
   autosize-rails
   awesome_print!
   bigdecimal (~> 1.1)

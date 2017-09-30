@@ -18,6 +18,12 @@ Rails.application.routes.draw do
 
   resources :profiles
 
+  resources :api, RC::non_restful do
+    collection do
+      post :ls_fabrics, RC::ajax_server.merge(RC::json_request_only)
+    end
+  end
+
   namespace :order do
     resources :orders do
       collection do

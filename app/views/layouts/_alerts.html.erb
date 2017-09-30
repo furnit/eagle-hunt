@@ -8,12 +8,3 @@
     </div>
   </div>
 </div>
-<%
-	p '-------------------------------'
-	p 'page alert: ' + flash[:page_alert].to_s
-	p '----------------------------'
-
-%>
-<div style="position: fixed; top: 500px; z-index: 10000">
-	<%= flash[:page_alert] %>
-</div>

@@ -73,7 +73,6 @@ ActiveRecord::Schema.define(version: 20170526101444) do
     t.integer  "admin_furniture_fabric_brand_id"
     t.text     "comment",                           limit: 65535
     t.json     "images"
-    t.json     "images_detail"
     t.datetime "deleted_at"
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false

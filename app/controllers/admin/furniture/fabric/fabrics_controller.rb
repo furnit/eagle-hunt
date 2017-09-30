@@ -39,17 +39,17 @@ class Admin::Furniture::Fabric::FabricsController < Admin::UploaderController
       end
     end
   end
-  
+
   # PATCH/PUT /admin/fabrics/1
   # PATCH/PUT /admin/fabrics/1.json
   def update
     prevent_browser_caching
     # upload the models
     upload_models
-    
+
     respond_to do |format|
       if @admin_furniture_fabric.update(admin_furniture_fabric_params)
-        
+
         if not admin_furniture_fabric_models_name.empty?
           @admin_furniture_fabric.models.each do |model|
             raise RuntimeError.new("invalid data for registered model!") if not admin_furniture_fabric_models_name[model.id.to_s]
@@ -57,7 +57,7 @@ class Admin::Furniture::Fabric::FabricsController < Admin::UploaderController
             model.save
           end
         end
-        
+
         format.html { redirect_to admin_furniture_fabric_fabrics_path, notice: mk_notice(@admin_furniture_fabric, :id, 'طرح', :update) }
         format.json { render json: @admin_furniture_fabric, status: :ok, location: params[:noredir].nil? ? admin_furniture_fabric_fabrics_path : nil }
       else
@@ -78,7 +78,7 @@ class Admin::Furniture::Fabric::FabricsController < Admin::UploaderController
       format.json { head :no_content }
     end
   end
-  
+
   def archive
     # archive current type, DON'T `destroy` it, because of the `models` dependancy, will also be destroyed for real
     @admin_furniture_fabric.update(deleted_at: Time.now)
@@ -90,7 +90,7 @@ class Admin::Furniture::Fabric::FabricsController < Admin::UploaderController
       format.json { head :no_content }
     end
   end
-  
+
   def recover no_redirect: false
     # un-archive the fabric type
     @admin_furniture_fabric = Admin::Furniture::Fabric::Fabric.only_deleted.where("id = ?", params[:id]).first
@@ -111,7 +111,7 @@ class Admin::Furniture::Fabric::FabricsController < Admin::UploaderController
   end
 
   private
-  
+
     def consider_parital_view
       return if not params[:pv]
       id = params[:pv].to_i
@@ -123,8 +123,8 @@ class Admin::Furniture::Fabric::FabricsController < Admin::UploaderController
         render partial: "admin/furniture/fabric/fabrics/forms/#{partials[id]}"
       end
     end
-  
-    def upload_models  
+
+    def upload_models
       # upload new images
       (admin_furniture_fabric_image_ids[:imid] || []).each do |imid|
         m = Admin::Furniture::Fabric::Model.new
@@ -137,11 +137,10 @@ class Admin::Furniture::Fabric::FabricsController < Admin::UploaderController
         Admin::Furniture::Fabric::Model.select_by_images(admin_furniture_fabric_image_ids[:images_to_delete]).destroy_all
       end
     end
-  
+
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_furniture_fabric
       @admin_furniture_fabric = Admin::Furniture::Fabric::Fabric.find(params[:id])
-      @admin_furniture_fabric.images_detail ||= []
     end
 
     def admin_furniture_fabric_models_name

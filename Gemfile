@@ -105,6 +105,8 @@ gem 'activerecord-session_store'
 gem 'cld'
 # for SOAP
 gem 'savon', '~> 2.0'
+# `Autoprefixer` is a tool to parse CSS and add vendor prefixes to CSS rules using values from the Can I Use.
+gem "autoprefixer-rails", github: 'ai/autoprefixer-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
