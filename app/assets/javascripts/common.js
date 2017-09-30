@@ -14,8 +14,11 @@ $(document).on('ready', function() {
   });
 });
 
-function alert_error(msg) {
-	bootbox.alert({title: '<span class="text-danger"><span class="fa fa-exclamation-triangle"></span> خطا در انجام عملیات!</span>', message: msg});
+function alert_error(msg, callback) {
+	bootbox.alert({title: '<span class="text-danger"><span class="fa fa-exclamation-triangle"></span> خطا در انجام عملیات!</span>', message: msg, callback: callback});
+}
+function alert_success(title, msg, callback) {
+	bootbox.alert({title: '<span class="text-success"><span class="fa fa-check"></span> ' + title.toString() + '</span>', message: msg, callback: callback});
 }
 
 $(document).on('ready turbolinks:load', function(){

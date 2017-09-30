@@ -91,20 +91,18 @@ class Order::OrdersController < ApplicationController
     raise RuntimeError.new('sent data are not valid.') if not is_related
     # add the order
     Order::Order.create!(user_id: current_user.id, admin_furniture_furniture_id: furniture.id, is_default: true, default_id: pars[:selected_model], resolved: false)
-    # make an alert
-    mk_alert title: 'سفارش ثبت و در صف بررسی قرار گرفت', body: 'به زودی از همکاران ما تماسی جهت تکمیل سفارش دریافت خواهید کرد.'
-    # redirect to furniture path
-    redirect_to home_furniture_path(furniture)
-  end
+    # provide proper respond
+    @title = 'سفارش ثبت و در صف بررسی قرار گرفت!'
+    @body = 'به زودی از همکاران ما تماسی جهت تکمیل سفارش دریافت خواهید کرد.'
 
-  def test_order
-    client = Savon.client(wsdl: "http://pardano.com/p/webservice-test/?wsdl");
-    resp = client.call(:requestpayment, message: { api: "test", price: "100", callback: "http://localhost:3000/order/orders/api_callback" }).to_hash()[:requestpayment_response]
-    redirect_to "http://pardano.com/p/payment/#{resp[:return]}"
-  end
+    respond_to do |format|
+      format.json { render json: { title: @title, body: @body }, status: :ok }
+    end
 
-  def api_callback
-    byebug
+  rescue ClientError => e
+    respond_to do |format|
+      format.json { render json: { title: 'خطا در سفارش!', body: e.message }, status: :unprocessable_entity }
+    end
   end
 
   private

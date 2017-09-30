@@ -77,9 +77,25 @@
 		});
 		$("button#submit-order").click(function(){
 			$.ajax({
+				global: false,
 				method: 'post',
 				data: { "<%= input_name %>": $(input_name + ':checked').val(), "<%= @order.model_name.param_key %>[<%= @furniture.model_name.param_key %>_id]": <%= @furniture.id %> },
-				url: "<%= submit_simple_order_order_path %>"
+				url: "<%= submit_simple_order_order_path %>",
+				success: function(data) {
+					alert_success(
+						data["title"],
+						data["body"],
+						function() {
+							window.location = '<%= home_furniture_path(@furniture) %>';
+						});
+				},
+				error: function(data, xhr) {
+					alert_error(
+						data.responseJSON["body"],
+						function() {
+							window.location = '<%= home_furniture_path(@furniture) %>';
+						});
+				}
 			});
 		});
 	});
