@@ -31,3 +31,4 @@ fa:
     order/orders:
       label: سفارش
       simple: ساده
+      advance: پیشرفته

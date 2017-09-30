@@ -72,6 +72,7 @@ class Order::OrdersController < ApplicationController
   end
 
   def simple
+    # only load the view
   end
 
   def advance

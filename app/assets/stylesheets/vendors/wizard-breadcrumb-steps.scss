@@ -1,0 +1,98 @@
+//colors
+$color_text: black;
+$color_border: white;
+$color_bg_default: lighten(#5cb85c, 20%);
+$color_bg_current: darken(#f0ad4e, 5%);
+$color_bg_hover: #a9a9a9;
+$color_bg_after_current: #ebebeb;
+
+.breadcrumb-steps {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  a {
+    color: $color_text;
+    text-decoration: none;
+  }
+  em {
+    display: block;
+    font-size: 1.8em;
+    font-weight: bold;
+  }
+  span {
+    font-size: 1.5em;
+  }
+
+  li {
+    float: right;
+    margin-left: 0;
+    height: 80px;
+    min-width: 150px;
+    cursor: pointer;
+    list-style-type: none;
+    padding: 10px;
+    padding-right: 30px;
+    border-right: 3px solid $color_border;
+    position: relative;
+    background-color: $color_bg_default;
+    &:first-child {
+      padding-left: 5px;
+      border-right: 0px;
+    }
+    &:not(:first-child) {
+      padding-right: 50px;
+    }
+    &:last-child {
+      flex: 1;
+      &::after {
+        border-right: 0;
+        width: 100vw;
+      }
+    }
+    &.current {
+      background-color: $color_bg_current;
+      ~ li {
+        cursor: default;
+        background-color: $color_bg_after_current;
+      }
+      ~ li::after {
+        border-right-color: $color_bg_after_current;
+      }
+    }
+    &.current::after {
+      border-right-color: $color_bg_current;
+    }
+    &:hover {
+      background-color: $color_bg_hover;
+    }
+    &:hover::after {
+      border-right-color: $color_bg_hover;
+    }
+    &:nth-child(n + 2)::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: block;
+      border-right: 25px solid $color_border;
+      border-top: 40px solid transparent;
+      border-bottom: 40px solid transparent;
+      width: 0;
+      height: 0;
+      content: " ";
+    }
+  }
+  li::after {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: -25px;
+    display: block;
+    border-right: 25px solid $color_bg_default;
+    border-top: 40px solid transparent;
+    border-bottom: 40px solid transparent;
+    width: 0;
+    height: 0;
+    content: " ";
+    border-right-color: $color_bg_default;
+  }
+}
