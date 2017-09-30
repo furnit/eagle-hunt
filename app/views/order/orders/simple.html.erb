@@ -1,3 +1,4 @@
+<%= render 'home/furniture_cover', furniture: @furniture, show_samples: false, admin_adjusts: false %>
 <div class="container">
 	<%= path_to_here! "محصول: #{@furniture.name}" %>
 	<legend>
@@ -53,10 +54,6 @@
 		<div class="clearfix"></div>
 	</div>
 </div>
-
-<style type="text/css" media="screen">
-	input[name="selected_model"]:checked
-</style>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){

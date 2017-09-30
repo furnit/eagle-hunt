@@ -1,10 +1,14 @@
 <% if @furniture.images.length > 0 %>
+	<%= javascript_include_tag 'admin/furniture/furntiures' %>
+	<%= stylesheet_link_tag    'admin/furniture/furnitures', media: 'all' %>
 
   <div class='container-fluid' style='margin: 0; padding: 0'>
   	<%= create_cover image_url(@furniture.images[@furniture.cover_details['index'].to_i]), thumb: @furniture.images[@furniture.cover_details['index'].to_i][:image].thumb.url, height: "500px", style: "background-position: center #{@furniture.cover_details['pos']};", id: 'div-f-cover' %>
   </div>
 	<div id='furniture-cover'>
+<% # show admin adjustments %>
 <% acu_as :admin do %>
+	<% if not local_assigns.has_key?(:admin_adjusts) or admin_adjusts %>
 		<div id='cover-options'>
 			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right" role="toolbar">
 				  <%= button_tag :class => "btn btn-default inline-html-call", id: 'show-cover-options-controls' do %>
@@ -15,8 +19,11 @@
 			  <div id='scroller'></div>
 		  </div>
 		</div>
+	<% end %>
 <% end %>
 
+<% # show sample pictures %>
+<% if not local_assigns.has_key?(:show_samples) or show_samples %>
 		<div class="container text-center">
 		  <div id='cover-container'>
 				<div class='cover-scroller col-lg-1 col-md-1 col-sm-1 col-xs-1 disabled' data='left'><span class='fa fa-chevron-left'></span></div>
@@ -42,9 +49,9 @@
 				if($('#cover-collection')[0].scrollWidth > $('#cover-collection').width())
 					$('.cover-scroller[data="left"]').removeClass('disabled')
 			}, 1000);
-			
+
 			// load thumbnail first and set the cover when it's loaded
-			$('#div-f-cover[data-thumb]').each(function(){	
+			$('#div-f-cover[data-thumb]').each(function(){
 				$(this)
 					.data('background-image', $('#div-f-cover[data-thumb]').css('background-image'))
 					.css('background-image', 'url("' + $(this).attr('data-thumb') + '")');
@@ -78,8 +85,8 @@
 		        .val($('#div-f-cover').css('background-position-y'))
 		        .closest('form')
 		          .submit();
-          // we need to get out of .click to be able to blur the button 
-		      setTimeout(function(){ 
+          // we need to get out of .click to be able to blur the button
+		      setTimeout(function(){
 		      	cover_options_btn
 			        .html(cover_options_btn.data('origin-html'))
 			        .removeClass('btn-success active')
@@ -88,7 +95,7 @@
 	       	}, 100);
 		    }
 		  });
-		
+
 		  $('#scroller').slider({
 		      orientation: "vertical",
 		      min: -100,
@@ -106,11 +113,13 @@
 	  <% end %>
 		});
 	</script>
-	
+
   <%= form_tag cover_admin_furniture_furniture_path(format: :json), name: 'cover-config', method: :post, :remote => true do %>
     <% hidden_field_tag 'admin_furniture[cover]' %>
   <% end %>
-	
+
 	<%= render 'shared/photo_gallery', collection: @furniture %>
 	<%= render 'shared/photo_gallery_cover', collection: @furniture, js_on_cover_set: "$('#div-f-cover').css('background-image', 'url('+gallery.items[idx].src+')')" %>
+
+<% end %>
 <% end %>

@@ -1,7 +1,4 @@
-<%= javascript_include_tag 'admin/furniture/furntiures' %>
-<%= stylesheet_link_tag    'admin/furniture/furnitures', media: 'all' %>
-
-<%= render 'furniture_cover', :furniture => @furniture %>
+<%= render 'furniture_cover', furniture: @furniture %>
 <% subscribed_on_avail = (user_signed_in? and NotifyOnFurnitureAvailable.exists?(admin_furniture_id: @furniture.id, phone_number: current_user.phone_number)); %>
 <style type="text/css" media="screen">
 	.block th { direction: rtl; text-align: right; }
