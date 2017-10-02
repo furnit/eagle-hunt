@@ -24,18 +24,19 @@
 				e.preventDefault();
 				e.stopPropagation();
 				items = $(this).closest(gallery_parent).find(gallery_item).map(
-					function() { 
-						return { 
-							src: this.href, 
+					function() {
+						return {
+							item: this,
+							src: this.href,
 							msrc: $(this).attr('data-thumb'),
-							w: 1280, h: 720, 
+							w: 1280, h: 720,
 							obj: this,
-							index: $(this).attr('data-index'), 
+							index: $(this).attr('data-index'),
 							cover_url: $(this).attr('data-cover-url'),
 							is_cover: $(this).attr('data-cover') == 'true'
-						}; 
+						};
 					}).get();
-							
+
 				options = {
 						index: parseInt($(this).attr('data-index')),
 						fullscreenEl: true,
@@ -44,7 +45,7 @@
 				openPhotoSwipe(items, options);
 		});
 	};
-	$(document).ready(function(){
+	function execute_photo_gallery() {
 		init_photo_gallery();
 		$('.photo-gallery-collection-incomplete a[data-source]').off('click.photogallery').on('click.photogallery', function(e) {
 			e.preventDefault();
@@ -60,11 +61,11 @@
 					for (var index = 0; index < data.images.length; index++) {
 						$this.trigger('append2gallery', [data, index, '#photo-gallery-template'])
 					};
-					
+
 					$('#photo-gallery-template a').has('img').attr('data-type', 'photo-gallery');
-					
+
 					init_photo_gallery();
-					
+
 					if (data.cover !== undefined)
 						$('#photo-gallery-template [data-type="photo-gallery"]:nth-child('+(parseInt(data.cover)+1)+')').click();
 					else
@@ -76,7 +77,8 @@
 				}
 			})
 		});
-	});
+	};
+	$(document).ready(execute_photo_gallery);
 </script>
 
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">

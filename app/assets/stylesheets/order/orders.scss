@@ -9,6 +9,38 @@
   }
   #step1 {
     #step1-1 {
+      .stepwizard {
+        display: table;
+        position: relative;
+        .stepwizard-row {
+          display: table-row;
+          &:not(.active) {
+            opacity: 0.3;
+            img { display: none }
+          }
+          &.completed {
+            * { color: green }
+          }
+          .stepwizard-step {
+            display: table-cell;
+            text-align: center;
+            position: relative; left: -15px;
+            z-index: 1;
+            .btn-square {
+              width: 30px; height: 30px;
+              text-align: center;
+              padding: 4px 0;
+              font-size: 1em;
+              line-height: 1.428571429;
+              cursor: default;
+            }
+          }
+          .stepwizard-label {
+            margin-right: 30px;
+          }
+        }
+      }
+
       border-left: 3px solid #e7e7e7;
 
       li {
@@ -32,7 +64,6 @@
       }
     }
     #step1-2 {
-      // max-height: 1000px;
       overflow-y: auto;
       overflow-x: hidden;
       &.disabled {
@@ -47,11 +78,19 @@
           &:hover {
             cursor: pointer;
           }
+          &.active {
+            box-shadow: 0 0 10px green;
+          }
         }
       }
       #step1-2-content {
         legend { font-weight: bold; }
-        .fab-container { padding: 10px 0 10px 0; }
+        .fab-container {
+          padding: 10px 0 10px 0;
+          &.active {
+            .thumbnail { box-shadow: 0 0 10px #0088cc; }
+          }
+        }
       }
     }
   }

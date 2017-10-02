@@ -3,7 +3,7 @@
 	<%= stylesheet_link_tag    'admin/furniture/furnitures', media: 'all' %>
 
   <div class='container-fluid' style='margin: 0; padding: 0'>
-  	<%= create_cover image_url(@furniture.images[@furniture.cover_details['index'].to_i]), thumb: @furniture.images[@furniture.cover_details['index'].to_i][:image].thumb.url, height: "500px", style: "background-position: center #{@furniture.cover_details['pos']};", id: 'div-f-cover' %>
+  	<%= create_cover image_url(@furniture.images[@furniture.cover_details['index'].to_i]), thumb: @furniture.images[@furniture.cover_details['index'].to_i][:image].thumb.url, height: (local_assigns.has_key?(:height) ? height : "500px"), style: "background-position: center #{@furniture.cover_details['pos']};", id: 'div-f-cover' %>
   </div>
 	<div id='furniture-cover'>
 <% # show admin adjustments %>

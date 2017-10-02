@@ -1,4 +1,4 @@
-<%= render 'home/furniture_cover', furniture: @furniture, show_samples: false, admin_adjusts: false %>
+<%= render 'home/furniture_cover', furniture: @furniture, height: "350px", show_samples: false, admin_adjusts: false %>
 
 <div class="container">
 	<%= path_to_here! "محصول: #{@furniture.name}" %>
@@ -39,12 +39,12 @@
 		<% Dir['app/views/order/orders/steps/*.html.erb'].each do |file| %>
 			<%= render "order/orders/steps/" + File.basename(file, '.html.erb').sub(/^_/, '') %>
 		<% end %>
-		<div id="step-nav">
+		<div id="step-nav" class="hidden">
 		<hr />
-			<button class="btn btn-default pull-right hidden" id="btn-prev">
+			<button class="btn btn-default pull-right hidden btn-prev">
 				<span class="fa fa-arrow-right" style="margin-top: 3px"></span> مرحله‌ی قبل
 			</button>
-			<button class="btn btn-primary pull-left" id="btn-next">
+			<button class="btn btn-primary pull-left btn-next">
 				مرحله‌ی بعد <span class="fa fa-arrow-left" style="margin-top: 3px"></span>
 			</button>
 			<div class="clearfix"></div>
@@ -55,22 +55,21 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
-		$("#order-stages #btn-next").click(function() {
+		$("#order-stages #step-nav .btn-next").click(function() {
 			$("#order-stage-steps li.current").next().addClass('current').prev().removeClass('current');
-			$("#order-stages #btn-prev").removeClass('hidden');
+			$("#order-stages #step-nav .btn-prev").removeClass('hidden');
 			$(this).blur();
 		});
-		$("#order-stages #btn-prev").click(function() {
+		$("#order-stages #step-nav .btn-prev").click(function() {
 			$("#order-stage-steps li.current").prev().addClass('current').next().removeClass('current');
 			if($("#order-stage-steps li:first").hasClass('current')) $(this).addClass('hidden');
 			$(this).blur();
 		});
 		$("#order-stages #step-nav button").click(function() {
 			$("#order-stages > div:not(#step-nav)").addClass('hidden');
-			console.log("#order-stages > div'" + $("#order-stage-steps li.current a").attr('href'));
-			$("#order-stages > div" + $("#order-stage-steps li.current a").attr('href')).removeClass('hidden');
+			$("#order-stages > div" + $("#order-stage-steps li.current a").attr('href'))
+				.removeClass('hidden')
+				.trigger('activated');
 		});
 	});
 </script>
-
-<%= render 'shared/photo_gallery', collection: @furniture %>
