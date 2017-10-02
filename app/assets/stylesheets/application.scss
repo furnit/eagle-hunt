@@ -86,6 +86,18 @@ body {
     &.en * { @extend .en-font }
   }
 
+  .shadow-box {
+    box-shadow: 0 0 10px #aaa;
+    &:hover {
+      box-shadow: 0 0 10px #0088cc;
+    }
+  }
+  .hover-shadow {
+    &:hover {
+      box-shadow: 0 0 10px #aaa;
+    }
+  }
+
   th { text-align: right }
 
   input[type=tel] { text-align: right; direction: ltr }

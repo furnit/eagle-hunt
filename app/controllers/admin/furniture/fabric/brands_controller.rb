@@ -5,7 +5,7 @@ class Admin::Furniture::Fabric::BrandsController < Admin::AdminbaseController
   # GET /admin/fabric_brands.json
   def index
     @admin_furniture_fabric_brands = Admin::Furniture::Fabric::Brand.paginate(page: params[:page])
-    
+
     respond_to do |format|
       format.html
       format.json { render json: @admin_furniture_fabric_brands.map {|i| {value: i.id, text: i.name}}, status: :ok }
@@ -74,6 +74,6 @@ class Admin::Furniture::Fabric::BrandsController < Admin::AdminbaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_furniture_fabric_brand_params
-      params.require(:admin_furniture_fabric_brand).permit(:name, :comment)
+      params.require(:admin_furniture_fabric_brand).permit(:name, :comment, :available)
     end
 end

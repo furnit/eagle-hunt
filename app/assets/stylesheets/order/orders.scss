@@ -32,8 +32,22 @@
       }
     }
     #step1-2 {
+      // max-height: 1000px;
+      overflow-y: auto;
+      overflow-x: hidden;
       &.disabled {
         & > * { opacity: 0.7 }
+      }
+      .step1-2-options {
+        .color-box {
+          height: 40px;
+          width: 40px;
+          margin-bottom: -15px;
+          display: inline-block;
+          &:hover {
+            cursor: pointer;
+          }
+        }
       }
       #step1-2-content {
         legend { font-weight: bold; }

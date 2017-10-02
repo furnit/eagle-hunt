@@ -78,6 +78,7 @@ class Order::OrdersController < ApplicationController
   def advance
     @furniture_sections = Admin::Furniture::Section.where(tag: :NECESSARY)
     @fabric_quals = Admin::Furniture::Fabric::Quality.all
+    @colors_categories = Admin::Furniture::Fabric::Color.all
   end
 
   def submit_simple

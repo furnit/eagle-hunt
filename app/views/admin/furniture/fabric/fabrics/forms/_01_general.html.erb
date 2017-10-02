@@ -5,17 +5,21 @@
 	<%= params[:admin] ? f.hidden_field(:admin, value: params[:admin]) : '' %>
 	<div  class='block'>
 		<div class='row field'>
-		  
+
 		  <div class="col-md-6 col-sm-6 col-xs-12">
 		    <%= f.collection_select :admin_furniture_fabric_quality_id, Admin::Furniture::Fabric::Quality.all, :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', :required => true %>
 		  </div>
-		  
+
+		  <div class="col-md-6 col-sm-6 col-xs-12">
+		    <%= f.collection_select :admin_furniture_fabric_brand_id, Admin::Furniture::Fabric::Brand.all, :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', autofocus: true %>
+		  </div>
+
 		  <div class="col-md-6 col-sm-6 col-xs-12">
 		    <%= f.collection_select :admin_furniture_fabric_brand_id, Admin::Furniture::Fabric::Brand.all, :id, :name, { prompt: 'انتخاب کنید.' }, :class => 'form-control', autofocus: true %>
 		  </div>
 	  </div>
   </div>
-  
+
 	<%= render 'shared/related_images', collection: @admin_furniture_fabric, images: @admin_furniture_fabric.models.map(&:image) %>
 
   <div class="actions field pull-left" style='position: absolute; bottom: 10px; left: 10px; z-index: 1000'>

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :api, RC::non_restful do
     collection do
       post :ls_fabrics, RC::ajax_server.merge(RC::json_request_only)
+      post :ls_fabric_models, RC::ajax_server.merge(RC::json_request_only)
     end
   end
 

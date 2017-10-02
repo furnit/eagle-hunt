@@ -1,5 +1,5 @@
 class Admin::Furniture::Fabric::Fabric < Admin::Uploader::Image
-  
+
   acts_as_paranoid
 
   belongs_to :brand, foreign_key: :admin_furniture_fabric_brand_id, class_name: '::Admin::Furniture::Fabric::Brand'
@@ -11,6 +11,10 @@ class Admin::Furniture::Fabric::Fabric < Admin::Uploader::Image
 
   # determine color types
   after_save :determine_colour
+
+  def price
+    Admin::Pricing::Fabric.where(admin_furniture_fabric_brand_id: self.admin_furniture_fabric_brand_id).pluck(:price)
+  end
 
   def determine_colour
     params = Admin::Furniture::Fabric::Color.select(:model).first

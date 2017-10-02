@@ -1,6 +1,6 @@
-<%= 
+<%=
 	render 'admin/shared/index',
-	  title: 'لیست برندهای پارچه', 
+	  title: 'لیست برندهای پارچه',
 		title_right: lambda {
 			link_to new_admin_furniture_fabric_brand_path, class: 'inline-html-call' do
 				raw "<span class='fa fa-plus'></span> ایجاد برند جدید"
@@ -15,6 +15,7 @@
 		table_head: {
 			'ردیف': { style: 'width: 30px' },
 			'نام دسته‌بندی': { style: 'width: 12%' },
+			'موجودیت؟': { style: 'width: 50px' },
 			'توضیحات': { },
 			'آخرین بروزرسانی': { style: 'width: 130px' },
 			'عملیات': { style: 'width: 80px' }
@@ -26,6 +27,9 @@
       <td><%= ft.id %></td>
       <td>
         <%= editable_tag ft, :name %>
+      </td>
+      <td>
+        <%= editable_tag ft, :available, type: :select, value: ft.available ? 1 : 0, source: [{value: 1, text: 'موجود'}, {value: 0, text: 'ناموجود'}], text: ft.available ? 'موجود' : 'ناموجود' %>
       </td>
       <td>
         <%= editable_tag ft, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %>
@@ -40,5 +44,5 @@
       </td>
     </tr>
   <% end %>
-  
+
 <% } %>
