@@ -5,7 +5,7 @@
 	</p>
 	<br />
 	<div class="row">
-		<div id="step1-1" class="text-centerx col-sm-3 col-xs-12 pull-right" style="padding-top: 130px">
+		<div id="step1-1" class="text-centerx col-md-3 col-sm-5 col-xs-12 pull-right" style="padding-top: 150px">
 			<div class="stepwizard">
 				<% @furniture_sections.each.with_index do |s, index| %>
 			    <div class="stepwizard-row <%= index == 0 ? :active : "" %>">
@@ -19,17 +19,17 @@
 				<% end %>
 			</div>
 		</div>
-		<div id="step1-2" class="col-sm-9 col-xs-12 pull-right">
-			<div id="step1-2-options-header">
+		<div id="step1-2" class="col-md-9 col-sm-7 col-xs-12 pull-right">
+			<div id="step1-2-options-header" style="border-bottom: 1px solid #eeeeee; margin-bottom: 20px;">
 				<div class="row">
-					<div class="col-md-3 pull-right form-group step1-2-options">
+					<div class="col-md-3 col-sm-12 pull-right form-group step1-2-options">
 						<label for="fabric-quality">کیفیت پارچه:</label>
 						<%= select_tag "fabric-quality", options_from_collection_for_select(@fabric_quals, :id, :name), prompt: "انتخاب کنید." %>
-						<div style="margin-top: 10px" class='filters hidden'>
+						<div style="margin-top: 10px" class='filtersx xhidden'>
 							<%= check_awesome "نمایش طرح‌های موجود", checked: false, id: 'only-show-availables' %>
 						</div>
 					</div>
-					<div class="col-md-9 pull-right step1-2-options" style="border-right: 1px solid #aaa">
+					<div class="col-md-9 col-sm-12 pull-right step1-2-options" style="border-right: 1px solid #aaa">
 						<label>تیپ رنگی:</label><br />
 						<small class="text-muted">طرح‌های مختلف را بر اساس دسته‌بندی رنگی آنها نمایش می‌دهد.</small><br />
 						<% @colors_categories.each do |c| %>
@@ -38,7 +38,6 @@
 					</div>
 				</div>
 				<div class="clearfix"></div>
-				<hr />
 			</div>
 			<div id="step1-2-content" class="photo-gallery-collection">
 			</div>
@@ -57,48 +56,51 @@
 		</button>
 		<div class="clearfix"></div>
 	</div>
-</div>
 
-<div class="hidden" id="fabric-model-template">
-	<div class="thumbnail hover-shadow">
-		<!-- image_tag -->
-    <div class="caption" style='padding: 20px; font-size: 120%'>
-    	<table class="table no-layout">
-    		<thead class="no-layout">
-    			<tr>
-    				<th style="text-align: right;"></th>
-    				<th></th>
-  				</tr>
-  			</thead>
-    		<tbody>
-    			<tr>
-    				<td>نام مدل</td>
-    				<td class="model-name"></td>
-    			</tr>
-    			<tr>
-    				<td>کیفیت</td>
-    				<td class="model-quality"></td>
-    			</tr>
-    			<tr>
-    				<td>قیمت</td>
-    				<td class="model-price"></td>
-    			</tr>
-    			<tr>
-    				<td>وضعیت</td>
-    				<td class="model-status"><span class="label"></span></td>
-    			</tr>
-    		</tbody>
-  		</table>
-      <div class='clearfix'></div>
-      <p style="position: relative; bottom: 0px" class="actions">
-      	<%= link_to '#', class: 'info btn btn-primary pull-left select-fabric' do %>
-      		<span class="fa fa-crosshairs"></span>
-    			<span class="text">انتخاب طرح</span>
-      	<% end %>
-      	<div class='clearfix'></div>
-    	</p>
-    </div>
-  </div> <!-- /.thumbnail -->
+	<% # this should be here o.w it won't work backwarding from step2+ to step1 %>
+	<%= render 'shared/photo_gallery' %>
+
+	<div class="hidden" id="fabric-model-template">
+		<div class="thumbnail hover-shadow">
+			<!-- image_tag -->
+	    <div class="caption" style='text-align: right'>
+	    	<table class="table no-layout">
+	    		<thead class="no-layout">
+	    			<tr>
+	    				<th style="text-align: right;"></th>
+	    				<th></th>
+	  				</tr>
+	  			</thead>
+	    		<tbody>
+	    			<tr>
+	    				<td>نام مدل</td>
+	    				<td class="model-name"></td>
+	    			</tr>
+	    			<tr>
+	    				<td>کیفیت</td>
+	    				<td class="model-quality"></td>
+	    			</tr>
+	    			<tr>
+	    				<td>قیمت</td>
+	    				<td class="model-price"></td>
+	    			</tr>
+	    			<tr>
+	    				<td>وضعیت</td>
+	    				<td class="model-status"><span class="label"></span></td>
+	    			</tr>
+	    		</tbody>
+	  		</table>
+	      <div class='clearfix'></div>
+	      <p style="position: relative; bottom: 0px" class="actions">
+	      	<%= link_to '#', class: 'info btn btn-primary pull-left select-fabric' do %>
+	      		<span class="fa fa-crosshairs"></span>
+	    			<span class="text">انتخاب طرح</span>
+	      	<% end %>
+	      	<div class='clearfix'></div>
+	    	</p>
+	    </div>
+	  </div> <!-- /.thumbnail -->
+	</div>
 </div>
 
 <script type="text/javascript" charset="utf-8">
@@ -137,7 +139,7 @@
 		  $("#step1-2-content").html("");
 		})
 		var filter_availables = function() {
-			if($(this).prop('checked')) {
+			if($("#only-show-availables").prop('checked')) {
 				$('#step1-2-content .not-available').hide();
 				// exculde it from photo-gallery
 				$('#step1-2-content .not-available [data-type="photo-gallery"]')
@@ -188,9 +190,9 @@
 			 			 }
 
 						 for(var l = 0, k = models.length; l < k; l++, c++) {
-						 		$("#step1-2-content .row").last().append("<div class='col-sm-3 text-center fab-container' style='margin: 0 32px 0 32px;'></div>");
+						 		$("#step1-2-content .row").last().append("<div class='col-md-4 col-sm-6 text-center fab-container' xstyle='margin: 0 10px 0 10px;'></div>");
 						 		var $wrapper = $("#step1-2-content .row .fab-container").last();
-						 		$wrapper.append($('#fabric-model-template').clone().removeAttr('id class'));
+						 		$wrapper.append($('#step1 #fabric-model-template').clone().removeAttr('id class'));
 						 		$wrapper_box = $wrapper.find('.thumbnail');
 
 						 		$wrapper_box.prepend("<a href='" + models[l].origin + "' data-type='photo-gallery' data-index='" + c.toString() + "' data-thumb='" + models[l].thumb + "'>\
@@ -201,7 +203,7 @@
 						 		$wrapper_box
 						 			.find('.model-quality').html(fabric.quality.name);
 						 		$wrapper_box
-						 			.find('.model-price').html(fabric.price);
+						 			.find('.model-price').html(fabric.price + " تومان");
 						 		$wrapper_box.find('.model-status span.label')
 						 			.html(fabric.brand.available ? 'موجود' : 'ناموجود')
 						 			.addClass(fabric.brand.available ? 'label-success' : 'label-danger');
@@ -245,5 +247,3 @@
 		});
 	});
 </script>
-
-<%= render 'shared/photo_gallery' %>
