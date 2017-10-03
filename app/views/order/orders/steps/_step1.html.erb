@@ -5,21 +5,23 @@
 	</p>
 	<br />
 	<div class="row">
-		<div id="step1-1" class="text-centerx col-md-3 col-sm-5 col-xs-12 pull-right" style="padding-top: 150px">
-			<div class="stepwizard">
-				<% @furniture_sections.each.with_index do |s, index| %>
-			    <div class="stepwizard-row <%= index == 0 ? :active : "" %>">
-		        <div class="stepwizard-step">
-	            <div class="btn btn-default btn-square" disabled></div>
-		        </div>
-						<strong class="stepwizard-label"><%= s.comment %></strong><br />
-						<a href="#"><%= image_tag s.image[:image].thumb, height: "150px" %></a>
-				    <%= raw index == @furniture_sections.length - 1 ? "" : "<hr />" %>
-			    </div>
-				<% end %>
-			</div>
+		<div id="step1-1" class="col-md-12 col-sm-12 col-xs-12 pull-right">
+			<table class="table text-center">
+				<tbody>
+					<tr>
+						<% @furniture_sections.each do |s| %>
+							<td><strong><%= s.comment %></strong></td>
+						<% end %>
+					</tr>
+					<tr>
+						<% @furniture_sections.each do |s| %>
+							<td><%= image_tag s.image[:image].thumb, height: "150px" %></td>
+						<% end %>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-		<div id="step1-2" class="col-md-9 col-sm-7 col-xs-12 pull-right">
+		<div id="step1-2" class="col-md-12 col-sm-12 col-xs-12 pull-right">
 			<div id="step1-2-options-header" style="border-bottom: 1px solid #eeeeee; margin-bottom: 20px;">
 				<div class="row">
 					<div class="col-md-3 col-sm-12 pull-right form-group step1-2-options">
@@ -41,9 +43,9 @@
 			</div>
 			<div id="step1-2-content" class="photo-gallery-collection">
 			</div>
-		</div>
-		<div id="step1-2-helper" class="text-center">
-			<span class='fa fa-hand-o-up'></span> لطفا یکی از «کیفیت‌های پارچه» یا «تیپ رنگی» را جهت ادامه انتخاب کنید.
+			<div id="step1-2-helper" class="text-center">
+				<span class='fa fa-hand-o-up'></span> لطفا یکی از «کیفیت‌های پارچه» یا «تیپ رنگی» را جهت ادامه انتخاب کنید.
+			</div>
 		</div>
 	</div>
 	<div id="step1-nav">
@@ -190,7 +192,7 @@
 			 			 }
 
 						 for(var l = 0, k = models.length; l < k; l++, c++) {
-						 		$("#step1-2-content .row").last().append("<div class='col-md-4 col-sm-6 text-center fab-container' xstyle='margin: 0 10px 0 10px;'></div>");
+						 		$("#step1-2-content .row").last().append("<div class='col-md-3 col-sm-4 col-xs-6 text-center fab-container'></div>");
 						 		var $wrapper = $("#step1-2-content .row .fab-container").last();
 						 		$wrapper.append($('#step1 #fabric-model-template').clone().removeAttr('id class'));
 						 		$wrapper_box = $wrapper.find('.thumbnail');

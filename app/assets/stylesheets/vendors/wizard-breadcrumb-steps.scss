@@ -21,7 +21,7 @@ $color_bg_after_current: #ebebeb;
   li {
     float: right;
     margin-left: 0;
-    height: 80px;
+    min-height: 80px;
     min-width: 150px;
     cursor: pointer;
     list-style-type: none;
