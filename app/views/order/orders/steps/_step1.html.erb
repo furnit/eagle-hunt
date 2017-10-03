@@ -43,7 +43,7 @@
 			<div id="step1-2-content" class="photo-gallery-collection">
 			</div>
 		</div>
-		<div id="step1-2-helper" class="text-center hidden">
+		<div id="step1-2-helper" class="text-center">
 			<span class='fa fa-hand-o-up'></span> لطفا یکی از «کیفیت‌های پارچه» یا «تیپ رنگی» را جهت ادامه انتخاب کنید.
 		</div>
 	</div>
@@ -107,16 +107,17 @@
 			$("#order-stages #step-nav").addClass('hidden')
 		})
 		$("#step1 #step1-nav .btn-next").click(function() {
+			if($("#step1-1 .stepwizard .stepwizard-row:last").hasClass('active')) {
+				$("#order-stages #step-nav")
+					.removeClass('hidden')
+					.find('.btn-next').click()
+					return;
+			}
 			$("#step1-1 .stepwizard .stepwizard-row.active:not(:last-child)")
 				.removeClass('active').addClass('completed')
 				.find('.btn-square').html('<span class="fa fa-check"></span>')
 				.closest('.stepwizard-row').next('.stepwizard-row').addClass('active');
 			$("#order-stages #step1-nav .btn-prev").removeClass('hidden');
-			if($("#step1-1 .stepwizard .stepwizard-row:last").hasClass('active')) {
-				$("#order-stages #step-nav")
-					.removeClass('hidden')
-					.find('.btn-next').click()
-			}
 			$(this).blur();
 		});
 		$("#step1 #step1-nav .btn-prev").click(function() {
@@ -127,7 +128,6 @@
 			if($("#step1-1 .stepwizard .stepwizard-row:first").hasClass('active')) $(this).addClass('hidden');
 			$(this).blur();
 		});
-		$("#step1 #step1-nav button").click(function() { alert("RESET EVERYTHING"); });
 		$('#step1-1 li').click(function() {
 			$(this).closest('ul').find('.active').removeClass('active');
 			$(this).addClass('active');
@@ -142,26 +142,35 @@
 				// exculde it from photo-gallery
 				$('#step1-2-content .not-available [data-type="photo-gallery"]')
 					.removeAttr('data-type')
-					.addAttr('xdata-type', 'photo-gallery')
+					.attr('xdata-type', 'photo-gallery')
 			}
 			else {
 				$('#step1-2-content .not-available').show();
 				// include it from photo-gallery
 				$('#step1-2-content .not-available [xdata-type="photo-gallery"]')
 					.removeAttr('xdata-type')
-					.addAttr('data-type', 'photo-gallery')
+					.attr('data-type', 'photo-gallery')
 			}
 		};
+		var reset_everything = function() {
+			$("#step1-2-content").html("")
+			$("#step1-2-helper").removeClass('hidden')
+			$(".color-box.active").removeClass('active')
+			$('#step1 #step1-2 #fabric-quality').prop('selectedIndex',0)
+		};
 		var load_fabrics = function(url, data) {
+			// clear the content
+		  $("#step1-2-content").html("");
+			$('#step1-2-helper').addClass('hidden')
 			$("#step1-2-content").html("<div class='text-center'><span class='fa fa-spinner fa-spin'></span></div>");
 			$.ajax({
 				url: url,
 				data: data,
 				method: 'post',
 				success: function(data) {
+
 					// clear the content
 				  $("#step1-2-content").html("");
-					$('#step1-2-helper').addClass('hidden')
 					if(data.length === 0) {
 						$("#step1-2-content").html("<div class='text-center'><span class='fa fa-exclamation-triangle'></span> هیچ پارچه‌ای با این کیفیت در سیستم ثبت نشده است.</div>");
 						return;
@@ -202,6 +211,7 @@
 				 				}
 						 };
 					};
+					filter_availables();
 					execute_photo_gallery();
 					// highlight and scroll-to the viewing image
 					$("[data-type='photo-gallery']").click(function(){
@@ -210,6 +220,7 @@
 							return $(item);
 						};
 
+						$('.fab-container.active').removeClass('active');
 						scroll_to($(this).closest('.fab-container')).addClass('active');
 						setTimeout(function(){
 							gallery.listen('afterChange', function() {
@@ -221,6 +232,7 @@
 				}
 			});
 		};
+		$("#step1 #step1-nav .btn").click(reset_everything);
 		$("#only-show-availables").click(filter_availables);
 		$('#step1 #step1-2 #fabric-quality').change(function() {
 			load_fabrics('<%= ls_fabrics_api_index_path %>', {q: $(this).find(':selected').val()})

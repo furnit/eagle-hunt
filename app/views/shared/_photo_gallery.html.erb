@@ -7,6 +7,8 @@
 	function init_photo_gallery() {
 		function openPhotoSwipe(items, options) {
 			pswpElement = document.querySelectorAll('.pswp')[0];
+			// destroy previous object
+			if(typeof gallery !== "undefined") gallery.close();
 			// Initializes and opens PhotoSwipe
 			gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
 			gallery.listen('afterChange', function() {
