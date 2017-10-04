@@ -1,0 +1,16 @@
+fa:
+  activerecord:
+    models:
+      admin/push_notification: اعلانیه
+    attributes:
+      admin/push_notification:
+        message: 'پیام'
+        category: 'دسته‌بندی'
+    errors:
+      models:
+        admin/push_notification:
+          attributes:
+            message:
+              blank: 'نمیتواند خالی باشد.'
+            category:
+              blank: 'نمیتواند خالی باشد.'
