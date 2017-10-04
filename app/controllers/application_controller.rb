@@ -75,6 +75,8 @@ class ApplicationController < ActionController::Base
         end
       else
         session.delete :request_for_signin_verification
+        notify_admin "[#{Time.now}]\nکارمند «#{current_user.full_name}» وارد شد." if not session[:login_notif_sent]
+        session[:login_notif_sent] = true
       end
     end
   end
@@ -151,7 +153,7 @@ class ApplicationController < ActionController::Base
           #{AppConfig.domain}
         sms
         # if we sent the warning to ALL admins registered in database
-        AutoStart::SmsJob.send_proper message, to: Admin::UserType.where(symbol: :ADMIN).first.users.map { |u| u.phone_number }.join(',')
+        notify_admin message
         # suppress the following trials of adding the user to the phonebook
         # it had to be the admin's job to try to put or leave it!
         current_user.error_on_add_to_phonebook = true
@@ -160,6 +162,14 @@ class ApplicationController < ActionController::Base
       end
       current_user.save
     end
+  end
+
+  def notify_admin message
+    AutoStart::PushNotificationsJob.push message, category: :admin_notifications
+  end
+
+  def notify_order message
+    AutoStart::PushNotificationsJob.push message, category: :order_notifications
   end
 
   protected

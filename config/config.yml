@@ -44,6 +44,15 @@ defaults: &defaults
         runs: 50
         colour_sampling: [3, 3]
 
+  notifications:
+    prefered: telegram
+    telegram:
+      chat_id: 87186355
+      order_notifications:
+        token: 442229527:AAFbAxNiGbCxjlz0dspfMIpnlwUDzBzySdQ
+      admin_notifications:
+        token: 435215235:AAFaWZHZTzQ2QxuLqQTFQdU67nt4K2T0FsE
+
 development:
   <<: *defaults
   domain: localhost:3000
