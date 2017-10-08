@@ -77,5 +77,7 @@
 				.removeClass('hidden')
 				.trigger('activated');
 		});
+		// trigger the initial state
+		$("#order-stages > div" + $("#order-stage-steps li.current a").attr('href')).trigger('activated');
 	});
 </script>

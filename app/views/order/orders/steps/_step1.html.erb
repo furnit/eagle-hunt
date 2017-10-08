@@ -5,33 +5,17 @@
 	</p>
 	<br />
 	<div class="row">
-		<div id="step1-1" class="col-md-12 col-sm-12 col-xs-12 pull-right">
-			<table class="table text-center">
-				<tbody>
-					<tr>
-						<% @furniture_sections.each do |s| %>
-							<td><strong><%= s.comment %></strong></td>
-						<% end %>
-					</tr>
-					<tr>
-						<% @furniture_sections.each do |s| %>
-							<td><%= image_tag s.image[:image].thumb, height: "150px" %></td>
-						<% end %>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div id="step1-2" class="col-md-12 col-sm-12 col-xs-12 pull-right">
-			<div id="step1-2-options-header" style="border-bottom: 1px solid #eeeeee; margin-bottom: 20px;">
+		<div class="col-md-12 col-sm-12 col-xs-12" >
+			<div id="step1-2-options-header" style="border-right: 1px solid #aaa; padding-right: 20px;">
 				<div class="row">
-					<div class="col-md-3 col-sm-12 pull-right form-group step1-2-options">
+					<div class="col-md-3 col-sm-4 pull-right form-group step1-2-options">
 						<label for="fabric-quality">کیفیت پارچه:</label>
 						<%= select_tag "fabric-quality", options_from_collection_for_select(@fabric_quals, :id, :name), prompt: "انتخاب کنید." %>
 						<div style="margin-top: 10px" class='filtersx xhidden'>
 							<%= check_awesome "نمایش طرح‌های موجود", checked: false, id: 'only-show-availables' %>
 						</div>
 					</div>
-					<div class="col-md-9 col-sm-12 pull-right step1-2-options" style="border-right: 1px solid #aaa">
+					<div class="col-md-9 col-sm-8 pull-right step1-2-options">
 						<label>تیپ رنگی:</label><br />
 						<small class="text-muted">طرح‌های مختلف را بر اساس دسته‌بندی رنگی آنها نمایش می‌دهد.</small><br />
 						<% @colors_categories.each do |c| %>
@@ -41,10 +25,72 @@
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<div id="step1-2-content" class="photo-gallery-collection">
+			<hr />
+		</div>
+		<div class="row">
+			<div id="step1-1" class="col-md-4 col-sm-4 col-xs-5 pull-right" style="margin-top: 30px;">
+				<table class="table text-right" id="selection-stages">
+					<thead>
+						<tr>
+							<td class="col-md-5"></td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						<% @furniture_sections.each do |s| %>
+							<tr data-sid="<%= s.id %>" class="main-row">
+								<td class="selected-fabric-details"><span class="fa hidden"></span> پارچه انتخابی</td>
+								<td colspan="2"><%= s.comment %></td>
+							</tr>
+							<tr data-sid="<%= s.id %>">
+								<td class="selected-fabric-details model-img">انتخاب نشده است!</td>
+								<td colspan="2"><%= image_tag s.image[:image].thumb, class: "img img-responsive" %></td>
+							</tr>
+							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-name">
+								<td></td>
+								<td style="border-top: 0">&nbsp;</td>
+							</tr>
+							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-quality">
+								<td></td>
+								<td style="border-top: 0">&nbsp;</td>
+							</tr>
+							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-price">
+								<td></td>
+								<td style="border-top: 0">&nbsp;</td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
 			</div>
-			<div id="step1-2-helper" class="text-center">
-				<span class='fa fa-hand-o-up'></span> لطفا یکی از «کیفیت‌های پارچه» یا «تیپ رنگی» را جهت ادامه انتخاب کنید.
+			<div id="step1-2" class="col-md-8 col-sm-8 col-xs-7 pull-right">
+				<div id="step1-2-content" class="photo-gallery-collection">
+				</div>
+				<div id="step1-2-helper" class="text-center">
+					<span class='fa fa-hand-o-up'></span> لطفا یکی از «کیفیت‌های پارچه» یا «تیپ رنگی» را جهت ادامه انتخاب کنید.<br />
+					<strong>توجه:</strong> که در قسمت آخر این بخش ‌میتواند نسخه‌ی شبیه‌سازی شده از مجموعه پارچه‌های انتخابی خود را مشاهده کنید.
+				</div>
+				<div id="step1-2-final-stage" class="text-center hidden">
+					<strong>تبریک!</strong>
+					شما پارچه‌های تمامی قسمت‌های مبل را انتخاب کرده‌اید.<br />
+					اکنون می‌توانید در قسمت زیر نمایش شبیه‌سازی شده از پارچه‌هایی که انتخاب کرده‌اید را
+					<strong>بروی یک مبل فرضی</strong>
+					مشاهده کنید و در صورتی که مورد پسندتان واقع نشد می‌توانید به هریک مراحل قبلی بازگشته و دوباره پارچه‌ی مورد علاقه‌ی خود را انتخاب کنید.
+					<table class="table">
+						<tr>
+							<td><strong>نمای کلی مبل</strong></td>
+						</tr>
+						<tr>
+							<td>
+								<div style="height: 500px; width: 100%; background-color: #000"></div>
+							</td>
+						</tr>
+						<tr style="border-bottom: 1px solid #ddd">
+							<td class="text-right" style="cursor: pointer">
+								<strong><span class="fa fa-arrows-alt"></span> بزرگ‌نمایی</strong>
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -53,7 +99,7 @@
 		<button class="btn btn-default pull-right hidden btn-prev">
 			<span class="fa fa-arrow-right" style="margin-top: 3px"></span> قسمت قبل
 		</button>
-		<button class="btn btn-primary pull-left btn-next">
+		<button class="btn btn-primary pull-left btn-next" disabled>
 			قسمت بعد <span class="fa fa-arrow-left" style="margin-top: 3px"></span>
 		</button>
 		<div class="clearfix"></div>
@@ -67,12 +113,6 @@
 			<!-- image_tag -->
 	    <div class="caption" style='text-align: right'>
 	    	<table class="table no-layout">
-	    		<thead class="no-layout">
-	    			<tr>
-	    				<th style="text-align: right;"></th>
-	    				<th></th>
-	  				</tr>
-	  			</thead>
 	    		<tbody>
 	    			<tr>
 	    				<td>نام مدل</td>
@@ -94,10 +134,10 @@
 	  		</table>
 	      <div class='clearfix'></div>
 	      <p style="position: relative; bottom: 0px" class="actions">
-	      	<%= link_to '#', class: 'info btn btn-primary pull-left select-fabric' do %>
+	      	<button class='info btn btn-primary pull-left select-fabric'>
 	      		<span class="fa fa-crosshairs"></span>
 	    			<span class="text">انتخاب طرح</span>
-	      	<% end %>
+	      	</button>
 	      	<div class='clearfix'></div>
 	    	</p>
 	    </div>
@@ -107,37 +147,103 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
+		var active_stage = function($stage) {
+			$("#step1-2-final-stage").addClass('hidden');
+			if($("#step1-2-content").html().length === 0)
+				$("#step1-2-helper").removeClass('hidden');
+			$("#step1 #selection-stages tr.main-row.active").removeClass('active')
+			$stage
+				.addClass('active')
+				.unbind('click.reactivate')
+				.find('.fa')
+					.attr('class', 'fa fa-chevron-left')
+			$("#step1 #selection-stages [data-sid='" + $stage.attr('data-sid') + "']")
+				.removeClass('completed')
+				.unbind('mouseenter mouseleave')
+			$("#step1 #selection-stages").data('stage', $("#step1 #selection-stages tr.main-row").index($stage));
+		}
+		var complete_stage = function($stage) {
+			$stage
+				.removeClass('reactivated')
+				.addClass('completed')
+				.bind('click.reactivate', function() {
+					$("#step1 #selection-stages tr.main-row.reactivated").each(function() {
+						complete_stage($(this));
+					})
+					$("#step1 #selection-stages tr.main-row .fa-chevron-left").removeClass('fa-chevron-left')
+					$(this).addClass('reactivated')
+					active_stage($(this));
+					$("#step1 #step1-nav").removeClass('hidden')
+					$("#order-stages #step-nav").addClass('hidden')
+					if($(this).attr('data-selected'))
+						$("#step1 #step1-nav .btn-next").removeAttr('disabled');
+					if($("#step1 #selection-stages").data('stage') <= 0)
+						$("#step1 #step1-nav .btn-prev").addClass('hidden');
+				})
+				.find('.fa')
+					.attr('class', 'fa fa-check')
+			$("#step1 #selection-stages [data-sid='" + $stage.attr('data-sid') + "']")
+				.addClass('completed')
+				.removeClass('active hovered')
+				.hover(function() {
+					$("#step1 #selection-stages [data-sid='" + $(this).attr('data-sid') + "'].completed").addClass('hovered')
+				}, function() {
+					$("#step1 #selection-stages [data-sid='" + $(this).attr('data-sid') + "'].completed").removeClass('hovered')
+				})
+		}
 		$("#step1").bind('activated', function() {
 			$("#order-stages #step-nav").addClass('hidden')
+			$("#step1 #selection-stages").data('stage', 0)
+			active_stage($("#step1 #selection-stages tr.main-row:first"));
 		})
 		$("#step1 #step1-nav .btn-next").click(function() {
-			if($("#step1-1 .stepwizard .stepwizard-row:last").hasClass('active')) {
-				$("#order-stages #step-nav")
-					.removeClass('hidden')
-					.find('.btn-next').click()
-					return;
-			}
-			$("#step1-1 .stepwizard .stepwizard-row.active:not(:last-child)")
-				.removeClass('active').addClass('completed')
-				.find('.btn-square').html('<span class="fa fa-check"></span>')
-				.closest('.stepwizard-row').next('.stepwizard-row').addClass('active');
-			$("#order-stages #step1-nav .btn-prev").removeClass('hidden');
-			$(this).blur();
+			var stages = $("#step1 #selection-stages tr.main-row")
+			var stage_id = $("#step1 #selection-stages").data('stage')
+			// complete the current stage
+			complete_stage($(stages[stage_id]));
+			// check if reached to the final stage
+			if(stages.length === stage_id + 1) return;
+			// activate the next stage
+			active_stage($(stages[stage_id + 1]))
 		});
 		$("#step1 #step1-nav .btn-prev").click(function() {
-			$("#step1-1 .stepwizard .stepwizard-row.completed:last")
-				.removeClass('completed').addClass('active')
-				.find('.btn-square').html('')
-				.closest('.stepwizard-row').next('.stepwizard-row.active').removeClass('active');
-			if($("#step1-1 .stepwizard .stepwizard-row:first").hasClass('active')) $(this).addClass('hidden');
-			$(this).blur();
+			var stages = $("#step1 #selection-stages tr.main-row")
+			var stage_id = $("#step1 #selection-stages").data('stage')
+			// check if reached to the initial stage
+			if(stage_id <= 0) return;
+			// activate the previous stage
+			active_stage($(stages[stage_id - 1]))
+		});
+		$("#step1 #step1-nav .btn").click(function(){
+			var stages = $("#step1 #selection-stages tr.main-row")
+			var stage_id = $("#step1 #selection-stages").data('stage')
+			if($(stages[stage_id]).attr('data-selected'))
+				$("#step1 #step1-nav .btn-next").removeAttr('disabled');
+			else
+				$("#step1 #step1-nav .btn-next").attr('disabled', 'disabled');
+
+			if(stage_id <= 0)
+				$("#step1 #step1-nav .btn-prev").addClass('hidden');
+			else
+				$("#step1 #step1-nav .btn-prev").removeClass('hidden');
+
+			// check if reached to the final stage
+			if($("#step1 #selection-stages tr.main-row:last").hasClass('completed')) {
+				reset_everything();
+				$("#step1-2-helper").addClass('hidden');
+				$("#step1-2-final-stage").removeClass('hidden');
+				$("#step1 #step1-nav").addClass('hidden')
+				$("#order-stages #step-nav").removeClass('hidden')
+					return;
+			}
+			$(this).blur()
 		});
 		$('#step1-1 li').click(function() {
 			$(this).closest('ul').find('.active').removeClass('active');
 			$(this).addClass('active');
 			$('#step1-2-helper').removeClass('hidden');
 			$('#step1-2').removeClass('hidden');
-			$('#step1 #step1-2 #fabric-quality').prop('selectedIndex', 0);
+			$('#step1 #fabric-quality').prop('selectedIndex', 0);
 		  $("#step1-2-content").html("");
 		})
 		var filter_availables = function() {
@@ -160,7 +266,27 @@
 			$("#step1-2-content").html("")
 			$("#step1-2-helper").removeClass('hidden')
 			$(".color-box.active").removeClass('active')
-			$('#step1 #step1-2 #fabric-quality').prop('selectedIndex',0)
+			$('#step1 #fabric-quality').prop('selectedIndex',0)
+		};
+		var after_models_loaded = function() {
+			$('.fab-container .select-fabric').click(function(){
+				var model = $(this).closest('.model[model-id]')
+				var model_id = model.attr('model-id')
+				var stages = $("#step1 #selection-stages tr.main-row")
+				var stage_id = $("#step1 #selection-stages").data('stage')
+				var sid = $(stages[stage_id]).attr('data-sid')
+				var find_piece = function(sid, flag) { return $('[data-sid="'+sid.toString()+'"].selected-fabric-details' + flag) }
+				find_piece(sid, '.model-name td:first').html('<strong>نام:</strong> ' + model.find('.model-name').text())
+				find_piece(sid, '.model-price td:first').html('<strong>قیمت:</strong> ' + model.find('.model-price').text())
+				find_piece(sid, '.model-quality td:first').html('<strong>کیفیت:</strong> ' + model.find('.model-quality').text())
+				$('[data-sid="'+sid.toString()+'"] .selected-fabric-details.model-img').html('<img src="' + model.find('.img').attr('src') + '" class="img img-responsive"/>')
+				// show the items
+				find_piece(sid, '.hidden').removeClass('hidden');
+				$('[data-sid="'+sid.toString()+'"] .selected-fabric-details.hidden').removeClass('hidden');
+				$('#step1-nav .btn-next[disabled]').removeAttr('disabled');
+				$(stages[stage_id]).attr('data-selected', 1)
+				$(this).blur();
+			});
 		};
 		var load_fabrics = function(url, data) {
 			// clear the content
@@ -192,10 +318,12 @@
 			 			 }
 
 						 for(var l = 0, k = models.length; l < k; l++, c++) {
-						 		$("#step1-2-content .row").last().append("<div class='col-md-3 col-sm-4 col-xs-6 text-center fab-container'></div>");
+						 		$("#step1-2-content .row").last().append("<div class='col-md-4 col-sm-4 col-xs-6 text-center fab-container'></div>");
 						 		var $wrapper = $("#step1-2-content .row .fab-container").last();
 						 		$wrapper.append($('#step1 #fabric-model-template').clone().removeAttr('id class'));
 						 		$wrapper_box = $wrapper.find('.thumbnail');
+
+								$wrapper_box.addClass('model').attr('model-id', models[l].id);
 
 						 		$wrapper_box.prepend("<a href='" + models[l].origin + "' data-type='photo-gallery' data-index='" + c.toString() + "' data-thumb='" + models[l].thumb + "'>\
 						 			<img src='" + models[l].thumb + "' data-origin-src='" + models[l].origin + "' class='img img-responsive img-thumbnail' />\
@@ -210,12 +338,13 @@
 						 			.html(fabric.brand.available ? 'موجود' : 'ناموجود')
 						 			.addClass(fabric.brand.available ? 'label-success' : 'label-danger');
 					 			if(!fabric.brand.available) {
-					 				$wrapper_box.find('.actions').addClass('hidden');
+					 				$wrapper_box.find('.actions').remove();
 					 				$wrapper.addClass('not-available');
 				 				}
 						 };
 					};
 					filter_availables();
+					after_models_loaded();
 					execute_photo_gallery();
 					// highlight and scroll-to the viewing image
 					$("[data-type='photo-gallery']").click(function(){
@@ -236,14 +365,14 @@
 				}
 			});
 		};
-		$("#step1 #step1-nav .btn").click(reset_everything);
 		$("#only-show-availables").click(filter_availables);
-		$('#step1 #step1-2 #fabric-quality').change(function() {
+		$('#step1 #fabric-quality').change(function() {
 			load_fabrics('<%= ls_fabrics_api_index_path %>', {q: $(this).find(':selected').val()})
-			$('#step1 #step1-2 .color-box.active').removeClass('active');
+			$('#step1 .color-box.active').removeClass('active');
 		});
-		$('#step1 #step1-2 .color-box[data-id]').click(function() {
-			$('#step1 #step1-2 .color-box.active').removeClass('active');
+		$('#step1 .color-box[data-id]').click(function() {
+				$("#step1-2-final-stage").addClass('hidden');
+			$('#step1 .color-box.active').removeClass('active');
 			$(this).addClass('active')
 			load_fabrics('<%= ls_fabric_models_api_index_path %>', {cc: $(this).data('id')})
 		});
