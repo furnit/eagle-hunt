@@ -8,6 +8,7 @@
     > legend + p { font-sizex: 1.5em }
   }
   #step1 {
+    canvas { width: 100%; height: 100%; display: block }
     #selection-stages {
       tr {
         &.main-row {
@@ -107,6 +108,9 @@
         .fab-container {
           &.active {
             .thumbnail { box-shadow: 0 0 10px #0088cc; }
+          }
+          .select-fabric {
+            &.selected { background-color: #5cb85c; font-weight: bold }
           }
         }
       }

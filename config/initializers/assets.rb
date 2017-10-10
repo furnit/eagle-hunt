@@ -12,6 +12,7 @@ Rails.application.config.assets.version = '1.0'
 # precompile directories
 
 %w(
+  three.js
   photoswipe
   users
   filterrific
@@ -24,6 +25,8 @@ Rails.application.config.assets.version = '1.0'
 ).each do |directory|
   Rails.application.config.assets.precompile += [ "#{directory}/*.js", "#{directory}/*.css", "#{directory}/*.coffee" ]
 end
+
+# Rails.application.config.assets.precompile += [ "3d-models/furniture/*.obj", "3d-models/furn/iture/*.mtl" ]
 
 # Custom couple files to pre-compile
 %w(

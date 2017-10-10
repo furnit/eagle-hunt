@@ -32,18 +32,39 @@
 				<table class="table text-right" id="selection-stages">
 					<thead>
 						<tr>
-							<td class="col-md-5"></td>
+							<td class="col-md-5 col-sm-5"></td>
 							<td></td>
 						</tr>
 					</thead>
 					<tbody>
+						<tr>
+							<td colspan="2"><strong>نمای کلی مبل</strong></td>
+						</tr>
+						<tr class="text-center">
+							<td colspan="2">
+								<div style="height: 200px; width: 100%;" id="furniture-simulation"><span class="fa fa-spinner fa-spin"></span> در حال بارگذاری....</div>
+							</td>
+						</tr>
+						<tr style="border-bottom: 1px solid #ddd;">
+							<td class="text-right" style="cursor: pointer" colspan="2">
+								<button class="btn btn-link" id="furniture-simulation-fullscreen" style="font-size: 90%"><strong><span class="fa fa-arrows-alt"></span> بزرگ‌نمایی</strong></button>
+								<button class="btn btn-link" id="furniture-simulation-reset" style="font-size: 90%"><strong><span class="fa fa-refresh"></span> بازنشانی صحنه</strong></button>
+							</td>
+						</tr>
+						<%
+							section_map = {
+								"پشتی": "poshti",
+								"زیری": "ziri",
+								"دسته": "daste"
+							}
+						%>
 						<% @furniture_sections.each do |s| %>
 							<tr data-sid="<%= s.id %>" class="main-row">
 								<td class="selected-fabric-details"><span class="fa hidden"></span> پارچه انتخابی</td>
 								<td colspan="2"><%= s.comment %></td>
 							</tr>
 							<tr data-sid="<%= s.id %>">
-								<td class="selected-fabric-details model-img">انتخاب نشده است!</td>
+								<td class="selected-fabric-details model-img" data-show-case="<%= section_map[s.name.to_sym] %>"><%= image_tag "qmark_128.png", class:"img img-responsive" %></td>
 								<td colspan="2"><%= image_tag s.image[:image].thumb, class: "img img-responsive" %></td>
 							</tr>
 							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-name">
@@ -68,28 +89,6 @@
 				<div id="step1-2-helper" class="text-center">
 					<span class='fa fa-hand-o-up'></span> لطفا یکی از «کیفیت‌های پارچه» یا «تیپ رنگی» را جهت ادامه انتخاب کنید.<br />
 					<strong>توجه:</strong> که در قسمت آخر این بخش ‌میتواند نسخه‌ی شبیه‌سازی شده از مجموعه پارچه‌های انتخابی خود را مشاهده کنید.
-				</div>
-				<div id="step1-2-final-stage" class="text-center hidden">
-					<strong>تبریک!</strong>
-					شما پارچه‌های تمامی قسمت‌های مبل را انتخاب کرده‌اید.<br />
-					اکنون می‌توانید در قسمت زیر نمایش شبیه‌سازی شده از پارچه‌هایی که انتخاب کرده‌اید را
-					<strong>بروی یک مبل فرضی</strong>
-					مشاهده کنید و در صورتی که مورد پسندتان واقع نشد می‌توانید به هریک مراحل قبلی بازگشته و دوباره پارچه‌ی مورد علاقه‌ی خود را انتخاب کنید.
-					<table class="table">
-						<tr>
-							<td><strong>نمای کلی مبل</strong></td>
-						</tr>
-						<tr>
-							<td>
-								<div style="height: 500px; width: 100%; background-color: #000"></div>
-							</td>
-						</tr>
-						<tr style="border-bottom: 1px solid #ddd">
-							<td class="text-right" style="cursor: pointer">
-								<strong><span class="fa fa-arrows-alt"></span> بزرگ‌نمایی</strong>
-							</td>
-						</tr>
-					</table>
 				</div>
 			</div>
 		</div>
@@ -148,7 +147,6 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		var active_stage = function($stage) {
-			$("#step1-2-final-stage").addClass('hidden');
 			if($("#step1-2-content").html().length === 0)
 				$("#step1-2-helper").removeClass('hidden');
 			$("#step1 #selection-stages tr.main-row.active").removeClass('active')
@@ -191,10 +189,54 @@
 					$("#step1 #selection-stages [data-sid='" + $(this).attr('data-sid') + "'].completed").removeClass('hovered')
 				})
 		}
+		$("#furniture-simulation-reset").click(function() {
+			$(this).blur();
+			reset_camera(graphic);
+		});
+		$("#furniture-simulation-fullscreen").click(function() {
+			$(this).blur();
+			if(!THREEx.FullScreen.available()) {
+				bootbox.alert('مرورگر شما امکان بزرگ‌نمایی ندارد، لطفا مرورگر‌ خود را بروز رسانی کنید یا از مرورگر‌های مدرن استفاده کنید.')
+				$(this).attr('disabled', 'disabled')
+				return;
+			}
+			// store the default renderer size
+			if(typeof graphic.renderer.domElement.default_size === "undefined")
+				graphic.renderer.domElement.default_size = [graphic.renderer.domElement.style.width, graphic.renderer.domElement.style.height].map(function(item) { return item.replace("px", "") });
+			// request the fullscreen
+			THREEx.FullScreen.request(graphic.renderer.domElement);
+			// set the render to fullsize
+			graphic.renderer.setSize(window.screen.width, window.screen.height);
+			// list the fullscreen event listening events
+			var fullscreen_events = [
+				'webkitfullscreenchange',
+				'mozfullscreenchange',
+				'fullscreenchange',
+				'MSFullscreenChange'
+			]
+			// foreach event
+			fullscreen_events.forEach(function(trigger) {
+				// event function
+				var fs_event = function() {
+					// if fullscreen exiting?
+			    if (!(document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement)) {
+			    	// remove the event function
+			  		document.removeEventListener(trigger, fs_event, true);
+			  		var wh = graphic.renderer.domElement.default_size;
+			  		// reset the renderer size to its default
+	  		  	graphic.renderer.setSize(wh[0], wh[1]);
+			    }
+				};
+				// bind the event
+		    document.addEventListener(trigger, fs_event, false);
+			});
+		});
 		$("#step1").bind('activated', function() {
 			$("#order-stages #step-nav").addClass('hidden')
-			$("#step1 #selection-stages").data('stage', 0)
-			active_stage($("#step1 #selection-stages tr.main-row:first"));
+			$("#step1 #step1-nav").removeClass('hidden')
+			if(typeof $("#step1 #selection-stages").data('stage') === "undefined")
+				$("#step1 #selection-stages").data('stage', 0)
+			active_stage($($("#step1 #selection-stages tr.main-row").get($("#step1 #selection-stages").data('stage'))));
 		})
 		$("#step1 #step1-nav .btn-next").click(function() {
 			var stages = $("#step1 #selection-stages tr.main-row")
@@ -231,7 +273,6 @@
 			if($("#step1 #selection-stages tr.main-row:last").hasClass('completed')) {
 				reset_everything();
 				$("#step1-2-helper").addClass('hidden');
-				$("#step1-2-final-stage").removeClass('hidden');
 				$("#step1 #step1-nav").addClass('hidden')
 				$("#order-stages #step-nav").removeClass('hidden')
 					return;
@@ -270,12 +311,26 @@
 		};
 		var after_models_loaded = function() {
 			$('.fab-container .select-fabric').click(function(){
+				$(this).blur();
 				var model = $(this).closest('.model[model-id]')
 				var model_id = model.attr('model-id')
 				var stages = $("#step1 #selection-stages tr.main-row")
 				var stage_id = $("#step1 #selection-stages").data('stage')
 				var sid = $(stages[stage_id]).attr('data-sid')
 				var find_piece = function(sid, flag) { return $('[data-sid="'+sid.toString()+'"].selected-fabric-details' + flag) }
+				$('.fab-container .select-fabric.selected').each(function() {
+					$(this)
+						.html($(this).attr('data-origin-text'))
+						.removeClass('selected')
+						.closest('.thumbnail')
+							.css('box-shadow', 'unset');
+				});
+				$(this)
+					.attr('data-origin-text', $(this).html())
+					.html('<span class="fa fa-check"></span> انتخاب شد!')
+					.addClass('selected')
+					.closest('.thumbnail')
+						.css('box-shadow', '0 0 10px green')
 				find_piece(sid, '.model-name td:first').html('<strong>نام:</strong> ' + model.find('.model-name').text())
 				find_piece(sid, '.model-price td:first').html('<strong>قیمت:</strong> ' + model.find('.model-price').text())
 				find_piece(sid, '.model-quality td:first').html('<strong>کیفیت:</strong> ' + model.find('.model-quality').text())
@@ -285,7 +340,12 @@
 				$('[data-sid="'+sid.toString()+'"] .selected-fabric-details.hidden').removeClass('hidden');
 				$('#step1-nav .btn-next[disabled]').removeAttr('disabled');
 				$(stages[stage_id]).attr('data-selected', 1)
-				$(this).blur();
+				// set the selected texture to the view
+				var texture   =  model.find('.img').attr('src');
+				var show_case = $('[data-sid="'+sid.toString()+'"] .selected-fabric-details.model-img').attr('data-show-case');
+				texture_select(show_case, texture);
+				if(show_case === "ziri")
+					texture_select("frame", texture);
 			});
 		};
 		var load_fabrics = function(url, data) {
@@ -318,7 +378,7 @@
 			 			 }
 
 						 for(var l = 0, k = models.length; l < k; l++, c++) {
-						 		$("#step1-2-content .row").last().append("<div class='col-md-4 col-sm-4 col-xs-6 text-center fab-container'></div>");
+						 		$("#step1-2-content .row").last().append("<div class='col-md-4 col-sm-6 col-xs-6 text-center fab-container'></div>");
 						 		var $wrapper = $("#step1-2-content .row .fab-container").last();
 						 		$wrapper.append($('#step1 #fabric-model-template').clone().removeAttr('id class'));
 						 		$wrapper_box = $wrapper.find('.thumbnail');
@@ -371,10 +431,67 @@
 			$('#step1 .color-box.active').removeClass('active');
 		});
 		$('#step1 .color-box[data-id]').click(function() {
-				$("#step1-2-final-stage").addClass('hidden');
 			$('#step1 .color-box.active').removeClass('active');
 			$(this).addClass('active')
 			load_fabrics('<%= ls_fabric_models_api_index_path %>', {cc: $(this).data('id')})
 		});
 	});
+</script>
+
+<%
+%w[
+	three.min
+	OBJLoader
+	TrackballControls
+	webgl_detector
+	init_scene
+	load_objects
+	THREEx.FullScreen
+].each do |jsfile| %>
+	<%= javascript_include_tag "three.js/#{jsfile}.js" %>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+	// try to load the models first
+	load_objects(
+		{
+			"poshti": {
+				file: "<%= asset_path("3d-models/furniture/poshti.obj") %>"
+			},
+			"ziri": {
+				file: "<%= asset_path("3d-models/furniture/ziri.obj") %>"
+			},
+			"frame": {
+				file: "<%= asset_path("3d-models/furniture/frame.obj") %>"
+			},
+			"daste": {
+				file: "<%= asset_path("3d-models/furniture/daste.obj") %>"
+			},
+		},
+		display
+	);
+	function reset_camera(graphic) {
+		graphic.controls.reset();
+		graphic.camera.position.set(3, 4, 10)
+	}
+	function display(loaded_models){
+		if(typeof loaded_models === "undefined") {
+			alert("Models has not been loaded yet....\nTry Later!")
+			return
+		}
+		$('#step1 #furniture-simulation').html("").closest('tr').addClass('shadow-box');
+    graphic = init_scene(document.getElementById('furniture-simulation'))
+		reset_camera(graphic)
+		objects = loaded_models
+		for (var key in loaded_models) graphic.scene.add(loaded_models[key]);
+	  var animate = function() {
+	    requestAnimationFrame( animate );
+	    graphic.controls.update();
+	    graphic.renderer.render( graphic.scene, graphic.camera );
+	  };
+	  animate();
+	}
+	function texture_select(position, src) {
+		set_texture(objects[position], load_texture(src))
+	}
 </script>
