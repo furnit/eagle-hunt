@@ -28,7 +28,7 @@
 			<hr />
 		</div>
 		<div class="row">
-			<div id="step1-1" class="col-md-4 col-sm-4 col-xs-5 pull-right" style="margin-top: 30px;">
+			<div id="step1-1" class="col-md-4 col-sm-4 col-xs-5 pull-right" style="margin-top: 13px;">
 				<table class="table text-right" id="selection-stages">
 					<thead>
 						<tr>
@@ -90,6 +90,16 @@
 					<span class='fa fa-hand-o-up'></span> لطفا یکی از «کیفیت‌های پارچه» یا «تیپ رنگی» را جهت ادامه انتخاب کنید.<br />
 					<strong>توجه:</strong> که در قسمت آخر این بخش ‌میتواند نسخه‌ی شبیه‌سازی شده از مجموعه پارچه‌های انتخابی خود را مشاهده کنید.
 				</div>
+				<div id="step1-2-post-final-step" class="text-justify hidden">
+					<legend><strong>تایید و ادامه</strong></legend>
+					لطفا با توجه به نمایی کلی شبیه‌سازی شده در سمت راست (<span class="fa fa-hand-o-right"></span>)
+					صفحه انتخاب‌های خود را بازبینی کنید و در صورت تایید به مرحله‌ی بعد بروید.<br />
+					<strong>چند نکته:</strong>
+					<ol>
+						<li>در صورتی که هرکدام از قسمت‌های انتخاب شده مورد پسند‌تان واقع نشده است به راحتی می‌توانید با کلیک بر هرکدام از «عنوان» قسمت‌های مبل در قسمت راست صفحه به قسمت مورد نظر بروید و دوباره انتخاب کنید.</li>
+						<li>شبیه‌سازی فقط نمای کلی از «یک مبل فرضی» را برای شما ارائه می‌دهد و شما باید فقط از بعد سلیقه‌ای و چینش طرح و رنگ پارچه‌ها آن‌را بررسی کنید. جزییات را کاشناسان ما موقع ساخت مبل در نظر خواهند گرفت و سعی خواهد شد که با توجه به انتخاب‌هایتان بهترین نمونه تولید شود.</li>
+					</ol>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -146,6 +156,11 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
+		var scroll_to = function(item) {
+	    $("body").stop().animate({ scrollTop: $(item).offset().top - 70 }, 500);
+			return $(item);
+		};
+
 		var active_stage = function($stage) {
 			if($("#step1-2-content").html().length === 0)
 				$("#step1-2-helper").removeClass('hidden');
@@ -168,6 +183,7 @@
 					$("#step1 #selection-stages tr.main-row.reactivated").each(function() {
 						complete_stage($(this));
 					})
+					$("#step1 #step1-2-post-final-step").addClass('hidden')
 					$("#step1 #selection-stages tr.main-row .fa-chevron-left").removeClass('fa-chevron-left')
 					$(this).addClass('reactivated')
 					active_stage($(this));
@@ -234,6 +250,10 @@
 		$("#step1").bind('activated', function() {
 			$("#order-stages #step-nav").addClass('hidden')
 			$("#step1 #step1-nav").removeClass('hidden')
+			if($("#step1 #selection-stages tr.main-row:last").hasClass('completed'))
+				$("#step1 #step1-2-post-final-step").removeClass('hidden')
+			else
+				$("#step1 #step1-2-post-final-step").addClass('hidden')
 			if(typeof $("#step1 #selection-stages").data('stage') === "undefined")
 				$("#step1 #selection-stages").data('stage', 0)
 			active_stage($($("#step1 #selection-stages tr.main-row").get($("#step1 #selection-stages").data('stage'))));
@@ -257,6 +277,7 @@
 			active_stage($(stages[stage_id - 1]))
 		});
 		$("#step1 #step1-nav .btn").click(function(){
+			scroll_to($("#step1"))
 			var stages = $("#step1 #selection-stages tr.main-row")
 			var stage_id = $("#step1 #selection-stages").data('stage')
 			if($(stages[stage_id]).attr('data-selected'))
@@ -274,9 +295,19 @@
 				reset_everything();
 				$("#step1-2-helper").addClass('hidden');
 				$("#step1 #step1-nav").addClass('hidden')
+				$("#step1 #step1-2-post-final-step").removeClass('hidden')
 				$("#order-stages #step-nav").removeClass('hidden')
 					return;
 			}
+
+			$("#step1 #step1-2-post-final-step").addClass('hidden')
+			$('.fab-container .select-fabric.selected').each(function(){
+				$(this)
+					.html($(this).attr('data-origin-text'))
+					.removeClass('selected')
+					.closest('.thumbnail')
+						.css('box-shadow', 'unset');
+			})
 			$(this).blur()
 		});
 		$('#step1-1 li').click(function() {
@@ -408,11 +439,6 @@
 					execute_photo_gallery();
 					// highlight and scroll-to the viewing image
 					$("[data-type='photo-gallery']").click(function(){
-						var scroll_to = function(item) {
-					    $("body").scrollTop($(item).offset().top - 70);
-							return $(item);
-						};
-
 						$('.fab-container.active').removeClass('active');
 						scroll_to($(this).closest('.fab-container')).addClass('active');
 						setTimeout(function(){
@@ -479,7 +505,7 @@
 			alert("Models has not been loaded yet....\nTry Later!")
 			return
 		}
-		$('#step1 #furniture-simulation').html("").closest('tr').addClass('shadow-box');
+		$('#step1 #furniture-simulation').html("").closest('tr').addClass('shadow-box nohover-effect');
     graphic = init_scene(document.getElementById('furniture-simulation'))
 		reset_camera(graphic)
 		objects = loaded_models
