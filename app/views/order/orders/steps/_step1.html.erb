@@ -157,7 +157,9 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		var scroll_to = function(item) {
-	    $("body").stop().animate({ scrollTop: $(item).offset().top - 70 }, 500);
+			$('html, body').animate({
+	    	scrollTop: $(item).offset().top - 70
+		 	}, 750);
 			return $(item);
 		};
 
@@ -444,7 +446,8 @@
 						setTimeout(function(){
 							gallery.listen('afterChange', function() {
 								$('.fab-container.active').removeClass('active');
-								scroll_to($(gallery.items[gallery.getCurrentIndex()].item).closest('.fab-container')).addClass('active');
+								var $container = scroll_to($(gallery.items[gallery.getCurrentIndex()].item).closest('.fab-container')).addClass('active');
+								setTimeout(function() { $container.removeClass('active') }, 3000)
 							});
 						}, 500);
 					})
