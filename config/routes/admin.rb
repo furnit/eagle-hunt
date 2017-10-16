@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   namespace :admin do
 
     root to: 'home#index'
-    
+
     resources :contacts
-    
+
     resources :uploaded_files, RC::ajax_server.merge(RC::json_request_only).merge({only: [:create, :destroy]})
 
     resources :users do
@@ -17,7 +17,7 @@ Rails.application.routes.draw do
         put     :reset_password
       end
     end
-    
+
     resources :user_types
 
     resources :home, RC::non_restful.merge({:path => ''}) do
@@ -25,61 +25,62 @@ Rails.application.routes.draw do
         get :dashboard
       end
     end
-    
+
     resources :systems, RC::non_restful do
     end
-    
+
     # <furniture>
-    namespace :furniture do 
+    namespace :furniture do
       # <fabric>
       namespace :fabric do
         resources :brands
         resources :cushions
         resources :qualities
-        
+
         resources :colors, except: [:show, :create] do
-          collection do 
+          collection do
             post :compute
           end
         end
-      
+
         resources :fabrics do
           member do
             delete :archive
             patch  :recover
-            get    :list_images, RC::json_request_only 
+            get    :list_images, RC::json_request_only
           end
         end
       end
       # </fabric>
-      
+
       # <paint>
       namespace :paint do
         resources :colors
         resources :color_brands
         resources :color_qualities
       end
-      
+
       # </paint>
-      
+
       # <wood>
       namespace :wood do
         resources :types
+        resources :colors, except: [:edit]
       end
       # </wood>
-      
+
       # <foam>
       namespace :foam do
         resources :types, except: [:show]
       end
       # </foam>
-      
+
       resources :furnitures do
         member do
           post   :cover, RC::json_request_only
           get    :edit_description, RC::ajax_server
           patch  :update_description
-          get    :list_images, RC::json_request_only 
+          get    :list_images, RC::json_request_only
           get    :ls_intel, RC::ajax_server
           post   :confirm, RC::ajax_server.merge(RC::json_request_only)
           get    :ls_price_details, RC::ajax_server
@@ -89,27 +90,27 @@ Rails.application.routes.draw do
           post   :markup, RC::json_request_only
         end
       end
-      
+
       resources :sections, except: [:show] do
         member do
           get :list_images, RC::json_request_only
         end
       end
-      
+
       [:specs, :sets, :pieces].each do |rsrc|
         resources rsrc, except: [:show]
       end
-      
+
       resources :types, :path => "category" do
         member do
           delete :archive
           patch  :recover
-          get    :list_images, RC::json_request_only 
+          get    :list_images, RC::json_request_only
         end
       end
     end
     # </furniture>
-    
+
     # <workshop>
     namespace :workshop do
       resources :workshops do
@@ -117,9 +118,9 @@ Rails.application.routes.draw do
           put :toggle_cease
         end
       end
-    end 
+    end
     # </workshop>
-    
+
     # <pricing>
     namespace :pricing do
       resources :foams
@@ -139,7 +140,7 @@ Rails.application.routes.draw do
       end
     end
     # </pricing>
-    
+
     # <selling>
     namespace :selling do
       namespace :config do
@@ -150,6 +151,6 @@ Rails.application.routes.draw do
       end
     end
     # </selling>
-    
+
   end
 end

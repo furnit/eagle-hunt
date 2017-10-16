@@ -1,0 +1,20 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture/wood/color: رنگ چوب
+    attributes:
+      admin/furniture/wood/color:
+        name: 'عنوان'
+        comment: 'توضیحات'
+        value: کد رنگ
+    errors:
+      models:
+        admin/furniture/wood/color:
+          attributes:
+            name:
+              blank: 'نمی‌تواند خالی باشد.'
+              taken: قبلا ثبت شده است.
+            value:
+              blank: 'نمی‌تواند خالی باشد.'
+              taken: قبلا ثبت شده است.
+              invalid: نامعتبر می‌باشد.

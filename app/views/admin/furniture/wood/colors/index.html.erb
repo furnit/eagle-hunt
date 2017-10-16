@@ -1,0 +1,44 @@
+<%=
+  render 'admin/shared/index',
+    title: "لیست #{t("activerecord.models.#{Admin::Furniture::Wood::Color.model_name.i18n_key}")}",
+    title_right: lambda {
+      link_to new_admin_furniture_wood_color_url, class: 'inline-html-call' do
+        raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
+      end
+    },
+    before_table: lambda {
+      raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_furniture_wood_colors}</small>"
+    },
+    after_table: lambda {
+      raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_furniture_wood_colors, renderer: BootstrapPagination::Rails}</div>"
+    },
+    table_head: {
+      'ردیف': { style: 'width: 30px' },
+      'عنوان': { style: 'width: 130px' },
+      'کد رنگ': { style: 'width: 130px' },
+      'نمایش': { style: 'width: 40px' },
+      'توضیحات': { },
+      'آخرین بروزرسانی': { style: 'width: 130px' },
+      'عملیات': { style: 'width: 90px' }
+    },
+    table_body: lambda {
+%>
+  <% @admin_furniture_wood_colors.each do |ins| %>
+    <tr>
+      <td><%= ins.id %></td>
+      <td><%= editable_tag ins, :name %></td>
+      <td class="en"><span class="pull-right">#<%= ins.value %></span></td>
+      <td>
+      	<div style="width: 100%; height: 40px; background-color: #<%= ins.value %>; border: 1px solid black"></div>
+			</td>
+      <td><%= editable_tag ins, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %></td>
+      <td class='datetime' data-date='<%= ins.updated_at %>'></td>
+      <td>
+        <%= link_to ins, method: :delete, data: { confirm: { title: "آیا از حذف این مورد اطمینان دارید؟", message: "توجه فرمایید که حذف این مورد غیر قابل بازگشت خواهد بود!" } }, class: 'text-danger' do %>
+          <span class='fa fa-trash'></span> حذف
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+
+<% } %>

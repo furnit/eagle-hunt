@@ -1,0 +1,50 @@
+<% form_id = '' %>
+<%= remote_form(admin_furniture_wood_color) do |f| -%>
+  <% form_id = f.options[:html][:id] %>
+  <div  class='block'>
+  	<div class="row field">
+      <div class="col-md-9 col-sm-8 pull-right ir">
+        <%= f.text_field :name, autofocus: true %>
+      	<%= f.text_field :value, maxlength: 6, placeholder: 'مثلا «abcdef»'  %>
+      </div>
+      <div class="col-md-3 col-sm-4 pull-left">
+      	<legend>پیش‌نمایش کد رنگ</legend>
+      	<div style="width: 100%; height: 100px; background-color: transparent; border: 1px solid black" id="hex-color-display"></div>
+    	</div>
+    	<div class='clearfix'></div>
+    </div>
+
+    <div class="row field">
+      <div class="col-sm-12">
+        <%= f.text_area :comment %>
+      </div>
+  	</div>
+
+    <div class='clearfix'></div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$('[name="<%= f.object.model_name.param_key %>[value]"]').keydown(function(e) {
+			// only accept hex color codes
+			if(
+				!/^#?[0-9A-F]$/i.test(e.key) /* valid hex code */
+				&& e.keyCode != 8 /* backspace */
+				&& e.keyCode != 9 /* tab */
+				&& e.keyCode != 13 /* enter */)
+					return false;
+			// if is a hex code?
+			if(/^#?[0-9A-F]$/i.test(e.key))
+				$("#hex-color-display").css('background-color', "#" + this.value + e.key);
+			else if(e.keyCode == 8 /* backspace */)
+				$("#hex-color-display").css('background-color', "#" + this.value.substring(0, this.value.length - 1));
+		});
+	});
+</script>
+
+<% end %>

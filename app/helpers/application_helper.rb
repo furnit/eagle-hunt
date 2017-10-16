@@ -189,7 +189,7 @@ module ApplicationHelper
   end
 
   def redirect_form(instance, **args)
-    bootstrap_form_for instance, **args, :html => { :name => instance.class.name.split('::').last.underscore } do |f|
+    bootstrap_form_for instance, **args, :html => { :name => instance.model_name.param_key } do |f|
       yield f
     end
   end
