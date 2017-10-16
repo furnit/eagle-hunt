@@ -79,6 +79,9 @@ class Order::OrdersController < ApplicationController
     @furniture_sections = Admin::Furniture::Section.where(tag: :NECESSARY)
     @fabric_quals = Admin::Furniture::Fabric::Quality.all
     @colors_categories = Admin::Furniture::Fabric::Color.all
+    @wood_types = Admin::Pricing::Wood.all.map { |w| w.type }
+    @wood_colors = Admin::Furniture::Wood::Color.all
+    @wood_color_weights = Admin::Furniture::Wood::ColorWeight.all
   end
 
   def submit_simple

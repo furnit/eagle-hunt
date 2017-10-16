@@ -1,0 +1,15 @@
+fa:
+  activerecord:
+    models:
+      admin/furniture/wood/color_weight: وزن رنگ چوب
+    attributes:
+      admin/furniture/wood/color_weight:
+        name: 'عنوان'
+        comment: 'توضیحات'
+    errors:
+      models:
+        admin/furniture/wood/color_weight:
+          attributes:
+            name:
+              blank: 'نمی‌تواند خالی باشد.'
+              taken: قبلا ثبت شده است.

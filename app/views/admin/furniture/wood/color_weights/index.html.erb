@@ -1,33 +1,30 @@
 <%=
   render 'admin/shared/index',
-    title: "لیست #{t("activerecord.models.#{Admin::Pricing::Wood.model_name.i18n_key}")}",
+    title: "لیست #{t("activerecord.models.#{Admin::Furniture::Wood::ColorWeight.model_name.i18n_key}")}",
     title_right: lambda {
-      link_to new_admin_pricing_wood_url, class: 'inline-html-call' do
+      link_to new_admin_furniture_wood_color_weight_url, class: 'inline-html-call' do
         raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
       end
     },
     before_table: lambda {
-    	raw "<p class='alert alert-warning'><strong>توجه:</strong> واحد ارزی به «<b>تومان</b>» می‌باشد.</p>" +
-      "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_pricing_woods}</small>"
+      raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_furniture_wood_color_weights}</small>"
     },
     after_table: lambda {
-      raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_pricing_woods, renderer: BootstrapPagination::Rails}</div>"
+      raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_furniture_wood_color_weights, renderer: BootstrapPagination::Rails}</div>"
     },
     table_head: {
       'ردیف': { style: 'width: 30px' },
-      'نوع': { style: 'width: 150px' },
-      'قیمت (به تومان)': { style: 'width: 150px' },
+      'عنوان': { style: 'width: 90px' },
       'توضیحات': { },
       'آخرین بروزرسانی': { style: 'width: 130px' },
       'عملیات': { style: 'width: 90px' }
     },
     table_body: lambda {
 %>
-  <% @admin_pricing_woods.each do |ins| %>
+  <% @admin_furniture_wood_color_weights.each do |ins| %>
     <tr>
       <td><%= ins.id %></td>
-      <td><%= editable_tag ins, :admin_furniture_wood_type_id, type: :select, value: ins.admin_furniture_wood_type_id, source: admin_furniture_wood_types_path, text: ins.type.name %></td>
-      <td><%= editable_tag ins, :price, text: ins.price.to_s.to_money %></td>
+      <td><%= editable_tag ins, :name %></td>
       <td><%= editable_tag ins, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %></td>
       <td class='datetime' data-date='<%= ins.updated_at %>'></td>
       <td>

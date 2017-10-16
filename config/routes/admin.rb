@@ -66,6 +66,7 @@ Rails.application.routes.draw do
       namespace :wood do
         resources :types
         resources :colors, except: [:edit]
+        resources :color_weights, except: [:edit]
       end
       # </wood>
 

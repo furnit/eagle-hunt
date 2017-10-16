@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016143044) do
+ActiveRecord::Schema.define(version: 20171016193958) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -201,6 +201,13 @@ ActiveRecord::Schema.define(version: 20171016143044) do
     t.json     "images"
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_admin_furniture_types_on_deleted_at", using: :btree
+  end
+
+  create_table "admin_furniture_wood_color_weights", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.text     "comment",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "admin_furniture_wood_colors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

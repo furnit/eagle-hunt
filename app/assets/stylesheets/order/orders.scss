@@ -4,6 +4,7 @@
 
 #order-stages {
   > div {
+    &.step:not(.active) { display: none }
     > legend { font-weight: bold; font-sizex: 2em; }
     > legend + p { font-sizex: 1.5em }
   }

@@ -9,19 +9,19 @@
 	</legend>
 
 	<ul class="breadcrumb-steps" id="order-stage-steps">
-	  <li class="">
+	  <li>
 	  	<a href="#step0">
 	  		<em>تعداد و ست</em>
 	  		<span>انتخاب تعداد و ست</span>
   		</a>
 		</li>
-	  <li class="current">
+	  <li>
 	  	<a href="#step1">
 	  		<em>قدم اول: پارچه</em>
 	  		<span>انتخاب طرح و رنگ</span>
   		</a>
 		</li>
-	  <li>
+	  <li class="current">
 	  	<a href="#step2">
 	  		<em>قدم دوم: چوب</em>
 	  		<span>انتخاب رنگ و نوع</span>
@@ -45,7 +45,7 @@
 		<% Dir['app/views/order/orders/steps/*.html.erb'].each do |file| %>
 			<%= render "order/orders/steps/" + File.basename(file, '.html.erb').sub(/^_/, '') %>
 		<% end %>
-		<div id="step-nav" class="hidden">
+		<div id="step-nav">
 		<hr />
 			<button class="btn btn-default pull-right hidden btn-prev">
 				<span class="fa fa-arrow-right" style="margin-top: 3px"></span> مرحله‌ی قبل
@@ -75,9 +75,14 @@
 			$("#order-stages > div:not(#step-nav)").addClass('hidden');
 			$("#order-stages > div" + $("#order-stage-steps li.current a").attr('href'))
 				.removeClass('hidden')
+				.addClass('active')
 				.trigger('activated');
 		});
 		// trigger the initial state
-		$("#order-stages > div" + $("#order-stage-steps li.current a").attr('href')).trigger('activated');
+		$("#order-stages > div.step" + $("#order-stage-steps li.current a").attr('href'))
+			.show()
+			.trigger('activated')
+				.siblings('.step')
+					.addClass('hidden')
 	});
 </script>

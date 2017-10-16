@@ -1,6 +1,6 @@
-<%%= 
+<%%=
   render 'admin/shared/index',
-    title: "لیست #{t("activerecord.models.#{<%= class_name %>.model_name.i18n_key}")}", 
+    title: "لیست #{t("activerecord.models.#{<%= class_name %>.model_name.i18n_key}")}",
     title_right: lambda {
       link_to <%= new_helper %>, class: 'inline-html-call' do
         raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
@@ -15,7 +15,7 @@
     table_head: {
       'ردیف': { style: 'width: 30px' },
       'آخرین بروزرسانی': { style: 'width: 130px' },
-      'عملیات': { style: 'width: 80px' }
+      'عملیات': { style: 'width: 90px' }
     },
     table_body: lambda {
 %>
@@ -30,5 +30,5 @@
       </td>
     </tr>
   <%% end %>
-      
+
 <%% } %>

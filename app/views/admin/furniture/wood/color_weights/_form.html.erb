@@ -1,0 +1,20 @@
+<% form_id = '' %>
+<%= remote_form(admin_furniture_wood_color_weight) do |f| -%>
+  <% form_id = f.options[:html][:id] %>
+  <div  class='block'>
+      <div class="field">
+        <%= f.text_field :name, autofocus: true %>
+      </div>
+
+      <div class="field">
+        <%= f.text_area :comment %>
+      </div>
+
+      <div class='clearfix'></div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+<% end %>

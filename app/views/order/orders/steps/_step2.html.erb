@@ -1,0 +1,81 @@
+<div id="step2" class="step">
+	<legend>۱. انتخاب نوع چوب</legend>
+	<p>در این قسمت لطفا نوع چوب مورد استفاده در ساخت مبل را انتخاب کنید.</p>
+	<% wood_type_select_name = Admin::Furniture::Wood::Type.model_name.param_key %>
+	<select name="<%= wood_type_select_name %>" class="selectpicker" data-size="<%= @wood_types.length + 1%>">
+		<option disabled selected>یک نوع چوب را انتخاب کنید.</option>
+		<% @wood_types.each do |t| %>
+	  	<option value=<%= t.id %> data-subtext="<%= t.price.price %> تومان"><%= t.name %></option>
+		<% end %>
+	</select>
+
+	<div id="wood-type-comments" class="hidden" style="margin: 20px;">
+		توضیحات:
+		<blockquote style="border: 0; border-right: 5px solid red; font-size: 110%">
+			<% @wood_types.each do |t| %>
+				<div class="wood-type-comment hidden" id="wood-type-comment-<%= t.id %>"><%= t.comment %></div>
+			<% end %>
+		</blockquote>
+	</div>
+
+	<legend style="margin-top: 20px;">۲. انتخاب رنگ چوب</legend>
+	<table id="furniture-wood-color">
+		<tbody>
+			<tr>
+				<% @wood_colors.each do |c| %>
+				<td style="padding: 10px;">
+					<div style="height: 60px; width: 60px; background-color: #<%= c.value %>; cursor: pointer" class="shadow-box color-box" color-id="<%= c.id %>"></div>
+				</td>
+				<% end %>
+			</tr>
+			<tr>
+				<% @wood_colors.each do |c| %>
+				<td class="text-center">
+					<strong color-id="<%= c.id %>"><%= c.name %></strong>
+				</td>
+				<% end %>
+			</tr>
+		</tbody>
+	<table>
+
+	<legend style="margin-top: 20px;">۳. انتخاب روشنی/تیرگی رنگ</legend>
+	<select name="<%= @wood_color_weights || @wood_color_weights.first.model_name.param_key %>" class="selectpicker" data-size="<%= @wood_color_weights.length + 1%>">
+		<option disabled selected>یک وزن رنگی را انتخاب کنید.</option>
+		<% @wood_color_weights.each do |cw| %>
+	  	<option value=<%= cw.id %>><%= cw.name %></option>
+		<% end %>
+	</select>
+	<legend style="margin-top: 20px;">۴. توضیحات/درخواست‌ها (اختیاری)</legend>
+	<textarea placeholder="در صورت داشتن درخواست در مورد «رنگ مبل» در این قسمت ذکر نمایید."></textarea>
+</div>
+
+<style type="text/css" media="screen">
+	#furniture-wood-color .color-box[color-id].selected {
+		box-shadow: 0 0 10px #0088cc
+	}
+	#furniture-wood-color [color-id]:not(.color-box).selected {
+		color: #0066aa
+	}
+</style>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$("#step2").bind('activated', function() {
+			/* step activation procedures */
+		})
+		$("#step2 select.selectpicker").change(function(){
+			$(this).closest('.bootstrap-select').find('button').blur();
+		})
+		$("#step2 select[name='<%= wood_type_select_name %>']").change(function(){
+			$("#wood-type-comments")
+				.removeClass('hidden')
+				.find(".wood-type-comment")
+					.addClass('hidden')
+			$("#wood-type-comments #wood-type-comment-" + $(this).val().toString()).removeClass('hidden')
+		});
+		$('#furniture-wood-color .color-box').click(function() {
+			$('#furniture-wood-color .selected').removeClass('selected')
+			$("[color-id='"+$(this).attr('color-id')+"']").addClass('selected')
+		});
+	});
+</script>
