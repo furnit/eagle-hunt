@@ -57,7 +57,7 @@ $(document).on('ready turbolinks:load', function(){
         errors = data.responseJSON;
         model_name = form.attr('name') || '';
         form.find('.has-error').removeClass('has-error').find('.help-block').remove();
-        if(Array.isArray(errors)) {
+        if(errors && (Array.isArray(errors) || typeof errors  === "object")) {
 	        $.each(errors, function(field, messages) {
 	          input = form.find('input[type!=hidden], select, textarea, div[name]').filter(function() {
 	            name = $(this).attr('name');
