@@ -133,7 +133,7 @@ end
     comment += "، «#{fa_numbers(counts[i])}» فقره مبل «#{i} نفره»"
   end
   comment += " می‌باشد."
-  Admin::Furniture::Set.create!(name: "ست #{config.sum} نفره", comment: comment.strip, config: config)
+  Admin::Furniture::Set.create!(name: "ست #{config.sum.to_i} نفره", comment: comment.strip, config: config)
 end
 
 target_asset = Rails.root.join( 'db', 'seeds', "#{Rails.env.downcase}.rb")
