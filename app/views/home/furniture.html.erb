@@ -129,7 +129,7 @@
 				<div class='col-md-3'><span class='fa fa-refresh'></span> ۷ روز ضمانت بازگشت</div>
 			</div>
 			<div id="notify-me-form" class='hidden' style='color: black'>
-			  <%= redirect_form "", url: home_furniture_notify_path, remote: true do |f| %>
+			  <%= redirect_form @furniture, url: home_furniture_notify_path, remote: true do |f| %>
 			  	<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 			  	<%= hidden_field_tag :fid, @furniture.id %>
 			  	<div class='row'>
