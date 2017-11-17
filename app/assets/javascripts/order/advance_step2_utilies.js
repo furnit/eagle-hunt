@@ -179,6 +179,8 @@ function texture_select(position, src) {
 /* UTILITIES */
 
 function scroll_to(item) {
+	// return if no `item` exists
+	if($(item).length === 0) return;
 	$('html, body').animate({
   	scrollTop: $(item).offset().top - 70
  	}, 750);

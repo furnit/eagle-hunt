@@ -1,5 +1,5 @@
-<div id="step2" class="step">
-	<legend>۱. انتخاب نوع چوب</legend>
+<div id="step3" class="step">
+	<legend><strong>۱. انتخاب نوع چوب</strong></legend>
 	<p>در این قسمت لطفا نوع چوب مورد استفاده در ساخت مبل را انتخاب کنید.</p>
 	<% wood_type_select_name = Admin::Furniture::Wood::Type.model_name.param_key %>
 	<select name="<%= wood_type_select_name %>" class="selectpicker" data-size="<%= @wood_types.length + 1%>">
@@ -18,7 +18,7 @@
 		</blockquote>
 	</div>
 
-	<legend style="margin-top: 20px;">۲. انتخاب رنگ چوب</legend>
+	<legend style="margin-top: 20px;"><strong>۲. انتخاب رنگ چوب</strong></legend>
 	<table id="furniture-wood-color">
 		<tbody>
 			<tr>
@@ -36,18 +36,20 @@
 				<% end %>
 			</tr>
 		</tbody>
-	<table>
+	</table>
 
-	<legend style="margin-top: 20px;">۳. انتخاب روشنی/تیرگی رنگ</legend>
+	<legend style="margin-top: 20px;"><strong>۳. انتخاب روشنی/تیرگی رنگ</strong></legend>
 	<select name="<%= @wood_color_weights || @wood_color_weights.first.model_name.param_key %>" class="selectpicker" data-size="<%= @wood_color_weights.length + 1%>">
 		<option disabled selected>یک وزن رنگی را انتخاب کنید.</option>
 		<% @wood_color_weights.each do |cw| %>
 	  	<option value=<%= cw.id %>><%= cw.name %></option>
 		<% end %>
 	</select>
-	<legend style="margin-top: 20px;">۴. توضیحات/درخواست‌ها (اختیاری)</legend>
+	<legend style="margin-top: 20px;"><strong>۴. توضیحات/درخواست‌ها (اختیاری)</strong></legend>
 	<textarea placeholder="در صورت داشتن درخواست در مورد «رنگ مبل» در این قسمت ذکر نمایید."></textarea>
 </div>
+
+<%= render 'order/orders/shared/nav' %>
 
 <style type="text/css" media="screen">
 	#furniture-wood-color .color-box[color-id].selected {
@@ -60,9 +62,6 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		$("#step2").bind('activated', function() {
-			/* step activation procedures */
-		})
 		$("#step2 select.selectpicker").change(function(){
 			$(this).closest('.bootstrap-select').find('button').blur();
 		})
