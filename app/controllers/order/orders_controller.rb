@@ -76,12 +76,21 @@ class Order::OrdersController < ApplicationController
   end
 
   def advance
-    @furniture_sections = Admin::Furniture::Section.where(tag: :NECESSARY)
-    @fabric_quals = Admin::Furniture::Fabric::Quality.all
-    @colors_categories = Admin::Furniture::Fabric::Color.all
     @wood_types = Admin::Pricing::Wood.all.map { |w| w.type }
     @wood_colors = Admin::Furniture::Wood::Color.all
     @wood_color_weights = Admin::Furniture::Wood::ColorWeight.all
+  end
+
+  def advance_steps
+    step_id = params.require(:step_id).to_i
+    raise RuntimeError.new("invalid step#id") if not step_id.between?(1, 5)
+
+    # store/restore the provided ordering data for the step
+
+    # call the related handler to the step
+    eval("advance_step#{step_id}")
+    # render the related view
+    render "advance_step#{step_id}"
   end
 
   def submit_simple
@@ -111,6 +120,18 @@ class Order::OrdersController < ApplicationController
       format.json { render json: { title: 'خطا در سفارش!', body: e.message }, status: :unprocessable_entity }
     end
   end
+
+  protected
+    def advance_step1
+      @default_sets = Admin::Furniture::Set.all
+      @defined_pieces = Admin::Furniture::Piece.all
+    end
+
+    def advance_step2
+      @furniture_sections = Admin::Furniture::Section.where(tag: :NECESSARY)
+      @fabric_quals = Admin::Furniture::Fabric::Quality.all
+      @colors_categories = Admin::Furniture::Fabric::Color.all
+    end
 
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -1,0 +1,191 @@
+<div id="step2">
+	<legend><strong><span class="fa fa-check"></span> انتخاب طرح و رنگ پارچه</strong></legend>
+	<blockquote class="rtl" style="border-right-color: #0088cc;">
+		در این قسمت طرح و رنگ پارچه را برای قسمت‌های عمده‌ی مبل مشخص خواهید نمود.
+	</blockquote>
+	<br />
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12" >
+			<div id="step2-2-options-header" style="border-right: 1px solid #aaa; padding-right: 20px;">
+				<div class="row">
+					<div class="col-md-3 col-sm-4 pull-right form-group step2-2-options">
+						<label for="fabric-quality">کیفیت پارچه:</label>
+						<%= select_tag "fabric-quality", options_from_collection_for_select(@fabric_quals, :id, :name), prompt: "انتخاب کنید." %>
+						<div style="margin-top: 10px" class='filtersx xhidden'>
+							<%= check_awesome "نمایش طرح‌های موجود", checked: false, id: 'only-show-availables' %>
+						</div>
+					</div>
+					<div class="col-md-9 col-sm-8 pull-right step2-2-options">
+						<label>تیپ رنگی:</label><br />
+						<small class="text-muted">طرح‌های مختلف را بر اساس دسته‌بندی رنگی آنها نمایش می‌دهد.</small><br />
+						<% @colors_categories.each do |c| %>
+							<div class="color-box shadow-box img-thumbnail" style="background-color: <%= c.value %>;" data-id="<%= c.id %>"></div>
+						<% end %>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<hr />
+		</div>
+		<div class="row">
+			<div id="step2-1" class="col-md-4 col-sm-4 col-xs-5 pull-right" style="margin-top: 13px;">
+				<table class="table text-right" id="selection-stages">
+					<thead>
+						<tr>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan='2'>
+								<strong>پیشرفت:</strong>
+								<ul class="list-unstyled inline" id="selection-progress">
+									<% @furniture_sections.each do |sec| %>
+										<li style="border: 0" data-sid="<%= sec.id %>" class="text-disabled active"><span class="fa fa-square-o"></span> <%= sec.comment %></li>
+									<% end %>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2"><strong>نمای کلی مبل</strong></td>
+						</tr>
+						<tr class="text-center">
+							<td colspan="2">
+								<div style="height: 200px; width: 100%;" id="furniture-simulation"><span class="fa fa-spinner fa-spin"></span> در حال بارگذاری....</div>
+							</td>
+						</tr>
+						<tr style="border-bottom: 1px solid #ddd;">
+							<td class="text-right" style="cursor: pointer" colspan="2">
+								<button class="btn btn-link" id="furniture-simulation-fullscreen" style="font-size: 90%"><strong><span class="fa fa-arrows-alt"></span> بزرگ‌نمایی</strong></button>
+								<button class="btn btn-link" id="furniture-simulation-reset" style="font-size: 90%"><strong><span class="fa fa-refresh"></span> بازنشانی صحنه</strong></button>
+							</td>
+						</tr>
+						<%
+							section_map = {
+								"پشتی": "poshti",
+								"زیری": "ziri",
+								"دسته": "daste"
+							}
+						%>
+						<% @furniture_sections.each do |s| %>
+							<tr data-sid="<%= s.id %>" class="main-row">
+								<td class="selected-fabric-details"><span class="fa hidden"></span> پارچه انتخابی</td>
+								<td colspan="2"><%= s.comment %></td>
+							</tr>
+							<tr data-sid="<%= s.id %>">
+								<td class="selected-fabric-details model-img" data-show-case="<%= section_map[s.name.to_sym] %>"><%= image_tag "qmark_128.png", class:"img img-responsive", width: 130 %></td>
+								<td colspan="2"><%= image_tag s.image[:image].thumb, class: "img img-responsive" %></td>
+							</tr>
+							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-name">
+								<td></td>
+								<td style="border-top: 0">&nbsp;</td>
+							</tr>
+							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-quality">
+								<td></td>
+								<td style="border-top: 0">&nbsp;</td>
+							</tr>
+							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-price">
+								<td></td>
+								<td style="border-top: 0">&nbsp;</td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+			<div id="step2-2" class="col-md-8 col-sm-8 col-xs-7 pull-right">
+				<div id="step2-2-content" class="photo-gallery-collection">
+				</div>
+				<div id="step2-2-helper" class="text-center">
+					<span class='fa fa-hand-o-up'></span> لطفا یکی از «کیفیت‌های پارچه» یا «تیپ رنگی» را جهت ادامه انتخاب کنید.<br />
+					<strong>توجه:</strong> که در قسمت آخر این بخش ‌میتواند نسخه‌ی شبیه‌سازی شده از مجموعه پارچه‌های انتخابی خود را مشاهده کنید.
+				</div>
+				<div id="step2-2-post-final-step" class="text-justify hidden">
+					<legend><strong>تایید و ادامه</strong></legend>
+					لطفا با توجه به نمایی کلی شبیه‌سازی شده در سمت راست (<span class="fa fa-hand-o-right"></span>)
+					صفحه انتخاب‌های خود را بازبینی کنید و در صورت تایید به مرحله‌ی بعد بروید.<br />
+					<strong>چند نکته:</strong>
+					<ol>
+						<li>در صورتی که هرکدام از قسمت‌های انتخاب شده مورد پسند‌تان واقع نشده است به راحتی می‌توانید با کلیک بر هرکدام از «عنوان» قسمت‌های مبل در قسمت راست صفحه به قسمت مورد نظر بروید و دوباره انتخاب کنید.</li>
+						<li>شبیه‌سازی فقط نمای کلی از «یک مبل فرضی» را برای شما ارائه می‌دهد و شما باید فقط از بعد سلیقه‌ای و چینش طرح و رنگ پارچه‌ها آن‌را بررسی کنید. جزییات را کاشناسان ما موقع ساخت مبل در نظر خواهند گرفت و سعی خواهد شد که با توجه به انتخاب‌هایتان بهترین نمونه تولید شود.</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="step2-navx" class="hidden">
+		<hr />
+		<button class="btn btn-default pull-right btn-prev">
+			<span class="fa fa-arrow-right" style="margin-top: 3px"></span> قسمت قبل
+		</button>
+		<button class="btn btn-primary pull-left btn-next" disabled>
+			قسمت بعد <span class="fa fa-arrow-left" style="margin-top: 3px"></span>
+		</button>
+		<div class="clearfix"></div>
+	</div>
+
+	<% # this should be here o.w it won't work backwarding from step2+ to step2 %>
+	<%= render 'shared/photo_gallery' %>
+
+	<div class="hidden" id="fabric-model-template">
+		<div class="thumbnail hover-shadow">
+			<!-- image_tag -->
+	    <div class="caption" style='text-align: right'>
+	    	<table class="table no-layout">
+	    		<tbody>
+	    			<tr>
+	    				<td>نام مدل</td>
+	    				<td class="model-name"></td>
+	    			</tr>
+	    			<tr>
+	    				<td>کیفیت</td>
+	    				<td class="model-quality"></td>
+	    			</tr>
+	    			<tr>
+	    				<td>قیمت</td>
+	    				<td class="model-price"></td>
+	    			</tr>
+	    			<tr>
+	    				<td>وضعیت</td>
+	    				<td class="model-status"><span class="label"></span></td>
+	    			</tr>
+	    		</tbody>
+	  		</table>
+	      <div class='clearfix'></div>
+	      <p style="position: relative; bottom: 0px" class="actions">
+	      	<button class='info btn btn-primary pull-left select-fabric'>
+	      		<span class="fa fa-crosshairs"></span>
+	    			<span class="text">انتخاب طرح</span>
+	      	</button>
+	      	<div class='clearfix'></div>
+	    	</p>
+	    </div>
+	  </div> <!-- /.thumbnail -->
+  </div>
+</div>
+
+<%= render 'order/orders/shared/nav', no_js: true %>
+
+<script type="text/javascript" charset="utf-8">
+	<% # URLs used in `order/advance_step2.js` %>
+	ls_fabrics_api_path = "<%= ls_fabrics_api_index_path %>"
+	ls_fabric_models_api_path = "<%= ls_fabric_models_api_index_path %>"
+	models = {
+		"poshti": {
+			file: "<%= asset_path("3d-models/furniture/poshti.obj") %>"
+		},
+		"ziri": {
+			file: "<%= asset_path("3d-models/furniture/ziri.obj") %>"
+		},
+		"frame": {
+			file: "<%= asset_path("3d-models/furniture/frame.obj") %>"
+		},
+		"daste": {
+			file: "<%= asset_path("3d-models/furniture/daste.obj") %>"
+		},
+	};
+</script>
+
+<%= javascript_include_tag "order/advance_step2" %>
+<%= javascript_include_tag "notify/notiny.min" %>
+<%= stylesheet_link_tag "notify/notiny.min" %>

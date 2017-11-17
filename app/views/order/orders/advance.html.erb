@@ -9,80 +9,79 @@
 	</legend>
 
 	<ul class="breadcrumb-steps" id="order-stage-steps">
-	  <li>
-	  	<a href="#step0">
+	  <li class="current">
+	  	<a href="#step1">
 	  		<em>تعداد و ست</em>
 	  		<span>انتخاب تعداد و ست</span>
   		</a>
 		</li>
 	  <li>
-	  	<a href="#step1">
+	  	<a href="#step2">
 	  		<em>قدم اول: پارچه</em>
 	  		<span>انتخاب طرح و رنگ</span>
   		</a>
 		</li>
-	  <li class="current">
-	  	<a href="#step2">
+	  <li>
+	  	<a href="#step3">
 	  		<em>قدم دوم: چوب</em>
 	  		<span>انتخاب رنگ و نوع</span>
   		</a>
 		</li>
 	  <li>
-	  	<a href="#step3">
+	  	<a href="#step4">
 	  		<em>قدم سوم: کوسن</em>
 	  		<span>تعداد کوسن‌ها</span>
   		</a>
 		</li>
 	  <li>
-	  	<a href="#step-final">
+	  	<a href="#step5">
 	  		<em>قدم نهایی:</em>
 	  		<span xstyle="padding-right: 50px;">بازبینی و تایید سفارش</span>
   		</a>
 		</li>
 	</ul>
 
+	<button onclick="make_request(current_step)" class="btn btn-default">resend request</button>
 	<div class="block" id="order-stages">
-		<% Dir['app/views/order/orders/steps/*.html.erb'].each do |file| %>
-			<%= render "order/orders/steps/" + File.basename(file, '.html.erb').sub(/^_/, '') %>
-		<% end %>
-		<div id="step-nav">
-		<hr />
-			<button class="btn btn-default pull-right hidden btn-prev">
-				<span class="fa fa-arrow-right" style="margin-top: 3px"></span> مرحله‌ی قبل
-			</button>
-			<button class="btn btn-primary pull-left btn-next">
-				مرحله‌ی بعد <span class="fa fa-arrow-left" style="margin-top: 3px"></span>
-			</button>
-			<div class="clearfix"></div>
-		</div>
+		<div id="step-container"></div>
 	</div>
 </div>
 
 
 <script type="text/javascript" charset="utf-8">
-	$(document).ready(function(){
-		$("#order-stages #step-nav .btn-next").click(function() {
-			$("#order-stage-steps li.current").next().addClass('current').prev().removeClass('current');
-			$("#order-stages #step-nav .btn-prev").removeClass('hidden');
-			$(this).blur();
-		});
-		$("#order-stages #step-nav .btn-prev").click(function() {
-			$("#order-stage-steps li.current").prev().addClass('current').next().removeClass('current');
-			if($("#order-stage-steps li:first").hasClass('current')) $(this).addClass('hidden');
-			$(this).blur();
-		});
-		$("#order-stages #step-nav button").click(function() {
-			$("#order-stages > div:not(#step-nav)").addClass('hidden');
-			$("#order-stages > div" + $("#order-stage-steps li.current a").attr('href'))
-				.removeClass('hidden')
-				.addClass('active')
-				.trigger('activated');
-		});
-		// trigger the initial state
-		$("#order-stages > div.step" + $("#order-stage-steps li.current a").attr('href'))
-			.show()
-			.trigger('activated')
-				.siblings('.step')
-					.addClass('hidden')
+	var current_step = 2
+	function make_request(step_id, data) {
+		current_step = Number(step_id)
+		$("#order-stage-steps a[href='#step" + current_step + "']")
+			.closest('li')
+				.addClass('current')
+				.siblings('li')
+					.removeClass('current')
+		var $container = $("#order-stages #step-container");
+		$.ajax({
+			url: "<%= advance_steps_order_order_path(step_id: ":step_id") %>".replace(":step_id", current_step),
+			data: data,
+			method: 'post',
+			beforeSend: function() {
+				$container.html('<div class="text-center"><span class="fa fa-spinner fa-spin"></span> در حال بارگذاری</div>');
+			},
+			success: function(data) {
+				$container.html(data)
+			},
+			error: function() {
+				$container.html("<div class='text-center' style='border: 1px dotted #e7e7e7; padding: 30px;'><span class='fa fa-exclamation-triangle text-danger'></span> خطایی در بارگذاری رخ داده است.<br /> لطفا در صورت ادامه‌ی این خطا با بخش پشتیبانی تماس حاصل نمایید.</div>")
+			}
+		})
+	}
+	function next_step() {
+		make_request(current_step + 1);
+	}
+	function prev_step() {
+		if(current_step > 1)
+			make_request(current_step - 1);
+	}
+
+	$(document).ready(function() {
+		make_request(current_step)
 	});
 </script>

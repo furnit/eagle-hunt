@@ -98,11 +98,18 @@ body {
     }
   }
 
-  th { text-align: right }
+  blockquote {
+    &.rtl {
+      border: 0;
+      border-right: 5px solid $blockquote-border-color;
+    }
+  }
+
 
   input[type=tel] { text-align: right; direction: ltr }
 
   table {
+    th { text-align: right }
     tbody.no-layout > tr > td {
       border: 0!important
     }

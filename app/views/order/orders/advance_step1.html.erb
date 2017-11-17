@@ -1,0 +1,66 @@
+<p><span class="fa fa-check"></span> <strong>لطفا اندازه و تعداد مبلمان مورد سفارش خود را تعریف کنید.</strong></p>
+<table class="table">
+	<tbody>
+		<tr>
+			<td><strong>ست پیش‌فرض</strong></td>
+			<td>
+				<select class="selectpicker" data-show-subtext="true" data-size="<%= @default_sets.length %>" onchange="set_changed(this)" id="default_sets">
+					<% @default_sets.each do |set| %>
+						<option value="<%= set.id %>" data-subtext="&nbsp;<%= set.config %>" data-config=<%= set.config.to_json %>><%= set.name %></option>
+					<% end %>
+				</select>
+			</td>
+		</tr>
+</table>
+<blockquote class="rtl" style="border-right-color: #0088cc; ">
+	<p>در صورتی که نمی‌خواهید از ست‌های پیش‌فرض استفاده کنید ست مورد نظر خود را در قسمت زیر تعریف کنید.</p>
+	<p class="small" style="font-size: 100%">توجه کنید که هیچ محدودیتی در رابطه با تعداد و ست وجود ندارد «<strong>بطوری که شما حتی می‌توانید فقط ۱ عدد مبل ۱ نفره سفارش دهید</strong>»، هدف ما راحتی شما در انتخاب‌هایتان می‌باشد.</p>
+</blockquote>
+<table class="table" id="custom_set">
+	<thead>
+		<tr>
+			<th class="col-md-2">سایز</th>
+			<th class="col-md-1">تعداد (عدد)</th>
+			<th class="col-md-9"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @defined_pieces.each do |piece| %>
+			<tr>
+				<td>مبل <strong><%= piece.piece %> نفره</strong></td>
+				<td>
+					<%= number_field_tag "piece_#{piece.id}", 0, in: 0..10, class: 'piece_counts', data: { mult: piece.piece }, onchange: 'piece_changed()' %>
+				</td>
+				<td></td>
+			</tr>
+		<% end %>
+		<tr>
+			<td><strong>مجموع:</strong></td>
+			<td id="pience-totall-sum"></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+<%= render 'order/orders/shared/nav', prev_step: false %>
+
+<script type="text/javascript" charset="utf-8">
+	function piece_changed() {
+		var sum = 0;
+		$(".piece_counts").each(function() { sum += Number($(this).val()) * Number($(this).data('mult')); })
+		$("#pience-totall-sum").html(sum + " نفره")
+	}
+	function set_changed(_this) {
+		var config = $(_this).find('option:selected').data('config');
+		// reset numbers
+		$(".piece_counts").val(0)
+		for(var k in config) {
+			var el = "#custom_set input[name='piece_" + config[k] + "']";
+			$(el).val(Number($(el).val()) + 1)
+		}
+		piece_changed()
+	}
+	$(document).ready(function() {
+		set_changed($("#default_sets"))
+	});
+</script>

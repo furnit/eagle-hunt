@@ -27,14 +27,14 @@ Rails.application.routes.draw do
 
   namespace :order do
     resources :orders do
-      collection do
-        get :test_order
-        get :api_callback
-      end
       member do
         post :submit_simple, RC::ajax_server.merge(RC::json_request_only)
         get :simple
         get :advance
+        scope :advance do
+          # create routes on advance steps ordering
+          post "step/:step_id", action: "advance_steps", as: :advance_steps
+        end
       end
     end
   end

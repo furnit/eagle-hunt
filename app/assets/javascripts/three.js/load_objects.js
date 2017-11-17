@@ -21,7 +21,6 @@ function set_texture(object, texture) {
 function load_objects(models, callback) {
   var objects = {};
   for (var name in models) {
-    console.log(name);
     setTimeout(function(model, id) {
       var texture = load_texture(model.texture);
     	// load a resource

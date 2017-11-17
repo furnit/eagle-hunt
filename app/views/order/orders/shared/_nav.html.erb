@@ -1,0 +1,33 @@
+<div id="step-nav">
+	<hr />
+	<% if not defined?(prev_step) or prev_step %>
+		<button class="btn btn-default pull-right btn-prev">
+			<span class="fa fa-arrow-right" style="margin-top: 3px"></span> مرحله‌ی قبل
+		</button>
+	<% end %>
+	<% if not defined?(next_step) or next_step %>
+	<button class="btn btn-primary pull-left btn-next">
+		مرحله‌ی بعد <span class="fa fa-arrow-left" style="margin-top: 3px"></span>
+	</button>
+	<% end %>
+	<div class="clearfix"></div>
+</div>
+
+<% if not(defined?(no_js) and no_js) %>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		<% if not defined?(prev_step) or prev_step %>
+			$("#step-nav .btn-prev").click(function() {
+				prev_step();
+				$(this).blur();
+			});
+		<% end %>
+		<% if not defined?(next_step) or next_step %>
+			$("#step-nav .btn-next").click(function() {
+				next_step();
+				$(this).blur();
+			});
+		<% end %>
+	})
+</script>
+<% end %>
