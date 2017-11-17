@@ -11,11 +11,11 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
   validates_presence_of :furniture_type_id, :name
 
   validates :free_cushions, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 20 }
-  
+
   before_save { self.cover_details ||= {index: 0, pos: '50%'} }
 
   before_save :notify_on_availble
-  
+
   def comment= val
     self[:comment] = val[0..(self.class.columns_hash['comment'].limit-1)]
   end
@@ -39,10 +39,11 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
   end
 
   def cost?
-    _profit = Admin::Selling::Config::Profit.last;
+    _profit = nil
     _price  = self.price
+    _profit = self.price.profit if not self.price.nil?
     return 0 if [_profit.nil?, _price.nil?, (_price and _price.overall_cost.nil?), not(self.ready_for_pricing)].any?
-    ((1 + (_profit.overall / 100.0)) * _price.overall_cost).to_i
+    ((1 + (_profit / 100.0)) * _price.overall_cost).to_i
   end
 
 

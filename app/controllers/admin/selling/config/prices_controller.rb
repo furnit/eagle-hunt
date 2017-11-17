@@ -74,7 +74,7 @@ class Admin::Selling::Config::PricesController < Admin::AdminbaseController
       _validates = [
         params[:id],
         params[:hd],
-        params[:hd] == get_hash(params[:id]) 
+        params[:hd] == get_hash(params[:id])
       ]
       raise Acu::Errors::AccessDenied.new("invalid params") if not _validates.all?
     end
@@ -85,14 +85,14 @@ class Admin::Selling::Config::PricesController < Admin::AdminbaseController
       @set = Admin::Furniture::Set.find(admin_selling_config_price_params[:admin_furniture_set_id]).config if params["action"] == "update"
       @admin_selling_config_price = Admin::Selling::Config::Price.find_or_create_by(admin_furniture_furniture_id: @furniture.id)
     end
-    
+
     def set_editional_data
       overall = Employee::Overall.find_by(admin_furniture_furniture_id: params[:id])
       @fabrics = Admin::Pricing::Fabric.all
       @paint_colors = overall.fani_needs_rang? ? Admin::Pricing::PaintColor.all : nil
       @woods = overall.fani_needs_kande? ? Admin::Pricing::Wood.all : nil
     end
-    
+
     def compute_price_params
       out = { }
       par = admin_selling_config_price_params.to_h.symbolize_keys.select { |k| [:admin_furniture_fabric_brand_id, :admin_furniture_paint_color_brand_id, :admin_furniture_wood_type_id].include? k }
@@ -104,6 +104,6 @@ class Admin::Selling::Config::PricesController < Admin::AdminbaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_selling_config_price_params
-      params.require(:furniture_config).permit(:admin_furniture_set_id, :admin_furniture_fabric_brand_id, :admin_furniture_paint_color_brand_id, :admin_furniture_wood_type_id)
+      params.require(:furniture_config).permit(:admin_furniture_set_id, :admin_furniture_fabric_brand_id, :admin_furniture_paint_color_brand_id, :admin_furniture_wood_type_id, :profit)
     end
 end

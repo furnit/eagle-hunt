@@ -13,7 +13,7 @@ class Admin::Pricing::ComputesController < Admin::AdminbaseController
     # compute the cost
     cost = ComputePrice.execute(@furniture, set: @set, **admin_pricing_compute_params.to_h.symbolize_keys.select { |k| [:fabric_brand_id, :paint_color_brand_id, :wood_type_id].include? k })
     # respond the cost
-    respond_with_success cost.to_i.to_s.to_money
+    respond_with_success cost.to_i, admin_pricing_compute_params[:profit].to_f
     # if anything occured
   rescue ClientError => e
     respond_with_error e.message
@@ -27,9 +27,9 @@ class Admin::Pricing::ComputesController < Admin::AdminbaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_pricing_compute_params
-      params.require(:furniture_config).permit(:set_id, :fabric_brand_id, :wood_type_id, :paint_color_brand_id, set_config: [])
+      params.require(:furniture_config).permit(:set_id, :profit, :fabric_brand_id, :wood_type_id, :paint_color_brand_id, set_config: [])
     end
-    
+
     def validate_params
       notvalid = [
         # if non-exists?
@@ -39,22 +39,22 @@ class Admin::Pricing::ComputesController < Admin::AdminbaseController
       ]
       raise Acu::Errors::AccessDenied.new('invalid params') if notvalid.any?
     end
-    
+
     def fetch_set_prices
       @set = Admin::Furniture::Set.find(admin_pricing_compute_params[:set_id]).config if admin_pricing_compute_params[:set_id]
       @set = admin_pricing_compute_params[:set_config] if admin_pricing_compute_params[:set_config] and not admin_pricing_compute_params[:set_config].empty?
     rescue ActiveRecord::RecordNotFound
       @set = nil
     end
-    
+
     def respond_with_error message
       respond_to do |format|
         format.json { render json: { status: :error, message: message }, status: :unprocessable_entity }
       end
     end
-    def respond_with_success cost
+    def respond_with_success cost, profit
       respond_to do |format|
-        format.json { render json: { status: :ok, cost: cost, hash: get_hash(cost) }, status: :ok }
+        format.json { render json: { status: :ok, cost: cost.to_s.to_money, profit: (cost * profit).to_i.to_s.to_money, overall: ((1 + profit) * cost).to_i.to_s.to_money, hash: get_hash(cost) }, status: :ok }
       end
     end
 end

@@ -9,6 +9,7 @@ fa:
         admin_furniture_paint_color_brand_id: برند رنگ چوب
         admin_furniture_wood_type_id: نوع چوب
         admin_furniture_set_id: مشخصات ست
+        profit: درصد سود
     errors:
       models:
         admin/selling/config/price:
