@@ -1,6 +1,6 @@
-<%= 
+<%=
   render 'admin/shared/index',
-    title: "لیست #{t("activerecord.models.#{Admin::Pricing::Const.model_name.i18n_key}")}", 
+    title: "لیست #{t("activerecord.models.#{Admin::Pricing::Const.model_name.i18n_key}")}",
     title_right: lambda {
       link_to new_admin_pricing_const_url, class: 'inline-html-call' do
         raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
@@ -20,6 +20,7 @@
       'پایه‌ی مبل': { },
       'سقه': { },
       'میخ': { },
+      'کوسن اضافی': { },
       'اضافی': { },
       'آخرین بروزرسانی': { style: 'width: 130px' }
     },
@@ -33,9 +34,10 @@
       <td><%= ins.payemobl.to_s.to_money %></td>
       <td><%= ins.sage.to_s.to_money %></td>
       <td><%= ins.mikh.to_s.to_money %></td>
+      <td><%= ins.cushin.to_s.to_money %></td>
       <td><%= ins.extra.to_s.to_money %></td>
       <td class='datetime' data-date='<%= ins.updated_at %>'></td>
     </tr>
   <% end %>
-      
+
 <% } %>

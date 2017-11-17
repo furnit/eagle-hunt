@@ -39,7 +39,7 @@
 	</table>
 
 	<legend style="margin-top: 20px;"><strong>۳. انتخاب روشنی/تیرگی رنگ</strong></legend>
-	<select name="<%= @wood_color_weights || @wood_color_weights.first.model_name.param_key %>" class="selectpicker" data-size="<%= @wood_color_weights.length + 1%>">
+	<select name="<%= @wood_color_weights.first && @wood_color_weights.first.model_name.param_key %>" class="selectpicker" data-size="<%= @wood_color_weights.length + 1 %>">
 		<option disabled selected>یک وزن رنگی را انتخاب کنید.</option>
 		<% @wood_color_weights.each do |cw| %>
 	  	<option value=<%= cw.id %>><%= cw.name %></option>
@@ -62,10 +62,11 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		$("#step2 select.selectpicker").change(function(){
+		$("#step-nav .btn-next").attr('disabled', 'disabled');
+		$("#step3 select.selectpicker").change(function(){
 			$(this).closest('.bootstrap-select').find('button').blur();
 		})
-		$("#step2 select[name='<%= wood_type_select_name %>']").change(function(){
+		$("#step3 select[name='<%= wood_type_select_name %>']").change(function(){
 			$("#wood-type-comments")
 				.removeClass('hidden')
 				.find(".wood-type-comment")
@@ -76,5 +77,18 @@
 			$('#furniture-wood-color .selected').removeClass('selected')
 			$("[color-id='"+$(this).attr('color-id')+"']").addClass('selected')
 		});
+		var check_all = function() {
+			// check if we are in step#3 or not?
+			// if not? don't check it
+			if($("#step3").length === 0) return;
+			if($("#step3 select :selected:not([disabled])").length === $("#step3 select").length && $('#furniture-wood-color [color-id].selected').length > 0)
+				$("#step-nav .btn-next").removeAttr('disabled');
+			else
+				$("#step-nav .btn-next").attr('disabled', 'disabled');
+			// reset the interval
+			setTimeout(check_all, 100);
+		};
+		// checks every 100ms to see if the .btn-next should be enabled or not
+		setTimeout(check_all, 100);
 	});
 </script>

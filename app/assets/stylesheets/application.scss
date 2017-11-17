@@ -147,6 +147,11 @@ body {
     .alert:nth-child(4) { top: -10px; }
   }
 
+  .underline {
+    padding-bottom: 3px;
+    border-bottom: 1px solid black;
+  }
+
   .block {
       background-color: #fafafa;
       border: 1px solid #e7e7e7;

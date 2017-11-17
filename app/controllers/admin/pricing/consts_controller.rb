@@ -21,7 +21,7 @@ class Admin::Pricing::ConstsController < Admin::AdminbaseController
   def new
     @admin_pricing_const = Admin::Pricing::Const.new
     if Admin::Pricing::Const.count > 0
-      @admin_pricing_const = Admin::Pricing::Const.last   
+      @admin_pricing_const = Admin::Pricing::Const.last
     end
   end
 
@@ -77,6 +77,6 @@ class Admin::Pricing::ConstsController < Admin::AdminbaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_pricing_const_params
-      params.require(:admin_pricing_const).permit(:guni, :chasb, :payemobl, :sage, :mikh, :extra)
+      params.require(:admin_pricing_const).permit(:guni, :chasb, :payemobl, :sage, :mikh, :cushin, :extra)
     end
 end

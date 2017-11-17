@@ -1,0 +1,22 @@
+<div id="step4" class="step">
+	<table class="table">
+		<tbody class="no-layout">
+			<tr>
+				<td class="col-md-5"><span class="fa fa-check"></span> <strong>تعداد کوسن‌های اضافی مورد نیاز خود را مشخص کنید:</strong></td>
+				<td class="col-md-3"><%= number_field_tag :cushin, 0, min: 0, step: 1 %></td>
+				<td class="col-md-4"></td>
+			</tr>
+		</tbody>
+	</table>
+	<blockquote class="rtl" style="border-right-color: #0088cc; font-size: 100%">
+		<em><%= AppConfig.brand %></em>
+		به ازای هر عدد مبل
+		<span class="underline">۲ نفره</span>
+	  یا
+		<span class="underline">۳ نفره</span>
+    به تعداد ۲ عدد کوسن رایگان هدیه می‌دهد، کوسن‌های مازاد بنا به درخواست شما به ازای
+		«هر عدد <%= Admin::Pricing::Const.last.cushin.to_s.to_money %> تومان»
+		تولید خواهد شد.
+	</blockquote>
+	<%= render 'order/orders/shared/nav' %>
+</div>

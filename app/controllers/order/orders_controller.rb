@@ -76,6 +76,7 @@ class Order::OrdersController < ApplicationController
   end
 
   def advance
+    # only load the view
   end
 
   def advance_steps
@@ -134,6 +135,9 @@ class Order::OrdersController < ApplicationController
       @wood_types = Admin::Pricing::Wood.all.map { |w| w.type }
       @wood_colors = Admin::Furniture::Wood::Color.all
       @wood_color_weights = Admin::Furniture::Wood::ColorWeight.all
+    end
+
+    def advance_step4
     end
 
   private

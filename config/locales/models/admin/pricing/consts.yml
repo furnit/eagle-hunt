@@ -9,6 +9,7 @@ fa:
         payemobl: 'پایه‌ مبل'
         sage: 'سقه'
         mikh: 'میخ'
+        cushin: کوسن اضافی
         extra: اضافی
     errors:
       models:
@@ -27,6 +28,9 @@ fa:
               blank: 'نمیتواند خالی باشد.'
               invalid: 'نامعتبر می‌باشد.'
             mikh:
+              blank: 'نمیتواند خالی باشد.'
+              invalid: 'نامعتبر می‌باشد.'
+            cushin:
               blank: 'نمیتواند خالی باشد.'
               invalid: 'نامعتبر می‌باشد.'
             extra:
