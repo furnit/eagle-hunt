@@ -1,9 +1,9 @@
-<%= 
+<%=
   render 'admin/shared/index',
     title: "لیست تعرفه‌های ترابری از کارگاه «<b>#{@workshop.name}</b>» به سایر استان‌ها",
     table_head: {
       'ردیف': { style: 'width: 30px' },
-      'استان': { style: 'width: 130px' },
+      'استان': { style: 'width: 170px' },
       'مبلغ (به تومان)': { }
     },
     table_body: lambda {
@@ -17,9 +17,9 @@
 	<% end %>
 
 <% }, after_table: lambda { %>
-	
+
 	<%= link_to admin_pricing_transits_path, class: 'btn btn-primary pull-left' do %>
 	<span class="fa fa-check"></span> خاتمه
 	<% end %>
-	
+
 <% } %>
