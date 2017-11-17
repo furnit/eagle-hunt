@@ -1,6 +1,6 @@
-<%= 
+<%=
   render 'admin/shared/index',
-    title: "لیست #{t("activerecord.models.#{Admin::Furniture::Fabric::Cushion.model_name.i18n_key}")}", 
+    title: "لیست #{t("activerecord.models.#{Admin::Furniture::Fabric::Cushion.model_name.i18n_key}")}",
     title_right: lambda {
       link_to new_admin_furniture_fabric_cushion_url, class: 'inline-html-call' do
         raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
@@ -15,11 +15,11 @@
     table_head: {
       'ردیف': { style: 'width: 30px' },
       'عنوان': { style: 'width: 20%' },
-      'طول (سانتی‌متر)': { style: 'width: 110px' },
-      'عرض (سانتی‌متر)': { style: 'width: 110px' },
+      'طول (سانتی‌متر)': { style: 'width: 120px' },
+      'عرض (سانتی‌متر)': { style: 'width: 120px' },
       'توضیحات': { },
       'آخرین بروزرسانی': { style: 'width: 130px' },
-      'عملیات': { style: 'width: 80px' }
+      'عملیات': { style: 'width: 90px' }
     },
     table_body: lambda {
 %>
@@ -38,5 +38,5 @@
       </td>
     </tr>
   <% end %>
-      
+
 <% } %>
