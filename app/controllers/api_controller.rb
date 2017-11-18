@@ -1,9 +1,19 @@
 class ApiController < ApplicationController
   def ls_fabrics
     quality_id = params.require(:q)
-    fabrics = Admin::Furniture::Fabric::Fabric.where(admin_furniture_fabric_quality_id: quality_id).map do |fabric|
+    # limit 1 brand for each quality
+    fabrics = Admin::Furniture::Fabric::Fabric.where(admin_furniture_fabric_quality_id: quality_id).paginate(page: params[:page], per_page: 1).map do |fabric|
       build_fabric_detail fabric, fabric.models
     end
+
+    # prepend the meta data
+    fabrics = [ {
+      meta: {
+        total_size: Admin::Furniture::Fabric::Fabric.where(admin_furniture_fabric_quality_id: quality_id).count,
+        current_page: params[:page] || 1,
+        per_page: 1
+      }
+    } ] + fabrics
 
     respond_to do |format|
       format.json { render json: fabrics, status: :ok }
@@ -12,6 +22,7 @@ class ApiController < ApplicationController
 
   def ls_fabric_models
     color_code = params.require(:cc)
+
     all = Admin::Furniture::Fabric::Color.find(color_code).related_models.map do |model|
       build_fabric_detail model.fabric, model
     end
@@ -30,6 +41,15 @@ class ApiController < ApplicationController
 
     fabrics = fabrics.values
 
+    # prepend the meta data
+	  # we won't paginate in here
+    fabrics = [ {
+      meta: {
+        total_size: fabrics.length,
+        current_page: 1,
+        per_page: fabrics.length
+      }
+    } ] + fabrics
 
     respond_to do |format|
       format.json { render json: fabrics, status: :ok }

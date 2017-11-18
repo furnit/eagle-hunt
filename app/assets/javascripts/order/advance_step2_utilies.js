@@ -77,24 +77,26 @@ function after_models_loaded() {
 			texture_select("frame", texture);
 	});
 };
-function load_fabrics(url, data) {
+function load_fabrics(_url, _data) {
 	// clear the content
   $("#step2-2-content").html("");
 	$('#step2-2-helper').addClass('hidden');
 	$("#step2-2-content").html("<div class='text-center'><span class='fa fa-spinner fa-spin'></span></div>");
 	$.ajax({
-		url: url,
-		data: data,
+		url: _url,
+		data: _data,
 		method: 'post',
 		success: function(data) {
 			// clear the content
 		  $("#step2-2-content").html("");
-			if(data.length === 0) {
+		  // if nothing exists?
+			if(data[0].meta.total_size == 0) {
 				$("#step2-2-content").html("<div class='text-center'><span class='fa fa-exclamation-triangle'></span> هیچ پارچه‌ای با این کیفیت در سیستم ثبت نشده است.</div>");
 				return;
 			}
 			$('.step2-2-options .filters').removeClass('hidden');
-			for(var i = 0, c = 0, j = data.length; i < j; i ++) {
+			// starting from 1: skip the meta part
+			for(var i = 1, c = 0, j = data.length; i < j; i ++) {
 				 var fabric = data[i];
 				 $("#step2-2-content").append("<legend>" + fabric.brand.name + "</legend>");
 				 var models = fabric.models;
@@ -130,6 +132,35 @@ function load_fabrics(url, data) {
 		 				}
 				 };
 			};
+ 		  // append the pagination
+	 	  var meta = data[0].meta;
+	 		// if we have only on page?
+	 		if(meta.total_size / meta.per_page <= 1) return;
+	 		// if we have more than on page?
+	 		var max_page = Math.ceil(meta.total_size / meta.per_page);
+	 		$("#step2-2-content").append("<div id='fabric-pagination' class='row'></div>");
+	 		// next page btn
+	 		if(meta.current_page < max_page)
+	 		 	$("#step2-2-content #fabric-pagination").append("<div class='col-sm-4'><a href='#' class='pull-left btn btn-default btn-nav' id='fabric-next-page' data-page='" + (Number(meta.current_page) + 1).toString() + "'>موارد بعدی <span class='fa fa-arrow-left'></span></a></div>");
+	   	else
+	 	    $("#step2-2-content #fabric-pagination").append("<div class='col-sm-4'></div>");
+	 		// page status report
+	 		$("#step2-2-content #fabric-pagination").append("<div class='col-sm-4 text-center'><small class='text-disabled'>صفحه‌ی " + meta.current_page + " از " + max_page + " </small></div>");
+	 		// prev page btn
+	 		if(meta.current_page > 1)
+	 		 	$("#step2-2-content #fabric-pagination").append("<div class='col-sm-4'><a href='#' class='pull-right btn btn-default btn-nav' id='fabric-prev-page' data-page='" + (Number(meta.current_page) - 1).toString() + "'><span class='fa fa-arrow-right'></span> موارد قبلی</a></div>");
+	   	else
+	 	    $("#step2-2-content #fabric-pagination").append("<div class='col-sm-4'></div>");
+	 	  // bind event for pagination
+	 		$("#step2-2-content #fabric-pagination .btn-nav[data-page]").click(function() {
+	 		 	// append the demaned page#
+	 		 	_data["page"] = $(this).data("page");
+	 		 	// first scroll to the position
+	 		 	scroll_to("#step2-2-content", function() {
+					// load fabrics
+	 	 		 	load_fabrics(_url, _data);
+	 	 	 	});
+	 		});
 			filter_availables();
 			after_models_loaded();
 			execute_photo_gallery();
@@ -178,12 +209,12 @@ function texture_select(position, src) {
 
 /* UTILITIES */
 
-function scroll_to(item) {
+function scroll_to(item, callback) {
 	// return if no `item` exists
 	if($(item).length === 0) return;
 	$('html, body').animate({
   	scrollTop: $(item).offset().top - 70
- 	}, 750);
+ 	}, 750, callback);
 	return $(item);
 }
 function active_stage($stage) {

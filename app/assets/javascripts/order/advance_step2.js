@@ -134,6 +134,9 @@ $(document).ready(function() {
 	// filter controls
 	$("#only-show-availables").click(filter_availables);
 	$('#fabric-quality').change(function() {
+		// if blank value selected?
+		if($(this).find('[value=""]:selected').length > 0) return;
+		$(this).blur();
 		load_fabrics(ls_fabrics_api_path, {q: $(this).find(':selected').val()});
 		$('.color-box.active').removeClass('active');
 	});
