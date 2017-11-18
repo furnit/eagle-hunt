@@ -49,7 +49,12 @@
 
 
 <script type="text/javascript" charset="utf-8">
-	var current_step = 1
+	var current_step = 2
+	// return an non-empty string the browser will do the reset!
+	// the message cannot be changed for security reasons!
+	window.onbeforeunload = function() {
+    return "در صورت انتقال یا بستن این صفحه موارد مورد سفارش شما منقضی می‌شود!";
+	};
 	function make_request(step_id, data) {
 		current_step = Number(step_id)
 		$("#order-stage-steps a[href='#step" + current_step + "']")
@@ -59,6 +64,7 @@
 					.removeClass('current')
 		var $container = $("#order-stages #step-container");
 		$.ajax({
+			global: false,
 			url: "<%= advance_steps_order_order_path(step_id: ":step_id") %>".replace(":step_id", current_step),
 			data: data,
 			method: 'post',

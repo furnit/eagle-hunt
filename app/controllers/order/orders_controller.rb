@@ -92,7 +92,6 @@ class Order::OrdersController < ApplicationController
       session[:order][:steps] ||= { }
       # set the details for previous step
       session[:order][:steps][step_id - 1] = params[:details]
-      byebug
     end
 
     # call the related handler to the step

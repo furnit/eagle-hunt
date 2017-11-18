@@ -2,7 +2,7 @@
 	<legend><strong>۱. انتخاب نوع چوب</strong></legend>
 	<p>در این قسمت لطفا نوع چوب مورد استفاده در ساخت مبل را انتخاب کنید.</p>
 	<% wood_type_select_name = Admin::Furniture::Wood::Type.model_name.param_key %>
-	<select name="<%= wood_type_select_name %>" class="selectpicker" data-size="<%= @wood_types.length + 1%>">
+	<select id="wood-type-selection" name="<%= wood_type_select_name %>" class="selectpicker" data-size="<%= @wood_types.length + 1%>">
 		<option disabled selected>یک نوع چوب را انتخاب کنید.</option>
 		<% @wood_types.each do |t| %>
 	  	<option value=<%= t.id %> data-subtext="<%= t.price.price %> تومان"><%= t.name %></option>
@@ -39,14 +39,14 @@
 	</table>
 
 	<legend style="margin-top: 20px;"><strong>۳. انتخاب روشنی/تیرگی رنگ</strong></legend>
-	<select name="<%= @wood_color_weights.first && @wood_color_weights.first.model_name.param_key %>" class="selectpicker" data-size="<%= @wood_color_weights.length + 1 %>">
+	<select id="wood-color-weight" name="<%= @wood_color_weights.first && @wood_color_weights.first.model_name.param_key %>" class="selectpicker" data-size="<%= @wood_color_weights.length + 1 %>">
 		<option disabled selected>یک وزن رنگی را انتخاب کنید.</option>
 		<% @wood_color_weights.each do |cw| %>
 	  	<option value=<%= cw.id %>><%= cw.name %></option>
 		<% end %>
 	</select>
 	<legend style="margin-top: 20px;"><strong>۴. توضیحات/درخواست‌ها (اختیاری)</strong></legend>
-	<textarea placeholder="در صورت داشتن درخواست در مورد «رنگ مبل» در این قسمت ذکر نمایید."></textarea>
+	<textarea placeholder="در صورت داشتن درخواست در مورد «رنگ مبل» در این قسمت ذکر نمایید." id="wood-comment"></textarea>
 </div>
 
 <%= render 'order/orders/shared/nav' %>
@@ -61,6 +61,14 @@
 </style>
 
 <script type="text/javascript" charset="utf-8">
+	function build_order_details_step3() {
+		return {
+			wood_type_id: $("#wood-type-selection :not([disabled]):selected").val(),
+			wood_color_id: $(".color-box.selected").attr('color-id'),
+			wood_color_weight_id: $("#wood-color-weight :not([disabled]):selected").val(),
+			comment: $("#wood-comment").val()
+		};
+	}
 	$(document).ready(function() {
 		$("#step-nav .btn-next").attr('disabled', 'disabled');
 		$("#step3 select.selectpicker").change(function(){

@@ -20,3 +20,11 @@
 	</blockquote>
 	<%= render 'order/orders/shared/nav' %>
 </div>
+
+<script type="text/javascript" charset="utf-8">
+	function build_order_details_step4() {
+		return {
+			extra_cushin: $("input[name='cushin']").val()
+		};
+	}
+</script>
