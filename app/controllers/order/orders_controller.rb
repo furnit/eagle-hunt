@@ -88,12 +88,12 @@ class Order::OrdersController < ApplicationController
     raise RuntimeError.new("invalid request") if session[:order].nil? or session[:order][:furniture].nil?
     # store/restore the provided ordering data for the step
     # store begin from second step which the first step's data is passed
-    if(step_id > 1)
+    if(step_id > 1 and not params[:details].nil?)
       session[:order][:steps] ||= { }
       # set the details for previous step
       session[:order][:steps][step_id - 1] = params[:details]
+      byebug
     end
-    byebug
 
     # call the related handler to the step
     eval("advance_step#{step_id}")
