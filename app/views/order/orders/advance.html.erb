@@ -49,7 +49,7 @@
 
 
 <script type="text/javascript" charset="utf-8">
-	var current_step = 4
+	var current_step = 1
 	function make_request(step_id, data) {
 		current_step = Number(step_id)
 		$("#order-stage-steps a[href='#step" + current_step + "']")
@@ -73,12 +73,21 @@
 			}
 		})
 	}
+
+	function get_step_data() {
+		if(!$.isFunction(window["build_order_details_step" + current_step]))
+			return null;
+		var data = { details: eval("build_order_details_step" + current_step + "()") }
+		data["details"]["step"] = current_step;
+		return data;
+	}
+
 	function next_step() {
-		make_request(current_step + 1);
+		make_request(current_step + 1, get_step_data());
 	}
 	function prev_step() {
 		if(current_step > 1)
-			make_request(current_step - 1);
+			make_request(current_step - 1, get_step_data());
 	}
 
 	$(document).ready(function() {

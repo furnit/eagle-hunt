@@ -1,10 +1,7 @@
 class Order::OrdersController < ApplicationController
   before_action :authenticate_user!, except: [:new]
-  before_action :set_order_furniture, only: [:new, :simple, :advance]
+  before_action :prepare_for_order, only: [:new, :simple, :advance]
   before_action :set_order_order, only: [:show, :edit, :update, :destroy]
-  before_action only: [:new, :simple, :advance] do
-    @order = Order::Order.new
-  end
 
   # GET /order/orders
   # GET /order/orders.json
@@ -77,13 +74,26 @@ class Order::OrdersController < ApplicationController
 
   def advance
     # only load the view
+    # set the initial order details
+    session[:order] = {
+      furniture: @furniture
+    }
   end
 
   def advance_steps
     step_id = params.require(:step_id).to_i
+    # check the step# range
     raise RuntimeError.new("invalid step#id") if not step_id.between?(1, 5)
-
+    # validate the order details in session
+    raise RuntimeError.new("invalid request") if session[:order].nil? or session[:order][:furniture].nil?
     # store/restore the provided ordering data for the step
+    # store begin from second step which the first step's data is passed
+    if(step_id > 1)
+      session[:order][:steps] ||= { }
+      # set the details for previous step
+      session[:order][:steps][step_id - 1] = params[:details]
+    end
+    byebug
 
     # call the related handler to the step
     eval("advance_step#{step_id}")
@@ -146,8 +156,14 @@ class Order::OrdersController < ApplicationController
       @order_order = Order::Order.find(params[:id])
     end
 
-    def set_order_furniture
+    def prepare_for_order
+      # delete previous order data
+      session.delete :order
+      # create new order
+      @order = Order::Order.new
+      # find the related furniture details
       @furniture = Admin::Furniture::Furniture.find(params.require(:f))
+      # raise if request's params are not compatible
       raise Exception.new("id & key does not match!") if params.require(:h) != get_hash(@furniture.id)
     end
 

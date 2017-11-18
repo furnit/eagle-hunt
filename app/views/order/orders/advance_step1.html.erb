@@ -60,6 +60,11 @@
 		}
 		piece_changed()
 	}
+	function build_order_details_step1() {
+		return {
+			config: $(".piece_counts").map(function() { return Array(Number($(this).val())).fill(Number($(this).data('mult'))) }).toArray()
+		}
+	}
 	$(document).ready(function() {
 		set_changed($("#default_sets"))
 	});
