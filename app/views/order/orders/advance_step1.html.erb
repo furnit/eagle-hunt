@@ -4,9 +4,20 @@
 		<tr>
 			<td><strong>ست پیش‌فرض</strong></td>
 			<td>
-				<select class="selectpicker" data-show-subtext="true" data-size="<%= @default_sets.length %>" onchange="set_changed(this)" id="default_sets">
+				<select class="selectpicker" data-size="<%= @default_sets.length + 1 %>" onchange="set_changed(this)" id="default_sets">
+					<%
+						if not (@prev_data and @prev_data[:config]).nil?
+							prev_sum = @prev_data[:config].sum
+						else
+							prev_sum = 0
+						end
+					%>
 					<% @default_sets.each do |set| %>
-						<option value="<%= set.id %>" data-subtext="&nbsp;<%= set.config %>" data-config=<%= set.config.to_json %>><%= set.name %></option>
+						<option value="<%= set.id %>" data-subtext="&nbsp;<%= set.config %>" data-config=<%= set.config.to_json %> <%= (@prev_data and @prev_sum == set.config.sum) ? "selected" : "" %>><%= set.name %></option>
+					<% end %>
+					<% # if the config is not the default config? add it to the config set %>
+					<% if @prev_data and not @default_sets.map { |s| @prev_sum == s.config.sum }.any? %>
+						<option value="-1" data-subtext="&nbsp;<%= @prev_data[:config].map(&:to_i) %>" data-config=<%= @prev_data[:config].to_json %> selected>ست <%= @prev_data[:config].sum.to_i %> نفره</option>
 					<% end %>
 				</select>
 			</td>
@@ -50,15 +61,19 @@
 		$(".piece_counts").each(function() { sum += Number($(this).val()) * Number($(this).data('mult')); })
 		$("#pience-totall-sum").html(sum + " نفره")
 	}
-	function set_changed(_this) {
-		var config = $(_this).find('option:selected').data('config');
-		// reset numbers
-		$(".piece_counts").val(0)
+	function set_config_pieces(config) {
 		for(var k in config) {
 			var el = "#custom_set input[name='piece_" + config[k] + "']";
 			$(el).val(Number($(el).val()) + 1)
 		}
+		// flag the change
 		piece_changed()
+	}
+	function set_changed(_this) {
+		// reset numbers
+		$(".piece_counts").val(0)
+		// set config pieces
+		set_config_pieces($(_this).find('option:selected').data('config'));
 	}
 	function build_order_details_step1() {
 		return {

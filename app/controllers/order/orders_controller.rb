@@ -76,7 +76,8 @@ class Order::OrdersController < ApplicationController
     # only load the view
     # set the initial order details
     session[:order] = {
-      furniture: @furniture
+      furniture: @furniture,
+      steps: { }
     }
   end
 
@@ -89,10 +90,16 @@ class Order::OrdersController < ApplicationController
     # store/restore the provided ordering data for the step
     # store begin from second step which the first step's data is passed
     if(step_id > 1 and not params[:details].nil?)
-      session[:order][:steps] ||= { }
-      # set the details for previous step
-      session[:order][:steps][step_id - 1] = params[:details]
+      # check if any details passed?
+      if params.has_key? :details
+        # set the details for previous step
+        session[:order][:steps][step_id - 1] = params[:details].permit!.to_h
+      else
+        session[:order][:steps][step_id - 1] = { }
+      end
     end
+    # restore any data avail for this step
+    @prev_data = session[:order][:steps][step_id]
 
     # call the related handler to the step
     eval("advance_step#{step_id}")
