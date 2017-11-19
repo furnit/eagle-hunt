@@ -70,7 +70,10 @@
 				.find(".wood-type-comment")
 					.addClass('hidden')
 			$("#wood-type-comments #wood-type-comment-" + $(this).val().toString()).removeClass('hidden')
-		}).change();
+		})
+		<% if(@prev_data and @prev_data[:wood_type_id]) %>
+			$("#step3 select[name='<%= wood_type_select_name %>']").change();
+		<% end %>
 		$('#furniture-wood-color .color-box').click(function() {
 			$('#furniture-wood-color .selected').removeClass('selected')
 			$("[color-id='"+$(this).attr('color-id')+"']").addClass('selected')

@@ -3,7 +3,7 @@
 		<tbody class="no-layout">
 			<tr>
 				<td class="col-md-5"><span class="fa fa-check"></span> <strong>تعداد کوسن‌های اضافی مورد نیاز خود را مشخص کنید:</strong></td>
-				<td class="col-md-3"><%= number_field_tag :cushin, 0, min: 0, step: 1 %></td>
+				<td class="col-md-3"><%= number_field_tag :cushin, ((@prev_data and @prev_data[:extra_cushin]) ? @prev_data[:extra_cushin] : 0), min: 0, step: 1 %></td>
 				<td class="col-md-4"></td>
 			</tr>
 		</tbody>
@@ -24,7 +24,7 @@
 <script type="text/javascript" charset="utf-8">
 	function build_order_details_step4() {
 		return {
-			extra_cushin: $("input[name='cushin']").val()
+			extra_cushin: Number($("input[name='cushin']").val())
 		};
 	}
 </script>

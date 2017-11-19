@@ -56,7 +56,10 @@
     return "در صورت انتقال یا بستن این صفحه موارد مورد سفارش شما منقضی می‌شود!";
 	};
 	function make_request(step_id, data) {
-		current_step = Number(step_id)
+		if(typeof data === "undefined") data = { };
+		data["prev_step_id"] = current_step;
+		current_step = Number(step_id);
+
 		$("#order-stage-steps a[href='#step" + current_step + "']")
 			.closest('li')
 				.addClass('current')

@@ -83,6 +83,7 @@ class Order::OrdersController < ApplicationController
 
   def advance_steps
     step_id = params.require(:step_id).to_i
+    prev_step_id = params.require(:prev_step_id).to_i
     # check the step# range
     raise RuntimeError.new("invalid step#id") if not step_id.between?(1, 5)
     # validate the order details in session
@@ -93,9 +94,9 @@ class Order::OrdersController < ApplicationController
       # check if any details passed?
       if params.has_key? :details
         # set the details for previous step
-        session[:order][:steps][step_id - 1] = params[:details].permit!.to_h
+        session[:order][:steps][prev_step_id] = params[:details].permit!.to_h
       else
-        session[:order][:steps][step_id - 1] = { }
+        session[:order][:steps][prev_step_id] = { }
       end
     end
     # restore any data avail for this step
@@ -161,6 +162,9 @@ class Order::OrdersController < ApplicationController
     end
 
     def advance_step4
+    end
+
+    def advance_step5
     end
 
   private
