@@ -1,2 +1,96 @@
+<div id="step5">
+	<legend><span class="fa fa-check"></span> <strong>خلاصه سفارش:</strong></legend>
+	<p><span class="fa fa-quote-right" aria-hidden="true"></span> در این قسمت به مرور خلاصه‌ای از سفارش خود می‌پردازید. در صورتی که هر کدام از قسمت‌ها مطابق میل خودتان نبود می‌توانید به راحتی به قسمت مربوطه بروید و محتوای سفارش خود را تغییر دهید.</p>
+	<table class="table" id="order-summary">
+		<thead>
+			<tr>
+				<th class="col-xs-2"></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					تعداد و ست مبلمان:<br />
+					<a href="#" onclick="make_request(0); return false;">[ویرایش]</a>
+				</td>
+				<td>
+					<ul class="list-unstyled">
+						<% histogram(@data[1][:config]).each do |size, count|  %>
+							<li><b><%= count %> عدد</b> مبل <b><%= size %> نفره</b>.</li>
+						<% end %>
+						<li style="border-top: 1px solid #e7e7e7; padding-top: 10px;">مجموع: <b style="margin-right: 17px;"><%= @data[1][:config].sum.to_i %> نفره</b>.</li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					طرح و رنگ پارچه:<br />
+					<a href="#" onclick="make_request(1); return false;">[ویرایش]</a>
+				</td>
+				<td>
+					<div class="row">
+						<% @data[2][:section_model].values.each do |sm| %>
+							<div class="col-md-4">
+								<div class="thumbnail">
+									<%= image_tag sm[:model].image[:image].thumb.url, class: "img img-responsive img-thumbnail" %>
+							    <div class="caption" style='text-align: right'>
+							    	<table class="table no-layout">
+							    		<tbody>
+							    			<tr>
+							    				<td>نام مدل</td>
+							    				<td class="model-name"><%= sm[:model].public_name %></td>
+							    			</tr>
+							    			<tr>
+							    				<td>کیفیت</td>
+							    				<td class="model-quality"><%= sm[:model].fabric.quality.name %></td>
+							    			</tr>
+							    			<tr>
+							    				<td>قیمت</td>
+							    				<td class="model-price"><%= sm[:model].fabric.price.to_s.to_money %> تومان</td>
+							    			</tr>
+							    		</tbody>
+							  		</table>
+							      <div class='clearfix'></div>
+							    </div>
+							  </div> <!-- /.thumbnail -->
+						  </div>
+						<% end %>
+					</div>
+				</td>
+			</tr>
+			<% if @data.has_key? 3 %>
+				<tr>
+					<td>
+						رنگ و نوع چوب:<br />
+						<a href="#" onclick="make_request(2); return false;">[ویرایش]</a>
+					</td>
+					<td>
+						<ul class="list-unstyled">
+							<li><b>رنگ چوب:</b> رنگ <b><%= @data[3][:wood_color].name %> <%= @data[3][:wood_color_weight].name %></b>.</li>
+							<li><div class="color-box" style="height: 50px; width: 50px; background-color: #<%= @data[3][:wood_color].value %>"></div></li>
+							<li><b>نوع چوب:</b> چوب <b><%= @data[3][:wood_type].type.name %></b> با قیمت <b><%= @data[3][:wood_type].price.to_s.to_money %> تومان</b>.</li>
+						</ul>
+					</td>
+				</tr>
+			<% end %>
+			<tr>
+				<td>
+					کوسن اضافی:<br />
+					<a href="#" onclick="make_request(3); return false;">[ویرایش]</a>
+				</td>
+				<td>
+					<ul class="list-unstyled">
+						<li><b><%= @data[4][:extra_cushin] %> عدد.</b></li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td>قیمت سفارش:</td>
+				<td><% 1.times { |s| byebug } %></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
 
-	<%= render 'order/orders/shared/nav' %>
+<%= render 'order/orders/shared/nav', next_text: '<span class="fa fa-check" style="margin-top: 3px"></span> <b>تایید سفارش و پرداخت</b>', next_class: 'btn-success' %>

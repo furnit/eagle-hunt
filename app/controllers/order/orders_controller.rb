@@ -82,7 +82,7 @@ class Order::OrdersController < ApplicationController
       steps: { }
     }
     # remove the wood step if not required
-    session[:order][:order_steps].delete 3 if not(@furniture.employee_fanis.first.needs_kande and @furniture.employee_fanis.first.needs_range)
+    session[:order][:order_steps].delete 3 if not(@furniture.employee_fanis.first.needs_kande and @furniture.employee_fanis.first.needs_rang)
   end
 
   def advance_steps
@@ -171,6 +171,25 @@ class Order::OrdersController < ApplicationController
     end
 
     def advance_step5
+      @data = session[:order][:steps].dup
+      session[:order][:steps].each do |steps, pars|
+        case steps
+        when 1
+          # pass; do nothing
+        when 2
+          # fetch selected models
+          pars[:section_model].values.each do |v|
+            # fetch the fabric model using its ID
+            v[:model] = Admin::Furniture::Fabric::Model.find(v[:model_id])
+          end
+        when 3
+          @data[3][:wood_type] = Admin::Pricing::Wood.find(pars[:wood_type_id])
+          @data[3][:wood_color] = Admin::Furniture::Wood::Color.find(pars[:wood_color_id])
+          @data[3][:wood_color_weight] = Admin::Furniture::Wood::ColorWeight.find(pars[:wood_color_weight_id])
+        when 4
+          # pass; do nothing
+        end
+      end
     end
 
   private

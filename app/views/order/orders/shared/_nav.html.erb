@@ -1,13 +1,21 @@
 <div id="step-nav">
 	<hr />
 	<% if not defined?(next_step) or next_step %>
-	<button class="btn btn-primary pull-left btn-next">
-		مرحله‌ی بعد <span class="fa fa-arrow-left" style="margin-top: 3px"></span>
+	<button class="btn <%= defined?(next_class) ? next_class : "btn-primary" %> pull-left btn-next">
+		<% if defined? next_text %>
+			<%= raw next_text %>
+		<% else %>
+			مرحله‌ی بعد <span class="fa fa-arrow-left" style="margin-top: 3px"></span>
+		<% end %>
 	</button>
 	<% end %>
 	<% if not defined?(prev_step) or prev_step %>
-		<button class="btn btn-default pull-right btn-prev">
-			<span class="fa fa-arrow-right" style="margin-top: 3px"></span> مرحله‌ی قبل
+		<button class="btn <%= defined?(prev_class) ? prev_class : "btn-default" %> pull-right btn-prev">
+			<% if defined? prev_text %>
+				<%= raw prev_text %>
+			<% else %>
+				<span class="fa fa-arrow-right" style="margin-top: 3px"></span> مرحله‌ی قبل
+			<% end %>
 		</button>
 	<% end %>
 	<div class="clearfix"></div>
