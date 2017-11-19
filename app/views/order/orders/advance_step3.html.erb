@@ -5,7 +5,7 @@
 	<select id="wood-type-selection" name="<%= wood_type_select_name %>" class="selectpicker" data-size="<%= @wood_types.length + 1%>">
 		<option disabled selected>یک نوع چوب را انتخاب کنید.</option>
 		<% @wood_types.each do |t| %>
-	  	<option value=<%= t.id %> data-subtext=" با قیمت <%= t.price.price.to_s.to_money %> تومان"><%= t.name %></option>
+	  	<option value=<%= t.id %> data-subtext=" با قیمت <%= t.price.price.to_s.to_money %> تومان" <%= (@prev_data and @prev_data[:wood_type_id].to_i == t.id) ? "selected" : "" %>><%= t.name %></option>
 		<% end %>
 	</select>
 
@@ -22,7 +22,7 @@
 	<div class="row" id="furniture-wood-color">
 		<% @wood_colors.each do |c| %>
 		<div style="padding: 10px;" class="col-md-1 col-sm-2 col-xs-2 text-center pull-right">
-			<div style="height: 40px; width: 40px; background-color: #<%= c.value %>; margin: 0 auto; cursor: pointer" class="shadow-box color-box" color-id="<%= c.id %>"></div>
+			<div style="height: 40px; width: 40px; background-color: #<%= c.value %>; margin: 0 auto; cursor: pointer" class="shadow-box color-box <%= (@prev_data and @prev_data[:wood_color_id].to_i == c.id) ? "selected" : "" %>" color-id="<%= c.id %>"></div>
 			<strong color-id="<%= c.id %>" style="position: relative; top: 10px;"><%= c.name %></strong>
 		</div>
 		<% end %>
@@ -32,11 +32,11 @@
 	<select id="wood-color-weight" name="<%= @wood_color_weights.first && @wood_color_weights.first.model_name.param_key %>" class="selectpicker" data-size="<%= @wood_color_weights.length + 1 %>">
 		<option disabled selected>یک وزن رنگی را انتخاب کنید.</option>
 		<% @wood_color_weights.each do |cw| %>
-	  	<option value=<%= cw.id %>><%= cw.name %></option>
+	  	<option value=<%= cw.id %> <%= (@prev_data and @prev_data[:wood_color_weight_id].to_i == cw.id) ? "selected" : "" %>><%= cw.name %></option>
 		<% end %>
 	</select>
 	<legend style="margin-top: 20px;"><strong>۴. توضیحات/درخواست‌ها (اختیاری)</strong></legend>
-	<textarea placeholder="در صورت داشتن درخواست در مورد «رنگ مبل» در این قسمت ذکر نمایید." id="wood-comment"></textarea>
+	<textarea placeholder="در صورت داشتن درخواست در مورد «رنگ مبل» در این قسمت ذکر نمایید." id="wood-comment"><%= (@prev_data and @prev_data[:comment]) ? @prev_data[:comment] : "" %></textarea>
 </div>
 
 <%= render 'order/orders/shared/nav' %>
@@ -70,11 +70,12 @@
 				.find(".wood-type-comment")
 					.addClass('hidden')
 			$("#wood-type-comments #wood-type-comment-" + $(this).val().toString()).removeClass('hidden')
-		});
+		}).change();
 		$('#furniture-wood-color .color-box').click(function() {
 			$('#furniture-wood-color .selected').removeClass('selected')
 			$("[color-id='"+$(this).attr('color-id')+"']").addClass('selected')
 		});
+		$('#furniture-wood-color .color-box.selected').click();
 		var check_all = function() {
 			// check if we are in step#3 or not?
 			// if not? don't check it
