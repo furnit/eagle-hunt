@@ -268,6 +268,10 @@ function active_stage($stage) {
 	set_stage_id($("#selection-stages tr.main-row").index($stage));
 }
 function complete_stage($stage) {
+	// flag all stages after current stage as non-complete
+	$stage
+		.nextAll()
+		.removeClass('completed');
 	$stage
 		.removeClass('reactivated')
 		.addClass('completed')
