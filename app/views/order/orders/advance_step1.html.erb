@@ -16,7 +16,7 @@
 						<option value="<%= set.id %>" data-subtext="&nbsp;<%= set.config %>" data-config=<%= set.config.to_json %> <%= (@prev_data and @prev_sum == set.config.sum) ? "selected" : "" %>><%= set.name %></option>
 					<% end %>
 					<% # if the config is not the default config? add it to the config set %>
-					<% if @prev_data and not @default_sets.map { |s| @prev_sum == s.config.sum }.any? %>
+					<% if @prev_data and @prev_data[:config] and not @default_sets.map { |s| @prev_sum == s.config.sum }.any? %>
 						<option value="-1" data-subtext="&nbsp;<%= @prev_data[:config].map(&:to_i) %>" data-config=<%= @prev_data[:config].to_json %> selected>ست <%= @prev_data[:config].sum.to_i %> نفره</option>
 					<% end %>
 				</select>
