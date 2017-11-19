@@ -17,19 +17,21 @@
 		</li>
 	  <li>
 	  	<a href="#step2">
-	  		<em>قدم اول: پارچه</em>
+	  		<em>پارچه</em>
 	  		<span>انتخاب طرح و رنگ</span>
   		</a>
 		</li>
-	  <li>
-	  	<a href="#step3">
-	  		<em>قدم دوم: چوب</em>
-	  		<span>انتخاب رنگ و نوع</span>
-  		</a>
-		</li>
+		<% if @furniture.employee_fanis.first.needs_kande and @furniture.employee_fanis.first.needs_range %>
+		  <li>
+		  	<a href="#step3">
+		  		<em>چوب</em>
+		  		<span>انتخاب رنگ و نوع</span>
+	  		</a>
+			</li>
+		<% end %>
 	  <li>
 	  	<a href="#step4">
-	  		<em>قدم سوم: کوسن</em>
+	  		<em>کوسن</em>
 	  		<span>تعداد کوسن‌ها</span>
   		</a>
 		</li>
@@ -49,7 +51,8 @@
 
 
 <script type="text/javascript" charset="utf-8">
-	var current_step = 1
+	var current_step = 0
+	var avail_steps = <%= session[:order][:order_steps] %>
 	// return an non-empty string the browser will do the reset!
 	// the message cannot be changed for security reasons!
 	window.onbeforeunload = function() {
@@ -57,10 +60,10 @@
 	};
 	function make_request(step_id, data) {
 		if(typeof data === "undefined" || data === null) data = { };
-		data["prev_step_id"] = current_step;
+		data["prev_step_id"] = avail_steps[current_step];
 		current_step = Number(step_id);
 
-		$("#order-stage-steps a[href='#step" + current_step + "']")
+		$("#order-stage-steps a[href='#step" + avail_steps[current_step] + "']")
 			.closest('li')
 				.addClass('current')
 				.siblings('li')
@@ -68,7 +71,7 @@
 		var $container = $("#order-stages #step-container");
 		$.ajax({
 			global: false,
-			url: "<%= advance_steps_order_order_path(step_id: ":step_id") %>".replace(":step_id", current_step),
+			url: "<%= advance_steps_order_order_path(step_id: ":step_id") %>".replace(":step_id", avail_steps[current_step]),
 			data: data,
 			method: 'post',
 			beforeSend: function() {
@@ -87,18 +90,19 @@
 	}
 
 	function get_step_data() {
-		if(!$.isFunction(window["build_order_details_step" + current_step]))
+		if(!$.isFunction(window["build_order_details_step" + avail_steps[current_step]]))
 			return null;
-		var data = { details: eval("build_order_details_step" + current_step + "()") }
-		data["details"]["step"] = current_step;
+		var data = { details: eval("build_order_details_step" + avail_steps[current_step] + "()") }
+		data["details"]["step"] = avail_steps[current_step];
 		return data;
 	}
 
 	function next_step() {
-		make_request(current_step + 1, get_step_data());
+		if(current_step < avail_steps.length)
+			make_request(current_step + 1, get_step_data());
 	}
 	function prev_step() {
-		if(current_step > 1)
+		if(current_step > 0)
 			make_request(current_step - 1, get_step_data());
 	}
 

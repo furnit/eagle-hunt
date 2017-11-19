@@ -77,15 +77,23 @@ class Order::OrdersController < ApplicationController
     # set the initial order details
     session[:order] = {
       furniture: @furniture,
+      # define the all steps needs to be taken
+      order_steps: (1..5).to_a,
       steps: { }
     }
+    # remove the wood step if not required
+    session[:order][:order_steps].delete 3 if not(@furniture.employee_fanis.first.needs_kande and @furniture.employee_fanis.first.needs_range)
   end
 
   def advance_steps
+    # current step#
     step_id = params.require(:step_id).to_i
+    # previous step#
     prev_step_id = params.require(:prev_step_id).to_i
     # check the step# range
-    raise RuntimeError.new("invalid step#id") if not step_id.between?(1, 5)
+    raise RuntimeError.new("invalid step#id") if not session[:order][:order_steps].include? step_id
+    # check the prev-step# range
+    raise RuntimeError.new("invalid prev-step#id") if not session[:order][:order_steps].include? prev_step_id
     # validate the order details in session
     raise RuntimeError.new("invalid request") if session[:order].nil? or session[:order][:furniture].nil?
     # store/restore the provided ordering data for the step
@@ -100,7 +108,6 @@ class Order::OrdersController < ApplicationController
     end
     # restore any data avail for this step
     @prev_data = session[:order][:steps][step_id]
-
     # call the related handler to the step
     eval("advance_step#{step_id}")
     # render the related view
@@ -146,7 +153,7 @@ class Order::OrdersController < ApplicationController
       @fabric_quals = Admin::Furniture::Fabric::Quality.all
       @colors_categories = Admin::Furniture::Fabric::Color.all
       # restore the details' data
-      if @prev_data
+      if @prev_data and @prev_data[:section_model] and @prev_data[:section_model].is_a?(Hash)
         @prev_data[:section_model].values.each do |v|
           # fetch the fabric model using its ID
           v[:model] = Admin::Furniture::Fabric::Model.find(v[:model_id])
