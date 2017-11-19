@@ -13,7 +13,7 @@ class Admin::Furniture::Fabric::Fabric < Admin::Uploader::Image
   after_save :determine_colour
 
   def price
-    Admin::Pricing::Fabric.where(admin_furniture_fabric_brand_id: self.admin_furniture_fabric_brand_id).pluck(:price)
+    Admin::Pricing::Fabric.where(admin_furniture_fabric_brand_id: self.admin_furniture_fabric_brand_id).pluck(:price).first
   end
 
   def determine_colour

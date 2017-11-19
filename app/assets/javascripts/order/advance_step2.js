@@ -13,7 +13,10 @@ $(document).ready(function() {
 		$("#selection-stages").data('stage', 0);
 
 	// try to load the models first
-	load_objects(models, display);
+	load_objects(models, function(loaded_models) {
+		display(loaded_models);
+		after_graphics_loaded();
+	});
 
 	// activate the first stage
 	active_stage($($("#selection-stages tr.main-row").get($("#selection-stages").data('stage'))));

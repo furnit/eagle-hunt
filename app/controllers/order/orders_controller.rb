@@ -145,6 +145,13 @@ class Order::OrdersController < ApplicationController
       @furniture_sections = Admin::Furniture::Section.where(tag: :NECESSARY)
       @fabric_quals = Admin::Furniture::Fabric::Quality.all
       @colors_categories = Admin::Furniture::Fabric::Color.all
+      # restore the details' data
+      if @prev_data
+        @prev_data[:section_model].values.each do |v|
+          # fetch the fabric model using its ID
+          v[:model] = Admin::Furniture::Fabric::Model.find(v[:model_id])
+        end
+      end
     end
 
     def advance_step3

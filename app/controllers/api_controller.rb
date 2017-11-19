@@ -62,7 +62,7 @@ class ApiController < ApplicationController
       {
         price: fabric.price,
         comment: fabric.comment,
-        models: models.map { |m| { id: m.id, origin: m.image[:image].url, thumb: m.image[:image].thumb.url } },
+        models: models.map { |m| { id: m.id, name: m.public_name, origin: m.image[:image].url, thumb: m.image[:image].thumb.url } },
         quality: {
           id: fabric.quality.id,
           name: fabric.quality.name,

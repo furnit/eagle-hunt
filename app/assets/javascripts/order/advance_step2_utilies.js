@@ -30,40 +30,22 @@ function reset_everything() {
 	$(".color-box.active").removeClass('active');
 	$('#fabric-quality').prop('selectedIndex',0);
 };
-function after_models_loaded() {
-	$('.fab-container .select-fabric').click(function(){
-		$(this).blur();
-		var model = $(this).closest('.model[model-id]');
-		var model_id = model.attr('model-id');
+
+function show_selected_model(stage_id, model_id, model_name, model_price, model_quality, model_img) {
 		var stages = $("#selection-stages tr.main-row");
-		var stage_id = $("#selection-stages").data('stage');
 		var sid = $(stages[stage_id]).attr('data-sid');
 		var find_piece = function(sid, flag) { return $('[data-sid="'+sid.toString()+'"].selected-fabric-details' + flag); };
 
 		// store the selected model into a variable
-		selected_models[sid] = { sec_id: sid, model_id: model_id };
+		selected_models[stage_id] = { sec_id: sid, model_id: model_id };
 
-		$('.fab-container .select-fabric.selected').each(function() {
-			$(this)
-				.html($(this).attr('data-origin-text'))
-				.removeClass('selected')
-				.closest('.thumbnail')
-					.css('box-shadow', 'unset');
-		});
-		$(this)
-			.attr('data-origin-text', $(this).html())
-			.html('<span class="fa fa-check"></span> انتخاب شد!')
-			.addClass('selected')
-			.closest('.thumbnail')
-				.css('box-shadow', '0 0 10px green');
-		find_piece(sid, '.model-name td:first').html('<strong>نام:</strong> ' + model.find('.model-name').text());
-		find_piece(sid, '.model-price td:first').html('<strong>قیمت:</strong> ' + model.find('.model-price').text());
-		find_piece(sid, '.model-quality td:first').html('<strong>کیفیت:</strong> ' + model.find('.model-quality').text());
-		// $('[data-sid="'+sid.toString()+'"] .selected-fabric-details.model-img').html('<img width="100" src="' + model.find('.img').attr('src') + '" class="img img-responsive"/>');
-		$('[data-sid="'+sid.toString()+'"] .selected-fabric-details.model-img img').attr('src', model.find('.img').attr('src'));
+		find_piece(sid, '.model-name td:first').html('<strong>نام:</strong> ' + model_name);
+		find_piece(sid, '.model-price td:first').html('<strong>قیمت:</strong> ' + model_price);
+		find_piece(sid, '.model-quality td:first').html('<strong>کیفیت:</strong> ' +  model_quality);
+		$('[data-sid="' + sid.toString() + '"] .selected-fabric-details.model-img img').attr('src', model_img);
 		// show the items
 		find_piece(sid, '.hidden').removeClass('hidden');
-		$('[data-sid="'+sid.toString()+'"] .selected-fabric-details.hidden').removeClass('hidden');
+		$('[data-sid="' + sid.toString() + '"] .selected-fabric-details.hidden').removeClass('hidden');
 		$('#step-nav .btn-next[disabled]').removeAttr('disabled');
 		$(stages[stage_id]).attr('data-selected', 1);
 		// flag the progress
@@ -76,11 +58,41 @@ function after_models_loaded() {
 				.next('li')
 					.removeClass('text-disabled');
 		// set the selected texture to the view
-		var texture   =  model.find('.img').attr('src');
+		var texture   =  model_img;
 		var show_case = $('[data-sid="'+sid.toString()+'"] .selected-fabric-details.model-img').attr('data-show-case');
 		texture_select(show_case, texture);
 		if(show_case === "ziri")
 			texture_select("frame", texture);
+}
+
+function after_models_loaded() {
+	$('.fab-container .select-fabric').click(function(){
+		$(this).blur();
+
+		$('.fab-container .select-fabric.selected').each(function() {
+			$(this)
+				.html($(this).attr('data-origin-text'))
+				.removeClass('selected')
+				.closest('.thumbnail')
+					.css('box-shadow', 'unset');
+		});
+
+		$(this)
+			.attr('data-origin-text', $(this).html())
+			.html('<span class="fa fa-check"></span> انتخاب شد!')
+			.addClass('selected')
+			.closest('.thumbnail')
+				.css('box-shadow', '0 0 10px green');
+
+		var model = $(this).closest('.model[model-id]');
+		var model_id = model.attr('model-id');
+		var model_name = model.find('.model-name').text();
+		var model_price = model.find('.model-price').text();
+		var model_quality = model.find('.model-quality').text();
+		var model_img = model.find('.img').attr('src');
+		var stage_id = $("#selection-stages").data('stage');
+
+		show_selected_model(stage_id, model_id, model_name, model_price, model_quality, model_img);
 	});
 };
 function load_fabrics(_url, _data) {
@@ -124,7 +136,7 @@ function load_fabrics(_url, _data) {
 				 			<img src='" + models[l].thumb + "' data-origin-src='" + models[l].origin + "' class='img img-responsive img-thumbnail' />\
 			 			");
 				 		$wrapper_box
-				 			.find('.model-name').html("M-" + models[l].id);
+				 			.find('.model-name').html(models[l].name);
 				 		$wrapper_box
 				 			.find('.model-quality').html(fabric.quality.name);
 				 		$wrapper_box

@@ -184,6 +184,26 @@
 			file: "<%= asset_path("3d-models/furniture/daste.obj") %>"
 		},
 	};
+	// invokes after the models selected
+	function after_graphics_loaded() {
+		<% # if we have previous data? %>
+		<% if @prev_data and @prev_data[:section_model] %>
+			<% # foreach selected model %>
+			<% @prev_data[:section_model].each do |stage_id, v| %>
+				<% # fetch the proper element %>
+				var stage = $("#selection-stages tr.main-row[data-sid='<%= v[:sec_id] %>']");
+				<% # activate the stage %>
+				active_stage(stage);
+				<% # show the model for selected stage %>
+				show_selected_model(<%= stage_id %>, <%= v[:model].id %>, "<%= v[:model].public_name %>", "<%= v[:model].fabric.price.to_s.to_money %>", "<%= v[:model].fabric.quality.name %>", "<%= v[:model].image[:image].thumb.url %>");
+				<% # complete the model %>
+				complete_stage(stage);
+			<% end %>
+			<% # finalize the adding selected models by %>
+			<% # triggering the navigational btn click event %>
+			$("#step-nav .btn").click();
+		<% end %>
+	}
 </script>
 
 <%= javascript_include_tag "order/advance_step2" %>
