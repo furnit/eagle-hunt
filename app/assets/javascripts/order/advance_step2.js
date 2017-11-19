@@ -70,7 +70,7 @@ $(document).ready(function() {
 	// step2 local navigations
 	$("#step-nav .btn-next").click(function() {
 		var stages = $("#selection-stages tr.main-row");
-		var stage_id = $("#selection-stages").data('stage');
+		var stage_id = get_stage_id();
 		// complete the current stage
 		complete_stage($(stages[stage_id]));
 		// check if reached to the final stage
@@ -84,7 +84,7 @@ $(document).ready(function() {
 	});
 	$("#step-nav .btn-prev").click(function() {
 		var stages = $("#selection-stages tr.main-row");
-		var stage_id = $("#selection-stages").data('stage');
+		var stage_id = get_stage_id();
 		// check if reached to the initial stage
 		if(stage_id <= 0) {
 			prev_step();
@@ -99,7 +99,7 @@ $(document).ready(function() {
 		$(this).blur();
 		scroll_to($("#step2"));
 		var stages = $("#selection-stages tr.main-row");
-		var stage_id = $("#selection-stages").data('stage');
+		var stage_id = get_stage_id();
 		if($(stages[stage_id]).attr('data-selected'))
 			$("#step-nav .btn-next").removeAttr('disabled');
 		else
@@ -125,18 +125,13 @@ $(document).ready(function() {
 		}
 
 		$("#step2-2-post-final-step").addClass('hidden');
-		$('.fab-container .select-fabric.selected').each(function(){
-			$(this)
-				.html($(this).attr('data-origin-text'))
-				.removeClass('selected')
-				.closest('.thumbnail')
-					.css('box-shadow', 'unset');
-		});
+		remove_selected_model_flags();
 	});
 
 	// filter controls
 	$("#only-show-availables").click(filter_availables);
 	$('#fabric-quality').change(function() {
+		if($("#selection-stages tr.main-row.active").removeClass('active').length === 0) return;
 		// if blank value selected?
 		if($(this).find('[value=""]:selected').length > 0) return;
 		$(this).blur();
@@ -144,6 +139,7 @@ $(document).ready(function() {
 		$('.color-box.active').removeClass('active');
 	});
 	$('.color-box[data-id]').click(function() {
+		if($("#selection-stages tr.main-row.active").removeClass('active').length === 0) return;
 		$('.color-box.active').removeClass('active');
 		$(this).addClass('active');
 		load_fabrics(ls_fabric_models_api_path, {cc: $(this).data('id')});

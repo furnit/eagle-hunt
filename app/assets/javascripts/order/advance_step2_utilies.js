@@ -90,7 +90,7 @@ function after_models_loaded() {
 		var model_price = model.find('.model-price').text();
 		var model_quality = model.find('.model-quality').text();
 		var model_img = model.find('.img').attr('src');
-		var stage_id = $("#selection-stages").data('stage');
+		var stage_id = get_stage_id();
 
 		show_selected_model(stage_id, model_id, model_name, model_price, model_quality, model_img);
 	});
@@ -236,6 +236,23 @@ function scroll_to(item, callback) {
  	}, 750, callback);
 	return $(item);
 }
+
+function get_stage_id() {
+	return $("#selection-stages").data('stage');
+}
+
+function set_stage_id(id) {
+	$("#selection-stages").data('stage', id);
+}
+function remove_selected_model_flags() {
+	$('.fab-container .select-fabric.selected').each(function(){
+		$(this)
+			.html($(this).attr('data-origin-text'))
+			.removeClass('selected')
+			.closest('.thumbnail')
+				.css('box-shadow', 'unset');
+	});
+};
 function active_stage($stage) {
 	if($("#step2-2-content").html().length === 0)
 		$("#step2-2-helper").removeClass('hidden');
@@ -248,13 +265,14 @@ function active_stage($stage) {
 	$("#selection-stages [data-sid='" + $stage.attr('data-sid') + "']")
 		.removeClass('completed')
 		.unbind('mouseenter mouseleave');
-	$("#selection-stages").data('stage', $("#selection-stages tr.main-row").index($stage));
+	set_stage_id($("#selection-stages tr.main-row").index($stage));
 }
 function complete_stage($stage) {
 	$stage
 		.removeClass('reactivated')
 		.addClass('completed')
 		.bind('click.reactivate', function() {
+			remove_selected_model_flags();
 			$("#selection-stages tr.main-row.reactivated").each(function() {
 				complete_stage($(this));
 			});
