@@ -49,7 +49,7 @@
 
 
 <script type="text/javascript" charset="utf-8">
-	var current_step = 2
+	var current_step = 1
 	// return an non-empty string the browser will do the reset!
 	// the message cannot be changed for security reasons!
 	window.onbeforeunload = function() {
@@ -72,7 +72,10 @@
 				$container.html('<div class="text-center"><span class="fa fa-spinner fa-spin"></span> در حال بارگذاری</div>');
 			},
 			success: function(data) {
-				$container.html(data)
+				$container.html(data);
+				// since this is not global applying
+				// stuff to docs should handled manually!
+				apply_to_doms();
 			},
 			error: function() {
 				$container.html("<div class='text-center' style='border: 1px dotted #e7e7e7; padding: 30px;'><span class='fa fa-exclamation-triangle text-danger'></span> خطایی در بارگذاری رخ داده است.<br /> لطفا در صورت ادامه‌ی این خطا با بخش پشتیبانی تماس حاصل نمایید.</div>")

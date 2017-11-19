@@ -129,9 +129,9 @@ function load_fabrics(_url, _data) {
 				 			.find('.model-quality').html(fabric.quality.name);
 				 		$wrapper_box
 				 			.find('.model-price').html(fabric.price + " تومان");
-				 		$wrapper_box.find('.model-status span.label')
+				 		$wrapper_box.find('.model-status span.labelx')
 				 			.html(fabric.brand.available ? 'موجود' : 'ناموجود')
-				 			.addClass(fabric.brand.available ? 'label-success' : 'label-danger');
+				 			.addClass(fabric.brand.available ? 'text-success' : 'text-danger');
 			 			if(!fabric.brand.available) {
 			 				$wrapper_box.find('.actions').remove();
 			 				$wrapper.addClass('not-available');
@@ -198,7 +198,7 @@ function display(loaded_models){
 		alert("Models has not been loaded yet....\nTry Later!");
 		return;
 	}
-	$('#furniture-simulation').html("").closest('tr').addClass('shadow-box nohover-effect');
+	$('#furniture-simulation').html("");
   graphic = init_scene(document.getElementById('furniture-simulation'));
 	reset_camera(graphic);
 	objects = loaded_models;

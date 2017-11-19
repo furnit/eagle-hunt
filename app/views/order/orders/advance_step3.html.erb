@@ -19,24 +19,14 @@
 	</div>
 
 	<legend style="margin-top: 20px;"><strong>۲. انتخاب رنگ چوب</strong></legend>
-	<table id="furniture-wood-color">
-		<tbody>
-			<tr>
-				<% @wood_colors.each do |c| %>
-				<td style="padding: 10px;">
-					<div style="height: 60px; width: 60px; background-color: #<%= c.value %>; cursor: pointer" class="shadow-box color-box" color-id="<%= c.id %>"></div>
-				</td>
-				<% end %>
-			</tr>
-			<tr>
-				<% @wood_colors.each do |c| %>
-				<td class="text-center">
-					<strong color-id="<%= c.id %>"><%= c.name %></strong>
-				</td>
-				<% end %>
-			</tr>
-		</tbody>
-	</table>
+	<div class="row" id="furniture-wood-color">
+		<% @wood_colors.each do |c| %>
+		<div style="padding: 10px;" class="col-md-1 col-sm-2 col-xs-2 text-center pull-right">
+			<div style="height: 40px; width: 40px; background-color: #<%= c.value %>; margin: 0 auto; cursor: pointer" class="shadow-box color-box" color-id="<%= c.id %>"></div>
+			<strong color-id="<%= c.id %>" style="position: relative; top: 10px;"><%= c.name %></strong>
+		</div>
+		<% end %>
+	</div>
 
 	<legend style="margin-top: 20px;"><strong>۳. انتخاب روشنی/تیرگی رنگ</strong></legend>
 	<select id="wood-color-weight" name="<%= @wood_color_weights.first && @wood_color_weights.first.model_name.param_key %>" class="selectpicker" data-size="<%= @wood_color_weights.length + 1 %>">
