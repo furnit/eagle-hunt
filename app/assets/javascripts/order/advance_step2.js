@@ -131,7 +131,7 @@ $(document).ready(function() {
 	// filter controls
 	$("#only-show-availables").click(filter_availables);
 	$('#fabric-quality').change(function() {
-		if($("#selection-stages tr.main-row.active").removeClass('active').length === 0) return;
+		if($("#selection-stages tr.main-row.active").length === 0) return;
 		// if blank value selected?
 		if($(this).find('[value=""]:selected').length > 0) return;
 		$(this).blur();
@@ -139,7 +139,7 @@ $(document).ready(function() {
 		$('.color-box.active').removeClass('active');
 	});
 	$('.color-box[data-id]').click(function() {
-		if($("#selection-stages tr.main-row.active").removeClass('active').length === 0) return;
+		if($("#selection-stages tr.main-row.active").length === 0) return;
 		$('.color-box.active').removeClass('active');
 		$(this).addClass('active');
 		load_fabrics(ls_fabric_models_api_path, {cc: $(this).data('id')});

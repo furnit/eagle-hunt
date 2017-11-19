@@ -1,14 +1,14 @@
 <div id="step-nav">
 	<hr />
-	<% if not defined?(prev_step) or prev_step %>
-		<button class="btn btn-default pull-right btn-prev">
-			<span class="fa fa-arrow-right" style="margin-top: 3px"></span> مرحله‌ی قبل
-		</button>
-	<% end %>
 	<% if not defined?(next_step) or next_step %>
 	<button class="btn btn-primary pull-left btn-next">
 		مرحله‌ی بعد <span class="fa fa-arrow-left" style="margin-top: 3px"></span>
 	</button>
+	<% end %>
+	<% if not defined?(prev_step) or prev_step %>
+		<button class="btn btn-default pull-right btn-prev">
+			<span class="fa fa-arrow-right" style="margin-top: 3px"></span> مرحله‌ی قبل
+		</button>
 	<% end %>
 	<div class="clearfix"></div>
 </div>

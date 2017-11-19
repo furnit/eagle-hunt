@@ -89,8 +89,7 @@ class Order::OrdersController < ApplicationController
     # validate the order details in session
     raise RuntimeError.new("invalid request") if session[:order].nil? or session[:order][:furniture].nil?
     # store/restore the provided ordering data for the step
-    # store begin from second step which the first step's data is passed
-    if(step_id > 1 and not params[:details].nil?)
+    if(not params[:details].nil?)
       # check if any details passed?
       if params.has_key? :details
         # set the details for previous step

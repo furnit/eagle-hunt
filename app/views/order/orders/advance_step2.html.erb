@@ -199,9 +199,13 @@
 				<% # complete the model %>
 				complete_stage(stage);
 			<% end %>
-			<% # finalize the adding selected models by %>
-			<% # triggering the navigational btn click event %>
-			$("#step-nav .btn").click();
+			<% if @prev_data[:section_model].length == 3 %>
+				<% # finalize the adding selected models by %>
+				<% # triggering the navigational btn click event %>
+				$("#step-nav .btn").click();
+			<% else %>
+				active_stage(stage.siblings(".main-row:first"));
+			<% end %>
 		<% end %>
 	}
 </script>
