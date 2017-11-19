@@ -5,7 +5,7 @@
 	<select id="wood-type-selection" name="<%= wood_type_select_name %>" class="selectpicker" data-size="<%= @wood_types.length + 1%>">
 		<option disabled selected>یک نوع چوب را انتخاب کنید.</option>
 		<% @wood_types.each do |t| %>
-	  	<option value=<%= t.id %> data-subtext="<%= t.price.price %> تومان"><%= t.name %></option>
+	  	<option value=<%= t.id %> data-subtext=" با قیمت <%= t.price.price.to_s.to_money %> تومان"><%= t.name %></option>
 		<% end %>
 	</select>
 
