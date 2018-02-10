@@ -47,7 +47,7 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
   end
 
 
-  def compute_cost const: nil, fabric: nil, paint_color: nil, paint_astar_rouye: nil, wood: nil, kalaf: nil
+  def compute_cost const: nil, fabrics: nil, paint_color: nil, paint_astar_rouye: nil, wood: nil, kalaf: nil
     # fetch all foams' prices
     foam = Admin::Pricing::Foam.all
     # validate pricing of foams
@@ -57,9 +57,9 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
     # validate kalaf prices
     raise ClientError.new("کلاف قیمت‌گذاری نشده است.") if not kalaf
     # overall details
-    od   = overall_details.as_json
+    od  = overall_details.as_json
     # general details
-    gd   = od.reject { |i| [:id, :admin_furniture_furniture_id, :created_at, :updated_at].include? i.to_sym or i =~ /.*(wage|needs|days_to_complete|build_details).*/ };
+    gd  = od.reject { |i| [:id, :admin_furniture_furniture_id, :created_at, :updated_at].include? i.to_sym or i =~ /.*(wage|needs|days_to_complete|build_details).*/ };
     # define sum
     sum = 0
     # sum-up consts
@@ -92,7 +92,12 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
       when 'ابر'
         price = foam.select { |i| i.admin_furniture_foam_type_id == ins.options["admin_furniture_foam_types"]["id"].to_i }.first.price
       when 'پارچه'
-        price = fabric.price if fabric
+        maps = {
+          "زیری": :ziri,
+          "دسته": :daste,
+          "پشتی": :poshti
+        }
+        price = fabrics[maps[ins.section.name.to_sym]].price if fabrics and fabrics[maps[ins.section.name.to_sym]]
       else
         raise RuntimeError.new("undefined spec# #{ins.spec.id}")
       end
