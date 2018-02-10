@@ -56,6 +56,16 @@ class ApiController < ApplicationController
     end
   end
 
+  def transit_price
+    state_id = params.require :state_id
+
+    price    = Admin::Pricing::Transit.where(state_id: state_id).pluck(:price).max
+
+    respond_to do |format|
+      format.json { render json: { price: price }, status: :ok }
+    end
+  end
+
   protected
     def build_fabric_detail fabric, models
       models = [models].flatten

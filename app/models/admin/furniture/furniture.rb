@@ -46,6 +46,24 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
     ((1 + (_profit / 100.0)) * _price.overall_cost).to_i
   end
 
+  def compute_price factors:, set:, consider_profit: false
+    # get all pieces together
+    set_pieces = Hash[set.map {|x| [x, Admin::Selling::Config::PiecePrice.find_by(piece: x)]}]
+    # if not all pieces' price not defined?
+    raise RuntimeError.new("یک یا چند عدد از مشخصات ست مورد نظر، قیمت‌گذاری نشده است.") if not set_pieces.values.all?
+    # if no profit margin defined for the furniture
+    raise RuntimeError.new("profit didn't set for furniture##{self.id}") if consider_profit and self.price.nil?
+    # define overall cost
+    cost = 0
+    # compute cost based on factors
+    base_cost = self.compute_cost **factors
+    # compute overall cost
+    set.each { |s| cost += (base_cost * set_pieces[s].percentage) }
+    # return cost w.o profit margin
+    return cost.to_i if not consider_profit
+    # return cost with profit margin taken into consideration
+    return (cost * (1 + (self.price.profit / 100.0))).to_i
+  end
 
   def compute_cost const: nil, fabrics: nil, paint_color: nil, paint_astar_rouye: nil, wood: nil, kalaf: nil
     # fetch all foams' prices

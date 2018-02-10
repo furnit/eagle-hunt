@@ -86,8 +86,23 @@
 				</td>
 			</tr>
 			<tr>
-				<td>قیمت سفارش:</td>
-				<td><% 1.times { |s| byebug } %></td>
+				<td colspan="2">
+					<div class="panel panel-success">
+					  <div class="panel-heading">
+					  	<div class="row">
+					  		<div class="col-md-2 pull-right">
+					    		<h3 style="display: inline">مبلغ سفارش:</h3>
+				    		</div>
+				    		<div class="col-md-6 pull-right">
+					  			<strong><%= @cost.to_s.to_money %></strong> تومان
+				  			</div>
+			  			</div>
+					  </div>
+					  <div class="panel-body">
+					  	در صورتی که مبلغ نهایی سفارش شما مغایر با حد مد نظر شما می‌باشد می‌توانید با تغییر پارامترهای سفارش خود (تعداد و ست، پارچه‌های مورد نظر، رنگ و نوع چوب) در مبلغ نهایی سفارش خود تغییر ایجاد کنید.
+					  </div>
+					</div>
+				</td>
 			</tr>
 		</tbody>
 	</table>

@@ -78,7 +78,7 @@ class Order::OrdersController < ApplicationController
     session[:order] = {
       furniture: @furniture,
       # define the all steps needs to be taken
-      order_steps: (1..5).to_a,
+      order_steps: (1..6).to_a,
       steps: { }
     }
     # remove the wood step if not required
@@ -96,6 +96,8 @@ class Order::OrdersController < ApplicationController
     raise RuntimeError.new("invalid prev-step#id") if not session[:order][:order_steps].include? prev_step_id
     # validate the order details in session
     raise RuntimeError.new("invalid request") if session[:order].nil? or session[:order][:furniture].nil?
+    # find the related furniture details
+    @furniture = Admin::Furniture::Furniture.find(params.require(:f))
     # store/restore the provided ordering data for the step
     if(not params[:details].nil?)
       # check if any details passed?
@@ -172,15 +174,28 @@ class Order::OrdersController < ApplicationController
 
     def advance_step5
       @data = session[:order][:steps].dup
-      session[:order][:steps].each do |steps, pars|
+      maps = {
+        "زیری": :ziri,
+        "دسته": :daste,
+        "پشتی": :poshti
+      }
+      factors = {
+        fabrics: { }
+      }
+      @data.each do |steps, pars|
         case steps
         when 1
-          # pass; do nothing
+          # convert config to integer
+          @data[1][:config] = @data[1][:config].map(&:to_i)
         when 2
           # fetch selected models
           pars[:section_model].values.each do |v|
+            # fetch the section using its ID
+            v[:section] = Admin::Furniture::Section.find v[:sec_id]
             # fetch the fabric model using its ID
-            v[:model] = Admin::Furniture::Fabric::Model.find(v[:model_id])
+            v[:model] = Admin::Furniture::Fabric::Model.find v[:model_id]
+            # add it to the fabric factors
+            factors[:fabrics][maps[v[:section].name.to_sym]] = v[:model].fabric
           end
         when 3
           @data[3][:wood_type] = Admin::Pricing::Wood.find(pars[:wood_type_id])
@@ -190,6 +205,32 @@ class Order::OrdersController < ApplicationController
           # pass; do nothing
         end
       end
+      factors = factors.merge({
+        const: Admin::Pricing::Const.last,
+        paint_color: Admin::Pricing::PaintColor.find_by(admin_furniture_paint_color_brand_id: Admin::Furniture::Paint::ColorBrand.where(is_default: true).first.id),
+        paint_astar_rouye: Admin::Pricing::PaintAstarRouye.last,
+        wood: @data[3][:wood_type],
+        kalaf: Admin::Pricing::Kalaf.last
+      })
+      # compute price with it's profit margin considered
+      @cost = @furniture.compute_price factors: factors, set: @data[1][:config], consider_profit: true
+      # add extra cushin prices
+      @cost += @data[4][:extra_cushin].to_i * factors[:const][:cushin]
+      # store the computed price and processed history to the session
+      session[:order][:final] = {
+        data: @data,
+        pricing: {
+          factors: factors,
+          total_price: @cost
+        }
+      }
+    end
+
+    def advance_step6
+      @prices = {
+        price: session[:order][:final][:pricing][:total_price].to_i,
+        added_value: (session[:order][:final][:pricing][:total_price] * 0.09).to_i
+      }
     end
 
   private

@@ -1,0 +1,54 @@
+<div id="step6">
+	<legend><span class="fa fa-check"></span> <strong>تایید مبلغ و آدرس ارسال:</strong></legend>
+	<div class="row" style="margin: auto 20px">
+		<div class="panel panel-info">
+		  <div class="panel-heading">
+		  	<h2 class="panel-title">آدرس تحویل سفارش:</h2>
+		  </div>
+		  <div class="panel-body">
+		  	<div class="row">
+		  		<div class="col-md-12">
+						<%= collection_select :order, :state_id, State.all, :id, :name, { prompt: 'لطفا استان محل اقامت خود را انتخاب کنید.', selected: current_user.profile.state_id }, required: true, layout: :default, class: 'selectpicker', data: { size: 10, :"live-search" => true } %>
+	  			</div>
+	  			<div class="col-md-12" style="padding-top: 10px">
+			  		<label for="address">آدرس دقیق محل تحویل سفارش:</label>
+			  		<%= text_area_tag :address, current_user.profile.address, style: 'padding: 10px' %>
+		  		</div>
+	  		</div>
+	  	</div>
+	  	<div class="panel-footer">
+	  		<span class="fa fa-commenting-o"></span> در صورتی که آدرس محل تحویل سفارش متفاوت با آدرس مندرج در پروفایل شماست، به راحتی می‌توانید آدرس مورد نظر خود را تغییر دهید.
+  		</div>
+		</div>
+	</div>
+	<hr />
+	<legend><span class="far fa-credit-card"></span> <strong>فاکتور:</strong></legend>
+	<div class="row" style="margin: auto 20px">
+		<table class="table table-striped">
+			<tbody>
+				<tr>
+					<td>هزینه‌ی سفارش</td>
+					<td style="font-weight: bold"><%= @prices[:price].to_s.to_money %> تومان</td>
+				</tr>
+				<tr>
+					<td>مالیات بر ارزش افزوده (۹٪)</td>
+					<td style="font-weight: bold"><%= @prices[:added_value].to_s.to_money %> تومان</td>
+				</tr>
+				<tr>
+					<td>هزینه‌ی ارسال</td>
+					<td id="transit-cost" style="font-weight: bold"><%= Admin::Pricing::Transit.where(state_id: current_user.profile.state_id).pluck(:price).max.to_i.to_s.to_money %> تومان</td>
+				</tr>
+				<tr class="footer" style="font-weight: bold">
+					<td>مجموع:</td>
+					<td><%= @prices.values.sum.to_i.to_s.to_money %> تومان</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+
+	});
+</script>

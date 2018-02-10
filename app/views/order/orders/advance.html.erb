@@ -37,8 +37,14 @@
 		</li>
 	  <li>
 	  	<a href="#step5">
-	  		<em>قدم نهایی:</em>
+	  		<em>بررسی</em>
 	  		<span xstyle="padding-right: 50px;">بازبینی و تایید سفارش</span>
+  		</a>
+		</li>
+	  <li>
+	  	<a href="#step6">
+	  		<em>قدم نهایی:</em>
+	  		<span xstyle="padding-right: 50px;">تعیین آدرس و پرداخت</span>
   		</a>
 		</li>
 	</ul>
@@ -100,7 +106,7 @@
 	}
 
 	function next_step() {
-		if(current_step < avail_steps.length)
+		if(current_step < avail_steps.length - 1)
 			make_request(current_step + 1, get_step_data());
 	}
 	function prev_step() {
