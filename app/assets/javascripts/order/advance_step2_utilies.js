@@ -61,8 +61,6 @@ function show_selected_model(stage_id, model_id, model_name, model_price, model_
 		var texture   =  model_img;
 		var show_case = $('[data-sid="'+sid.toString()+'"] .selected-fabric-details.model-img').attr('data-show-case');
 		texture_select(show_case, texture);
-		if(show_case === "ziri")
-			texture_select("frame", texture);
 }
 
 function after_models_loaded() {
