@@ -32,7 +32,7 @@ module ApplicationHelper
     end
     kwargs.delete :class
 
-    link_to text, "#", class: klass, data: {
+    link_to raw(text), "#", class: klass, data: {
       type: :text,
       resource: "#{instance.model_name.param_key}",
       name: field.to_s.downcase,

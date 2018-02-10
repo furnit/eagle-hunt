@@ -52,6 +52,7 @@
 
 <script type="text/javascript" charset="utf-8">
 	var current_step = 0
+	var fid = <%= @furniture.id %>
 	var avail_steps = <%= session[:order][:order_steps] %>
 	// return an non-empty string the browser will do the reset!
 	// the message cannot be changed for security reasons!
@@ -60,6 +61,7 @@
 	};
 	function make_request(step_id, data) {
 		if(typeof data === "undefined" || data === null) data = { };
+		data["f"] = fid;
 		data["prev_step_id"] = avail_steps[current_step];
 		current_step = Number(step_id);
 

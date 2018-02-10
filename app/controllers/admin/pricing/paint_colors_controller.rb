@@ -20,6 +20,7 @@ class Admin::Pricing::PaintColorsController < Admin::AdminbaseController
   # GET /admin/pricing/paint_colors/new
   def new
     @admin_pricing_paint_color = Admin::Pricing::PaintColor.new
+    @paint_color_lists = Admin::Furniture::Paint::ColorBrand.where.not(id: Admin::Pricing::PaintColor.select(:admin_furniture_paint_color_brand_id).pluck(:admin_furniture_paint_color_brand_id));
   end
 
   # GET /admin/pricing/paint_colors/1/edit

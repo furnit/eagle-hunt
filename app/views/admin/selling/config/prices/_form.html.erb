@@ -2,6 +2,10 @@
 	<% form_id = '' %>
 	<%= remote_form(admin_selling_config_price, url: admin_selling_config_price_path(id: @furniture.id), as: :furniture_config) do |f| -%>
 	  <% form_id = f.options[:html][:id] %>
+	  <%
+	  	default_color = @paint_colors.select { |pc| pc.brand.is_default == true }
+  		default_color_brand_id = default_color.empty? ? 0 : default_color.first.brand.id
+  	%>
 	  <%= hidden_field_tag :hd, get_hash(@furniture.id.to_s) %>
 	  <div  class='block'>
 	  	<div class='row'>
@@ -15,7 +19,7 @@
 		  			<%= f.select :admin_furniture_wood_type_id, @woods.map{ |i| [i.type.name, i.type.id, {'data-subtext': "&nbsp;#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
 					<% end %>
 		  		<% if not @paint_colors.nil? %>
-			  		<%= f.select :admin_furniture_paint_color_brand_id, @paint_colors.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
+			  		<%= f.select :admin_furniture_paint_color_brand_id, @paint_colors.map{ |i| [i.brand.name, i.brand.id, {'data-subtext': "#{i.price} تومان"}] }, { prompt: 'لطفا برند رنگ چوب را انتخاب کنید.' }, selected: default_color_brand_id, required: true, layout: :default, class: 'selectpicker', data: { "live-search": true, "show-subtext": true }, wrapper: { class: 'col-md-6 pull-right' } %>
 					<% end %>
 	  		<% end %>
 	  		<div class='clearfix'></div>

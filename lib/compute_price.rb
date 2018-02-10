@@ -9,7 +9,7 @@ module ComputePrice
     # get all factors together
     factors = {
       const: Admin::Pricing::Const.last,
-      fabric: {
+      fabrics: {
         ziri: fabric,
         daste: fabric,
         poshti: fabric

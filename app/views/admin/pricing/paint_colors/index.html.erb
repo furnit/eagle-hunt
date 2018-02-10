@@ -1,6 +1,6 @@
-<%= 
+<%=
   render 'admin/shared/index',
-    title: "لیست #{t("activerecord.models.#{Admin::Pricing::PaintColor.model_name.i18n_key}")}", 
+    title: "لیست #{t("activerecord.models.#{Admin::Pricing::PaintColor.model_name.i18n_key}")}",
     title_right: lambda {
       link_to new_admin_pricing_paint_color_url, class: 'inline-html-call' do
         raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
@@ -16,8 +16,9 @@
     table_head: {
       'ردیف': { style: 'width: 30px' },
       'برند': { style: 'width: 150px' },
+      'پیش‌فرض؟': { style: 'width: 30px' },
       'قیمت (به تومان)': { style: 'width: 150px' },
-      'توضیحات': { },      
+      'توضیحات': { },
       'آخرین بروزرسانی': { style: 'width: 130px' },
       'عملیات': { style: 'width: 90px' }
     },
@@ -27,8 +28,9 @@
     <tr>
       <td><%= ins.id %></td>
       <td><%= editable_tag ins, :admin_furniture_paint_color_brand_id, type: :select, value: ins.admin_furniture_paint_color_brand_id, source: admin_furniture_paint_color_brands_path, text: ins.brand.name %></td>
+      <td><%= raw ins.brand.is_default ? '<span class="text-success">&#10004;</span>' : '-' %></td>
       <td><%= editable_tag ins, :price, text: ins.price.to_s.to_money %></td>
-      <td><%= editable_tag ins, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %></td>      
+      <td><%= editable_tag ins, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %></td>
       <td class='datetime' data-date='<%= ins.updated_at %>'></td>
       <td>
         <%= link_to ins, method: :delete, data: { confirm: { title: "آیا از حذف این مورد اطمینان دارید؟", message: "توجه فرمایید که حذف این مورد غیر قابل بازگشت خواهد بود!" } }, class: 'text-danger' do %>
@@ -37,5 +39,5 @@
       </td>
     </tr>
   <% end %>
-      
+
 <% } %>

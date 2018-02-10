@@ -4,6 +4,13 @@ class Admin::Furniture::Paint::ColorBrandsController < Admin::AdminbaseControlle
   # GET /admin/furniture_paint_color_brands
   # GET /admin/furniture_paint_color_brands.json
   def index
+    default_brand = Admin::Furniture::Paint::ColorBrand.find_by(is_default: true)
+    # check if default brand is not priced then make the user price the brand
+    if default_brand and default_brand.price.nil?
+      redirect_to admin_pricing_paint_colors_path, flash: { error: "برند پیش‌فرض قیمت‌گذاری نشده است.<br/ >لطفا برند پیش‌فرض «<b>#{default_brand.name}</b>» را قیمت‌گذاری کنید." }
+      return
+    end
+
     @admin_furniture_paint_color_brands = Admin::Furniture::Paint::ColorBrand.all
 
     respond_to do |format|
