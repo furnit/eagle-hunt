@@ -1,6 +1,6 @@
-<%= 
+<%=
 	render 'admin/shared/index',
-	  title: 'لیست برند‌های رنگ‌ها', 
+	  title: 'لیست برند‌های رنگ‌ها',
 		title_right: lambda {
 			link_to new_admin_furniture_paint_color_brand_path, class: 'inline-html-call' do
 				raw "<span class='fa fa-plus'></span> ایجاد برند جدید"
@@ -9,6 +9,7 @@
 		table_head: {
 			'ردیف': { style: 'width: 30px' },
 			'عنوان': { style: 'width: 12%' },
+			'پیش‌فرض؟': { style: 'width: 30px' },
 			'توضیحات': { },
 			'آخرین بروزرسانی': { style: 'width: 130px' },
 			'عملیات': { style: 'width: 90px' }
@@ -20,6 +21,16 @@
       <td><%= ft.id %></td>
       <td>
         <%= editable_tag ft, :name %>
+      </td>
+      <td>
+      	<% if not ft.is_default %>
+	      	<%= editable_tag ft, :is_default, type: :select,
+	      				value: ft.is_default ? 1 : 0,
+	      				source: [{value: 1, text: 'بله'}, {value: 0, text: 'خیر'}],
+	      				text: '-' %>
+				<% else %>
+					<span class="text-success">&#10004;</span>
+				<% end %>
       </td>
       <td>
         <%= editable_tag ft, :comment, type: :textarea, placement: :bottom, 'allow-empty': true %>
@@ -34,5 +45,14 @@
       </td>
     </tr>
   <% end %>
-  
+
 <% } %>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$('.editable[data-resource="admin_furniture_paint_color_brand"][data-name="is_default"]').on('save', function(e, params) {
+			// reload to reset the default check mark
+			window.location.reload();
+		});
+	})
+</script>

@@ -1,16 +1,22 @@
 <%= redirect_form admin_furniture_paint_color_brand do |f| %>
 	<%= params[:admin] ? f.hidden_field(:admin, value: params[:admin]): '' %>
 	<div  class='block'>
-	  <div class="field col-md-6 pull-right">
+	  <div class="field col-md-5 pull-right">
 	    <%= f.text_field :name, :class => 'form-control', autofocus: true, required: true %>
 	  </div>
-	
+	  <div class="field col-md-6 pull-right" style="padding-top: 10px;">
+	  	<%= check_awesome \
+	  		'برند پیشفرض انتخاب شود؟',
+	  		'درصورتی که این برند به عنوان پیشفرض انتخاب شود، در محاسبه‌ی قیمت‌گذاری‌ها مبلغ این برند مورد استفاده قرار خواهد گرفت.',
+	  		name: "#{f.object.model_name.param_key}[is_default]" %>
+	  </div>
+
 	  <div class="field col-md-12 pull-right">
 	    <%= f.text_area :comment, :class => 'form-control' %>
 	  </div>
 	  <div class='clearfix'></div>
   </div>
-  
+
   <div class="actions field pull-left">
     <%= f.submit submit_text, :class => 'btn btn-primary' %>
   </div>
