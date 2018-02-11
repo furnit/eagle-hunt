@@ -76,8 +76,8 @@
 	          			<tr>
 	          				<td>قیمت <small class="text-muted" style="font-weight: normal">(ست <%= AppConfig.preference.furniture.unit %> نفره)</small></td>
 	          				<td>
-			              	<% if f.available and f.cost? > 0 %>
-			              		<span class="text-success"><%= f.cost?.to_s.to_money %> <%= AppConfig.currency %></span>
+			              	<% if f.available and f.cost?[:overall] > 0 %>
+			              		<span class="text-success"><%= f.cost?[:overall].to_s.to_money %> <%= AppConfig.currency %></span>
 		              		<% else %>
 		              			-
 		              		<% end %>

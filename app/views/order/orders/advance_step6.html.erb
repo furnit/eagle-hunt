@@ -28,28 +28,22 @@
 			<tbody>
 				<tr>
 					<td><span class="fa fa-shopping-cart"></span> هزینه‌ی سفارش</td>
-					<td class="cost" data-cost="<%= @prices[:price] %>" style="font-weight: bold"><%= @prices[:price].to_s.to_money %> تومان</td>
+					<td class="cost" data-cost="<%= @cost %>" style="font-weight: bold"><%= @cost.to_s.to_money %> تومان</td>
 				</tr>
-				<% if false %>
-					<tr>
-						<td>مالیات بر ارزش افزوده (۹٪)</td>
-						<td class="cost" data-cost="<%= @prices[:added_value] %>" style="font-weight: bold"><%= @prices[:added_value].to_s.to_money %> تومان</td>
-					</tr>
-				<% end %>
 				<tr>
 					<td><span class="fa fa-truck"></span> هزینه‌ی ارسال</td>
-					<td class="cost" id="transit-cost" style="font-weight: bold">. تومان</td>
+					<td class="cost" id="transit-cost" style="font-weight: bold"><span class='fa fa-spinner fa-spin'></span></td>
 				</tr>
 				<tr class="footer bg-success" style="font-weight: bold;">
-					<td><span class="fa fa-plus"></span> مجموع:</td>
-					<td id="sumup-cost"><%= @prices.values.sum.to_i.to_s.to_money %> تومان</td>
+					<td><span class="fa fa-plus" style='margin-top: 5px; position: relative;'></span> مجموع:</td>
+					<td id="sumup-cost"><span class='fa fa-spinner fa-spin'></span></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+	<%= render 'order/orders/shared/nav', next_text: '<span class="fa fa-money" style="margin-top: 3px"></span> <b> پرداخت مبلغ سفارش</b>', next_class: 'btn-success' %>
 </div>
 
-<%= render 'order/orders/shared/nav', next_text: '<span class="fa fa-money" style="margin-top: 3px"></span> <b> پرداخت مبلغ سفارش</b>', next_class: 'btn-success' %>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
@@ -77,10 +71,21 @@
 					    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
 					}) + " تومان")
 				},
-				"max",
+				"<%= AppConfig.preference.price.transit.compute_method %>",
 				function() {
 					$("#transit-cost, #sumup-cost").html("<span class='label label-danger' style='font-size: 17px'>خطا!</span>")
 				})
-		}).change()
+		}).change();
+		<% # submit the order and payment stuffs %>
+		$("#step6 #step-nav .btn-success").click(function() {
+			$.ajax({
+				method: "post",
+				url: "<%= submit_advance_order_order_path %>",
+				data: { state_id: $("#step6 select[name='order[state_id]']").val(), address: $("textarea[name='address']").val() },
+				success: function(data) {
+					console.log(data)
+				}
+			});
+		});
 	});
 </script>

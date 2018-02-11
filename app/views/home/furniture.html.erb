@@ -73,8 +73,8 @@
     			<tr>
     				<td>قیمت <small class="text-muted" style="font-weight: normal">(ست <%= AppConfig.preference.furniture.unit %> نفره)</small></td>
     				<td>
-            	<% if @furniture.available and @furniture.cost? > 0 %>
-            		<span class="text-success"><%= @furniture.cost?.to_s.to_money %> <%= AppConfig.currency %></span>
+            	<% if @furniture.available and @furniture.cost?[:overall] > 0 %>
+            		<span class="text-success text-bold"><%= @furniture.cost?[:overall].to_s.to_money %> <%= AppConfig.currency %></span>
           		<% else %>
           			-
           		<% end %>
@@ -91,7 +91,7 @@
     			<tr>
 						<th>وضعیت</th>
 						<td>
-							<span class="label label-<%= @furniture.available ? 'success' : 'warning' %>"><%= @furniture.available ? 'قابل سفارش' : 'غیرقابل سفارش' %></span>
+							<span class="label label-<%= @furniture.available ? 'success' : 'warning' %> small"><%= @furniture.available ? 'قابل سفارش' : 'غیرقابل سفارش' %></span>
 						</td>
 						<td colspan="2"></td>
   				</tr>
@@ -104,7 +104,7 @@
 		</fieldset>
 		<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12 text-center' style='padding: 0; padding-top: 40px;'>
 		  <div class='col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-2 col-sm-8 col-xs-offset-2 col-xs-8 order'>
-				<% if user_signed_in? and Order::Order.exists?(user_id: current_user.id, admin_furniture_furniture_id: @furniture.id, resolved: false) %>
+				<% if user_signed_in? and Order::Order.exists?(user_id: current_user.id, admin_furniture_furniture_id: @furniture.id, verified: false) %>
 					<div style='xborder: 3px solid #0088cc; padding: 10px 5px 10px 5px;'>
 						<legend style="font-size: 17px">شما قبلا این محصول را سفارش داده‌اید.</legend>
 						تا زمانی که سفارش قبلی شما در دست بررسی است، امکان سفارش مجدد این محصول برای شما موجود نیست.

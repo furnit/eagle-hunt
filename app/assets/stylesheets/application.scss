@@ -86,6 +86,8 @@ body {
     &.en * { @extend .en-font }
   }
 
+  .text-bold { font-weight: bold }
+
   .shadow-box {
     box-shadow: 0 0 10px #aaa;
     &:not(.nohover-effect):hover {
@@ -124,7 +126,12 @@ body {
     }
   }
 
-  .label { @extend .ir-font }
+  .label {
+    @extend .ir-font;
+    &.small {
+      font-size: 90%;
+    }
+  }
 
   .bootstrap-select.btn-group .filter-option,
   .dropdown-menu { @extend .ir }

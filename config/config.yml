@@ -32,6 +32,8 @@ defaults: &defaults
     price:
       round: 5000
       added_value_factor: 0.09
+      transit:
+        compute_method: max
     furniture:
       unit: 7
     sms:

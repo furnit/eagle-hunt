@@ -66,8 +66,6 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
     set_pieces = Hash[set.map {|x| [x, Admin::Selling::Config::PiecePrice.find_by(piece: x)]}]
     # if not all pieces' price not defined?
     raise RuntimeError.new("یک یا چند عدد از مشخصات ست مورد نظر، قیمت‌گذاری نشده است.") if not set_pieces.values.all?
-    # if no profit margin defined for the furniture
-    raise RuntimeError.new("profit didn't set for furniture##{self.id}") if consider_profit and self.price.nil?
     # define overall cost
     cost = 0
     # compute cost based on factors

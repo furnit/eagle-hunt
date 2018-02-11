@@ -1,7 +1,6 @@
 require_relative 'routes/config.rb'
 
 Rails.application.routes.draw do
-
   root to: 'home#index'
 
   [:category, :furniture].each do |action|
@@ -30,6 +29,7 @@ Rails.application.routes.draw do
     resources :orders do
       member do
         post :submit_simple, RC::ajax_server.merge(RC::json_request_only)
+        post :submit_advance, RC::ajax_server.merge(RC::json_request_only)
         get :simple
         get :advance
         scope :advance do

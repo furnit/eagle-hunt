@@ -1,4 +1,6 @@
 class ApiController < ApplicationController
+  include ApiHelper
+
   def ls_fabrics
     quality_id = params.require(:q)
     # limit 1 brand for each quality
@@ -57,20 +59,8 @@ class ApiController < ApplicationController
   end
 
   def transit_price
-    price    = 0
-    method   = params.require :method
-    state_id = params.require :state_id
-
-    case method.downcase.to_sym
-    when :max
-      price  = Admin::Pricing::Transit.where(state_id: state_id).pluck(:price).max
-    when :min
-      price  = Admin::Pricing::Transit.where(state_id: state_id).pluck(:price).min
-    when :place
-      price  = Admin::Pricing::Transit.where(state_id: state_id, admin_workshop_workshop_id: params.require(:workshop_id)).pluck(:price).first
-    else
-      raise RuntimeError.new("invalid method `#{method}`");
-    end
+    method = params.require :method
+    price  = ApiHelper.compute_transit_cost params.permit(:state_id, :workshop_id), method: method
 
     respond_to do |format|
       format.json { render json: { method: method, price: price.to_s.to_money }, status: :ok }

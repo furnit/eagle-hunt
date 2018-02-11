@@ -150,6 +150,10 @@ Rails.application.routes.draw do
         resources :piece_prices
         resources :days_to_completes
       end
+
+      namespace :payment do
+        resources :payments
+      end
     end
     # </selling>
 

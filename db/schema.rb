@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180211092418) do
+ActiveRecord::Schema.define(version: 20180211151202) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -354,6 +354,16 @@ ActiveRecord::Schema.define(version: 20180211092418) do
     t.datetime "updated_at",                null: false
   end
 
+  create_table "admin_selling_payment_payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "order_order_id"
+    t.float    "amount",         limit: 24
+    t.string   "trans_id"
+    t.string   "status"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["order_order_id"], name: "index_admin_selling_payment_payments_on_order_order_id", using: :btree
+  end
+
   create_table "admin_sms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "message",    limit: 65535
     t.text     "to",         limit: 65535
@@ -393,16 +403,6 @@ ActiveRecord::Schema.define(version: 20180211092418) do
     t.datetime "ceased_at"
     t.index ["state_id"], name: "index_admin_workshop_workshops_on_state_id", using: :btree
     t.index ["user_id"], name: "index_admin_workshop_workshops_on_user_id", using: :btree
-  end
-
-  create_table "const_consts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.float    "guni",       limit: 24
-    t.float    "chasb",      limit: 24
-    t.float    "sage",       limit: 24
-    t.float    "mixkub",     limit: 24
-    t.float    "extra",      limit: 24
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
   end
 
   create_table "employee_admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -525,21 +525,15 @@ ActiveRecord::Schema.define(version: 20180211092418) do
   end
 
   create_table "order_orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id",                                         null: false
-    t.integer  "admin_furniture_furniture_id",                    null: false
-    t.integer  "admin_furniture_fabric_model_id"
-    t.integer  "admin_furniture_paint_color_id"
-    t.integer  "admin_furniture_wood_type_id"
-    t.json     "set"
-    t.boolean  "is_default",                      default: false
+    t.integer  "user_id",                                      null: false
+    t.integer  "admin_furniture_furniture_id",                 null: false
+    t.json     "order_details"
+    t.boolean  "is_default",                   default: false
     t.integer  "default_id"
-    t.boolean  "resolved",                        default: false
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
-    t.index ["admin_furniture_fabric_model_id"], name: "index_order_orders_on_admin_furniture_fabric_model_id", using: :btree
+    t.boolean  "verified",                     default: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.index ["admin_furniture_furniture_id"], name: "index_order_orders_on_admin_furniture_furniture_id", using: :btree
-    t.index ["admin_furniture_paint_color_id"], name: "index_order_orders_on_admin_furniture_paint_color_id", using: :btree
-    t.index ["admin_furniture_wood_type_id"], name: "index_order_orders_on_admin_furniture_wood_type_id", using: :btree
     t.index ["default_id"], name: "index_order_orders_on_default_id", using: :btree
     t.index ["user_id"], name: "index_order_orders_on_user_id", using: :btree
   end
@@ -643,6 +637,7 @@ ActiveRecord::Schema.define(version: 20180211092418) do
   add_foreign_key "admin_selling_config_prices", "admin_furniture_paint_color_brands"
   add_foreign_key "admin_selling_config_prices", "admin_furniture_sets"
   add_foreign_key "admin_selling_config_prices", "admin_furniture_wood_types"
+  add_foreign_key "admin_selling_payment_payments", "order_orders"
   add_foreign_key "admin_workshop_workshops", "states"
   add_foreign_key "admin_workshop_workshops", "users"
   add_foreign_key "employee_fanis_furniture_build_details", "admin_furniture_build_details", on_update: :cascade, on_delete: :cascade
@@ -651,10 +646,7 @@ ActiveRecord::Schema.define(version: 20180211092418) do
   add_foreign_key "employee_processeds", "admin_furniture_furnitures", column: "admin_furniture_id"
   add_foreign_key "employee_processeds", "users"
   add_foreign_key "notify_on_furniture_availables", "admin_furniture_furnitures", column: "admin_furniture_id", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "order_orders", "admin_furniture_fabric_models"
   add_foreign_key "order_orders", "admin_furniture_furnitures"
-  add_foreign_key "order_orders", "admin_furniture_paint_colors"
-  add_foreign_key "order_orders", "admin_furniture_wood_types"
   add_foreign_key "order_orders", "users"
   add_foreign_key "profiles", "states"
   add_foreign_key "profiles", "users", on_update: :cascade, on_delete: :cascade

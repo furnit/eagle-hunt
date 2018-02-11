@@ -1,4 +1,7 @@
 class Order::OrdersController < ApplicationController
+  # for computing transit cost
+  include ApiHelper
+
   before_action :authenticate_user!, except: [:new]
   before_action :prepare_for_order, only: [:new, :simple, :advance]
   before_action :set_order_order, only: [:show, :edit, :update, :destroy]
@@ -122,20 +125,44 @@ class Order::OrdersController < ApplicationController
     furniture = Admin::Furniture::Furniture.find(pars[:admin_furniture_furniture_id]);
     # flag it if not available
     raise ClientError.new('این محصول قابل سفارش نمی‌باشد.') if not furniture.available
-    # cannot order with an un-resolved order pending
-    raise ClientError.new('این محصول را قبلا سفارش داده‌اید و در دست بررسی قرار دارد و تا زمانی که این محصول در دست بررسی قرار دارد امکان سفارش مجدد آن وجود ندارد.') if Order::Order.exists?(user_id: current_user.id, admin_furniture_furniture_id: furniture.id, resolved: false)
+    # cannot order with an un-verified order pending
+    raise ClientError.new('این محصول را قبلا سفارش داده‌اید و در دست بررسی قرار دارد و تا زمانی که این محصول در دست بررسی قرار دارد امکان سفارش مجدد آن وجود ندارد.') if Order::Order.exists?(user_id: current_user.id, admin_furniture_furniture_id: furniture.id, verified: false)
     # check if selected exists in the furniture's images
     is_related = furniture.images.map { |i| i[:id] == pars[:selected_model].to_i }.any?
     # raise error if data are not valid
     raise RuntimeError.new('sent data are not valid.') if not is_related
     # add the order
-    Order::Order.create!(user_id: current_user.id, admin_furniture_furniture_id: furniture.id, is_default: true, default_id: pars[:selected_model], resolved: false)
+    Order::Order.create!(user_id: current_user.id, admin_furniture_furniture_id: furniture.id, is_default: true, default_id: pars[:selected_model], verified: false)
     # provide proper respond
     @title = 'سفارش ثبت و در صف بررسی قرار گرفت!'
     @body = 'به زودی از همکاران ما تماسی جهت تکمیل سفارش دریافت خواهید کرد.'
 
     respond_to do |format|
       format.json { render json: { title: @title, body: @body }, status: :ok }
+    end
+
+  rescue ClientError => e
+    respond_to do |format|
+      format.json { render json: { title: 'خطا در سفارش!', body: e.message }, status: :unprocessable_entity }
+    end
+  end
+
+  def submit_advance
+    addresses = params.require([:state_id, :address])
+    transit_cost  = ApiHelper.compute_transit_cost params.permit(:state_id, :workshop_id), method: AppConfig.preference.price.transit.compute_method
+    # create new order instance
+    order = Order::Order.new(user: current_user, admin_furniture_furniture_id: session[:order][:furniture].id, order_details: session[:order], state: addresses.first, address: addresses.last, is_default: 0, verified: 0)
+    # if order couldn't be saved
+    if not order.save
+      respond_to do |format|
+        format.json { render json: order.errors, status: :unprocessable_entity }
+      end
+    end
+    payment = Admin::Selling::Payment::Payment.new(order: order, amount: session[:order][:final][:pricing][:total_price] + transit_cost)
+    byebug
+
+    respond_to do |format|
+      format.json { render json: { }, status: :ok }
     end
 
   rescue ClientError => e
@@ -228,10 +255,7 @@ class Order::OrdersController < ApplicationController
     end
 
     def advance_step6
-      @prices = {
-        price: session[:order][:final][:pricing][:total_price].to_i,
-        added_value: (session[:order][:final][:pricing][:total_price] * 0.09).to_i
-      }
+      @cost = session[:order][:final][:pricing][:total_price].to_i;
     end
 
   private
