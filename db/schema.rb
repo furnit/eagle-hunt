@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180210153821) do
+ActiveRecord::Schema.define(version: 20180211092418) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -331,11 +331,11 @@ ActiveRecord::Schema.define(version: 20180210153821) do
     t.integer  "admin_furniture_fabric_brand_id"
     t.integer  "admin_furniture_paint_color_brand_id"
     t.integer  "admin_furniture_wood_type_id"
-    t.float    "overall_cost",                         limit: 24
     t.datetime "created_at",                                                    null: false
     t.datetime "updated_at",                                                    null: false
     t.integer  "admin_furniture_set_id"
     t.float    "profit",                               limit: 24, default: 0.0
+    t.json     "cost_details"
     t.index ["admin_furniture_fabric_brand_id"], name: "index_config_price_fabric", using: :btree
     t.index ["admin_furniture_furniture_id"], name: "index_config_price_furniture", using: :btree
     t.index ["admin_furniture_paint_color_brand_id"], name: "index_config_price_paint_color", using: :btree

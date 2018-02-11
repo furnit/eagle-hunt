@@ -1,4 +1,4 @@
-<%= 
+<%=
   render 'admin/shared/index',
     title: "لیست #{t("activerecord.models.#{@admin_workshops.model_name.i18n_key}")}",
     editable_content: false,
@@ -14,7 +14,7 @@
       'نام کارگاه': { style: 'width: 130px' },
       'استان': { style: 'width: 130px' },
       'آدرسی': { },
-      'عملیات': { style: 'width: 200px' }
+      'عملیات': { style: 'width: 250px' }
     },
     table_body: lambda {
 %>
@@ -35,5 +35,5 @@
       </td>
     </tr>
   <% end %>
-      
+
 <% } %>

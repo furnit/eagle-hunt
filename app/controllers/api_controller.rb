@@ -57,12 +57,23 @@ class ApiController < ApplicationController
   end
 
   def transit_price
+    price    = 0
+    method   = params.require :method
     state_id = params.require :state_id
 
-    price    = Admin::Pricing::Transit.where(state_id: state_id).pluck(:price).max
+    case method.downcase.to_sym
+    when :max
+      price  = Admin::Pricing::Transit.where(state_id: state_id).pluck(:price).max
+    when :min
+      price  = Admin::Pricing::Transit.where(state_id: state_id).pluck(:price).min
+    when :place
+      price  = Admin::Pricing::Transit.where(state_id: state_id, admin_workshop_workshop_id: params.require(:workshop_id)).pluck(:price).first
+    else
+      raise RuntimeError.new("invalid method `#{method}`");
+    end
 
     respond_to do |format|
-      format.json { render json: { price: price }, status: :ok }
+      format.json { render json: { method: method, price: price.to_s.to_money }, status: :ok }
     end
   end
 

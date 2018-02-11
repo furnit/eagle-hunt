@@ -31,6 +31,7 @@ defaults: &defaults
   preference:
     price:
       round: 5000
+      added_value_factor: 0.09
     furniture:
       unit: 7
     sms:

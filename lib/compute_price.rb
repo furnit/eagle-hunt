@@ -1,5 +1,5 @@
 module ComputePrice
-  def self.execute furniture, set:, fabric_brand_id: nil, wood_type_id: nil, paint_color_brand_id: nil
+  def self.execute furniture, set:, profit_margin:, fabric_brand_id: nil, wood_type_id: nil, paint_color_brand_id: nil
     # consider same fabric brand for all part of furniture
     fabric = Admin::Pricing::Fabric.find_by(admin_furniture_fabric_brand_id: fabric_brand_id)
     # get all factors together
@@ -15,6 +15,6 @@ module ComputePrice
       wood: Admin::Pricing::Wood.find_by(admin_furniture_wood_type_id: wood_type_id),
       kalaf: Admin::Pricing::Kalaf.last
     }
-    furniture.compute_price factors: factors, set: set
+    furniture.compute_price factors: factors, set: set, profit_margin: profit_margin
   end
 end

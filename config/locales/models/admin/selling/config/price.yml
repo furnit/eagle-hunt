@@ -14,11 +14,11 @@ fa:
       models:
         admin/selling/config/price:
           attributes:
-            overall_cost:
+            cost_details:
               blank: 'نمیتواند خالی باشد.'
               invalid: 'نامعتبر می‌باشد.'
               not_a_number: باید مقداری عددی باشد.
-              greater_than: باید دارای مقدار بزرگتر از صفر باشد.
+              greater_or_equal_than: باید دارای مقدار بزرگتر از صفر باشد.
             wood:
               blank: نمیتواند خالی باشد.
             fabric_brand:

@@ -11,9 +11,9 @@ class Admin::Pricing::ComputesController < Admin::AdminbaseController
     # return if no workable info defined?
     return if not admin_pricing_compute_params.select { |k| [:fabric_brand_id, :paint_color_brand_id, :wood_type_id].include? k.to_sym }.values.map(&:numeric?).any?
     # compute the cost
-    cost = ComputePrice.execute(@furniture, set: @set, **admin_pricing_compute_params.to_h.symbolize_keys.select { |k| [:fabric_brand_id, :paint_color_brand_id, :wood_type_id].include? k })
+    cost_details = ComputePrice.execute(@furniture, set: @set, profit_margin: admin_pricing_compute_params[:profit].to_f, **admin_pricing_compute_params.to_h.symbolize_keys.select { |k| [:fabric_brand_id, :paint_color_brand_id, :wood_type_id].include? k })
     # respond the cost
-    respond_with_success cost.to_i, admin_pricing_compute_params[:profit].to_f
+    respond_with_success cost_details
     # if anything occured
   rescue ClientError => e
     respond_with_error e.message
@@ -52,9 +52,9 @@ class Admin::Pricing::ComputesController < Admin::AdminbaseController
         format.json { render json: { status: :error, message: message }, status: :unprocessable_entity }
       end
     end
-    def respond_with_success cost, profit
+    def respond_with_success cost_details
       respond_to do |format|
-        format.json { render json: { status: :ok, cost: cost.to_s.to_money, profit: (cost * profit).to_i.to_s.to_money, overall: ((1 + profit) * cost).to_i.to_s.to_money, hash: get_hash(cost) }, status: :ok }
+        format.json { render json: { status: :ok, details: cost_details, hash: get_hash(cost_details[:cost]) }, status: :ok }
       end
     end
 end

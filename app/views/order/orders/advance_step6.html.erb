@@ -22,33 +22,65 @@
 		</div>
 	</div>
 	<hr />
-	<legend><span class="far fa-credit-card"></span> <strong>فاکتور:</strong></legend>
+	<legend><span class="fa fa-credit-card"></span> <strong>فاکتور:</strong></legend>
 	<div class="row" style="margin: auto 20px">
-		<table class="table table-striped">
+		<table class="table">
 			<tbody>
 				<tr>
-					<td>هزینه‌ی سفارش</td>
-					<td style="font-weight: bold"><%= @prices[:price].to_s.to_money %> تومان</td>
+					<td><span class="fa fa-shopping-cart"></span> هزینه‌ی سفارش</td>
+					<td class="cost" data-cost="<%= @prices[:price] %>" style="font-weight: bold"><%= @prices[:price].to_s.to_money %> تومان</td>
 				</tr>
+				<% if false %>
+					<tr>
+						<td>مالیات بر ارزش افزوده (۹٪)</td>
+						<td class="cost" data-cost="<%= @prices[:added_value] %>" style="font-weight: bold"><%= @prices[:added_value].to_s.to_money %> تومان</td>
+					</tr>
+				<% end %>
 				<tr>
-					<td>مالیات بر ارزش افزوده (۹٪)</td>
-					<td style="font-weight: bold"><%= @prices[:added_value].to_s.to_money %> تومان</td>
+					<td><span class="fa fa-truck"></span> هزینه‌ی ارسال</td>
+					<td class="cost" id="transit-cost" style="font-weight: bold">. تومان</td>
 				</tr>
-				<tr>
-					<td>هزینه‌ی ارسال</td>
-					<td id="transit-cost" style="font-weight: bold"><%= Admin::Pricing::Transit.where(state_id: current_user.profile.state_id).pluck(:price).max.to_i.to_s.to_money %> تومان</td>
-				</tr>
-				<tr class="footer" style="font-weight: bold">
-					<td>مجموع:</td>
-					<td><%= @prices.values.sum.to_i.to_s.to_money %> تومان</td>
+				<tr class="footer bg-success" style="font-weight: bold;">
+					<td><span class="fa fa-plus"></span> مجموع:</td>
+					<td id="sumup-cost"><%= @prices.values.sum.to_i.to_s.to_money %> تومان</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 </div>
 
+<%= render 'order/orders/shared/nav', next_text: '<span class="fa fa-money" style="margin-top: 3px"></span> <b> پرداخت مبلغ سفارش</b>', next_class: 'btn-success' %>
+
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-
+		var get_transit_price = function(state_id, callback, method, on_error) {
+			if(typeof method === "undefined") method = "max"
+			$.ajax({
+				method: "post",
+				url: "<%= transit_price_api_index_path %>",
+				data: { method: method, state_id: state_id },
+				success: callback,
+				error: on_error
+			})
+		}
+		$("#step6 select[name='order[state_id]']").change(function() {
+			$("#transit-cost, #sumup-cost").html("<span class='fa fa-spinner fa-spin'></span>")
+			get_transit_price(
+				this.value,
+				function(data) {
+					$("#transit-cost")
+						.attr("data-cost", data.price.toString().replace(",", ""))
+						.html(data.price + " تومان");
+					var cost = 0;
+					$(".cost[data-cost]").each(function(){ cost += parseInt($(this).attr("data-cost")); });
+					$("#sumup-cost").html(cost.toString().replace(/./g, function(c, i, a) {
+					    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+					}) + " تومان")
+				},
+				"max",
+				function() {
+					$("#transit-cost, #sumup-cost").html("<span class='label label-danger' style='font-size: 17px'>خطا!</span>")
+				})
+		}).change()
 	});
 </script>

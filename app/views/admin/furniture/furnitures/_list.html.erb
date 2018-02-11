@@ -74,7 +74,7 @@
       <td>
         <%= editable_tag f, :comment, type: :textarea, placement: :bottom, 'allow-empty': true, text: f.comment.blank? ? "«توضیحی ثبت نشده است.»" : f.comment %>
       </td>
-      <td><label class="label label-<%= (price <= 0 or not(f.available)) ? "warning" : "success" %>" <%= raw (not(f.available) ? "data-toggle='tooltip' title='غیر‌قابل سفارش'" : "") %>><%= price <= 0 ? "قیمت‌گذاری نشده است." : price.to_s.to_money %></label></td>
+      <td><label class="label label-<%= (price[:overall] <= 0 or not(f.available)) ? "warning" : "success" %>" style="font-size: 90%" <%= raw (not(f.available) ? "data-toggle='tooltip' title='غیر‌قابل سفارش'" : "") %>><%= price[:overall] <= 0 ? "قیمت‌گذاری نشده است." : price[:overall].to_s.to_money %></label></td>
       <td class='datetime' data-date='<%= f.updated_at %>'></td>
       <td>
         <% acu_as :admin do %>
@@ -141,7 +141,7 @@
 	$(document).ready(function(){
 		function append2gallery() {
 			$('.photo-gallery-collection-incomplete a[data-source]').unbind('append2gallery').bind('append2gallery', function(e, data, index, gallery) {
-				link = 
+				link =
 				'<%= link_to "{0}", data: { index: "{1}", thumb: "{2}", cover: "{3}", "cover-url": cover_admin_furniture_furniture_path("{4}", format: :json) } do %>\
 					<%= image_tag "{2}", :class => "cover-item img-responsive img-thumbnail", style: "height: 40px; width: 70px" %>\
 				<% end %>'

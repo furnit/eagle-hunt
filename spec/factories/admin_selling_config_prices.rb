@@ -6,6 +6,6 @@ FactoryGirl.define do
     association :paint_color, factory: :admin_furniture_paint_color_brand
     association :set, factory: :admin_furniture_set
 
-    overall_cost { 1e+7 * rand }
+    cost_details { { _attr: 1 } }
   end
 end

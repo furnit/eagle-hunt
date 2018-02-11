@@ -20,6 +20,11 @@ function alert_error(msg, callback) {
 function alert_success(title, msg, callback) {
 	bootbox.alert({title: '<span class="text-success"><span class="fa fa-check"></span> ' + title.toString() + '</span>', message: msg, callback: callback});
 }
+function to_money(number) {
+	return number.toString().replace(/./g, function(c, i, a) {
+    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+	});
+}
 // things should be applied to documents
 function apply_to_doms() {
   // make remote form validatable

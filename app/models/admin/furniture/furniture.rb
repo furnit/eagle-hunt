@@ -25,7 +25,7 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
       self[:available] = val
     else
       raise ClientError.new('این محصول دارای عکس‌ نمی‌باشد، لذا قابلیت سفارش‌گیری از آن وجود ندارد.') if self.images.empty?
-      raise ClientError.new('داده‌های مالی یا فنی لازم جهت قابل سفارش شدن این محصول وجود ندارد.') if [self[:has_unconfirmed_data], not(self[:ready_for_pricing]), self.cost? <= 0].any?
+      raise ClientError.new('داده‌های مالی یا فنی لازم جهت قابل سفارش شدن این محصول وجود ندارد.') if [self[:has_unconfirmed_data], not(self[:ready_for_pricing]), self.cost?[:overall].to_i <= 0].any?
       self[:available] = val
     end
   end
@@ -41,12 +41,27 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
   def cost?
     _profit = nil
     _price  = self.price
-    _profit = self.price.profit if not self.price.nil?
-    return 0 if [_profit.nil?, _price.nil?, (_price and _price.overall_cost.nil?), not(self.ready_for_pricing)].any?
-    ((1 + (_profit / 100.0)) * _price.overall_cost).to_i
+    # return 0 valued for output
+    return build_cost_details(cost: 0, profit: 0) if _price.nil? or [_price.cost_details.nil?, _price.nil?, not(self.ready_for_pricing)].any?
+    # return the details
+    return _price.cost_details.with_indifferent_access
   end
 
-  def compute_price factors:, set:, consider_profit: false
+  def build_cost_details cost:, profit:
+    # build price details, cost/profit
+    details = {
+      cost: cost.to_i,
+      profit: (cost * profit).to_i,
+    }
+    # compute added value
+    details[:added_value] = ((details[:cost] + details[:profit]) * AppConfig.preference.price.added_value_factor).to_i
+    # overall price
+    details[:overall] = details.values.sum.to_i
+    # return built details
+    return details.with_indifferent_access
+  end
+
+  def compute_price factors:, set:, profit_margin: 0
     # get all pieces together
     set_pieces = Hash[set.map {|x| [x, Admin::Selling::Config::PiecePrice.find_by(piece: x)]}]
     # if not all pieces' price not defined?
@@ -59,10 +74,8 @@ class Admin::Furniture::Furniture < Admin::Uploader::Image
     base_cost = self.compute_cost **factors
     # compute overall cost
     set.each { |s| cost += (base_cost * set_pieces[s].percentage) }
-    # return cost w.o profit margin
-    return cost.to_i if not consider_profit
-    # return cost with profit margin taken into consideration
-    return (cost * (1 + (self.price.profit / 100.0))).to_i
+    # return details if detail output required
+    return build_cost_details cost: cost, profit: profit_margin
   end
 
   def compute_cost const: nil, fabrics: nil, paint_color: nil, paint_astar_rouye: nil, wood: nil, kalaf: nil

@@ -1,7 +1,7 @@
 class Admin::Selling::Config::PricesController < Admin::AdminbaseController
   before_action :validate_params, only: [:update]
   before_action :set_admin_selling_config_price, only: [:show, :edit, :update, :destroy]
-  before_action :set_editional_data, only: [:new, :edit]
+  before_action :set_editional_data, only: [:new, :edit, :create, :update]
 
   # GET /admin/selling/config/prices
   # GET /admin/selling/config/prices.json
@@ -46,9 +46,9 @@ class Admin::Selling::Config::PricesController < Admin::AdminbaseController
   # PATCH/PUT /admin/selling/config/prices/1
   # PATCH/PUT /admin/selling/config/prices/1.json
   def update
-    overall_cost = ComputePrice.execute(@furniture, set: @set, **compute_price_params)
+    cost_details = ComputePrice.execute(@furniture, set: @set, profit_margin: (admin_selling_config_price_params[:profit].to_f / 100), **compute_price_params)
     respond_to do |format|
-      if @admin_selling_config_price.update(admin_selling_config_price_params.to_h.merge({ overall_cost: overall_cost }))
+      if @admin_selling_config_price.update(admin_selling_config_price_params.to_h.merge({ cost_details: cost_details }))
         @furniture.update_attributes(available: true)
         format.html { redirect_to admin_furniture_furnitures_path, notice: mk_notice(@admin_selling_config_price, @furniture.name, 'تنظیمات قیمت‌گذاری', :update) }
         format.json { render json: @admin_selling_config_price, status: :ok, location: admin_furniture_furnitures_path }

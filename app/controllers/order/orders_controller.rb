@@ -203,6 +203,7 @@ class Order::OrdersController < ApplicationController
           @data[3][:wood_color_weight] = Admin::Furniture::Wood::ColorWeight.find(pars[:wood_color_weight_id])
         when 4
           # pass; do nothing
+          @data[4][:extra_cushin] ||= 0
         end
       end
       factors = factors.merge({
@@ -213,15 +214,15 @@ class Order::OrdersController < ApplicationController
         kalaf: Admin::Pricing::Kalaf.last
       })
       # compute price with it's profit margin considered
-      @cost = @furniture.compute_price factors: factors, set: @data[1][:config], consider_profit: true
+      @cost = @furniture.compute_price factors: factors, set: @data[1][:config], profit_margin: (@furniture.price.profit / 100.0)
       # add extra cushin prices
-      @cost += @data[4][:extra_cushin].to_i * factors[:const][:cushin]
+      @cost[:overall] += @data[4][:extra_cushin].to_i * factors[:const][:cushin]
       # store the computed price and processed history to the session
       session[:order][:final] = {
         data: @data,
         pricing: {
           factors: factors,
-          total_price: @cost
+          total_price: @cost[:overall]
         }
       }
     end

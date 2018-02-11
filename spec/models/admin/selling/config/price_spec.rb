@@ -3,24 +3,26 @@ require 'rails_helper'
 RSpec.describe Admin::Selling::Config::Price, type: :model do
   subject { build :admin_selling_config_price }
 
-  describe "#overall_cost" do
+  describe "#cost_details" do
     it "is optional" do
-      subject.overall_cost = nil
-      expect(subject).to be_valid_on :overall_cost
+      subject.cost_details = nil
+      expect(subject).to be_valid_on :cost_details
     end
 
     context "when is zero" do
       it "is valid" do
-        subject.overall_cost = 1
-        expect(subject).to be_valid_on :overall_cost
+        (0..1).each do |i|
+          subject.cost_details = { _attr: i }
+          expect(subject).to be_valid_on :cost_details
+        end
       end
     end
 
     context "when is negative" do
       it "is not valid" do
-        (-1..0).each do |i|
-          subject.overall_cost = i
-          expect(subject).to have_errors_on :overall_cost, errors: :greater_than
+        (-2..-1).each do |i|
+          subject.cost_details = { _attr: i }
+          expect(subject).to have_errors_on :cost_details, errors: :greater_or_equal_than
         end
       end
     end

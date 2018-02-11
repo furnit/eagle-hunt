@@ -38,15 +38,19 @@
 					<tbody>
 						<tr>
 							<td>هزینه‌ی ساخت:</td>
-							<td><span class="label label-success ir-font" id="build-cost"><%= @furniture.price.overall_cost.to_i.to_s.to_money %></span> <b>تومان</b></td>
+							<td><span class="label label-success ir-font" id="build-cost"><%= @furniture.cost?[:cost].to_i.to_s.to_money %></span> <b>تومان</b></td>
 						</tr>
 						<tr>
 							<td>میزان سود:</td>
-							<td><span class="label label-success ir-font" id="overall-profit"><%= (@furniture.cost? - @furniture.price.overall_cost).to_i.to_s.to_money %></span> <b>تومان</b></td>
+							<td><span class="label label-success ir-font" id="overall-profit"><%= @furniture.cost?[:profit].to_i.to_s.to_money %></span> <b>تومان</b></td>
+						</tr>
+						<tr>
+							<td>ارزش افزوده (<%= (AppConfig.preference.price.added_value_factor * 100).to_i %>%)</td>
+							<td><span class="label label-success ir-font" id="overall-added-value"><%= @furniture.cost?[:added_value].to_i.to_s.to_money %></span> <b>تومان</b></td>
 						</tr>
 						<tr>
 							<td><strong>مجموع:</strong></td>
-							<td><span class="label label-success ir-font" id="overall-price"><%= @furniture.cost?.to_s.to_money %></span> <b>تومان</b></td>
+							<td><span class="label label-success ir-font" id="overall-price"><%= @furniture.cost?[:overall].to_i.to_s.to_money %></span> <b>تومان</b></td>
 						</tr>
 					</tbody>
 				</table>
@@ -82,9 +86,10 @@
 					success: function(data) {
 						if(data !== undefined) {
 							$("#computed-price #error-block").slideUp();
-							$("#computed-price > #price #build-cost").html(data.cost);
-							$("#computed-price > #price #overall-profit").html(data.profit);
-							$("#computed-price > #price #overall-price").html(data.overall);
+							$("#computed-price > #price #build-cost").html(to_money(data.details.cost));
+							$("#computed-price > #price #overall-profit").html(to_money(data.details.profit));
+							$("#computed-price > #price #overall-added-value").html(to_money(data.details.added_value));
+							$("#computed-price > #price #overall-price").html(to_money(data.details.overall));
 						}
 					},
 					error: function(data) {
@@ -96,7 +101,7 @@
 					if($("#computed-price > #price .fa-spinner").length > 0)
 						$("#computed-price > #price .label").html("0");
 				});
-			})
+			}).change();
 		});
 	</script>
 <% else %>
