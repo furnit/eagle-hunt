@@ -151,27 +151,76 @@ class Order::OrdersController < ApplicationController
     addresses = params.require([:state_id, :address])
     transit_cost  = ApiHelper.compute_transit_cost params.permit(:state_id, :workshop_id), method: AppConfig.preference.price.transit.compute_method
     # create new order instance
-    order = Order::Order.new(user: current_user, admin_furniture_furniture_id: session[:order][:furniture].id, order_details: session[:order], state: addresses.first, address: addresses.last, is_default: 0, verified: 0)
+    order = Order::Order.new \
+              user: current_user,
+              furniture: session[:order][:furniture],
+              order_details: session[:order],
+              state: State.find(addresses.first),
+              address: addresses.last,
+              is_default: 0,
+              verified: 0
     # if order couldn't be saved
     if not order.save
       respond_to do |format|
         format.json { render json: order.errors, status: :unprocessable_entity }
+        return
       end
     end
-    payment = Admin::Selling::Payment::Payment.new(order: order, amount: session[:order][:final][:pricing][:total_price] + transit_cost)
-    byebug
 
-    respond_to do |format|
-      format.json { render json: { }, status: :ok }
+    # create payment instance
+    payment = Admin::Selling::Payment::Payment.new \
+                order: order,
+                amount: session[:order][:final][:pricing][:total_price] + transit_cost
+
+    trans = get_transaction_getaway order.id, payment.amount
+
+    # record the status code
+    payment.status = trans[:code]
+    # record the transaction id
+    payment.trans_id = trans[:trans_id]
+
+    # if payment couldn't be saved
+    if not payment.save
+      respond_to do |format|
+        format.json { render json: payment.errors, status: :unprocessable_entity }
+        return
+      end
     end
 
-  rescue ClientError => e
+    if trans[:code] != -1
+      # an error occourd in transaction procedure!
+      # notify the user and record it!
+      byebug
+      return
+    end
+
     respond_to do |format|
-      format.json { render json: { title: 'خطا در سفارش!', body: e.message }, status: :unprocessable_entity }
+      format.json { render json: { trans_id: trans[:trans_id], code: trans[:code] }, status: :ok, location: "#{AppConfig.nextpay.payment_uri}/#{trans[:trans_id]}" }
     end
   end
 
+  def payment_callback
+    byebug
+  end
+
   protected
+
+    def get_transaction_getaway order_id, amount
+      config = AppConfig.nextpay;
+      uri = URI.parse(config.curl_uri)
+      uri.query = URI.encode_www_form({
+        api_key: config.api_key,
+        order_id: order_id,
+        amount: amount.to_i,
+        callback_uri: "#{AppConfig.domain}/#{config.callback_uri}"
+      })
+      res = Net::HTTP.get_response uri
+      eval(res.body)
+
+    rescue SocketError => e
+      raise ClientError.new("خطا در برقراری ارتباط با درگاه بانکی، لطفا دوباره تلاش کنید.")
+    end
+
     def advance_step1
       @default_sets = Admin::Furniture::Set.all
       @defined_pieces = Admin::Furniture::Piece.all

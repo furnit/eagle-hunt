@@ -82,10 +82,18 @@
 				method: "post",
 				url: "<%= submit_advance_order_order_path %>",
 				data: { state_id: $("#step6 select[name='order[state_id]']").val(), address: $("textarea[name='address']").val() },
-				success: function(data) {
-					console.log(data)
+				success: function(data, status, xhr) {
+			  	// redirect if any redirection header specified
+			  	if(xhr.getResponseHeader('Location')) {
+			  		// remove the on-reload alert
+			  		window.onbeforeunload = undefined
+			  		// relocate to the bank's gateaway
+			  		window.location = xhr.getResponseHeader('Location');
+		  		}
+		  		else
+		  			alert_error("خطا در ارتباط با درگاه پرداخت؛ لطفا هرچه سریع‌تر با بخش پشتیبانی سایت تماس حاصل نماید!")
 				}
-			});
+			})
 		});
 	});
 </script>

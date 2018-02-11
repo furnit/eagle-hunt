@@ -14,6 +14,13 @@ defaults: &defaults
       send_expiration: 10.minutes
       confirmed_expiration: 30.minutes
 
+  nextpay:
+    api_key: 9ade3494-bc47-49a6-a13e-08914d699704
+    curl_uri: https://api.nextpay.org/gateway/token.http
+    soap_uri: https://api.nextpay.org/gateway/token.wsdl
+    payment_uri: https://api.nextpay.org/gateway/payment
+    callback_uri: /payment/callback
+
   sms_api:
     sms_ir:
       username: <%= ENV['SMS_API_USERNAME'] %>

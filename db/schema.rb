@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180211151202) do
+ActiveRecord::Schema.define(version: 20180211152131) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -525,16 +525,19 @@ ActiveRecord::Schema.define(version: 20180211151202) do
   end
 
   create_table "order_orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id",                                      null: false
-    t.integer  "admin_furniture_furniture_id",                 null: false
+    t.integer  "user_id",                                                    null: false
+    t.integer  "admin_furniture_furniture_id",                               null: false
     t.json     "order_details"
-    t.boolean  "is_default",                   default: false
+    t.boolean  "is_default",                                 default: false
     t.integer  "default_id"
-    t.boolean  "verified",                     default: false
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.boolean  "verified",                                   default: false
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
+    t.text     "address",                      limit: 65535,                 null: false
+    t.integer  "state_id",                                                   null: false
     t.index ["admin_furniture_furniture_id"], name: "index_order_orders_on_admin_furniture_furniture_id", using: :btree
     t.index ["default_id"], name: "index_order_orders_on_default_id", using: :btree
+    t.index ["state_id"], name: "index_order_orders_on_state_id", using: :btree
     t.index ["user_id"], name: "index_order_orders_on_user_id", using: :btree
   end
 
@@ -647,6 +650,7 @@ ActiveRecord::Schema.define(version: 20180211151202) do
   add_foreign_key "employee_processeds", "users"
   add_foreign_key "notify_on_furniture_availables", "admin_furniture_furnitures", column: "admin_furniture_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "order_orders", "admin_furniture_furnitures"
+  add_foreign_key "order_orders", "states"
   add_foreign_key "order_orders", "users"
   add_foreign_key "profiles", "states"
   add_foreign_key "profiles", "users", on_update: :cascade, on_delete: :cascade
