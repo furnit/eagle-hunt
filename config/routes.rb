@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   end
 
   post 'furniture/notify', to: 'home#furniture_notify', as: 'home_furniture_notify', **RC::json_request_only.merge({constraints: lambda { |request| request.xhr? }})
-  post '/payment/callback', to: 'order/orders#payment_callback', as: 'payment_callback'
 
   get 'contact/us/:section', to: 'home#contactus', as: 'contact_us'
 
@@ -23,6 +22,13 @@ Rails.application.routes.draw do
       post :ls_fabrics, RC::ajax_server.merge(RC::json_request_only)
       post :transit_price, RC::ajax_server.merge(RC::json_request_only)
       post :ls_fabric_models, RC::ajax_server.merge(RC::json_request_only)
+      # get  :payment_test
+      # post :payment_callback
+      scope :payment do
+        get :test,      action: :payment_test, as: :payment_test
+        post :callback, action: :payment_callback, as: :payment_callback
+        post :test_callback, action: :payment_test_callback, as: :payment_test_callback
+      end
     end
   end
 

@@ -204,23 +204,6 @@ class Order::OrdersController < ApplicationController
   end
 
   protected
-
-    def get_transaction_getaway order_id, amount
-      config = AppConfig.nextpay;
-      uri = URI.parse(config.curl_uri)
-      uri.query = URI.encode_www_form({
-        api_key: config.api_key,
-        order_id: order_id,
-        amount: amount.to_i,
-        callback_uri: "#{AppConfig.domain}/#{config.callback_uri}"
-      })
-      res = Net::HTTP.get_response uri
-      eval(res.body)
-
-    rescue SocketError => e
-      raise ClientError.new("خطا در برقراری ارتباط با درگاه بانکی، لطفا دوباره تلاش کنید.")
-    end
-
     def advance_step1
       @default_sets = Admin::Furniture::Set.all
       @defined_pieces = Admin::Furniture::Piece.all

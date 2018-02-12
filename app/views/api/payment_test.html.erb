@@ -1,0 +1,16 @@
+<div class="container">
+	<div class="text-center" style="min-height: 100px; border: 1px solid #ddd; padding: 35px; margin: 30px">
+		<%= raw @message %>
+		<div class="clearfix"></div>
+	</div>
+</div>
+
+<% if not @trans.nil? %>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		setTimeout(function() {
+			window.location = "<%= @trans[:payment_uri] %>";
+		}, 3000)
+	})
+</script>
+<% end %>

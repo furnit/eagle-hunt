@@ -5,6 +5,7 @@
   'lib/compute_price',
   'lib/utilities',
   'lib/curl',
+  'lib/transaction',
 ]
 .each do |file|
   require Rails.root.join(file)

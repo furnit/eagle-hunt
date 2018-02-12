@@ -16,7 +16,10 @@ Acu::Rules.define do
   end
 
   # employees are those who are members and not (:ADMIN or :CLIENT)
-  whois :employee, args: [:user] { |user| user and user.type && not([:ADMIN, :CLIENT].include? user.type.symbol.to_sym) }
+  whois :employee,  args: [:user] { |user| not(acu_is?([:admin, :client])) }
+
+  # non-admin entities
+  whois :non_admin, args: [:user] { |user| not(acu_is?(:admin)) }
 
   # by default admin can go everywhere
   allow :admin
@@ -35,6 +38,9 @@ Acu::Rules.define do
     controller :profiles do
       deny :everyone, on: [:destroy]
       allow :signed_in
+    end
+    controller :api do
+      deny :non_admin, on: [:payment_test]
     end
   end
 

@@ -16,10 +16,12 @@ defaults: &defaults
 
   nextpay:
     api_key: 9ade3494-bc47-49a6-a13e-08914d699704
-    curl_uri: https://api.nextpay.org/gateway/token.http
-    soap_uri: https://api.nextpay.org/gateway/token.wsdl
+    curl_token_uri: https://api.nextpay.org/gateway/token.http
+    curl_verify_uri: https://api.nextpay.org/gateway/verify.http
+    soap_token_uri: https://api.nextpay.org/gateway/token.wsdl
+    soap_verify_uri: https://api.nextpay.org/gateway/verify.wsdl
     payment_uri: https://api.nextpay.org/gateway/payment
-    callback_uri: /payment/callback
+    callback_uri: /api/payment/callback
 
   sms_api:
     sms_ir:

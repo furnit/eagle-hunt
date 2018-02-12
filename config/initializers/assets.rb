@@ -10,7 +10,6 @@ Rails.application.config.assets.version = '1.0'
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 
 # precompile directories
-
 %w(
   three.js
   photoswipe
@@ -24,6 +23,18 @@ Rails.application.config.assets.version = '1.0'
   image_upload
 ).each do |directory|
   Rails.application.config.assets.precompile += [ "#{directory}/*.js", "#{directory}/*.css", "#{directory}/*.coffee" ]
+end
+
+# Controller related files to pre-compile
+%w(
+  api
+  home
+  registrations
+  sessions
+  profiles
+  shopping_carts
+).each do |controller|
+  Rails.application.config.assets.precompile += [ "#{controller}.coffee", "#{controller}.js", "#{controller}.css", "#{controller}.scss" ]
 end
 
 # Rails.application.config.assets.precompile += [ "3d-models/furniture/*.obj", "3d-models/furn/iture/*.mtl" ]
@@ -56,14 +67,3 @@ Rails.application.config.assets.precompile += [
   '*.ico',
   '*.icon'
 ]
-
-# Controller related files to pre-compile
-%w(
-  home
-  registrations
-  sessions
-  profiles
-  shopping_carts
-).each do |controller|
-  Rails.application.config.assets.precompile += [ "#{controller}.coffee", "#{controller}.js", "#{controller}.css", "#{controller}.scss" ]
-end

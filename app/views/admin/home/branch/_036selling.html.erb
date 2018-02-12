@@ -9,7 +9,13 @@
       		{ label: 'نسبت قیمت‌‌های محصولات تکی', link: admin_selling_config_piece_prices_path },
       		{ label: 'زمان مازاد تکمیل سفارش', link: admin_selling_config_days_to_completes_path },
       	]
-			}
+			},
+			{
+				title: 'پرداخت‌ها',
+				subtitles: [
+      		{ label: 'تست درگاه بانکی', link: payment_test_api_index_path, target: "_blank", onclick: "window.open(this.href, '_blank').focus();" }
+      	]
+			},
 		].each do |section|
 			tag = Time.now.to_i + rand.to_s[2..-1].to_i
 	%>
@@ -24,7 +30,7 @@
 	    <div id="collapse_<%= tag %>" class="panel-collapse collapse" role="tabpanel">
 	      <div class="list-group">
 	        <% section[:subtitles].each do |subsec| %>
-		        <a href="<%= subsec[:link] %>" class="list-group-item" target='panel-frame'>
+		        <a href="<%= subsec[:link] %>" class="list-group-item" target='<%= subsec[:target] || "panel-frame" %>' <%= raw subsec.except(:label, :link, :target).map { |k, v| "#{k}=\"#{v}\" " }.join %>>
 		        	<%= subsec[:label] %>
 		        </a>
 	        <% end %>

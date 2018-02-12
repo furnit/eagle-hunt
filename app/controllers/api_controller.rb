@@ -1,4 +1,7 @@
 class ApiController < ApplicationController
+  # no forgery protection except payment callbacks!
+  protect_from_forgery with: :exception, except: [:payment_callback, :payment_test_callback]
+  # include api helper
   include ApiHelper
 
   def ls_fabrics
@@ -65,6 +68,41 @@ class ApiController < ApplicationController
     respond_to do |format|
       format.json { render json: { method: method, price: price.to_s.to_money }, status: :ok }
     end
+  end
+
+  def payment_test
+    # the test amount
+    @amount = 100
+    # get transaction uri
+    @trans = Transaction.get_trans_uri order_id: "-1", amount: @amount, callback_uri: "#{AppConfig.protocol}://#{AppConfig.domain}#{payment_test_callback_api_index_path}"
+    # the success message
+    @message = "<span class='fa fa-check text-success'></span> در حال انتقال به درگاه پرداخت به جهت پرداخت <b>#{@amount} تومان</b> به جهت تست پرداخت!"
+    # store transaction for later investigation
+    session[:payment_test] = @trans
+  rescue RuntimeError => e
+    # the error message
+    @message = "<span class='fa fa-times text-danger'></span> خطا در دریافت مجوز تراکنش!<br /><pre>#{e.message}</pre>"
+  end
+
+  def payment_test_callback
+    # fetch transaction and order IDs
+    trans_id, order_id = params.require([:trans_id, :order_id]);
+    # fetch pre-stored payment test details from `payment_test`
+    @trans = session[:payment_test]
+    # if trans record does not exist in session
+    raise RuntimeError.new("There is no previously record of test payment in session, please try to test again!") if @trans.nil?
+    # if IDs don't match?
+    raise RuntimeError.new("The `trans_id`, `order_id` didn't match with stored ones in session!") if not(@trans[:trans_id] == trans_id and @trans[:order_id] == order_id)
+    # if the transaction couldn't get verified from the source
+    raise RuntimeError.new("Couldn't verify the transaction") if not(Transaction.verify_trans(trans_id: trans_id, order_id: order_id, amount: @trans[:amount]))
+    # the success message
+    @message = "<span class='fa fa-check text-success'></span> پرداخت مبلغ <b>#{@trans[:amount]} تومان</b> با موفقیت انجام شد.<pre>شماره تراکنش: #{trans_id}</pre>"
+  rescue RuntimeError => e
+    # the error message
+    @message = "<span class='fa fa-times text-danger'></span> خطا در انجام تراکنش!<br /><pre style='direction: ltr'>#{e.message}</pre>"
+  ensure
+    # remove the previously stored transaction instance
+    session.delete :payment_test
   end
 
   protected
