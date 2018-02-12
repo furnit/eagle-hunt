@@ -150,6 +150,7 @@ class Order::OrdersController < ApplicationController
   def submit_advance
     addresses = params.require([:state_id, :address])
     transit_cost  = ApiHelper.compute_transit_cost params.permit(:state_id, :workshop_id), method: AppConfig.preference.price.transit.compute_method
+
     # create new order instance
     order = Order::Order.new \
               user: current_user,
@@ -172,7 +173,11 @@ class Order::OrdersController < ApplicationController
                 order: order,
                 amount: session[:order][:final][:pricing][:total_price] + transit_cost
 
-    trans = get_transaction_getaway order.id, payment.amount
+    # if anything go wrong a ClientError expcetion will be raised
+    trans = Transaction.get_trans_uri \
+                order_id: order.id,
+                amount: payment.amount,
+                callback_uri: "#{AppConfig.protocol}://#{AppConfig.domain}#{payment_callback_api_index_path}"
 
     # record the status code
     payment.status = trans[:code]
@@ -187,15 +192,11 @@ class Order::OrdersController < ApplicationController
       end
     end
 
-    if trans[:code] != -1
-      # an error occourd in transaction procedure!
-      # notify the user and record it!
-      byebug
-      return
-    end
+    # delete the ordered details in session, since it has been stored into the database
+    session.delete :order
 
     respond_to do |format|
-      format.json { render json: { trans_id: trans[:trans_id], code: trans[:code] }, status: :ok, location: "#{AppConfig.nextpay.payment_uri}/#{trans[:trans_id]}" }
+      format.json { render json: { trans_id: trans[:trans_id], code: trans[:code] }, status: :ok, location: trans[:payment_uri] }
     end
   end
 

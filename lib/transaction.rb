@@ -11,7 +11,7 @@ module Transaction
     resp = http_get uri: config.curl_token_uri, data: data
 
     # an error occourd in transaction procedure!
-    raise RuntimeError.new("invalid transaction code##{resp[:code]}") if resp[:code] != -1
+    raise ClientError.new("خطا در ایجاد خط تراکنش سفارش شماره «#{order_id}» با کد خطای «#{resp[:code]}»؛ لطفا مدیریت سایت را از مطلع فرمایید.") if resp[:code] != -1
 
     {
       amount: amount,

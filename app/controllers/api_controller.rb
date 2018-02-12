@@ -105,6 +105,26 @@ class ApiController < ApplicationController
     session.delete :payment_test
   end
 
+  def payment_callback
+    # fetch transaction and order IDs
+    @trans_id, @order_id = params.require([:trans_id, :order_id]);
+    # fetch payment recrod from database
+    @payment =  Admin::Selling::Payment::Payment.find_by(trans_id: @trans_id, order_order_id: @order_id);
+    # if `payment` does not exist our db
+    raise ClientError.new("تراکنش در پایگاه داده‌ی سایت قبلا به ثبت نرسیده است، در صورتی که فکر می‌کنید اشتباه شده است لطفا هرچه سریع‌تر با شماره‌ تراکنش زیر با مدیریت سایت تماس حاصل فرمایید.") if @payment.nil?
+    # if the transaction couldn't get verified from the source
+    raise ClientError.new("تراکنش موفق نبوده است!") if not(Transaction.verify_trans(trans_id: @trans_id, order_id: @order_id, amount: @payment.amount))
+    # set payment status to verified
+    @payment.update(status: 1)
+    # set success message
+    @message = "تراکنش موفق!"
+    # set success status
+    @status  = :SUCCESS
+  rescue ClientError => e
+    @message = e.message
+    @status  = :FAILED
+  end
+
   protected
     def build_fabric_detail fabric, models
       models = [models].flatten

@@ -1,0 +1,63 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2" style="min-height: 100px; border: 1px solid #ddd; padding: 10px;">
+			<legend>
+				<h3 class="<%= @status == :SUCCESS ? "text-success" : "text-danger" %> text-bold">
+					<% if @status == :SUCCESS %>
+						<span class="fa fa-check"></span> تراکنش موفق!
+					<% else %>
+						<span class="fa fa-times"></span> خطا در انجام تراکنش!
+					<% end %>
+				</h3>
+			</legend>
+			<div style="margin: 20px;">
+				<p style="margin: 20px;">
+					<% if @status == :SUCCESS %>
+						تراکنش با موفقیت انجام شد؛ تیم فنی <i><%= AppConfig.brand %></i> به زودی فعالیت خود را بر سفارش آغاز خواهند کرد و در اسرع وقت محصولی با کیفیت تقدیم شما مشتری گرامی خواهیم کرد.
+					<% else %>
+						<%= raw @message %>
+					<% end %>
+				</p>
+				<table class="table">
+					<body>
+						<tr>
+							<td class="text-bold">شماره فاکتور:</td>
+							<td><%= @order_id %></td>
+						</tr>
+						<tr>
+							<td class="text-bold">شماره تراکنش:</td>
+							<td class="en" style="text-align: right!important"><%= @trans_id %></td>
+						</tr>
+					</body>
+				</table>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="col-md-2 col-md-offset-2" style="padding: 0; margin-top: 10px;">
+			<%= link_to root_path, class: 'pull-left' do %>
+				<span class="fa fa-reply"></span> بازگشت به صفحه‌ اصلی
+			<% end %>
+		</div>
+	</div>
+
+	<% if false %>
+	<% # THIS IS FOR TEST %>
+	<div class="row">
+		<div class="col-md-12x">
+			<button id="resend" class='btn btn-default'>Resend Request</button>
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function() {
+				$("#resend").click(function() {
+					$this = $(this);
+					$this.html('<span class="fa fa-spinner fa-spin text-center"></span>');
+					$.post("<%= payment_callback_api_index_path %>", {trans_id: "<%= @trans_id %>", order_id: "<%= @order_id %>"}, function(data){
+						$this.closest('.container').replaceWith(data);
+					});
+				})
+			})
+		</script>
+	</div>
+	<% end %>
+
+</div>
