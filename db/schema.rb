@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180211152131) do
+ActiveRecord::Schema.define(version: 20180212140447) do
 
   create_table "admin_contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -354,14 +354,14 @@ ActiveRecord::Schema.define(version: 20180211152131) do
     t.datetime "updated_at",                null: false
   end
 
-  create_table "admin_selling_payment_payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "admin_selling_order_payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "order_order_id"
     t.float    "amount",         limit: 24
     t.string   "trans_id"
     t.string   "status"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
-    t.index ["order_order_id"], name: "index_admin_selling_payment_payments_on_order_order_id", using: :btree
+    t.index ["order_order_id"], name: "index_admin_selling_order_payments_on_order_order_id", using: :btree
   end
 
   create_table "admin_sms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -640,7 +640,7 @@ ActiveRecord::Schema.define(version: 20180211152131) do
   add_foreign_key "admin_selling_config_prices", "admin_furniture_paint_color_brands"
   add_foreign_key "admin_selling_config_prices", "admin_furniture_sets"
   add_foreign_key "admin_selling_config_prices", "admin_furniture_wood_types"
-  add_foreign_key "admin_selling_payment_payments", "order_orders"
+  add_foreign_key "admin_selling_order_payments", "order_orders"
   add_foreign_key "admin_workshop_workshops", "states"
   add_foreign_key "admin_workshop_workshops", "users"
   add_foreign_key "employee_fanis_furniture_build_details", "admin_furniture_build_details", on_update: :cascade, on_delete: :cascade

@@ -1,9 +1,9 @@
 <% form_id = '' %>
-<%= remote_form(admin_selling_payment_payment) do |f| -%>
+<%= remote_form(admin_selling_order_payment) do |f| -%>
   <% form_id = f.options[:html][:id] %>
   <div  class='block'>
       <div class="field">
-        <%= f.text_field :order/order_id %>
+        <%= f.text_field :order_order_id %>
       </div>
 
       <div class="field">

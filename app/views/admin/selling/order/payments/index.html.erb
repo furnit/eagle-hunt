@@ -1,16 +1,16 @@
 <%=
   render 'admin/shared/index',
-    title: "لیست #{t("activerecord.models.#{Admin::Selling::Payment::Payment.model_name.i18n_key}")}",
+    title: "لیست #{t("activerecord.models.#{Admin::Selling::Order::Payment.model_name.i18n_key}")}",
     title_right: lambda {
-      link_to new_admin_selling_payment_payment_url, class: 'inline-html-call' do
+      link_to new_admin_selling_order_payment_url, class: 'inline-html-call' do
         raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
       end
     },
     before_table: lambda {
-      raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_selling_payment_payments}</small>"
+      raw "<small style='font-size: 16px;' class='text-muted pull-left'>#{page_entries_info @admin_selling_order_payments}</small>"
     },
     after_table: lambda {
-      raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_selling_payment_payments, renderer: BootstrapPagination::Rails}</div>"
+      raw "<div class='text-center' style='vertical-align: middle'>#{will_paginate @admin_selling_order_payments, renderer: BootstrapPagination::Rails}</div>"
     },
     table_head: {
       'ردیف': { style: 'width: 30px' },
@@ -19,7 +19,7 @@
     },
     table_body: lambda {
 %>
-  <% @admin_selling_payment_payments.each do |ins| %>
+  <% @admin_selling_order_payments.each do |ins| %>
     <tr>
       <td><%= ins.id %></td>
       <td class='datetime' data-date='<%= ins.updated_at %>'></td>

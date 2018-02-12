@@ -169,7 +169,7 @@ class Order::OrdersController < ApplicationController
     end
 
     # create payment instance
-    payment = Admin::Selling::Payment::Payment.new \
+    payment = Admin::Selling::Order::Payment.new \
                 order: order,
                 amount: session[:order][:final][:pricing][:total_price] + transit_cost
 

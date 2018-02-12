@@ -151,7 +151,8 @@ Rails.application.routes.draw do
         resources :days_to_completes
       end
 
-      namespace :payment do
+      namespace :order do
+        resources :orders
         resources :payments
       end
     end

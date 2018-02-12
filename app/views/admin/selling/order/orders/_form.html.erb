@@ -1,0 +1,12 @@
+<% form_id = '' %>
+<%= remote_form(admin_selling_order_order) do |f| -%>
+  <% form_id = f.options[:html][:id] %>
+  <div  class='block'>
+      <div class='clearfix'></div>
+  </div>
+
+  <div class="actions field pull-left">
+    <%= f.submit submit_text,  data: { disable_with: "درحال ثبت اطلاعات..." }, class: 'btn btn-primary' %>
+  </div>
+  <div class='clearfix'></div>
+<% end %>

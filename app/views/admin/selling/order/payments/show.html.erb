@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Order order:</strong>
+  <%= @admin_selling_order_payment.order_order %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @admin_selling_order_payment.amount %>
+</p>
+
+<p>
+  <strong>Trans:</strong>
+  <%= @admin_selling_order_payment.trans_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @admin_selling_order_payment.status %>
+</p>
+
+<%= link_to 'Edit', edit_admin_selling_order_payment_path(@admin_selling_order_payment) %> |
+<%= link_to 'Back', admin_selling_order_payments_path %>

@@ -109,7 +109,7 @@ class ApiController < ApplicationController
     # fetch transaction and order IDs
     @trans_id, @order_id = params.require([:trans_id, :order_id]);
     # fetch payment recrod from database
-    @payment =  Admin::Selling::Payment::Payment.find_by(trans_id: @trans_id, order_order_id: @order_id);
+    @payment =  Admin::Selling::Order::Payment.find_by(trans_id: @trans_id, order_order_id: @order_id);
     # if `payment` does not exist our db
     raise ClientError.new("تراکنش در پایگاه داده‌ی سایت قبلا به ثبت نرسیده است، در صورتی که فکر می‌کنید اشتباه شده است لطفا هرچه سریع‌تر با شماره‌ تراکنش زیر با مدیریت سایت تماس حاصل فرمایید.") if @payment.nil?
     # if the transaction couldn't get verified from the source
