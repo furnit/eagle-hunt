@@ -1,10 +1,10 @@
-class Admin::Selling::Order::OrdersController < ApplicationController
+class Admin::Selling::Order::OrdersController < Admin::AdminbaseController
   before_action :set_admin_selling_order_order, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/selling/order/orders
   # GET /admin/selling/order/orders.json
   def index
-    @admin_selling_order_orders = Admin::Selling::Order::Order.all.paginate(page: params[:page])
+    @admin_selling_order_orders = Order::Order.all.paginate(page: params[:page])
 
     respond_to do |format|
       format.html

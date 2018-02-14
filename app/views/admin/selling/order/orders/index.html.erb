@@ -1,6 +1,6 @@
 <%=
   render 'admin/shared/index',
-    title: "لیست #{t("activerecord.models.#{Admin::Selling::Order::Order.model_name.i18n_key}")}",
+    title: "لیست #{t("activerecord.models.#{Order::Order.model_name.i18n_key}")}",
     title_right: lambda {
       link_to new_admin_selling_order_order_url, class: 'inline-html-call' do
         raw "<span class='fa fa-plus'></span> ایجاد داده‌ی جدید"
@@ -14,7 +14,12 @@
     },
     table_head: {
       'ردیف': { style: 'width: 30px' },
-      'آخرین بروزرسانی': { style: 'width: 130px' },
+      'کاربر': { style: 'width: 30px' },
+      'کد / نام محصول': { style: 'width: 30px' },
+      'مبلغ سفارش': { style: 'width: 130px' },
+      'تاریخ سفارش': { style: 'width: 130px' },
+      'تاریخ تحویل': { style: 'width: 130px' },
+      'وضعیت پرداخت': { style: 'width: 100px' },
       'عملیات': { style: 'width: 90px' }
     },
     table_body: lambda {
@@ -22,7 +27,33 @@
   <% @admin_selling_order_orders.each do |ins| %>
     <tr>
       <td><%= ins.id %></td>
-      <td class='datetime' data-date='<%= ins.updated_at %>'></td>
+      <td><%= ins.user.full_name %></td>
+      <td><%= ins.furniture.id %> / <%= ins.furniture.name %></td>
+      <td><%= ins.payment.nil? ? 0 : ins.payment.amount.to_s.to_money %> تومان</td>
+      <td class='datetime' data-date='<%= ins.created_at %>'></td>
+      <td class='datetime' data-date='<%= ins.created_at + ins.furniture.days_to_complete.days %>'></td>
+      <td>
+      	<% if ins.payment.nil? and ins.is_default %>
+      		در انتظار تایید
+    		<% elsif not ins.payment.nil? %>
+    			<% stat = "" %>
+    			<%
+    				case ins.payment.status
+    				when "-1"
+    					stat = "در انتظار واریز"
+    				when "1"
+    					stat = "پرداخت شد"
+    				when nil
+    					stat = "ناموفق"
+    				else
+    					stat = "کد #{ins.payment.status}"
+    				end
+  				%>
+		‍			<%= stat %>
+    		<% else %>
+    			ناموفق
+    		<% end %>
+      </td>
       <td>
         <%= link_to ins, method: :delete, data: { confirm: { title: "آیا از حذف این مورد اطمینان دارید؟", message: "توجه فرمایید که حذف این مورد غیر قابل بازگشت خواهد بود!" } }, class: 'text-danger' do %>
           <span class='fa fa-trash'></span> حذف
