@@ -15,8 +15,8 @@ Acu::Rules.define do
     whois symbol.downcase.to_sym, args: [:user] { |user| user and user.type && user.type.symbol == symbol.to_s }
   end
 
-  # employees are those who are members and not (:ADMIN or :CLIENT)
-  whois :employee,  args: [:user] { |user| not(acu_is?([:admin, :client])) }
+  # employees are those who are members and signed-in and not (:ADMIN or :CLIENT)
+  whois :employee,  args: [:user] { |user| not(acu_is?([:guest, :admin, :client])) }
 
   # non-admin entities
   whois :non_admin, args: [:user] { |user| not(acu_is?(:admin)) }
