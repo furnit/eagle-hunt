@@ -1,9 +1,72 @@
 <div id="step2">
 	<legend><strong><span class="fa fa-check"></span> انتخاب طرح و رنگ پارچه</strong></legend>
-	<blockquote class="rtl" style="border-right-color: #0088cc;">
-		در این قسمت طرح و رنگ پارچه را برای قسمت‌های عمده‌ی مبل مشخص خواهید نمود.
-	</blockquote>
-	<br />
+	<div class="row">
+		<div class="col-md-4 pull-right">
+			<h3><strong>نکات:</strong></h3>
+			<p class="text-justify"><span class="fa fa-tag"></span> شما در حال انتخاب پارچه‌ها برای قسمت‌های مختلف مبل هستید. در این قسمت طبق شما می‌توانید پارچه‌های مختلف را انتخاب کنید و در شبیه‌ساز (<span class="fa fa-hand-o-left"></span>) مشاهده نمایید.</p>
+			<p class="text-justify"><span class="fa fa-tag"></span> شما هم اکنون در حال انتخاب پارچه <span class="label label-success" id="current-step">...</span> هستید!</p>
+			<div>
+						<%
+							section_map = {
+								"پشتی": "poshti",
+								"زیری": "ziri",
+								"دسته": "daste"
+							}
+						%>
+						<% @furniture_sections.each do |s| %>
+							<%= image_tag s.image[:image].thumb, style: "margin:0 auto;", class: "hidden img img-responsive", data: { "show-case": section_map[s.name.to_sym], sid: s.id } %>
+							<% next %>
+							<tr data-sid="<%= s.id %>" class="main-row">
+								<td class="selected-fabric-details"><span class="fa hidden"></span> پارچه انتخابی</td>
+								<td colspan="2"><%= s.comment %></td>
+							</tr>
+							<tr data-sid="<%= s.id %>">
+								<td class="selected-fabric-details model-img" data-show-case="<%= section_map[s.name.to_sym] %>"><%= image_tag "qmark_128.png", class:"img img-responsive", width: 130 %></td>
+								<td colspan="2"></td>
+							</tr>
+							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-name">
+								<td></td>
+								<td style="border-top: 0">&nbsp;</td>
+							</tr>
+							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-quality">
+								<td></td>
+								<td style="border-top: 0">&nbsp;</td>
+							</tr>
+							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-price">
+								<td></td>
+								<td style="border-top: 0">&nbsp;</td>
+							</tr>
+						<% end %>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<table class="table">
+				<thead>
+					<tr>
+						<th style="width: 150px"></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan="2"><strong>نمای کلی مبل (شبیه‌ساز)</strong></td>
+					</tr>
+					<tr class="text-center">
+						<td colspan="2">
+							<div style="height: 400px; width: 100%;" id="furniture-simulation"><span class="fa fa-spinner fa-spin"></span> در حال بارگذاری....</div>
+						</td>
+					</tr>
+					<tr style="border-bottom: 1px solid #ddd;">
+						<td class="text-right" style="cursor: pointer" colspan="2">
+							<button class="btn btn-link" id="furniture-simulation-fullscreen" style="font-size: 90%"><strong><span class="fa fa-arrows-alt"></span> بزرگ‌نمایی</strong></button>
+							<button class="btn btn-link" id="furniture-simulation-reset" style="font-size: 90%"><strong><span class="fa fa-refresh"></span> بازنشانی صحنه</strong></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<hr />
 	<div class="row">
 		<div class="col-md-12 col-sm-12 col-xs-12" >
 			<div id="step2-2-options-header" style="border-right: 1px solid #aaa; padding-right: 20px;">
@@ -28,7 +91,7 @@
 			<hr />
 		</div>
 		<div class="row">
-			<div id="step2-1" class="col-md-5 col-sm-5 col-xs-12 pull-right" style="margin-top: 13px;">
+			<!--div id="step2-1" class="col-md-12 col-sm-12 col-xs-12 pull-right" style="margin-top: 13px;">
 				<table class="table text-right" id="selection-stages">
 					<thead>
 						<tr>
@@ -47,53 +110,10 @@
 								</ul>
 							</td>
 						</tr>
-						<tr>
-							<td colspan="2"><strong>نمای کلی مبل</strong></td>
-						</tr>
-						<tr class="text-center">
-							<td colspan="2">
-								<div style="height: 200px; width: 100%;" id="furniture-simulation"><span class="fa fa-spinner fa-spin"></span> در حال بارگذاری....</div>
-							</td>
-						</tr>
-						<tr style="border-bottom: 1px solid #ddd;">
-							<td class="text-right" style="cursor: pointer" colspan="2">
-								<button class="btn btn-link" id="furniture-simulation-fullscreen" style="font-size: 90%"><strong><span class="fa fa-arrows-alt"></span> بزرگ‌نمایی</strong></button>
-								<button class="btn btn-link" id="furniture-simulation-reset" style="font-size: 90%"><strong><span class="fa fa-refresh"></span> بازنشانی صحنه</strong></button>
-							</td>
-						</tr>
-						<%
-							section_map = {
-								"پشتی": "poshti",
-								"زیری": "ziri",
-								"دسته": "daste"
-							}
-						%>
-						<% @furniture_sections.each do |s| %>
-							<tr data-sid="<%= s.id %>" class="main-row">
-								<td class="selected-fabric-details"><span class="fa hidden"></span> پارچه انتخابی</td>
-								<td colspan="2"><%= s.comment %></td>
-							</tr>
-							<tr data-sid="<%= s.id %>">
-								<td class="selected-fabric-details model-img" data-show-case="<%= section_map[s.name.to_sym] %>"><%= image_tag "qmark_128.png", class:"img img-responsive", width: 130 %></td>
-								<td colspan="2"><%= image_tag s.image[:image].thumb, class: "img img-responsive" %></td>
-							</tr>
-							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-name">
-								<td></td>
-								<td style="border-top: 0">&nbsp;</td>
-							</tr>
-							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-quality">
-								<td></td>
-								<td style="border-top: 0">&nbsp;</td>
-							</tr>
-							<tr data-sid="<%= s.id %>" class="selected-fabric-details hidden model-price">
-								<td></td>
-								<td style="border-top: 0">&nbsp;</td>
-							</tr>
-						<% end %>
 					</tbody>
 				</table>
-			</div>
-			<div id="step2-2" class="col-md-7 col-sm-7 col-xs-12 pull-right">
+			</div-->
+			<div id="step2-2" class="col-md-12 col-sm-12 col-xs-12 xpull-right" style="min-height: 400px;">
 				<div id="step2-2-content" class="photo-gallery-collection">
 				</div>
 				<div id="step2-2-helper" class="text-center">
